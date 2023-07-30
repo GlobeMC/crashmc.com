@@ -1,8 +1,8 @@
 # 服务器崩溃
 
-## 不基于（或包含）bukkit
+## 不基于（或包含）Bukkit
 
-### Vanilla (原版)
+### Vanilla（原版）
 
 ### Fabric
 
@@ -10,7 +10,7 @@
 
 ### NeoForge
 
-## 基于（或包含）bukkit
+## 基于（或包含）Bukkit
 
 ### Spigot
 
