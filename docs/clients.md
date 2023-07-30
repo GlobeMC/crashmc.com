@@ -2,25 +2,25 @@
 
 ## 在此之前...
 
-如果你正在使用 **官方启动器**（Minecraft Launcher） ，我们更建议你使用 **第三方启动器** 复现问题再进行排查。一般而言，第三方启动器会更有利于 Mod 相关调试。本文档也是针对第三方启动器做最好优化的。
+如果你正在使用 **官方启动器**（Minecraft Launcher），我们更建议你使用 **第三方启动器** 复现问题再进行排查。一般而言，第三方启动器会更有利于 Mod 相关调试。本文档也是针对第三方启动器做最好优化的。
 
-请确保你能复现崩溃，之后找到 `.minecraft\versions\<核心名称>\logs\latest.log` （未开启版本隔离则为 `.minecraft\logs\latest.log` ）开始分析里面的内容。
+请确保你能复现崩溃，之后找到 `.minecraft\versions\<核心名称>\logs\latest.log`（未开启版本隔离则为 `.minecraft\logs\latest.log`）开始分析里面的内容。
 
-请注意，对于Linux用户，你的游戏目录可能是 `minecraft` 而非 `.minecraft` 
+请注意，对于 Linux 用户，你的游戏目录可能是 `minecraft` 而非 `.minecraft`。
 
-如果你的游戏是因为未响应崩溃的，我们暂时没有办法解决:（
+如果你的游戏是因为未响应崩溃的，我们暂时没有办法解决 :(
 
 ## 常见问题
 
 ### OpenGL 错误
 
-该问题在任何情况均可能会出现，此处只考虑错误码出现在聊天栏的情况
+该问题在任何情况均可能会出现，此处只考虑错误码出现在聊天栏的情况。
 
 #### 错误码：1280
 
-可能是 **Optfine/模组冲突/OpenGL 版本错误** 引起的问题
+可能是 **OptiFine/模组冲突/OpenGL 版本错误** 引起的问题
 
-解决方法：更换 Optfine 版本、检查模组冲突或尝试更新显卡驱动
+解决方法：更换 OptiFine 版本、检查模组冲突或尝试更新显卡驱动
 
 #### 错误码：1281
 
@@ -32,7 +32,7 @@
 
 **显卡驱动/模组冲突/着色器出错** 引起的问题
 
-解决方法：更换游戏版本、更换 Optfine 版本、检查模组问题或更换显卡驱动
+解决方法：更换游戏版本、更换 OptiFine 版本、检查模组问题或更换显卡驱动
 
 #### 错误码：1283
 
@@ -60,7 +60,7 @@
 
 
 
-## 原版游戏（未安装模组加载器和Optfine）
+## 原版游戏（未安装模组加载器和 OptiFine）
 
 在处理原版崩溃之前，需要注意的是 Mojang 完全没有可能写一个 100% 会爆炸的东西出来然后推送到正式版。因此 99% 的原版崩溃问题都来自外界。
 
@@ -80,5 +80,5 @@ Lorem ipsum dolor sit amet adipiscing facilisi justo sadipscing et tempor. Ut zz
 
 Et tincidunt volutpat imperdiet eros stet et soluta dolor no et gubergren et. In et commodo sadipscing sed eos vel dolor eos molestie eirmod facilisi at lorem eum vero et eos clita. Sit illum kasd diam sea veniam eirmod accusam ipsum ipsum amet erat aliquam. Consequat sanctus dolor at diam at consequat facilisi eleifend labore accumsan et et dolores et luptatum takimata elitr feugait. Kasd gubergren rebum kasd vel vel. Vero ipsum est vulputate vero labore iusto labore no et id. Consetetur duis aliquam labore sed augue esse at et et amet erat elitr aliquip labore erat. Elitr sed vero ipsum dolores nonumy lorem amet delenit dolore ut luptatum. Magna gubergren clita diam veniam sanctus. Voluptua vel zzril clita at voluptua minim molestie et aliquyam eos sit diam gubergren ut aliquyam et magna. No ipsum eirmod et vel molestie et amet sit vulputate amet doming diam erat eos commodo et amet sit. Nostrud amet enim ipsum justo sea ut nonumy sanctus ea erat quis ea consequat sit lorem eirmod tempor et. Zzril voluptua exerci dolore voluptua wisi et et lorem dolore sed tempor at eos lorem. Qui invidunt stet et nisl dolore vel invidunt vero velit iriure et. Ipsum gubergren eirmod erat ipsum kasd consequat. Ipsum diam adipiscing at rebum duo consetetur. Sadipscing velit elitr amet nonummy ipsum ipsum ut.
 
-### Liteloader
+### LiteLoader
 
