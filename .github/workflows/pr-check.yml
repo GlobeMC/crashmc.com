@@ -1,9 +1,6 @@
 name: GitHub Pages
 
-on:
-  push:
-    branches:
-      - main
+on: [pull_request]
 
 jobs:
   build:
@@ -29,14 +26,3 @@ jobs:
 
       - name: 🌌 Build VitePress Docs
         run: yarn docs:build
-        env: 
-          GITHUB_SHA: ${{ github.sha }}
-
-      - name: 🪤 Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs/.vitepress/dist
-          force_orphan: true
-          publish_branch: gh-pages
-          cname: crashmc.com

@@ -16,7 +16,7 @@ export default defineConfig({
     ],
 
     footer: {
-      message: 'Released under the <a href="https://github.com/GlobeMC/crashmc.com/blob/main/LICENSE">GFDL License</a>. (<a href="https://github.com/GlobeMC/crashmc.com/commit/${commitRef}" target="_blank" alt=${commitRef}>${commitRef}</a>)',
+      message: 'Released under the <a href="https://github.com/GlobeMC/crashmc.com/blob/main/LICENSE">GFDL License</a>. (<a href="https://github.com/GlobeMC/crashmc.com/commit/${{ github.sha }}" target="_blank" alt="${{ github.sha }}">${{ github.sha }}</a>)',
       copyright: 'Copyright © 2023-present <a href="https://github.com/GlobeMC">GlobeMC / 河豚分析</a>'
     },
     sidebar: getSideBar("./docs", {
