@@ -121,7 +121,7 @@ which is missing!
 Sodium Extra requires version [0.4.10, ∞) of sodium, which is missing!
 ```
 
-您也可以通过 [MC 百科](https://www.mcmod.cn/)、[Modrinth](https://modrinth.com/mods)、[CurseForge](https://www.curseforge.com/minecraft/mc-mods) 等网站搜索模组所需的前置模组。
+您也可以通过 [MC百科](https://www.mcmod.cn/)、[Modrinth](https://modrinth.com/mods)、[CurseForge](https://www.curseforge.com/minecraft/mc-mods) 等网站搜索模组所需的前置模组。
 
 > Modrinth 和 CurseForge 目前为止未提供中文界面，有困难的用户建议使用 MC 百科 进行查询。
 
