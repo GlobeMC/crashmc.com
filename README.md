@@ -14,6 +14,10 @@
 
 例：`Minecraft`、`OptiFine`、`What your love is your life.`
 
+## TODO
+
+- [ ] 收录大部分崩溃问题
+
 ## 鸣谢
 
 - XieXiLin：提供域名资金支持
