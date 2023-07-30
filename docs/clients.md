@@ -51,13 +51,20 @@ PCL2：版本设置 - 补全文件
 
 ### Fabric
 
+
 #### 缺少前置
 
-有模组依赖其他模组运行，但未安装依赖的模组
+解释：有模组依赖其他模组运行，但未安装依赖的模组
 
 解决方法：
 
 1. 安装依赖模组
+
+在 `Unmet dependency listing` 中找到 `requires` 字样，然后根据后面提示的 Mod 信息查找对应 Mod 并下载安装。
+
+如果一个 Mod 要求特定版本的另一个 Mod ，那么你应当寻找符合要求的 Mod 版本。
+
+相关英文提示： any -> 任何 ； version -> 版本 ； require(s) -> 要求，需要 ； of -> 的（介词）
 
 ```java
 // 在示例中，您应该安装 Zoomify 模组的前置模组：Fabric API。
@@ -65,21 +72,23 @@ Unmet dependency listing:
 	 - Mod 'Zoomify' (zoomify) 2.11.0 requires any version of fabric-api, which is missing!
 ```
 
-您也可以通过 [MC百科](https://www.mcmod.cn/)、[Modrinth](https://modrinth.com/mods)、[CurseForge](https://www.curseforge.com/minecraft/mc-mods) 等网站搜索模组所需的前置模组。
+您也可以通过 [MC 百科](https://www.mcmod.cn/)、[Modrinth](https://modrinth.com/mods)、[CurseForge](https://www.curseforge.com/minecraft/mc-mods) 等网站搜索模组所需的前置模组。
 
-> Modrinth 和 CurseForge 没有提供中文，有困难的用户建议使用 MC百科 进行查询。
+> Modrinth 和 CurseForge 目前为止未提供中文界面，有困难的用户建议使用 MC 百科 进行查询。
 
 2. 删除需要前置的模组
 
-```java
+在 `Unmet dependency listing` 中找到 `requires` 字样，然后根据前面提示的 Mod 信息删除对应 Mod。
+
+```
 // 在示例中，您应该删除 Zoomify 模组。
 Unmet dependency listing:
 	 - Mod 'Zoomify' (zoomify) 2.11.0 requires any version of fabric-api, which is missing!
 ```
 
-关键词（仅供参考）：
+关键词
 
-```java
+```
 net.fabricmc.loader.impl.FormattedException: Mod resolution encountered an incompatible mod set!
 
 which is missing!
@@ -87,33 +96,42 @@ which is missing!
 
 ### Quilt
 
+
 #### 缺少前置
 
-有模组依赖其他模组运行，但未安装依赖的模组
+解释：有模组依赖其他模组运行，但未安装依赖的模组
 
 解决方法：
 
 1. 安装依赖模组
 
-```java
+在 `Unmet dependency listing` 中找到 `requires` 字样，然后根据后面提示的 Mod 信息查找对应 Mod 并下载安装。
+
+如果一个 Mod 要求特定版本的另一个 Mod ，那么你应当寻找符合要求的 Mod 版本。在 Quilt 中，括号中的前面一串数字代表最低版本，后面一串数字代表最高版本。
+
+相关英文提示： any -> 任何 ； version -> 版本 ； require(s) -> 要求，需要 ； of -> 的（介词）
+
+```
 // 在示例中，您应该安装 Sodium Extra 模组的前置模组：Sodium。
 Sodium Extra requires version [0.4.10, ∞) of sodium, which is missing!
 ```
 
-您也可以通过 [MC百科](https://www.mcmod.cn/)、[Modrinth](https://modrinth.com/mods)、[CurseForge](https://www.curseforge.com/minecraft/mc-mods) 等网站搜索模组所需的前置模组。
+您也可以通过 [MC 百科](https://www.mcmod.cn/)、[Modrinth](https://modrinth.com/mods)、[CurseForge](https://www.curseforge.com/minecraft/mc-mods) 等网站搜索模组所需的前置模组。
 
-> Modrinth 和 CurseForge 没有提供中文，有困难的用户建议使用 MC百科 进行查询。
+> Modrinth 和 CurseForge 目前为止未提供中文界面，有困难的用户建议使用 MC 百科 进行查询。
 
 2. 删除需要前置的模组
 
-```java
+在 `Unmet dependency listing` 中找到 `requires` 字样，然后根据前面提示的 Mod 信息删除对应 Mod。
+
+```
 // 在示例中，您应该删除 Sodium Extra 模组。
 Sodium Extra requires version [0.4.10, ∞) of sodium, which is missing!
 ```
 
-关键词（仅供参考）：
+关键词
 
-```java
+```
 which is missing!
 ```
 
