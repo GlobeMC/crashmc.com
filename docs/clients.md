@@ -86,7 +86,7 @@ Et tincidunt volutpat imperdiet eros stet et soluta dolor no et gubergren et. In
 
 #### Forge 与 OptiFine 兼容性问题导致的崩溃
 
-这个是因为使用的 Forge 版本过高\过低或 OptiFine 并未兼容该版本的 Forge ，导致游戏崩溃
+这个是因为使用的 Forge 版本过高/过低 或 OptiFine 并未兼容该版本的 Forge ，导致游戏崩溃
 
 你可以复制下面的关键词在日志中查找是否有匹配的关键词以确定是否是该原因造成的
 
