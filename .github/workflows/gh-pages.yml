@@ -27,13 +27,13 @@ jobs:
       - name: 📦 Install Dependencies
         run: yarn
 
-      - name: 🌌 Build Valaxy Blog
+      - name: 🌌 Build VitePress Docs
         run: yarn docs:build
 
       - name: 🪤 Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./.vuepress/dist
+          publish_dir: ./.vitepress/dist
           force_orphan: true
           publish_branch: gh-pages
