@@ -3,9 +3,9 @@
 layout: home
 
 hero:
-  name: "MCCrash"
+  name: "GlobeMC 河豚分析"
   text: "为一般玩家编写的 Minecraft 崩溃分析指南"
-  tagline: 由一群热心的傻逼维护
+  tagline: 由一群热心的笨蛋维护
   image:
     src: /logo.png
     alt: GlobeMC
@@ -25,6 +25,6 @@ features:
   - title: 🚪 开放
     details: 在文档上有任何改进建议都可以提交 Pull Requests
   - title: 🚀 快速
-    details: 基于 VitePress，页面加载速度更快的同时性能更好
+    details: 基于 VitePress ，页面加载速度更快的同时性能更好
 ---
 
