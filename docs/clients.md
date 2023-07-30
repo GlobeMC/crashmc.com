@@ -18,9 +18,9 @@ import LauncherBadge from '../components/LauncherBadge.vue'
 
 `Forge`、`NeoForge`、`Fabric`、`Quilt` 均为 Mod 加载器，绝大多数的崩溃和 Mod 安装不正确有关。
 
-`OptiFine`*(高清修复)* 是一个 MOD，它可以提高游戏的帧率，减少游戏的卡顿和延迟，并提供更多的图像设置。不正确的使用此 Mod 很容易导致崩溃，不建议和多个优化模组同时安装。
+`OptiFine`*(高清修复)* 是一个 Mod，它可以提高游戏的帧率，减少游戏的卡顿和延迟，并提供更多的图像设置。不正确的使用此 Mod 很容易导致崩溃，不建议和多个优化模组同时安装。
 
-`JAVA` Minecraft *(我的世界)* 启动所必须的环境。在 1.16 及之前的版本推荐使用 JAVA 8。在 1.17 及以后的版本，需要使用 JAVA 17 及更高的版本。
+`Java` Minecraft *(我的世界)* 启动所必须的环境。在 1.16 及之前的版本推荐使用 Java 8。在 1.17 及以后的版本，需要使用 Java 17 及更高的版本。
 
 ## 常见问题
 
