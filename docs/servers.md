@@ -1,10 +1,18 @@
 # 服务器崩溃
 
+## Vanilla (原版)
+
+## Fabric
+
+## Forge
+
+## NeoForge
+
 ## Paper
 
 ### 无法加载世界存档
 
-```java
+```
 java.lang.RuntimeException: Server attempted to load chunk saved with newer version of minecraft! 3337 > 3218
 // 这是一个使用 Paper 1.19.4 (3337) 加载 1.19.3 (3218) 世界存档的示例。
 ```

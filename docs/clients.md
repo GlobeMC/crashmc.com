@@ -4,7 +4,7 @@
 
 如果你正在使用 **官方启动器**（Minecraft Launcher），我们更建议你使用 **第三方启动器** 复现问题再进行排查。一般而言，第三方启动器会更有利于 Mod 相关调试。本文档也是针对第三方启动器做最好优化的。
 
-请确保你能复现崩溃，之后找到 `.minecraft\versions\<核心名称>\logs\latest.log`（未开启版本隔离则为 `.minecraft\logs\latest.log`）开始分析里面的内容。
+**请确保你能复现崩溃**，之后找到 `.minecraft\versions\<版本名称>\logs\latest.log`（未开启版本隔离则为 `.minecraft\logs\latest.log`）开始分析里面的内容。
 
 在下文中，我们可能会给出一系列关键词。你可以定位到 Log 文件最后一串 Traceback （很多很多 at ） 的前面一行，选中从 `java.` 开始的部分直到最后并复制，然后使用 Ctrl + F 快捷键进行检索，抑或是复制文中的关键词在 Log 文件中进行检索。请注意，一次原则上应只查询一行 Log ，不建议多行同时复制查询。
 
@@ -28,9 +28,9 @@
 
 ## 原版游戏
 
-> 原版游戏指的是**未安装 OptiFine、Mod 加载器等**会修改原版 Minecraft 的核心。
+> 以下的原版游戏皆指**未安装 OptiFine 或者 Mod 加载器等会修改Minecraft** 的 Minecraft游戏。
 
-在处理原版崩溃之前，需要注意的是 Mojang 完全没有可能写一个 100% 会爆炸的东西出来然后推送到正式版。因此 99% 的原版崩溃问题都来自外界。
+在处理原版崩溃之前，需要注意的是 Mojang 几乎完全没有可能写一个 100% 会爆炸的东西出来然后推送到正式版。因此 99% 的原版崩溃问题都来自外界。
 
 首先请确保已经打开了启动器的 **自动决定 Java** 功能，否则可能会因为使用的 Java 版本错误而导致启动失败。
 
@@ -71,7 +71,7 @@ PCL2：版本设置 -> 补全文件
 
 相关英文提示： any -> 任何 ； version -> 版本 ； require(s) -> 要求，需要 ； of -> 的（介词）
 
-```java
+```
 // 在示例中，您应该安装 Zoomify 模组的前置模组：Fabric API。
 Unmet dependency listing:
 	 - Mod 'Zoomify' (zoomify) 2.11.0 requires any version of fabric-api, which is missing!
