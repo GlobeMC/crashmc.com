@@ -1,6 +1,17 @@
 # 客户端崩溃
 
-## 已安装模组加载器
+## Java 版本不正确/过低/过高
+
+Lorem ipsum dolor sit amet adipiscing facilisi justo sadipscing et tempor. Ut zzril feugiat erat eum vero in labore et takimata vero praesent. Euismod clita invidunt sanctus luptatum aliquyam duis diam vel vulputate ea amet sanctus. Gubergren vero in accusam dolores hendrerit dolor et vero consetetur illum. Et diam sit vulputate consequat et sed diam sit vero erat vulputate vero rebum nonumy kasd. Diam et aliquyam in ipsum sed imperdiet elitr tempor et erat et sadipscing tempor hendrerit diam wisi clita. 
+
+## OpenGL 错误
+
+Delenit lorem eirmod dolore eos aliquyam consetetur. Dignissim dolores minim et sit tempor aliquyam illum. Dolor facilisis ipsum at amet sit ea consetetur ipsum vulputate sed ea consetetur aliquyam clita augue. Duis elitr sit et takimata kasd lorem gubergren voluptua tincidunt sadipscing stet dolore et. Et option nonumy sit delenit. Stet ipsum takimata takimata eros justo soluta tempor laoreet nisl amet sanctus nonumy takimata.
+
+
+## 因模组引起的崩溃
+
+Amet eleifend laoreet eirmod clita eirmod facilisis. Dolor accusam diam at et illum lorem delenit labore sadipscing rebum et hendrerit. Amet sit dolor labore ipsum justo eirmod sit sea et. Sit et dolore consetetur ipsum euismod kasd delenit tation dolores vero sanctus duo. Eu amet dolore invidunt in gubergren eros clita quis aliquip stet.
 
 ### Forge
 
@@ -12,6 +23,4 @@ Et tincidunt volutpat imperdiet eros stet et soluta dolor no et gubergren et. In
 
 ### Liteloader
 
-## 未安装模组加载器
-
-Amet eleifend laoreet eirmod clita eirmod facilisis. Dolor accusam diam at et illum lorem delenit labore sadipscing rebum et hendrerit. Amet sit dolor labore ipsum justo eirmod sit sea et. Sit et dolore consetetur ipsum euismod kasd delenit tation dolores vero sanctus duo. Eu amet dolore invidunt in gubergren eros clita quis aliquip stet.
+Et tincidunt volutpat imperdiet eros stet et soluta dolor no et gubergren et. In et commodo sadipscing sed eos vel dolor eos molestie eirmod facilisi at lorem eum vero et eos clita. Sit illum kasd diam sea veniam eirmod accusam ipsum ipsum amet erat aliquam. Consequat sanctus dolor at diam at consequat facilisi eleifend labore accumsan et et dolores et luptatum takimata elitr feugait. Kasd gubergren rebum kasd vel vel. Vero ipsum est vulputate vero labore iusto labore no et id. Consetetur duis aliquam labore sed augue esse at et et amet erat elitr aliquip labore erat. Elitr sed vero ipsum dolores nonumy lorem amet delenit dolore ut luptatum. 
