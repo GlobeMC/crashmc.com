@@ -1,16 +1,22 @@
 # 服务器崩溃
 
-## Vanilla (原版)
+## 不基于（或包含）bukkit
 
-## Fabric
+### Vanilla (原版)
 
-## Forge
+### Fabric
 
-## NeoForge
+### Forge
 
-## Paper
+### NeoForge
 
-### 无法加载世界存档
+## 基于（或包含）bukkit
+
+### Spigot
+
+### Paper 及其衍生服务端
+
+#### 无法加载世界存档
 
 ```
 java.lang.RuntimeException: Server attempted to load chunk saved with newer version of minecraft! 3337 > 3218
