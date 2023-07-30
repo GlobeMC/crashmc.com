@@ -1,3 +1,7 @@
 node_modules
 dist
 cache
+.pnp.cjs
+.pnp.loader.mjs
+.yarn/install-state.gz
+yarn.lock
