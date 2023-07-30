@@ -16,8 +16,8 @@
 ## 在此之前...
 
 ## 常见崩溃实例
-### Rubidium与Optifine冲突
-若看见了 `OptiFine ZIP file:` ，说明您安装了Optifine，这一行后面是您的Optifine路径
+### Rubidium与OptiFine冲突
+若看见了 `OptiFine ZIP file:` ，说明您安装了OptiFine，这一行后面是您的OptiFine路径
 ```
 //在示例中，您的OptiFine的路径为C:\.minecraft\libraries\optifine\OptiFine\1.19.2_HD_U_I2\OptiFine-1.19.2_HD_U_I2.jar
 OptiFine ZIP file: C:\.minecraft\libraries\optifine\OptiFine\1.19.2_HD_U_I2\OptiFine-1.19.2_HD_U_I2.jar
