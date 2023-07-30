@@ -80,3 +80,38 @@ Et tincidunt volutpat imperdiet eros stet et soluta dolor no et gubergren et. In
 
 ### LiteLoader
 
+
+
+### Optifine
+
+#### Forge 与 Optifine 兼容性问题导致的崩溃
+
+这个是因为使用的 Forge 版本过高\过低或 Optifine 并未兼容该版本的 Forge ，导致游戏崩溃
+
+你可以复制下面的关键词在日志中查找是否有匹配的关键词以确定是否是该原因造成的
+
+解决方法：前往 [Optifine 官网](https://optifine.net/downloads) ，按照提示下载对应的 Forge 版本。
+
+提示：
+
+- 点击 `Show all versions` 即可展开所有的游戏版本，点击 `+ More` 和 `+ Preview versions` 可展开更多
+
+- 若显示 `Forge N/A` 则代表该版本的 Optifine 不兼容任何 Forge 版本
+
+关键词：
+
+```
+
+java.lang.NoSuchMethodError: 'java.lang.String com.mojang.blaze3d.systems.RenderSystem.getBackendDescription()'
+
+java.lang.NoSuchMethodError: 'java.lang.String com.mojang.blaze3d.systems.RenderSystem.getBackendDescription()'
+
+java.lang.NoSuchMethodError: 'net.minecraft.network.chat.FormattedText net.minecraft.client.gui.Font.ellipsize(net.minecraft.network.chat.FormattedText, int)'
+
+java.lang.NoSuchMethodError: 'void net.minecraft.server.level.DistanceManager
+
+java.lang.NoSuchMethodError: 'void net.minecraft.client.renderer.block.model.BakedQuad.<init>(int[], int, net.minecraft.core.Direction, net.minecraft.client.renderer.texture.TextureAtlasSprite, boolean, boolean)'
+
+TRANSFORMER/net.optifine/net.optifine.reflect.Reflector.<clinit>(Reflector.java
+
+```
