@@ -1,7 +1,16 @@
 # 服务器崩溃
 
-Lorem ipsum dolor sit amet lorem iriure ea accusam ut invidunt praesent invidunt magna erat vel feugait diam consequat no sadipscing tempor. Ea minim vero dolor diam sanctus amet delenit kasd nonummy eros ut gubergren ea dolor dolor rebum dolores.
+## Paper
 
-Amet eirmod voluptua eos sed in. Takimata eos dolore nonumy. Rebum erat tempor ea erat sed qui sadipscing. Sanctus et at tation sit vulputate. Ea nam aliquam elitr erat ut dolor ex. Sit lorem tempor dolore in gubergren lobortis diam amet. Magna facilisis erat laoreet liber kasd et accusam eirmod nulla sit eos sed lorem nonumy. Dolores ipsum erat eu elit. Dignissim amet erat eos et sea sit zzril dolor accusam dolore ipsum. Sanctus tempor labore stet dolor takimata illum vero sed ipsum ipsum at eleifend in. Quod ut sea esse augue veniam. Nisl nulla feugiat sit amet vero eos ullamcorper aliquyam odio voluptua minim kasd ipsum dolore nonumy volutpat laoreet amet. Sed placerat diam volutpat consequat volutpat stet et ea stet voluptua justo ut dolor ea no sit sed.
+### 无法加载世界存档
 
-Nobis lorem eos et ea ut duis clita voluptua luptatum. Gubergren autem cum magna kasd ad rebum dolores sit elit sit sed dolores facilisis. Eirmod justo eirmod elitr iusto et augue veniam. Sadipscing dolore consetetur justo congue et sit aliquyam lorem nibh. Ullamcorper vero praesent lorem tincidunt tempor dolore amet voluptua ea stet lorem accusam diam. Diam at dolor gubergren. Magna tempor at accusam erat erat sit eirmod et no possim elitr feugait no stet ea ea et zzril. Zzril erat velit facilisis magna diam mazim sed commodo consetetur elitr. Eirmod duis ut laoreet lorem amet. Takimata sea sea eum eum consetetur tempor dolore sea ea dolore. Tincidunt sit voluptua ipsum invidunt ut et vulputate dolor aliquyam lorem. Magna eirmod vero tempor stet amet nostrud dolores iusto. Feugait sit voluptua lorem ipsum. Sadipscing amet labore gubergren dignissim et amet voluptua feugiat lorem dolore. Ipsum sanctus gubergren voluptua diam. Stet nulla volutpat labore justo stet invidunt. Consequat nonumy sadipscing aliquyam et dolore erat voluptua dolor sed facilisis stet sit gubergren ut. Velit rebum sit nisl rebum nobis ad dolore no.
+```java
+java.lang.RuntimeException: Server attempted to load chunk saved with newer version of minecraft! 3337 > 3218
+// 这是一个使用 Paper 1.19.4 (3337) 加载 1.19.3 (3218) 世界存档的示例。
+```
+
+使用了一个高版本的服务端加载低版本的世界存档
+
+解决方法：更换到对应的版本
+
+> 关于应该使用的游戏版本，请查阅 [数据版本 - Minecraft Wiki](https://minecraft.fandom.com/zh/wiki/数据版本#数据版本列表)。
