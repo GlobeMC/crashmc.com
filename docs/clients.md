@@ -44,7 +44,9 @@
 
 ### NeoForge
 
-### Fabric / Quilt
+### Fabric
+
+### Quilt
 
 ### LiteLoader
 
@@ -66,7 +68,7 @@
 
 - 若显示 `Forge N/A` 则代表该版本的 OptiFine 不兼容任何 Forge 版本
 
-关键词：
+关键词（仅供参考）：
 
 ```
 
