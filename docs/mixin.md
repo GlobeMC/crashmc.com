@@ -16,6 +16,15 @@
 ## 在此之前...
 
 ## 常见崩溃实例
+### Rubidium与Optifine冲突
+若看见了 `OptiFine ZIP file:` ，说明您安装了Optifine，这一行后面是您的Optifine路径
+```
+//在示例中，您的OptiFine的路径为C:\.minecraft\libraries\optifine\OptiFine\1.19.2_HD_U_I2\OptiFine-1.19.2_HD_U_I2.jar
+OptiFine ZIP file: C:\.minecraft\libraries\optifine\OptiFine\1.19.2_HD_U_I2\OptiFine-1.19.2_HD_U_I2.jar
+
+//在示例中，Rubidium发生了Mixin注入失败，您不能同时安装Rubidium和OptiFine
+Caused by: org.spongepowered.asm.mixin.injection.throwables.InjectionError: Critical injection failure: Redirector redirectFancyGraphicsVignette()Z in rubidium.mixins.json:features.options.MixinInGameHud failed injection check, (0/1) succeeded. Scanned 1 target(s). Using refmap rubidium-refmap.json
+```
 
 
 
