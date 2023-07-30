@@ -14,6 +14,10 @@
 
 例：`Minecraft`、`OptiFine`、`What your love is your life.`
 
+在涉及路径时，请在路径的前后加上空格
+
+例：`路径 D:/PCL/.minecraft/mods 是存放文件夹的地方`
+
 ## TODO
 
 - [ ] 收录大部分崩溃问题
