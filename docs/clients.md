@@ -26,8 +26,6 @@
 | 1285   | 配置文件冲突 / 内存不足 / 模组冲突    | 给游戏分配更多的内存或尝试重新安装游戏                       |
 | 1286   | 内存溢出 / 显卡驱动                 | 给游戏分配更多的内存或尝试更新显卡驱动                       |
 
-
-
 ## 原版游戏
 
 > 原版游戏指的是**未安装 OptiFine、Mod 加载器等**会修改原版 Minecraft 的核心。
@@ -53,7 +51,71 @@ PCL2：版本设置 - 补全文件
 
 ### Fabric
 
+#### 缺少前置
+
+有模组依赖其他模组运行，但未安装依赖的模组
+
+解决方法：
+
+1. 安装依赖模组
+
+```java
+// 在示例中，您应该安装 Zoomify 模组的前置模组：Fabric API。
+Unmet dependency listing:
+	 - Mod 'Zoomify' (zoomify) 2.11.0 requires any version of fabric-api, which is missing!
+```
+
+您也可以通过 [MC百科](https://www.mcmod.cn/)、[Modrinth](https://modrinth.com/mods)、[CurseForge](https://www.curseforge.com/minecraft/mc-mods) 等网站搜索模组所需的前置模组。
+
+> Modrinth 和 CurseForge 没有提供中文，有困难的用户建议使用 MC百科 进行查询。
+
+2. 删除需要前置的模组
+
+```java
+// 在示例中，您应该删除 Zoomify 模组。
+Unmet dependency listing:
+	 - Mod 'Zoomify' (zoomify) 2.11.0 requires any version of fabric-api, which is missing!
+```
+
+关键词（仅供参考）：
+
+```java
+net.fabricmc.loader.impl.FormattedException: Mod resolution encountered an incompatible mod set!
+
+which is missing!
+```
+
 ### Quilt
+
+#### 缺少前置
+
+有模组依赖其他模组运行，但未安装依赖的模组
+
+解决方法：
+
+1. 安装依赖模组
+
+```java
+// 在示例中，您应该安装 Sodium Extra 模组的前置模组：Sodium。
+Sodium Extra requires version [0.4.10, ∞) of sodium, which is missing!
+```
+
+您也可以通过 [MC百科](https://www.mcmod.cn/)、[Modrinth](https://modrinth.com/mods)、[CurseForge](https://www.curseforge.com/minecraft/mc-mods) 等网站搜索模组所需的前置模组。
+
+> Modrinth 和 CurseForge 没有提供中文，有困难的用户建议使用 MC百科 进行查询。
+
+2. 删除需要前置的模组
+
+```java
+// 在示例中，您应该删除 Sodium Extra 模组。
+Sodium Extra requires version [0.4.10, ∞) of sodium, which is missing!
+```
+
+关键词（仅供参考）：
+
+```java
+which is missing!
+```
 
 ### LiteLoader
 
@@ -76,7 +138,6 @@ PCL2：版本设置 - 补全文件
 你可以复制下面的关键词，然后在日志中查找是否有匹配，以确定是否是该原因导致崩溃
 
 ```
-
 java.lang.NoSuchMethodError: 'java.lang.String com.mojang.blaze3d.systems.RenderSystem.getBackendDescription()'
 
 java.lang.NoSuchMethodError: 'java.lang.String com.mojang.blaze3d.systems.RenderSystem.getBackendDescription()'
@@ -88,5 +149,4 @@ java.lang.NoSuchMethodError: 'void net.minecraft.server.level.DistanceManager
 java.lang.NoSuchMethodError: 'void net.minecraft.client.renderer.block.model.BakedQuad.<init>(int[], int, net.minecraft.core.Direction, net.minecraft.client.renderer.texture.TextureAtlasSprite, boolean, boolean)'
 
 TRANSFORMER/net.optifine/net.optifine.reflect.Reflector.<clinit>(Reflector.java
-
 ```
