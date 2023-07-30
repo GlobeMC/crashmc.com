@@ -40,6 +40,8 @@
 
 ### Forge
 
+### NeoForge
+
 ### Fabric / Quilt
 
 ### LiteLoader
