@@ -1,0 +1,24 @@
+{
+  "scripts": {
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
+  },
+  "name": "mccrash-docs",
+  "version": "0.0.0",
+  "description": "Documentation for Minecraft players, help them analyzing their crash reports.",
+  "main": "index.js",
+  "devDependencies": {
+    "tslib": "^2.6.1",
+    "vitepress": "1.0.0-beta.7",
+    "vitepress-plugin-autobar": "^1.0.8",
+    "vue": "^3.3.4"
+  },
+  "keywords": [
+    "Minecraft",
+    "crash",
+    "docs"
+  ],
+  "author": "MCCrash-Team",
+  "license": "GFDL"
+}
