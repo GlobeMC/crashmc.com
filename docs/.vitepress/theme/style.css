@@ -89,3 +89,19 @@
   --docsearch-primary-color: var(--vp-c-brand) !important;
 }
 
+/**
+ * Component: Launcher Bage
+ * -------------------------------------------------------------------------- */
+
+
+ :root {
+  --vp-badge-bakaxl-border: #1689ca;
+  --vp-badge-bakaxl-text: #ffffff;
+  --vp-badge-bakaxl-bg: #28b0ea;
+  --vp-badge-hmcl-border: #634a28;
+  --vp-badge-hmcl-text: #ffffff;
+  --vp-badge-hmcl-bg: #bf8962;
+  --vp-badge-pcl-border: #2264ae;
+  --vp-badge-pcl-text: #ffffff;
+  --vp-badge-pcl-bg: #0069df;
+ }

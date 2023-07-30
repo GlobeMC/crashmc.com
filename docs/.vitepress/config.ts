@@ -13,12 +13,14 @@ export default defineConfig({
       { text: "主页", link: "/" },
       { text: "客户端崩溃", link: "/clients" },
       { text: "服务器崩溃", link: "/servers" },
+      { text: "贡献指南", link: "/contributing" },
     ],
 
     footer: {
       message: 'Released under the <a href="https://github.com/GlobeMC/crashmc.com/blob/main/LICENSE">GFDL License</a>. (<a href="https://github.com/GlobeMC/crashmc.com/commit/${{ github.sha }}" target="_blank" alt="${{ github.sha }}">${{ github.sha }}</a>)',
       copyright: 'Copyright © 2023-present <a href="https://github.com/GlobeMC">GlobeMC / 河豚分析</a>'
     },
+
     sidebar: getSideBar("./docs", {
       ignoreMDFiles: ['index'],
       ignoreDirectory: ['node_modules'],
@@ -31,6 +33,7 @@ export default defineConfig({
       text: '在 GitHub 上帮助我们完善这个页面',
     },
   },
+
   head: [
     [
       'link',

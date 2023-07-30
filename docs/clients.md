@@ -1,3 +1,7 @@
+<script setup>
+import LauncherBadge from '../components/LauncherBadge.vue'
+</script>
+
 # 客户端崩溃
 
 ## 在此之前...
@@ -52,7 +56,7 @@ HMCL：点击左边的核心名称 -> 管理 -> 更新游戏资源文件
 
 PCL2：版本设置 -> 补全文件
 
-如果你是在启动 1.17 或以上版本时出现了错误，并且呈现形式为 **含有 OpenGL 字样** 的英文弹窗时，请前往你使用的显卡官网下载对应你显卡的最新驱动并安装。如果你使用的是 3 代及以前的 Intel 核显，则需要使用软渲染器（**仅 HMCL**，在`游戏特定设置` -> `高级设置` -> `渲染器` 里修改）。
+如果你是在启动 1.17 或以上版本时出现了错误，并且呈现形式为 **含有 OpenGL 字样** 的英文弹窗时，请前往你使用的显卡官网下载对应你显卡的最新驱动并安装。如果你使用的是 3 代及以前的 Intel 核显，则需要使用软渲染器<LauncherBadge type="hmcl" text="仅 HMCL" />（在`游戏特定设置` -> `高级设置` -> `渲染器` 里修改）。
 
 如果你正在游玩 1.16.5 或以下版本，请 [下载 Java 8u51](https://ghproxy.com/https://github.com/frekele/oracle-java/releases/download/8u51-b16/jre-8u51-windows-x64.exe) 并安装，然后使用该 Java 启动游戏。
 
