@@ -30,6 +30,3 @@ Et tincidunt volutpat imperdiet eros stet et soluta dolor no et gubergren et. In
 
 ### Liteloader
 
-## 未安装模组加载器
-
-Amet eleifend laoreet eirmod clita eirmod facilisis. Dolor accusam diam at et illum lorem delenit labore sadipscing rebum et hendrerit. Amet sit dolor labore ipsum justo eirmod sit sea et. Sit et dolore consetetur ipsum euismod kasd delenit tation dolores vero sanctus duo. Eu amet dolore invidunt in gubergren eros clita quis aliquip stet.
