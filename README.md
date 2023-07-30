@@ -1,6 +1,6 @@
 # CrashMC.com
 
-[MCCrash](CrashMC.com)——为一般玩家编写的 Minecraft 崩溃分析指南。
+[MCCrash](https://crashmc.com/)——为一般玩家编写的 Minecraft 崩溃分析指南。
 
 ## 贡献
 
