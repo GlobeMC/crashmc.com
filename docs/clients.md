@@ -6,8 +6,6 @@
 
 请确保你能复现崩溃，之后找到 `.minecraft\versions\<核心名称>\logs\latest.log`（未开启版本隔离则为 `.minecraft\logs\latest.log`）开始分析里面的内容。
 
-请注意，对于 Linux 用户，你的游戏目录可能是 `minecraft` 而非 `.minecraft`。
-
 如果你的游戏是因为未响应崩溃的，我们暂时没有办法解决 :(
 
 ## 常见问题
