@@ -156,7 +156,7 @@ class io.github.reserveword.imblocker.IMBlocker$RegistryEvents
 
 删除掉 `IMBlocker` 模组（此模组仅适用于 Windows）
 
-**3. MAC 下初始化 OpenGL 窗口问题**
+**3. Mac 下初始化 OpenGL 窗口问题**
 
 ```
 java.lang.IllegalStateException: GLFW error before init: [0x10008]Cocoa: Failed to find service port for display
