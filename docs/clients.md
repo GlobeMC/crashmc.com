@@ -145,7 +145,7 @@ net.minecraft.util.ResourceLocationException: Non [a-z0-9_.-] character in names
 
 删除掉 `.DS_Store` 文件夹
 
-**2. 不兼容 MAC 的 Mod**
+**2. 不兼容 Mac 的 Mod**
 
 ```
 Exception caught during firing event: Unable to load library 'imm32':
