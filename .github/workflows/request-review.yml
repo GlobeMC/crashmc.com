@@ -1,0 +1,13 @@
+name: pull-request
+on:
+  pull_request:
+    types: [opened, ready_for_review, reopened]
+
+jobs:
+  assign:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: delivery-much/actions-assigner@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          reviewers: Seayay
