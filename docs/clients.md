@@ -20,7 +20,7 @@ import LauncherBadge from '../components/LauncherBadge.vue'
 
 `OptiFine`*(高清修复)* 是一个 Mod，它可以提高游戏的帧率，减少游戏的卡顿和延迟，并提供更多的图像设置。不正确的使用此 Mod 很容易导致崩溃，不建议和多个优化模组同时安装。
 
-`Java` Minecraft *(我的世界)* 启动所必须的环境。在 1.16 及之前的版本推荐使用 Java 8。在 1.17 及以后的版本，需要使用 Java 17 及更高的版本。
+`Java` 是 Minecraft *(我的世界)* 启动所必须的环境。在 1.16 及之前的版本推荐使用 Java 8。在 1.17 及以后的版本，需要使用 Java 17 及更高的版本。
 
 ## 常见问题
 
@@ -40,7 +40,7 @@ import LauncherBadge from '../components/LauncherBadge.vue'
 
 ## 原版游戏
 
-> 以下的原版游戏皆指 **未安装 OptiFine 或者 Mod 加载器等修改了 Minecraft 的软件** 的 Minecraft 游戏。
+> 以下的原版游戏皆指 **未安装 OptiFine 或者 Mod 加载器等修改原版核心工具** 的 Minecraft 游戏实例。
 
 在处理原版崩溃之前，需要注意的是 Mojang 几乎完全没有可能写一个 100% 会爆炸的东西出来然后推送到正式版。因此 99% 的原版崩溃问题都来自外界。
 
