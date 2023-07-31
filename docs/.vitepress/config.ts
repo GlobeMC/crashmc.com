@@ -12,7 +12,7 @@ export default defineConfig({
       text: "最后更新",
     },
     outlineTitle: "目录",
-    logo: "/logo.png",
+    logo: "/logo-brand.png",
     nav: [
       { text: "主页", link: "/" },
       { text: "客户端崩溃", link: "/clients" },
@@ -22,7 +22,7 @@ export default defineConfig({
 
     footer: {
       message:
-        'Released under the <a href="https://github.com/GlobeMC/crashmc.com/blob/main/LICENSE">GFDL License</a>. (<a href="https://github.com/GlobeMC/crashmc.com/commit/${{ github.sha }}" target="_blank" alt="${{ github.sha }}">${{ github.sha }}</a>)',
+        'Released under the <a href="https://github.com/GlobeMC/crashmc.com/blob/main/LICENSE">GFDL License</a>.',
       copyright:
         'Copyright © 2023-present <a href="https://github.com/GlobeMC">GlobeMC / 河豚分析</a>',
     },
@@ -70,7 +70,7 @@ export default defineConfig({
   head: [
     [
       "link",
-      { rel: "icon", href: "/logo.png" },
+      { rel: "icon", href: "/logo-brand.png" },
       // would render:
       //
       // <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

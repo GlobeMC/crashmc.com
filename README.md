@@ -1,6 +1,6 @@
 # CrashMC.com
 
-[MCCrash](https://crashmc.com/)——为一般玩家编写的 Minecraft 崩溃分析指南。
+[CrashMC](https://crashmc.com/)——为一般玩家编写的 Minecraft 崩溃分析指南。
 
 [![](https://img.shields.io/github/stars/GlobeMC/crashmc.com?style=for-the-badge)](https://bilibili.com/video/BV1GJ411x7h7)
 [![](https://img.shields.io/github/issues/GlobeMC/crashmc.com?style=for-the-badge)](https://github.com/GlobeMC/crashmc.com/issues)
