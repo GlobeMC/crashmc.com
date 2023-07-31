@@ -8,13 +8,11 @@ import LauncherBadge from '../components/LauncherBadge.vue'
 
 本文档是为第三方启动器进行最佳优化的。如果您正在使用 **官方启动器**（Minecraft Launcher），我们建议您尝试使用 **第三方启动器** 以复现问题并进行排查。通常情况下，第三方启动器更适合进行 Mod 相关调试。
 
-### 常见的第三方启动器的官网
+:::tip 提示
+常见的第三方启动器的官网：
 
-`HMCL`：https://hmcl.huangyuhui.net/
-
-`PCL2`：https://afdian.net/a/LTCat
-
-`BakaXL`：https://www.bakaxl.com/
+[HMCL](hmcl.huangyuhui.net)  [PCL2](afdian.net/a/LTCat)  [BakaXL](www.BakaXL.com)
+:::
 
 **请确保您能够复现崩溃**，并找到 `.minecraft\versions\<实例名称>\logs\latest.log` 文件（如果未启用版本隔离，则为 `.minecraft\logs\latest.log`），开始分析其中的内容。
 
