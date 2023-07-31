@@ -92,6 +92,10 @@ PCL2：版本设置 -> 补全文件
 java.lang.UnsupportedClassVersionError: net/minecraft/client/main/Main has been compiled by a more recent version of the Java Runtime (class file version 61.0), this version of the Java Runtime only recognizes class file versions up to 52.0
 ```
 
+| 日志                                                   | 解决方案                            |
+| ------------------------------------------------------ | ----------------------------------- |
+| `no such method: sun.misc.Unsafe.defineAnonymousClass` | Java 版本过高，降低Java版本至17以下 |
+
 附 Java 版本查询列表
 
 :::details Java 版本查询列表
