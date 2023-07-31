@@ -6,9 +6,9 @@ import LauncherBadge from '../components/LauncherBadge.vue'
 
 ## 在此之前...
 
-如果您正在使用 **官方启动器**（Minecraft Launcher），我们建议您尝试使用**第三方启动器**以复现问题并进行排查。通常情况下，第三方启动器更适合进行 Mod 相关调试。本文档也是为第三方启动器进行了最佳优化。
+本文档是为第三方启动器进行最佳优化的。如果您正在使用 **官方启动器**（Minecraft Launcher），我们建议您尝试使用 **第三方启动器** 以复现问题并进行排查。通常情况下，第三方启动器更适合进行 Mod 相关调试。
 
-**请确保您能够复现崩溃**，并找到 `.minecraft\versions\<版本名称>\logs\latest.log` 文件（如果未启用版本隔离，则为 `.minecraft\logs\latest.log`），开始分析其中的内容。
+**请确保您能够复现崩溃**，并找到 `.minecraft\versions\<实例名称>\logs\latest.log` 文件（如果未启用版本隔离，则为 `.minecraft\logs\latest.log`），开始分析其中的内容。
 
 在下文中，我们可能会提供一系列关键词。您可以定位到 Log 文件中最后一串 Traceback（以许多 at 开头的行）的前一行，选中并复制从 `java.` 开始到最后。然后使用 Ctrl + F 快捷键进行检索，或者将关键词复制到日志文件中进行检索。请注意，原则上每次只查询一行日志，不建议同时复制和查询多行。
 
@@ -26,7 +26,7 @@ import LauncherBadge from '../components/LauncherBadge.vue'
 
 ### OpenGL 错误
 
-该问题在任何情况均可能会出现，此处只考虑错误码出现在聊天栏的情况。
+解释：该问题在任何情况均可能会出现，此处只考虑错误码出现在聊天栏的情况。
 
 | 错误码 | 可能原因                          | 解决方法                                                     |
 | ------ | --------------------------------- | ------------------------------------------------------------ |
@@ -40,7 +40,7 @@ import LauncherBadge from '../components/LauncherBadge.vue'
 
 ## 原版游戏
 
-> 以下的原版游戏皆指**未安装 OptiFine 或者 Mod 加载器等会修改 Minecraft** 的 Minecraft游戏。
+> 以下的原版游戏皆指 **未安装 OptiFine 或者 Mod 加载器等修改了 Minecraft 的软件** 的 Minecraft 游戏。
 
 在处理原版崩溃之前，需要注意的是 Mojang 几乎完全没有可能写一个 100% 会爆炸的东西出来然后推送到正式版。因此 99% 的原版崩溃问题都来自外界。
 
@@ -52,15 +52,52 @@ import LauncherBadge from '../components/LauncherBadge.vue'
 
 BakaXL：核心列表 -> 点击核心 -> 高级核心管理 -> 恢复 / 删除 -> 重置此核心
 
-HMCL：点击左边的核心名称 -> 管理 -> 更新游戏资源文件
+HMCL：点击左边的实例名称 -> 管理 -> 更新游戏资源文件
 
 PCL2：版本设置 -> 补全文件
 
-如果你是在启动 1.17 或以上版本时出现了错误，并且呈现形式为 **含有 OpenGL 字样** 的英文弹窗时，请前往你使用的显卡官网下载对应你显卡的最新驱动并安装。如果你使用的是 3 代及以前的 Intel 核显，则需要使用软渲染器<LauncherBadge type="hmcl" text="仅 HMCL" />（在`游戏特定设置` -> `高级设置` -> `渲染器` 里修改）。
+如果你在启动游戏时弹出了 **含有 OpenGL 字样** 的英文弹窗，请前往你使用的显卡官网下载对应你显卡的最新驱动并安装。如果你使用的是 3 代及以前的 Intel 核显，则理论上无法游玩任何需要 Java 17 的版本。你也可以尝试使用软渲染器<LauncherBadge type="hmcl" text="仅 HMCL" />（在 `游戏特定设置` -> `高级设置` -> `渲染器` 里修改），但这可能会严重降低游戏性能。
 
 如果你正在游玩 1.16.5 或以下版本，请 [下载 Java 8u51](https://ghproxy.com/https://github.com/frekele/oracle-java/releases/download/8u51-b16/jre-8u51-windows-x64.exe) 并安装，然后使用该 Java 启动游戏。
 
 ## 安装了 Mod 或是 Mod 加载器（Mod Loader）的游戏
+
+### 常见问题
+
+
+#### Java 版本不匹配
+
+解释：有些时候一些 Mod 会要求特殊的 Java 版本，比如 Java 11 。此时使用不正确的 Java 版本将无法启动游戏。
+
+解决方案：根据 Log 引导使用正确的 Java 版本启动游戏。检查括号内的 `class file version` 后跟随的数字，然后在 Java 版本列表里查找对应的 Java 大版本。
+
+```
+// 示例中是因为使用的 Java 与 Minecraft 要求的 Java 版本不符导致崩溃，应当使用 Java 17 
+// 因为安装了 Mod 导致崩溃时， net/minecraft/client/main/Main 部分会改变
+// 因此建议只检索 java.lang.UnsupportedClassVersionError 部分
+java.lang.UnsupportedClassVersionError: net/minecraft/client/main/Main has been compiled by a more recent version of the Java Runtime (class file version 61.0), this version of the Java Runtime only recognizes class file versions up to 52.0
+```
+
+附 Java 版本查询列表
+
+:::details Java 版本查询列表
+| Java 大版本 | Class File Version |
+|------------|--------------------|
+| Java SE 20 | 64                 |
+| Java SE 19 | 63                 |
+| Java SE 18 | 62                 |
+| Java SE 17 | 61                 |
+| Java SE 16 | 60                 |
+| Java SE 15 | 59                 |
+| Java SE 14 | 58                 |
+| Java SE 13 | 57                 |
+| Java SE 12 | 56                 |
+| Java SE 11 | 55                 |
+| Java SE 10 | 54                 |
+| Java SE  9 | 53                 |
+| Java SE  8 | 52                 |
+| Java SE  7 | 51                 |
+:::
 
 ### Forge
 
