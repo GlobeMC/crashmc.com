@@ -1,13 +1,13 @@
 name: Pull Request Review
 on:
-  pull_request:
+  pull_request_target:
     types: [opened, ready_for_review, reopened]
 
 jobs:
-  assign:
+  test:
     runs-on: ubuntu-latest
     steps:
-      - uses: delivery-much/actions-assigner@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          reviewers: Seayay
+    - uses: actions/checkout@v1
+    - uses: uesteibar/reviewer-lottery@v3
+      with:
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
