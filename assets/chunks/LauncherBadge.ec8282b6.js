@@ -1,0 +1,1 @@
+import{u as e,v as s,b as t,z as _,a as r,L as c,X as n,_ as o}from"./framework.46057cbb.js";const p=e({__name:"LauncherBadge",props:{text:{},type:{}},setup(d){return(a,u)=>(s(),t("span",{class:r(["LauncherBadge",a.type])},[_(a.$slots,"default",{},()=>[c(n(a.text),1)],!0)],2))}});const g=o(p,[["__scopeId","data-v-a2d9d74c"]]);export{g as L};
