@@ -70,6 +70,20 @@ PCL2：版本设置 -> 补全文件
 
 如果你正在游玩 1.16.5 或以下版本，请 [下载 Java 8u51](https://ghproxy.com/https://github.com/frekele/oracle-java/releases/download/8u51-b16/jre-8u51-windows-x64.exe) 并安装，然后使用该 Java 启动游戏。
 
+#### 存档损坏
+
+日志
+
+```
+Exception reading *\level.dat
+Caused by: java.util.zip.ZipException: invalid distance too far back
+net.minecraft.util.crash.CrashException: Loading NBT data
+```
+
+解决方法：
+
+换一个存档
+
 ## 安装了 Mod 或是 Mod 加载器（Mod Loader）的游戏
 
 ### 常见问题
@@ -118,6 +132,40 @@ java.lang.UnsupportedClassVersionError: net/minecraft/client/main/Main has been 
 :::
 
 ### Forge
+
+#### 系统问题
+
+**1.MAC 下存在 `.DS_Store` 文件夹报错**
+
+```
+Caused by: net.minecraft.util.ResourceLocationException: Non [a-z0-9_.-] character in namespace of location: .DS_Store:
+net.minecraft.util.ResourceLocationException: Non [a-z0-9_.-] character in namespace of location: .DS_Store:
+```
+
+解决方法：
+
+删除掉 `.DS_Store` 文件夹
+
+**2.不兼容 MAC 的 Mod**
+
+```
+Exception caught during firing event: Unable to load library 'imm32':
+class io.github.reserveword.imblocker.IMBlocker$RegistryEvents
+```
+
+解决方法：
+
+删除掉 `IMBlocker` 模组（此模组仅适用于 Windows）
+
+**3.MAC 下初始化 OpenGL 窗口问题**
+
+```
+java.lang.IllegalStateException: GLFW error before init: [0x10008]Cocoa: Failed to find service port for display
+```
+
+解决方法：（很玄学）
+
+先开一个浏览器全屏，然后启动游戏，在还没弹出窗口的时候迅速切回浏览器，等差不多游戏窗口出来了之后再切回去。
 
 ### NeoForge
 
