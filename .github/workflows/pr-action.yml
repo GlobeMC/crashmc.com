@@ -1,4 +1,4 @@
-name: Pull Request Review
+name: Pull Request Ready
 on:
   pull_request_target:
     types: [opened, ready_for_review, reopened]
@@ -7,7 +7,10 @@ jobs:
   request:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - uses: uesteibar/reviewer-lottery@v3
+    - name: 🛠️ Checkout
+      uses: actions/checkout@v2
+
+    - name: ✨ Request Review
+      uses: uesteibar/reviewer-lottery@v3
       with:
         repo-token: ${{ secrets.GITHUB_TOKEN }}

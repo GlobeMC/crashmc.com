@@ -2,12 +2,12 @@
 
 ## 常见问题
 
-### 未同意EULA
+### 未同意 EULA
 
 ```
 You need to agree to the EULA in order to run the server. Go to eula.txt for more info.
 ```
-解决方法：前往 ./eula.txt 中将 eula=false 更改为 eula=true 
+解决方法：前往 eula.txt 中将 `eula=false` 更改为 `eula=true` 
 
 ### 端口被占用
 
