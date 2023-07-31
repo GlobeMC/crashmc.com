@@ -2,6 +2,10 @@
 
 [MCCrash](https://crashmc.com/)——为一般玩家编写的 Minecraft 崩溃分析指南。
 
+[![](https://img.shields.io/github/stars/GlobeMC/crashmc.com?style=for-the-badge)](https://bilibili.com/video/BV1GJ411x7h7)
+[![](https://img.shields.io/github/issues/GlobeMC/crashmc.com?style=for-the-badge)](https://github.com/GlobeMC/crashmc.com/issues)
+[![](https://img.shields.io/github/actions/workflow/status/GlobeMC/crashmc.com/gh-pages.yml?branch=main&style=for-the-badge)](https://github.com/GlobeMC/crashmc.com/actions/workflows/gh-pages.yml)
+
 ## 贡献
 
 请先 Fork 本仓库，然后进行文档修改
