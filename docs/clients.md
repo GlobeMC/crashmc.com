@@ -88,7 +88,6 @@ net.minecraft.util.crash.CrashException: Loading NBT data
 
 ### 常见问题
 
-
 #### Java 版本不匹配
 
 解释：有些时候一些 Mod 会要求特殊的 Java 版本，比如 Java 11 。此时使用不正确的 Java 版本将无法启动游戏。
@@ -135,7 +134,7 @@ java.lang.UnsupportedClassVersionError: net/minecraft/client/main/Main has been 
 
 #### 系统问题
 
-**1.MAC 下存在 `.DS_Store` 文件夹报错**
+**1. MAC 下存在 .DS_Store 文件夹报错**
 
 ```
 Caused by: net.minecraft.util.ResourceLocationException: Non [a-z0-9_.-] character in namespace of location: .DS_Store:
@@ -146,7 +145,7 @@ net.minecraft.util.ResourceLocationException: Non [a-z0-9_.-] character in names
 
 删除掉 `.DS_Store` 文件夹
 
-**2.不兼容 MAC 的 Mod**
+**2. 不兼容 MAC 的 Mod**
 
 ```
 Exception caught during firing event: Unable to load library 'imm32':
@@ -157,20 +156,19 @@ class io.github.reserveword.imblocker.IMBlocker$RegistryEvents
 
 删除掉 `IMBlocker` 模组（此模组仅适用于 Windows）
 
-**3.MAC 下初始化 OpenGL 窗口问题**
+**3. MAC 下初始化 OpenGL 窗口问题**
 
 ```
 java.lang.IllegalStateException: GLFW error before init: [0x10008]Cocoa: Failed to find service port for display
 ```
 
-解决方法：（很玄学）
+解决方法：（不保证可行）
 
 先开一个浏览器全屏，然后启动游戏，在还没弹出窗口的时候迅速切回浏览器，等差不多游戏窗口出来了之后再切回去。
 
 ### NeoForge
 
 ### Fabric
-
 
 #### 缺少前置
 
