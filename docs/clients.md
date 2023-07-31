@@ -11,7 +11,11 @@ import LauncherBadge from '../components/LauncherBadge.vue'
 :::tip 提示
 常见的第三方启动器的官网：
 
-[HMCL](https://hmcl.huangyuhui.net)  [PCL2](https://afdian.net/a/LTCat)  [BakaXL](https://www.BakaXL.com)
+HMCL: https://hmcl.huangyuhui.net
+
+PCL2: https://afdian.net/a/LTCat
+
+BakaXL: https://www.BakaXL.com
 :::
 
 **请确保您能够复现崩溃**，并找到 `.minecraft\versions\<实例名称>\logs\latest.log` 文件（如果未启用版本隔离，则为 `.minecraft\logs\latest.log`），开始分析其中的内容。
