@@ -19,7 +19,7 @@ const members = [
     ]
   },
   {
-    avatar: 'https://github.com/XieXiLin2.png',
+    avatar: 'https://gravatar.loli.net/avatar/2defd5540f480625cf9d09e5d4c3b7c4.png',
     name: 'XieXiLin',
     title: '域名资金支持',
     links: [
@@ -76,8 +76,8 @@ const members = [
   },
   {
     avatar: 'https://github.com/ZhuRuoLing.png',
-    name: 'zkitefly',
-    title: '竹若泠',
+    name: '竹若泠',
+    title: '文档贡献者',
     links: [
       { icon: 'github', link: 'https://github.com/ZhuRuoLing' },
     ]
