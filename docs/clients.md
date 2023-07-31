@@ -18,7 +18,7 @@ import LauncherBadge from '../components/LauncherBadge.vue'
 
 `Forge`、`NeoForge`、`Fabric`、`Quilt` 均为 Mod 加载器，绝大多数的崩溃和 Mod 安装不正确有关。
 
-`OptiFine`*(高清修复)* 是一个 Mod，它可以提高游戏的帧率，减少游戏的卡顿和延迟，并提供更多的图像设置。不正确的使用此 Mod 很容易导致崩溃，不建议和多个优化模组同时安装。
+`OptiFine`*(高清修复)* 是一个 Mod，它可以提高游戏的帧率，减少游戏的卡顿和延迟，并提供更多的图像设置。不正确的使用此 Mod 很容易导致崩溃，不建议和多个优化 Mods 同时安装。
 
 `Java` 是 Minecraft *(我的世界)* 启动所必须的环境。在 1.16 及之前的版本推荐使用 Java 8。在 1.17 及以后的版本，需要使用 Java 17 及更高的版本。
 
@@ -30,12 +30,12 @@ import LauncherBadge from '../components/LauncherBadge.vue'
 
 | 错误码 | 可能原因                          | 解决方法                                                     |
 | ------ | --------------------------------- | ------------------------------------------------------------ |
-| 1280   | OptiFine / 模组冲突 / OpenGL 版本错误 | 更换 OptiFine 版本、检查模组冲突或尝试更新显卡驱动           |
-| 1281   | Mods / 图像设置 / 显卡驱动 / 光影       | 尝试更新显卡驱动或检查模组问题(如检查后无问题,则暂时无解)    |
-| 1282   | 显卡驱动 / 模组冲突 / 着色器出错      | 更换游戏版本、更换 OptiFine 版本、检查模组问题或更换显卡驱动 |
+| 1280   | OptiFine / Mods 冲突 / OpenGL 版本错误 | 更换 OptiFine 版本、检查 Mods 冲突或尝试更新显卡驱动           |
+| 1281   | Mods / 图像设置 / 显卡驱动 / 光影       | 尝试更新显卡驱动或检查 Mods 问题(如检查后无问题,则暂时无解)    |
+| 1282   | 显卡驱动 / Mods 冲突 / 着色器出错      | 更换游戏版本、更换 OptiFine 版本、检查 Mods 问题或更换显卡驱动 |
 | 1283   | Mods                              | 更换光影或检查 Mods 问题                                       |
-| 1284   | 显卡驱动 / 模组冲突 / 着色器出错      | 更换光影或检查 Mods 问题                                       |
-| 1285   | 配置文件冲突 / 内存不足 / 模组冲突    | 给游戏分配更多的内存或尝试重新安装游戏                       |
+| 1284   | 显卡驱动 / Mods 冲突 / 着色器出错      | 更换光影或检查 Mods 问题                                       |
+| 1285   | 配置文件冲突 / 内存不足 / Mods 冲突    | 给游戏分配更多的内存或尝试重新安装游戏                       |
 | 1286   | 内存溢出 / 显卡驱动                 | 给游戏分配更多的内存或尝试更新显卡驱动                       |
 
 ## 原版游戏
@@ -112,11 +112,11 @@ java.lang.UnsupportedClassVersionError: net/minecraft/client/main/Main has been 
 
 #### 缺少前置
 
-解释：有模组依赖其他模组运行，但未安装依赖的模组
+解释：有 Mod 依赖其他 Mod 运行，但未安装依赖的 Mod
 
 解决方法：
 
-1. 安装依赖模组
+1. 安装依赖 Mod
 
 在 `Unmet dependency listing` 中找到 `requires` 字样，然后根据后面提示的 Mod 信息查找对应 Mod 并下载安装。
 
@@ -125,21 +125,21 @@ java.lang.UnsupportedClassVersionError: net/minecraft/client/main/Main has been 
 相关英文提示： any -> 任何 ； version -> 版本 ； require(s) -> 要求，需要 ； of -> 的（介词）
 
 ```
-// 在示例中，您应该安装 Zoomify 模组的前置模组：Fabric API。
+// 在示例中，您应该安装 Zoomify Mod 的前置 Mod：Fabric API。
 Unmet dependency listing:
 	 - Mod 'Zoomify' (zoomify) 2.11.0 requires any version of fabric-api, which is missing!
 ```
 
-您也可以通过 [MC 百科](https://www.mcmod.cn/)、[Modrinth](https://modrinth.com/mods)、[CurseForge](https://www.curseforge.com/minecraft/mc-mods) 等网站搜索模组所需的前置模组。
+您也可以通过 [MC百科](https://www.mcmod.cn/)、[Modrinth](https://modrinth.com/mods)、[CurseForge](https://www.curseforge.com/minecraft/mc-mods) 等网站搜索 Mods 所需的前置 Mods。
 
 > Modrinth 和 CurseForge 目前为止未提供中文界面，有困难的用户建议使用 MC 百科 进行查询。
 
-2. 删除需要前置的模组
+2. 删除需要前置的 Mod
 
 在 `Unmet dependency listing` 中找到 `requires` 字样，然后根据前面提示的 Mod 信息删除对应 Mod。
 
 ```
-// 在示例中，您应该删除 Zoomify 模组。
+// 在示例中，您应该删除 Zoomify Mod。
 Unmet dependency listing:
 	 - Mod 'Zoomify' (zoomify) 2.11.0 requires any version of fabric-api, which is missing!
 ```
@@ -157,11 +157,11 @@ which is missing!
 
 #### 缺少前置
 
-解释：有模组依赖其他模组运行，但未安装依赖的模组
+解释：有 Mod 依赖其他 Mod 运行，但未安装依赖的 Mod
 
 解决方法：
 
-1. 安装依赖模组
+1. 安装依赖 Mod
 
 在 `Unmet dependency listing` 中找到 `requires` 字样，然后根据后面提示的 Mod 信息查找对应 Mod 并下载安装。
 
@@ -170,20 +170,20 @@ which is missing!
 相关英文提示： any -> 任何 ； version -> 版本 ； require(s) -> 要求，需要 ； of -> 的（介词）
 
 ```
-// 在示例中，您应该安装 Sodium Extra 模组的前置模组：Sodium。
+// 在示例中，您应该安装 Sodium Extra Mod 的前置 Mod：Sodium。
 Sodium Extra requires version [0.4.10, ∞) of sodium, which is missing!
 ```
 
-您也可以通过 [MC百科](https://www.mcmod.cn/)、[Modrinth](https://modrinth.com/mods)、[CurseForge](https://www.curseforge.com/minecraft/mc-mods) 等网站搜索模组所需的前置模组。
+您也可以通过 [MC百科](https://www.mcmod.cn/)、[Modrinth](https://modrinth.com/mods)、[CurseForge](https://www.curseforge.com/minecraft/mc-mods) 等网站搜索 Mods 所需的前置 Mods。
 
 > Modrinth 和 CurseForge 目前为止未提供中文界面，有困难的用户建议使用 MC 百科 进行查询。
 
-2. 删除需要前置的模组
+2. 删除需要前置的 Mod
 
 在 `Unmet dependency listing` 中找到 `requires` 字样，然后根据前面提示的 Mod 信息删除对应 Mod。
 
 ```
-// 在示例中，您应该删除 Sodium Extra 模组。
+// 在示例中，您应该删除 Sodium Extra Mod。
 Sodium Extra requires version [0.4.10, ∞) of sodium, which is missing!
 ```
 
