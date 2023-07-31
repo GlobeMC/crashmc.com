@@ -97,20 +97,20 @@ java.lang.UnsupportedClassVersionError: net/minecraft/client/main/Main has been 
 :::details Java 版本查询列表
 | Java 大版本 | Class File Version |
 |------------|--------------------|
-| Java SE 20 | 64                 |
-| Java SE 19 | 63                 |
-| Java SE 18 | 62                 |
-| Java SE 17 | 61                 |
-| Java SE 16 | 60                 |
-| Java SE 15 | 59                 |
-| Java SE 14 | 58                 |
-| Java SE 13 | 57                 |
-| Java SE 12 | 56                 |
-| Java SE 11 | 55                 |
-| Java SE 10 | 54                 |
-| Java SE  9 | 53                 |
-| Java SE  8 | 52                 |
-| Java SE  7 | 51                 |
+| Java 20    | 64                 |
+| Java 19    | 63                 |
+| Java 18    | 62                 |
+| Java 17    | 61                 |
+| Java 16    | 60                 |
+| Java 15    | 59                 |
+| Java 14    | 58                 |
+| Java 13    | 57                 |
+| Java 12    | 56                 |
+| Java 11    | 55                 |
+| Java 10    | 54                 |
+| Java  9    | 53                 |
+| Java  8    | 52                 |
+| Java  7    | 51                 |
 :::
 
 ### Forge
