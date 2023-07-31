@@ -35,7 +35,7 @@ const members = [
     ]
   },
   {
-    avatar: 'https://gravatar.loli.net/avatar/4db948c2483ceca88a6ade051f37dc1e.png',
+    avatar: 'https://github.com/bingxin666.png',
     name: 'bingxin666',
     title: '文档贡献者',
     links: [
