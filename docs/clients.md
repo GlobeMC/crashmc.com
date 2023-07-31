@@ -94,7 +94,7 @@ java.lang.UnsupportedClassVersionError: net/minecraft/client/main/Main has been 
 
 | 日志                                                   | 解决方案                            |
 | ------------------------------------------------------ | ----------------------------------- |
-| `no such method: sun.misc.Unsafe.defineAnonymousClass` | Java 版本过高，降低Java版本至17以下 |
+| `no such method: sun.misc.Unsafe.defineAnonymousClass` | Java 版本过高，降低 Java 版本至 17 以下 |
 
 附 Java 版本查询列表
 
