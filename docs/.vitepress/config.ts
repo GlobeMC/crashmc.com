@@ -45,7 +45,7 @@ export default defineConfig({
         text: "贡献",
         items: [
           { text: "贡献指南", link: "/contributing" },
-          // { text: "团队", link: "/team" },
+          { text: "团队", link: "/team" },
         ],
       },
     ],
