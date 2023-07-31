@@ -8,7 +8,7 @@
 
 ## 贡献
 
-请先 Fork 本仓库，然后进行文档修改
+请先 [Fork](https://github.com/GlobeMC/crashmc.com/fork) 本仓库，然后进行文档修改。
 
 请注意：在非 Log 信息以外的任何地方，如果有中文和英文数字混用，请在中文和英文数字之间添加空格；如果有斜杠的，请在斜杠两边增加一个空格。
 
@@ -18,7 +18,7 @@
 
 例：`Minecraft`、`OptiFine`、`What your love is your life.`
 
-在涉及路径时，请在路径的前后加上空格
+在涉及路径时，请在路径的前后加上空格。
 
 例：`路径 D:/PCL/.minecraft/mods 是存放模组的地方`
 
