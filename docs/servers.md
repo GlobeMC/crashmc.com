@@ -8,7 +8,7 @@
 
 ### Forge
 
-请注意：您是否在服务器里安装高清修复，例如 Iris
+请注意：您是否在服务器里安装高清修复，例如 oculus
 当 log 内含有 加载类 net.coderbot.iris.Iris 失败
 请移除 Iris 或包含 Iris 的mod
 
