@@ -19,19 +19,67 @@ const members = [
     ]
   },
   {
-    avatar: 'https://github.com/bwtx2023.png',
-    name: 'bwtx2023',
-    title: '创建者',
+    avatar: 'https://github.com/XieXiLin2.png',
+    name: 'XieXiLin',
+    title: '域名资金支持',
     links: [
-      { icon: 'github', link: 'https://github.com/bwtx2023' },
+      { icon: 'github', link: 'https://github.com/XieXiLin2' },
     ]
   },
   {
-    avatar: 'https://github.com/bwtx2023.png',
-    name: 'bwtx2023',
-    title: '创建者',
+    avatar: 'https://github.com/2623684696.png',
+    name: '233355607',
+    title: '域名管理',
     links: [
-      { icon: 'github', link: 'https://github.com/bwtx2023' },
+      { icon: 'github', link: 'https://github.com/2623684696' },
+    ]
+  },
+  {
+    avatar: 'https://github.com/bingxin666.png',
+    name: 'bingxin666',
+    title: '文档贡献者',
+    links: [
+      { icon: 'github', link: 'https://github.com/bingxin666' },
+    ]
+  },
+  {
+    avatar: 'https://github.com/Rovniced.png',
+    name: 'Enlysure',
+    title: '文档贡献者',
+    links: [
+      { icon: 'github', link: 'https://github.com/Rovniced' },
+    ]
+  },
+  {
+    avatar: 'https://github.com/hejiehao.png',
+    name: '何杰豪',
+    title: '文档贡献者',
+    links: [
+      { icon: 'github', link: 'https://github.com/hejiehao' },
+    ]
+  },
+  {
+    avatar: 'https://gravatar.loli.net/avatar/e4e09756d8e17245eca044adccdc96a8.png',
+    name: '思源千年',
+    title: '文档贡献者',
+    links: [
+      { icon: 'github', link: 'https://github.com/Seayay' },
+    ]
+  },
+  {
+    avatar: 'https://github.com/zkitefly.png',
+    name: 'zkitefly',
+    title: '文档贡献者',
+    links: [
+      { icon: 'github', link: 'https://github.com/zkitefly' },
+    ]
+  },
+  {
+    avatar: 'https://github.com/ZhuRuoLing.png',
+    name: 'zkitefly',
+    title: '竹若泠',
+    links: [
+      { icon: 'github', link: 'https://github.com/ZhuRuoLing' },
     ]
   },
 ]
