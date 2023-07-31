@@ -18,7 +18,7 @@ import LauncherBadge from '../components/LauncherBadge.vue'
 
 在涉及路径时，请在路径的前后加上空格
 
-例：`路径 D:/PCL/.minecraft/mods 是存放模组的地方`
+例：`路径 D:/PCL/.minecraft/mods 是存放 Mod 的地方`
 
 如果某一个解决方案为特定启动器独占功能，请使用 Vue Component 注明。示例如下：
 
