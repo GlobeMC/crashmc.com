@@ -40,7 +40,7 @@ import LauncherBadge from '../components/LauncherBadge.vue'
 
 ## 原版游戏
 
-> 以下的原版游戏皆指**未安装 OptiFine 或者 Mod 加载器等会修改Minecraft** 的 Minecraft游戏。
+> 以下的原版游戏皆指**未安装 OptiFine 或者 Mod 加载器等会修改 Minecraft** 的 Minecraft游戏。
 
 在处理原版崩溃之前，需要注意的是 Mojang 几乎完全没有可能写一个 100% 会爆炸的东西出来然后推送到正式版。因此 99% 的原版崩溃问题都来自外界。
 
