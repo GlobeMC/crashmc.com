@@ -4,7 +4,7 @@ import { withPwa } from "@vite-pwa/vitepress";
 import { pwa } from "./scripts/pwa";
 
 const COMMIT_ID = process.env.CF_PAGES_COMMIT_SHA || process.env.COMMIT_REF;
-const commitRef = COMMIT_ID?.slice(0, 8) || "dev";
+const commitRef = COMMIT_ID?.slice(0, 8);
 
 // https://vitepress.dev/reference/site-config
 export default withPwa(
