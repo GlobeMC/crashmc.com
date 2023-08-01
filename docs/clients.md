@@ -134,7 +134,7 @@ java.lang.UnsupportedClassVersionError: net/minecraft/client/main/Main has been 
 
 #### 系统问题
 
-**1. Mac 下存在 .DS_Store 文件夹报错**
+##### Mac 下存在 .DS_Store 文件夹报错
 
 ```
 Caused by: net.minecraft.util.ResourceLocationException: Non [a-z0-9_.-] character in namespace of location: .DS_Store:
@@ -145,7 +145,7 @@ net.minecraft.util.ResourceLocationException: Non [a-z0-9_.-] character in names
 
 删除掉 `.DS_Store` 文件夹
 
-**2. 不兼容 Mac 的 Mod**
+##### 不兼容 Mac 的 Mod
 
 ```
 Exception caught during firing event: Unable to load library 'imm32':
@@ -156,7 +156,7 @@ class io.github.reserveword.imblocker.IMBlocker$RegistryEvents
 
 删除掉 `IMBlocker` 模组（此模组仅适用于 Windows）
 
-**3. Mac 下初始化 OpenGL 窗口问题**
+##### Mac 下初始化 OpenGL 窗口问题
 
 ```
 java.lang.IllegalStateException: GLFW error before init: [0x10008]Cocoa: Failed to find service port for display
