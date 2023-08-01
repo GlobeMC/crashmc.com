@@ -287,7 +287,7 @@ which is missing!
 - 若显示 `Forge N/A` 则代表该版本的 OptiFine 不兼容任何 Forge 版本
 
 
-你可以复制下面的关键词，然后在日志中查找是否有匹配，以确定是否是该原因导致崩溃
+你可以复制下面的关键词，然后在日志中查找是否有匹配，以确定是否是该原因导致崩溃（关键词仅供参考）
 
 ```
 java.lang.NoSuchMethodError: 'java.lang.Class sun.misc.Unsafe.defineAnonymousClass(java.lang.Class, byte[], java.lang.Object[])'
