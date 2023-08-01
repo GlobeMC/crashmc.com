@@ -25,7 +25,7 @@ export default withPwa(
 
       footer: {
         message:
-          'Released under the <a href="https://github.com/GlobeMC/crashmc.com/blob/main/LICENSE">GFDL License</a>.<br />GlobeMC/crashmc.com<br />prod@<a href="https://github.com/GlobeMC/crashmc.com/commit/${commitRef}" target="_blank" alt=${commitRef}>${commitRef}</a>',
+          'Released under the <a href="https://github.com/GlobeMC/crashmc.com/blob/main/LICENSE">GFDL License</a>.<br />GlobeMC/crashmc.com<br />prod@<a href="https://github.com/GlobeMC/crashmc.com/commit/${CF_PAGES_COMMIT_SHA}" target="_blank" alt=${CF_PAGES_COMMIT_SHA}>${CF_PAGES_COMMIT_SHA}</a>',
         copyright:
           'Copyright © 2023-present <a href="https://github.com/GlobeMC">GlobeMC / 河豚分析</a>',
       },
