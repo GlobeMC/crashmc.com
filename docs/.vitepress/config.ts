@@ -1,9 +1,10 @@
+import process from 'node:process';
 import { defineConfig } from "vitepress";
 import { withPwa } from "@vite-pwa/vitepress";
 import { pwa } from "./scripts/pwa";
 
 const COMMIT_ID = process.env.CF_PAGES_COMMIT_SHA || process.env.COMMIT_REF;
-const commitRef = COMMIT_ID?.slice(0, 8) || "main";
+const commitRef = COMMIT_ID?.slice(0, 8) || "dev";
 
 // https://vitepress.dev/reference/site-config
 export default withPwa(
@@ -28,7 +29,7 @@ export default withPwa(
 
       footer: {
         message:
-          'Released under the <a href="https://github.com/GlobeMC/crashmc.com/blob/main/LICENSE">GFDL License</a>.<br />GlobeMC/crashmc.com<br />prod@<a href="https://github.com/GlobeMC/crashmc.com/commit/${commitRef}" target="_blank" alt="${commitRef}">${commitRef}</a>',
+          'Released under the <a href="https://github.com/GlobeMC/crashmc.com/blob/main/LICENSE">GFDL License</a>.<br />GlobeMC/crashmc.com<br />prod@<a href="https://github.com/GlobeMC/crashmc.com/commit/${commitRef}" target="_blank" alt=${commitRef}>${commitRef}</a>',
         copyright:
           'Copyright © 2023-present <a href="https://github.com/GlobeMC">GlobeMC / 河豚分析</a>',
       },

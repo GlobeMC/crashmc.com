@@ -58,3 +58,11 @@ watch(
 	}
 );
 </script>
+<style>
+/* // TODO 使用giscus自定义主题结合vitepress主题切换 */
+.comments {
+	margin-top: 20px;
+	padding: 20px;
+	border-radius: 10px;
+}
+</style>
