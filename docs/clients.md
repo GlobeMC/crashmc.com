@@ -58,9 +58,9 @@ BakaXL: https://www.BakaXL.com
 ```
 
 解决方法：请检查您的驱动是否为最新
-AMD:https://www.amd.com/zh-hans/support
-intel:https://www.intel.cn/content/www/cn/zh/download-center/home.html
-Nvidia:https://www.nvidia.cn/geforce/drivers/
+AMD:<https://www.amd.com/zh-hans/support>
+intel:<https://www.intel.cn/content/www/cn/zh/download-center/home.html>
+Nvidia:<https://www.nvidia.cn/geforce/drivers/>
 
 ## 原版游戏
 
