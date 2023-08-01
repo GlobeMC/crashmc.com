@@ -27,7 +27,7 @@ const members = [
     ]
   },
   {
-    avatar: 'https://jsd.onmicrosoft.cn/avatar//e5749fc6095cfe035dd18d405400c289.png',
+    avatar: 'https://jsd.onmicrosoft.cn/avatar/e5749fc6095cfe035dd18d405400c289.png',
     name: '233355607',
     title: '域名管理',
     links: [
