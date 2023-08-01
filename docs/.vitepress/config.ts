@@ -1,4 +1,4 @@
-import process from 'node:process';
+import process from "node:process";
 import { defineConfig } from "vitepress";
 import { withPwa } from "@vite-pwa/vitepress";
 import { pwa } from "./scripts/pwa";
@@ -6,7 +6,6 @@ import { pwa } from "./scripts/pwa";
 const COMMIT_ID = process.env.CF_PAGES_COMMIT_SHA || process.env.COMMIT_REF;
 const commitRef = COMMIT_ID?.slice(0, 8);
 
-// https://vitepress.dev/reference/site-config
 export default withPwa(
   defineConfig({
     title: "GlobeMC",
@@ -14,7 +13,6 @@ export default withPwa(
     lastUpdated: true,
     description: "为一般玩家编写的 Minecraft 崩溃分析指南",
     themeConfig: {
-      // https://vitepress.dev/reference/default-theme-config
       lastUpdated: {
         text: "最后更新",
       },
@@ -28,8 +26,7 @@ export default withPwa(
       ],
 
       footer: {
-        message:
-          `Released under the <a href="https://github.com/GlobeMC/crashmc.com/blob/main/LICENSE">GFDL License</a>.<br />GlobeMC/crashmc.com<br />prod@<a href="https://github.com/GlobeMC/crashmc.com/commit/${commitRef}" target="_blank" alt=${commitRef}>${commitRef}</a>`,
+        message: `Released under the <a href="https://github.com/GlobeMC/crashmc.com/blob/main/LICENSE">GFDL License</a>.<br />GlobeMC/crashmc.com<br />prod@<a href="https://github.com/GlobeMC/crashmc.com/commit/${commitRef}" target="_blank" alt=${commitRef}>${commitRef}</a>`,
         copyright:
           'Copyright © 2023-present <a href="https://github.com/GlobeMC">GlobeMC / 河豚分析</a>',
       },
@@ -119,12 +116,14 @@ export default withPwa(
     },
 
     head: [
+      ["link", { rel: "icon", href: "/logo-brand.png" }],
       [
-        "link",
-        { rel: "icon", href: "/logo-brand.png" },
-        // would render:
-        //
-        // <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        "script",
+        {
+          async: "",
+          src: "https://umami.lihaoyu.cn/api.js",
+          "data-website-id": "913a41bc-fd2c-479c-8594-8e507d81b07d",
+        },
       ],
     ],
 
