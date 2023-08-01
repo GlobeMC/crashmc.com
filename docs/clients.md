@@ -290,6 +290,8 @@ which is missing!
 你可以复制下面的关键词，然后在日志中查找是否有匹配，以确定是否是该原因导致崩溃
 
 ```
+java.lang.NoSuchMethodError: 'java.lang.Class sun.misc.Unsafe.defineAnonymousClass(java.lang.Class, byte[], java.lang.Object[])'
+
 java.lang.NoSuchMethodError: 'java.lang.String com.mojang.blaze3d.systems.RenderSystem.getBackendDescription()'
 
 java.lang.NoSuchMethodError: 'java.lang.String com.mojang.blaze3d.systems.RenderSystem.getBackendDescription()'
