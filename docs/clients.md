@@ -48,6 +48,19 @@ BakaXL: https://www.BakaXL.com
 | 1285   | 配置文件冲突 / 内存不足 / Mods 冲突    | 给游戏分配更多的内存或尝试重新安装游戏                       |
 | 1286   | 内存溢出 / 显卡驱动                 | 给游戏分配更多的内存或尝试更新显卡驱动                       |
 
+### 驱动问题
+
+日志
+
+```
+[11:24:01] [main/INFO]: Incorrect key [earlyWindowSkipGLVersions] was corrected from null to []
+[11:24:01] [main/INFO]: Incorrect key [earlyWindowSquir] was corrected from null to false
+```
+
+解决方法：请检查您的驱动是否为最新
+AMD:https://www.amd.com/zh-hans/support
+Nvidia:https://www.nvidia.cn/geforce/drivers/
+
 ## 原版游戏
 
 > 以下的原版游戏皆指 **未安装 OptiFine 或者 Mod 加载器等修改原版核心工具** 的 Minecraft 游戏实例。
