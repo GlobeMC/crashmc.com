@@ -26,7 +26,7 @@ BakaXL: https://www.BakaXL.com
 
 ## 说明及名词解释
 
-`Forge`、`NeoForge`、`Fabric`、`Quilt` 均为 Mod 加载器，绝大多数的崩溃和 Mod 安装不正确有关。
+`Forge`、`NeoForge`、`Fabric`、`Quilt`、`LiteLoader` 均为 Mod 加载器，绝大多数的崩溃和 Mod 安装不正确有关。
 
 `OptiFine`*(高清修复)* 是一个 Mod，它可以提高游戏的帧率，减少游戏的卡顿和延迟，并提供更多的图像设置。不正确的使用此 Mod 很容易导致崩溃，不建议和多个优化 Mods 同时安装。
 
