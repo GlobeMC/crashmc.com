@@ -35,7 +35,7 @@ const members = [
     ]
   },
   {
-    avatar: 'https://github.com/bingxin666.png',
+    avatar: 'https://jsd.onmicrosoft.cn/avatar/4db948c2483ceca88a6ade051f37dc1e.png',
     name: 'bingxin666',
     title: '文档贡献者',
     links: [
