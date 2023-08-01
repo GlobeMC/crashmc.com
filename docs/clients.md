@@ -53,16 +53,16 @@ BakaXL: https://www.BakaXL.com
 日志
 
 ```
-[11:24:01] [main/INFO]: Incorrect key [earlyWindowSkipGLVersions] was corrected from null to []
-[11:24:01] [main/INFO]: Incorrect key [earlyWindowSquir] was corrected from null to false
+Incorrect key [earlyWindowSkipGLVersions] was corrected from null to []
+Incorrect key [earlyWindowSquir] was corrected from null to false
 ```
 
-解决方法：请检查您的驱动是否为最新
-AMD:<https://www.amd.com/zh-hans/support>
+解决方法：
 
-intel:<https://www.intel.cn/content/www/cn/zh/download-center/home.html>
+请检查您的驱动是否为最新
 
-Nvidia:<https://www.nvidia.cn/geforce/drivers/>
+
+驱动下载：[Intel](https://www.intel.cn/content/www/cn/zh/download-center/home.html) | [AMD](https://www.amd.com/zh-hans/support) | [Nvidia](https://www.nvidia.cn/geforce/drivers/)
 
 ## 原版游戏
 
