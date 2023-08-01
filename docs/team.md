@@ -27,7 +27,7 @@ const members = [
     ]
   },
   {
-    avatar: 'https://github.com/2623684696.png',
+    avatar: 'https://gravatar.loli.net/avatar/e5749fc6095cfe035dd18d405400c289.png',
     name: '233355607',
     title: '域名管理',
     links: [
@@ -80,6 +80,14 @@ const members = [
     title: '文档贡献者',
     links: [
       { icon: 'github', link: 'https://github.com/ZhuRuoLing' },
+    ]
+  },
+  {
+    avatar: 'https://gravatar.loli.net/avatar/581d7a85fb19ae52a34a93447f707b17.png',
+    name: 'Z_Tsin',
+    title: '文档贡献者',
+    links: [
+      { icon: 'github', link: 'https://github.com/ztsinsun' },
     ]
   },
 ]
