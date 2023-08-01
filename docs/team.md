@@ -19,7 +19,7 @@ const members = [
     ]
   },
   {
-    avatar: 'https://gravatar.loli.net/avatar/2defd5540f480625cf9d09e5d4c3b7c4.png',
+    avatar: 'https://jsd.onmicrosoft.cn/avatar/2defd5540f480625cf9d09e5d4c3b7c4.png',
     name: 'XieXiLin',
     title: '域名资金支持',
     links: [
@@ -27,7 +27,7 @@ const members = [
     ]
   },
   {
-    avatar: 'https://gravatar.loli.net/avatar/e5749fc6095cfe035dd18d405400c289.png',
+    avatar: 'https://jsd.onmicrosoft.cn/avatar//e5749fc6095cfe035dd18d405400c289.png',
     name: '233355607',
     title: '域名管理',
     links: [
@@ -59,7 +59,7 @@ const members = [
     ]
   },
   {
-    avatar: 'https://gravatar.loli.net/avatar/e4e09756d8e17245eca044adccdc96a8.png',
+    avatar: 'https://jsd.onmicrosoft.cn/avatar/e4e09756d8e17245eca044adccdc96a8.png',
     name: '思源千年',
     title: '文档贡献者',
     links: [
@@ -83,7 +83,7 @@ const members = [
     ]
   },
   {
-    avatar: 'https://gravatar.loli.net/avatar/581d7a85fb19ae52a34a93447f707b17.png',
+    avatar: 'https://jsd.onmicrosoft.cn/avatar/581d7a85fb19ae52a34a93447f707b17.png',
     name: 'Z_Tsin',
     title: '文档贡献者',
     links: [
