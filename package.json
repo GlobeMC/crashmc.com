@@ -10,10 +10,13 @@
   "main": "index.js",
   "devDependencies": {
     "@giscus/vue": "^2.3.0",
+    "@vite-pwa/vitepress": "^0.2.0",
     "tslib": "^2.6.1",
+    "vite-plugin-pwa": "^0.16.4",
     "vitepress": "1.0.0-beta.7",
     "vitepress-plugin-comment-with-giscus": "^1.1.7",
-    "vue": "^3.3.4"
+    "vue": "^3.3.4",
+    "workbox-window": "^7.0.0"
   },
   "keywords": [
     "Minecraft",
