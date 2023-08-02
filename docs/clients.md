@@ -389,14 +389,14 @@ Found multiple arguments for option fml.forgeVersion, but you asked for only one
 
 #### 系统问题
 
-##### Mac 下存在 .DS_Store 文件夹报错
+##### Mac 下存在 .DS_Store 文件报错
 
 ```
 Caused by: net.minecraft.util.ResourceLocationException: Non [a-z0-9_.-] character in namespace of location: .DS_Store:
 net.minecraft.util.ResourceLocationException: Non [a-z0-9_.-] character in namespace of location: .DS_Store:
 ```
 
-解决方法：删除 `.DS_Store` 文件夹
+解决方法：删除 `.DS_Store` 文件
 
 ##### 不兼容 Mac 的 Mod
 
