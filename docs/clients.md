@@ -402,10 +402,10 @@ net.minecraft.util.ResourceLocationException: Non [a-z0-9_.-] character in names
 由于 `.DS_Store` 文件是 MacOS 的隐藏文件, 只能通过执行指令进行删除
 
 1. 进入搜索栏, 搜索 `终端` 或 `Terminal`, 并打开该软件
-2. (可选) 使用 `cd /path/to/gamedir` 指令进入游戏目录
-   - 注1: 官启游戏路径为 `"~/Library/Application Support/minecraft/"`
-   - 注2: 对于其他第三方启动器一般是与启动器文件同级的 `.minecraft` 文件夹  
-   - **注3: `.DS_Store` 用于保存文件移动记录 _(可见并不是非常重要)_ 。但若不在游戏目录下执行本操作, 将无法撤回任何文件移动操作, 并且 `find` 指令耗时也会很长**
+2. (可选) 使用 `cd <游戏路径>` 指令进入游戏目录
+   - 注 1: 官启的 `<游戏路径>` 为 `"~/Library/Application Support/minecraft/"`
+   - 注 2: 对于其他第三方启动器的 `<游戏路径>` 一般是与启动器文件同级的 `.minecraft` 文件夹  
+   - **注 3: `.DS_Store` 用于保存文件移动记录 _(可见并不是非常重要)_ 。但若不在游戏目录下执行本操作, 将无法撤回任何文件移动操作, 并且 `find` 指令耗时也会很长**
 3. 执行如下指令:
 ```sh
 rm $(find . -name .DS_Store 2>/dev/null)
