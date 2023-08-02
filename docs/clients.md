@@ -69,6 +69,7 @@ BakaXL: https://www.BakaXL.com
 驱动下载：[Intel](https://www.intel.cn/content/www/cn/zh/download-center/home.html) | [AMD](https://www.amd.com/zh-hans/support) | [Nvidia](https://www.nvidia.cn/geforce/drivers/)
 
 关键词：
+关键词
 
 ```
 // 显卡驱动问题
@@ -171,7 +172,7 @@ Could not reserve enough space for 1048576KB object heap
 
 #### 存档损坏
 
-日志
+关键词
 
 ```
 Exception reading *\level.dat
@@ -225,13 +226,13 @@ signer information does not match signer information of other classes in the sam
 
 ##### Java 版本不匹配
 
-解释：有些时候一些 Mod 会要求特殊的 Java 版本，比如 Java 11 。此时使用不正确的 Java 版本将无法启动游戏。
+解释：有些时候一些 Mod 会要求特殊的 Java 版本，比如 Java 11。此时使用不正确的 Java 版本将无法启动游戏。
 
 :::warning 注意
 除非你匹配到了示例中的关键词，否则我们始终建议保持启动器的 **自动决定 Java** 功能为开启状态。
 :::
 
-解决方案：根据 Log 引导使用正确的 Java 版本启动游戏。检查括号内的 `class file version` 后跟随的数字，然后在 Java 版本列表里查找对应的 Java 大版本。
+解决方法：根据 Log 引导使用正确的 Java 版本启动游戏。检查括号内的 `class file version` 后跟随的数字，然后在 Java 版本列表里查找对应的 Java 大版本。
 
 ```
 // 示例中是因为使用的 Java 与 Minecraft 要求的 Java 版本不符导致崩溃，应当使用 Java 17 
@@ -244,7 +245,7 @@ java.lang.UnsupportedClassVersionError: net/fabricmc/loader/impl/launch/knot/Kno
 Unsupported class file major version
 ```
 
-| 日志                                                   | 解决方案                            |
+| 关键词                                                   | 解决方法                            |
 | ------------------------------------------------------ | ----------------------------------- |
 | `no such method: sun.misc.Unsafe.defineAnonymousClass` | Java 版本过高，降低 Java 版本至 17 以下 |
 
@@ -425,7 +426,6 @@ which is missing!
 
 ### Quilt
 
-
 #### 缺少前置
 
 解释：有 Mod 依赖其他 Mod 运行，但未安装依赖的 Mod
@@ -447,7 +447,7 @@ Sodium Extra requires version [0.4.10, ∞) of sodium, which is missing!
 
 您也可以通过 [MC百科](https://www.mcmod.cn/)、[Modrinth](https://modrinth.com/mods)、[CurseForge](https://www.curseforge.com/minecraft/mc-mods) 等网站搜索 Mods 所需的前置 Mods。
 
-> Modrinth 和 CurseForge 目前为止未提供中文界面，有困难的用户建议使用 MC 百科 进行查询。
+> Modrinth 和 CurseForge 目前为止未提供中文界面，有困难的用户建议使用 MC百科 进行查询。
 
 2. 删除需要前置的 Mod
 
@@ -482,9 +482,9 @@ java.lang.NoSuchMethodError: net.minecraft.world.server.ChunkManager$ProxyTicket
 
 #### Forge 与 OptiFine 兼容性问题导致的崩溃
 
-解释：使用的 Forge 版本过高 / 过低 或 OptiFine 并未兼容该版本的 Forge ，导致游戏崩溃。
+解释：使用的 Forge 版本过高 / 过低 或 OptiFine 并未兼容该版本的 Forge，导致游戏崩溃。
 
-解决方案：前往 [OptiFine 官网](https://optifine.net/downloads) ，按照提示安装对应的 Forge 版本。
+解决方法：前往 [OptiFine 官网](https://optifine.net/downloads) ，按照提示安装对应的 Forge 版本。
 
 提示：
 
