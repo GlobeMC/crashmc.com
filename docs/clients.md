@@ -179,7 +179,7 @@ Could not reserve enough space for 1048576KB object heap
 
 重置核心 <LauncherBadge type="bakaxl" text="BakaXL" />：`核心列表` -> `点击核心` -> `高级核心管理` -> `恢复 / 删除` -> `重置此核心`
 
-更新游戏资源文件 <LauncherBadge type="hmcl" text="HMCL" />：点击左边的`实例名称` -> `管理` -> `更新游戏资源文件`
+更新游戏资源文件 <LauncherBadge type="hmcl" text="HMCL" />：点击左边的 `实例名称` -> `管理` -> `更新游戏资源文件`
 
 补全文件 <LauncherBadge type="pcl" text="PCL2" />：`版本设置` -> `补全文件`
 :::
