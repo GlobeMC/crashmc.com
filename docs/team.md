@@ -97,7 +97,7 @@ const members = [
     links: [
       { icon: 'github', link: 'https://github.com/Hex-Dragon' },
     ]
-  },
+  }
 ]
 </script>
 
