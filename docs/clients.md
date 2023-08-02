@@ -64,7 +64,7 @@ BakaXL: https://www.BakaXL.com
 
 解释：因为你的显卡配置或显卡驱动存在问题，游戏无法正常运行。
 
-解决方法：检查显卡驱动是否为最新；如果有独立显卡的请使用独立显卡运行游戏，而非 Intel 核显。
+解决方法：检查显卡驱动是否为最新；如果有独立显卡的请使用独立显卡运行游戏，而非核显。
 
 驱动下载：[Intel](https://www.intel.cn/content/www/cn/zh/download-center/home.html) | [AMD](https://www.amd.com/zh-hans/support) | [Nvidia](https://www.nvidia.cn/geforce/drivers/)
 
