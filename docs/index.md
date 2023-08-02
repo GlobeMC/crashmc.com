@@ -11,6 +11,9 @@ hero:
     alt: CrashMC
   actions:
     - theme: brand
+      text: 崩溃分析工具
+      link: /analyzer
+    - theme: alt
       text: 客户端崩溃
       link: /clients
     - theme: alt

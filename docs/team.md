@@ -9,6 +9,14 @@ const members = [
     links: [
       { icon: 'github', link: 'https://github.com/bwtx2023' },
     ]
+  },  
+  {
+    avatar: 'https://jsd.onmicrosoft.cn/avatar/1dd95c166685a1aa305e102aa6828a84.png',
+    name: 'HRxiaohu',
+    title: '开发者',
+    links: [
+      { icon: 'github', link: 'https://github.com/HRxiaohu' },
+    ]
   },
   {
     avatar: 'https://jsd.onmicrosoft.cn/avatar/636d113ce37111d08f08faee780ce9b8',

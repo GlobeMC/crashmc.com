@@ -1,6 +1,6 @@
+import { withPwa } from "@vite-pwa/vitepress";
 import process from "node:process";
 import { defineConfig } from "vitepress";
-import { withPwa } from "@vite-pwa/vitepress";
 import { pwa } from "./scripts/pwa";
 
 const COMMIT_ID = process.env.CF_PAGES_COMMIT_SHA || process.env.COMMIT_REF;
@@ -83,6 +83,7 @@ export default withPwa(
         {
           text: "文档",
           items: [
+            { text: "崩溃分析工具", link: "/analyzer" },
             { text: "客户端崩溃", link: "/clients" },
             { text: "服务端崩溃", link: "/servers" },
             { text: "Mixin", link: "/mixin" },
