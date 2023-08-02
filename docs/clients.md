@@ -175,14 +175,13 @@ Could not reserve enough space for 1048576KB object heap
 
 如果你是在安装一个新的 MC 版本之后发生了崩溃，那么请确保你的网络连接良好，然后前往启动器内使用 **补全文件** 功能。
 
-:::tip 提示
-附常用启动器补全功能位置：
+:::details 常见的第三方启动器补全功能位置
 
-重置核心 <LauncherBadge type="bakaxl" text="BakaXL" /> ：核心列表 -> 点击核心 -> 高级核心管理 -> 恢复 / 删除 -> 重置此核心
+<LauncherBadge type="bakaxl" text="BakaXL" /> 重置核心：核心列表 -> 点击核心 -> 高级核心管理 -> 恢复 / 删除 -> 重置此核心
 
-更新游戏资源文件 <LauncherBadge type="hmcl" text="HMCL" /> ：点击左边的实例名称 -> 管理 -> 更新游戏资源文件
+<LauncherBadge type="hmcl" text="HMCL" /> 更新游戏资源文件：点击左边的实例名称 -> 管理 -> 更新游戏资源文件
 
-补全文件 <LauncherBadge type="pcl" text="PCL2" /> ：版本设置 -> 补全文件
+<LauncherBadge type="pcl" text="PCL2" />补全文件：版本设置 -> 补全文件
 :::
 
 如果你在启动游戏时弹出了 **含有 OpenGL 字样** 的英文弹窗，请前往你使用的显卡官网下载对应你显卡的最新驱动并安装。如果你使用的是 3 代及以前的 Intel 核显，则理论上无法游玩任何需要 Java 17 的版本。你也可以尝试使用软渲染器<LauncherBadge type="hmcl" text="仅 HMCL" />（在 `游戏特定设置` -> `高级设置` -> `渲染器` 里修改），但这可能会严重降低游戏性能。
@@ -221,14 +220,13 @@ Maybe try a lower resolution resourcepack?
 
 解决方案：使用启动器补全文件，抑或是重新下载游戏。
 
-:::tip 提示
-附常用启动器补全功能位置：
+:::details 常见的第三方启动器补全功能位置
 
-重置核心 <LauncherBadge type="bakaxl" text="BakaXL" /> ：核心列表 -> 点击核心 -> 高级核心管理 -> 恢复 / 删除 -> 重置此核心
+<LauncherBadge type="bakaxl" text="BakaXL" /> 重置核心：核心列表 -> 点击核心 -> 高级核心管理 -> 恢复 / 删除 -> 重置此核心
 
-更新游戏资源文件 <LauncherBadge type="hmcl" text="HMCL" /> ：点击左边的实例名称 -> 管理 -> 更新游戏资源文件
+<LauncherBadge type="hmcl" text="HMCL" /> 更新游戏资源文件：点击左边的实例名称 -> 管理 -> 更新游戏资源文件
 
-补全文件 <LauncherBadge type="pcl" text="PCL2" /> ：版本设置 -> 补全文件
+<LauncherBadge type="pcl" text="PCL2" />补全文件：版本设置 -> 补全文件
 :::
 
 关键词：
@@ -295,11 +293,13 @@ Unsupported class file major version
 
 解决方案：卸载当前 Java 8 ，然后前往其他地方获取版本号小于等于 8u312 且大于等于 8u51 的 Java 8。
 
-在启动器设置中获取 Java <LauncherBadge type="bakaxl" text="BakaXL" /> ：前往 `本体设置 - Java 虚拟机与内存` ，点击 `获取 Java 8` 。
+:::details 常见的第三方启动器获取 Java 方法
+在<LauncherBadge type="bakaxl" text="BakaXL" />启动器设置中获取 Java：前往 `本体设置 - Java 虚拟机与内存` ，点击获取对应的 Java 版本。
 
-在启动器中获取 Java <LauncherBadge type="pcl" text="PCL2" /> ：卸载当前所有 Java 8 后重启启动器，直接点击启动游戏，启动器提示自动补全 Java 时，点击 `自动下载` 。
+在<LauncherBadge type="pcl" text="PCL2" />启动器中获取 Java：卸载当前 Java 后重启启动器，直接点击启动游戏，启动器提示自动补全 Java 时，点击 `自动下载` 。
 
-在启动器中获取 Java <LauncherBadge type="hmcl" text="HMCL" /> ：卸载当前 Java 后重启启动器，按照启动器引导下载 Java。
+在<LauncherBadge type="hmcl" text="HMCL" />启动器中获取 Java：卸载当前 Java 后重启启动器，按照启动器引导下载 Java。
+:::
 
 #### Mod 重复安装
 
