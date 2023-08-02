@@ -376,7 +376,7 @@ class io.github.reserveword.imblocker.IMBlocker$RegistryEvents
 java.lang.IllegalStateException: GLFW error before init: [0x10008]Cocoa: Failed to find service port for display
 ```
 
-解决方法<Badge type="warning" text="实验性">：先开一个浏览器全屏，然后启动游戏，在还没弹出窗口的时候迅速切回浏览器，等差不多游戏窗口出来了之后再切回去。
+解决方法<Badge type="warning" text="实验性" />：先开一个浏览器全屏，然后启动游戏，在还没弹出窗口的时候迅速切回浏览器，等差不多游戏窗口出来了之后再切回去。
 
 ### NeoForge
 
