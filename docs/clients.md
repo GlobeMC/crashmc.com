@@ -123,19 +123,31 @@ OpenJ9 is incompatible
 
 解释：由于使用了 32 位 Java 且分配了 1G 以上内存，导致游戏无法正常启动。
 
-解决方案：
+解决方法：
 
-方案一（适用于 64 位系统，请自行检查系统位数）：卸载当前 Java ，然后去其他地方重新获取 64 位的 Java 。
+1.
+:::warning 注意
+此方法仅适用于 64 位系统。
+:::
+卸载当前 Java ，然后去其他地方重新获取 64 位的 Java。
 
 在启动器设置中获取 Java <LauncherBadge type="bakaxl" text="BakaXL" /> ：前往 `本体设置 - Java 虚拟机与内存` ，点击获取对应的 Java 版本。
 
 在启动器中获取 Java <LauncherBadge type="pcl" text="PCL2" /> ：卸载当前 Java 后重启启动器，直接点击启动游戏，启动器提示自动补全 Java 时，点击 `自动下载` 。
 
-在启动器中获取 Java <LauncherBadge type="hmcl" text="HMCL" /> ：卸载当前 Java 后重启启动器，按照启动器引导下载 Java 。
+在启动器中获取 Java <LauncherBadge type="hmcl" text="HMCL" /> ：卸载当前 Java 后重启启动器，按照启动器引导下载 Java。
 
-方案二（不推荐，但 32 位系统只能这么办）：在启动器的内存设置中调整游戏内存分配至小于等于 1G （1G = 1024M）。
+2.
+:::warning 注意
+不推荐使用此方法，可能会导致游戏卡顿，但 32 位系统只能这么做。
+:::
+在启动器的内存设置中调整游戏内存分配至小于等于 1G （1G = 1024M）。
 
-方案三（需要一定技术基础，适用于 32 位系统但是 64 位处理器）：自行重装系统为 64 位。你可以使用微软官方提供的重装工具，抑或是使用 `EasyRC 一键重装` 等无捆绑一键重装工具。
+3.
+:::warning 注意
+需要一定技术基础，适用于 32 位系统，但为 64 位处理器。
+:::
+自行重装系统为 64 位。你可以使用微软官方提供的重装工具，抑或是使用 `EasyRC 一键重装` 等无捆绑一键重装工具。
 
 关键词：
 
@@ -279,7 +291,7 @@ Unsupported class file major version
 
 在启动器中获取 Java <LauncherBadge type="pcl" text="仅 PCL2" /> ：卸载当前所有 Java 8 后重启启动器，直接点击启动游戏，启动器提示自动补全 Java 时，点击 `自动下载` 。
 
-在启动器中获取 Java <LauncherBadge type="hmcl" text="HMCL" /> ：卸载当前 Java 后重启启动器，按照启动器引导下载 Java 。
+在启动器中获取 Java <LauncherBadge type="hmcl" text="HMCL" /> ：卸载当前 Java 后重启启动器，按照启动器引导下载 Java。
 
 #### Mod 重复安装
 
@@ -311,7 +323,7 @@ maximum id range exceeded
 
 解释：因为 Mod 文件被解压了，游戏无法继续运行。
 
-解决方案：删除 Mods 文件夹中已被解压的 Mod ，然后重新获取被删除的 Mod 。
+解决方案：删除 Mods 文件夹中已被解压的 Mod ，然后重新获取被删除的 Mod。
 
 关键词：
 
@@ -403,7 +415,7 @@ Unmet dependency listing:
 
 您也可以通过 [MC百科](https://www.mcmod.cn/)、[Modrinth](https://modrinth.com/mods)、[CurseForge](https://www.curseforge.com/minecraft/mc-mods) 等网站搜索 Mods 所需的前置 Mods。
 
-> Modrinth 和 CurseForge 目前为止未提供中文界面，有困难的用户建议使用 MC 百科 进行查询。
+> Modrinth 和 CurseForge 目前为止未提供中文界面，有困难的用户建议使用 MC百科 进行查询。
 
 2. 删除需要前置的 Mod
 
