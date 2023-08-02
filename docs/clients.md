@@ -120,7 +120,7 @@ Could not reserve enough space
 :::details 其他 Java 获取方法
 从官网下载并手动安装 Java: [Java 8](https://www.java.com/zh-CN/download/) | [JDK 17+](https://www.oracle.com/java/technologies/downloads/)
 
-获取全版本已存档的 JDK 包: <https://jdk.java.net/archive/>
+获取 (Java 9+) 且已存档的 JDK 包: <https://jdk.java.net/archive/>
 :::
 
 关键词：
@@ -154,7 +154,7 @@ OpenJ9 is incompatible
 :::details 其他 Java 获取方法
 从官网下载并手动安装 Java: [Java 8](https://www.java.com/zh-CN/download/) | [JDK 17+](https://www.oracle.com/java/technologies/downloads/)
 
-获取全版本已存档的 JDK 包: <https://jdk.java.net/archive/>
+获取 (Java 9+) 且已存档的 JDK 包: <https://jdk.java.net/archive/>
 :::
 
 2.
@@ -316,7 +316,7 @@ Unsupported class file major version
 :::details 其他 Java 获取方法
 从官网下载并手动安装 Java: [Java 8](https://www.java.com/zh-CN/download/) | [JDK 17+](https://www.oracle.com/java/technologies/downloads/)
 
-获取全版本已存档的 JDK 包: <https://jdk.java.net/archive/>
+获取 (Java 9+) 且已存档的 JDK 包: <https://jdk.java.net/archive/>
 :::
 
 #### Mod 重复安装
