@@ -86,9 +86,9 @@ The driver does not appear to support OpenGL
 
 解决方案：检查游戏分配的内存大小；尽可能关闭系统内运行的其他程序，然后再次启动游戏。
 
-内存清理 <LauncherBadge type="bakaxl" text="BakaXL" /> ：前往 `本体设置 - Java 虚拟机与内存` ，确保 `自动设置内存` 设置为开，然后展开 `内存高级设置` ，点击 `强制释放内存` （可多次点击），然后再次启动游戏。
+内存清理 <LauncherBadge type="bakaxl" text="BakaXL" /> ：前往 `本体设置` -> `Java 虚拟机与内存` ，确保 `自动设置内存` 设置为开，然后展开 `内存高级设置` ，点击 `强制释放内存` （可多次点击），然后再次启动游戏。
 
-内存优化 <LauncherBadge type="pcl" text="PCL2" /> ：前往 `设置 - 游戏 - 游戏内存` ，确保内存配置选项为 `自动配置` 。然后前往 `更多 - 百宝箱` ，点击 `内存优化` ，然后按照提示给予启动器管理员权限，等待内存优化完成后再次启动游戏。
+内存优化 <LauncherBadge type="pcl" text="PCL2" /> ：前往 `设置` -> `游戏` -> `游戏内存` ，确保内存配置选项为 `自动配置` 。然后前往 `更多 - 百宝箱` ，点击 `内存优化` ，然后按照提示给予启动器管理员权限，等待内存优化完成后再次启动游戏。
 
 关键词：
 
@@ -110,7 +110,7 @@ Could not reserve enough space
 解决方案：卸载当前 Java ，然后前往其他地方获取一个非 OpenJ9 的 Java。
 
 :::details 常见的第三方启动器获取 Java 方法
-在<LauncherBadge type="bakaxl" text="BakaXL" />启动器设置中获取 Java：前往 `本体设置 - Java 虚拟机与内存` ，点击获取对应的 Java 版本。
+在<LauncherBadge type="bakaxl" text="BakaXL" />启动器设置中获取 Java：前往 `本体设置` -> `Java 虚拟机与内存` ，点击获取对应的 Java 版本。
 
 在<LauncherBadge type="pcl" text="PCL2" />启动器中获取 Java：卸载当前 Java 后重启启动器，直接点击启动游戏，启动器提示自动补全 Java 时，点击 `自动下载` 。
 
@@ -138,7 +138,7 @@ OpenJ9 is incompatible
 卸载当前 Java ，然后去其他地方重新获取 64 位的 Java。
 
 :::details 常见的第三方启动器获取 Java 方法
-在<LauncherBadge type="bakaxl" text="BakaXL" />启动器设置中获取 Java：前往 `本体设置 - Java 虚拟机与内存` ，点击获取对应的 Java 版本。
+在<LauncherBadge type="bakaxl" text="BakaXL" />启动器设置中获取 Java：前往 `本体设置` -> `Java 虚拟机与内存` ，点击获取对应的 Java 版本。
 
 在<LauncherBadge type="pcl" text="PCL2" />启动器中获取 Java：卸载当前 Java 后重启启动器，直接点击启动游戏，启动器提示自动补全 Java 时，点击 `自动下载` 。
 
@@ -177,11 +177,11 @@ Could not reserve enough space for 1048576KB object heap
 
 :::details 常见的第三方启动器补全功能位置
 
-<LauncherBadge type="bakaxl" text="BakaXL" /> 重置核心：核心列表 -> 点击核心 -> 高级核心管理 -> 恢复 / 删除 -> 重置此核心
+重置核心 <LauncherBadge type="bakaxl" text="BakaXL" />：核心列表 -> 点击核心 -> 高级核心管理 -> 恢复 / 删除 -> 重置此核心
 
-<LauncherBadge type="hmcl" text="HMCL" /> 更新游戏资源文件：点击左边的实例名称 -> 管理 -> 更新游戏资源文件
+更新游戏资源文件 <LauncherBadge type="hmcl" text="HMCL" />：点击左边的实例名称 -> 管理 -> 更新游戏资源文件
 
-<LauncherBadge type="pcl" text="PCL2" />补全文件：版本设置 -> 补全文件
+补全文件 <LauncherBadge type="pcl" text="PCL2" />：版本设置 -> 补全文件
 :::
 
 如果你在启动游戏时弹出了 **含有 OpenGL 字样** 的英文弹窗，请前往你使用的显卡官网下载对应你显卡的最新驱动并安装。如果你使用的是 3 代及以前的 Intel 核显，则理论上无法游玩任何需要 Java 17 的版本。你也可以尝试使用软渲染器<LauncherBadge type="hmcl" text="仅 HMCL" />（在 `游戏特定设置` -> `高级设置` -> `渲染器` 里修改），但这可能会严重降低游戏性能。
@@ -222,11 +222,11 @@ Maybe try a lower resolution resourcepack?
 
 :::details 常见的第三方启动器补全功能位置
 
-<LauncherBadge type="bakaxl" text="BakaXL" /> 重置核心：核心列表 -> 点击核心 -> 高级核心管理 -> 恢复 / 删除 -> 重置此核心
+重置核心 <LauncherBadge type="bakaxl" text="BakaXL" />：核心列表 -> 点击核心 -> 高级核心管理 -> 恢复 / 删除 -> 重置此核心
 
-<LauncherBadge type="hmcl" text="HMCL" /> 更新游戏资源文件：点击左边的实例名称 -> 管理 -> 更新游戏资源文件
+更新游戏资源文件 <LauncherBadge type="hmcl" text="HMCL" />：点击左边的实例名称 -> 管理 -> 更新游戏资源文件
 
-<LauncherBadge type="pcl" text="PCL2" />补全文件：版本设置 -> 补全文件
+补全文件 <LauncherBadge type="pcl" text="PCL2" />：版本设置 -> 补全文件
 :::
 
 关键词：
@@ -294,7 +294,7 @@ Unsupported class file major version
 解决方案：卸载当前 Java 8 ，然后前往其他地方获取版本号小于等于 8u312 且大于等于 8u51 的 Java 8。
 
 :::details 常见的第三方启动器获取 Java 方法
-在<LauncherBadge type="bakaxl" text="BakaXL" />启动器设置中获取 Java：前往 `本体设置 - Java 虚拟机与内存` ，点击获取对应的 Java 版本。
+在<LauncherBadge type="bakaxl" text="BakaXL" />启动器设置中获取 Java：前往 `本体设置` -> `Java 虚拟机与内存` ，点击获取对应的 Java 版本。
 
 在<LauncherBadge type="pcl" text="PCL2" />启动器中获取 Java：卸载当前 Java 后重启启动器，直接点击启动游戏，启动器提示自动补全 Java 时，点击 `自动下载` 。
 
@@ -360,7 +360,7 @@ Invalid module name: '' is not a Java identifier
 
 解决方案：
 
-重新安装<LauncherBadge type="hmcl" text="HMCL" /> <LauncherBadge type="pcl" text="PCL2" /> <LauncherBadge type="bakaxl" text="BakaXL" />：请尝试重新全新安装 Forge，而非使用其他启动器修改 Forge 版本。
+重新安装：请尝试重新全新安装 Forge，而非使用其他启动器修改 Forge 版本。
 
 重置核心<LauncherBadge type="bakaxl" text="仅 BakaXL" /> ：前往 `核心列表 - 核心高级设置 - 恢复 / 删除 - 重置此核心` 尝试重置核心。
 
