@@ -22,7 +22,7 @@ BakaXL: https://www.BakaXL.com
 
 **请确保您能够复现崩溃**，并找到 `.minecraft\versions\<实例名称>\logs\latest.log` 文件（如果未启用版本隔离，则为 `.minecraft\logs\latest.log`），开始分析其中的内容。
 
-在下文中，我们可能会提供一系列关键词。您可以定位到 Log 文件中最后一串 Traceback（以许多 at 开头的行）的前一行，选中并复制从 `java.` 开始到最后。然后使用 Ctrl + F 快捷键进行检索，或者将关键词复制到日志文件中进行检索。请注意，原则上每次只查询一行日志，不建议同时复制和查询多行。
+在下文中，我们可能会提供一系列关键词。您可以定位到 Log 文件中最后一串 Traceback（以许多 at 开头的行）的前一行，选中并复制从 `java.` 开始到最后。然后使用 Ctrl + K 快捷键进行检索，或者将关键词复制到日志文件中进行检索。请注意，原则上每次只查询一行日志，不建议同时复制和查询多行。
 
 如果您的游戏因为未响应而崩溃，我们暂时没有办法解决 :(
 
@@ -177,11 +177,11 @@ Could not reserve enough space for 1048576KB object heap
 
 :::details 常见的第三方启动器补全功能位置
 
-重置核心 <LauncherBadge type="bakaxl" text="BakaXL" />：核心列表 -> 点击核心 -> 高级核心管理 -> 恢复 / 删除 -> 重置此核心
+重置核心 <LauncherBadge type="bakaxl" text="BakaXL" />：`核心列表` -> `点击核心` -> `高级核心管理` -> `恢复 / 删除` -> `重置此核心`
 
-更新游戏资源文件 <LauncherBadge type="hmcl" text="HMCL" />：点击左边的实例名称 -> 管理 -> 更新游戏资源文件
+更新游戏资源文件 <LauncherBadge type="hmcl" text="HMCL" />：点击左边的 `实例名称` -> `管理` -> `更新游戏资源文件`
 
-补全文件 <LauncherBadge type="pcl" text="PCL2" />：版本设置 -> 补全文件
+补全文件 <LauncherBadge type="pcl" text="PCL2" />：`版本设置` -> `补全文件`
 :::
 
 如果你在启动游戏时弹出了 **含有 OpenGL 字样** 的英文弹窗，请前往你使用的显卡官网下载对应你显卡的最新驱动并安装。如果你使用的是 3 代及以前的 Intel 核显，则理论上无法游玩任何需要 Java 17 的版本。你也可以尝试使用软渲染器<LauncherBadge type="hmcl" text="仅 HMCL" />（在 `游戏特定设置` -> `高级设置` -> `渲染器` 里修改），但这可能会严重降低游戏性能。
@@ -222,11 +222,11 @@ Maybe try a lower resolution resourcepack?
 
 :::details 常见的第三方启动器补全功能位置
 
-重置核心 <LauncherBadge type="bakaxl" text="BakaXL" />：核心列表 -> 点击核心 -> 高级核心管理 -> 恢复 / 删除 -> 重置此核心
+重置核心 <LauncherBadge type="bakaxl" text="BakaXL" />：`核心列表` -> `点击核心` -> `高级核心管理` -> `恢复 / 删除` -> `重置此核心`
 
-更新游戏资源文件 <LauncherBadge type="hmcl" text="HMCL" />：点击左边的实例名称 -> 管理 -> 更新游戏资源文件
+更新游戏资源文件 <LauncherBadge type="hmcl" text="HMCL" />：点击左边的 `实例名称` -> `管理` -> `更新游戏资源文件`
 
-补全文件 <LauncherBadge type="pcl" text="PCL2" />：版本设置 -> 补全文件
+补全文件 <LauncherBadge type="pcl" text="PCL2" />：`版本设置` -> `补全文件`
 :::
 
 关键词：
@@ -362,7 +362,7 @@ Invalid module name: '' is not a Java identifier
 
 重新安装：请尝试重新全新安装 Forge，而非使用其他启动器修改 Forge 版本。
 
-重置核心<LauncherBadge type="bakaxl" text="仅 BakaXL" /> ：前往 `核心列表 - 核心高级设置 - 恢复 / 删除 - 重置此核心` 尝试重置核心。
+重置核心<LauncherBadge type="bakaxl" text="仅 BakaXL" /> ：前往 `核心列表` -> `核心高级设置` -> `恢复 / 删除` -> `重置此核心` 尝试重置核心。
 
 关键词：
 ```
