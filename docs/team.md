@@ -90,6 +90,14 @@ const members = [
       { icon: 'github', link: 'https://github.com/ztsinsun' },
     ]
   },
+  {
+    avatar: 'https://github.com/Hex-Dragon.png',
+    name: 'Hex Dragon',
+    title: '文档贡献组织',
+    links: [
+      { icon: 'github', link: 'https://github.com/Hex-Dragon' },
+    ]
+  },
 ]
 </script>
 
