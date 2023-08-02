@@ -117,6 +117,10 @@ Could not reserve enough space
 在<LauncherBadge type="hmcl" text="HMCL" />启动器中获取 Java：卸载当前 Java 后重启启动器，按照启动器引导下载 Java。
 :::
 
+:::details 其他 Java 获取方法
+从官网下载并手动安装 Java: [Java 8](https://www.java.com/zh-CN/download/) | [Java 17+](https://www.oracle.com/java/technologies/downloads/)
+:::
+
 关键词：
 
 ```
@@ -143,6 +147,10 @@ OpenJ9 is incompatible
 在<LauncherBadge type="pcl" text="PCL2" />启动器中获取 Java：卸载当前 Java 后重启启动器，直接点击启动游戏，启动器提示自动补全 Java 时，点击 `自动下载` 。
 
 在<LauncherBadge type="hmcl" text="HMCL" />启动器中获取 Java：卸载当前 Java 后重启启动器，按照启动器引导下载 Java。
+:::
+
+:::details 其他 Java 获取方法
+从官网下载并手动安装 Java: [Java 8](https://www.java.com/zh-CN/download/) | [Java 17+](https://www.oracle.com/java/technologies/downloads/)
 :::
 
 2.
@@ -299,6 +307,10 @@ Unsupported class file major version
 在<LauncherBadge type="pcl" text="PCL2" />启动器中获取 Java：卸载当前 Java 后重启启动器，直接点击启动游戏，启动器提示自动补全 Java 时，点击 `自动下载` 。
 
 在<LauncherBadge type="hmcl" text="HMCL" />启动器中获取 Java：卸载当前 Java 后重启启动器，按照启动器引导下载 Java。
+:::
+
+:::details 其他 Java 获取方法
+从官网下载并手动安装 Java: [Java 8](https://www.java.com/zh-CN/download/) | [Java 17+](https://www.oracle.com/java/technologies/downloads/)
 :::
 
 #### Mod 重复安装
