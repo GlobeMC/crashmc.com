@@ -18,8 +18,6 @@ PCL2: https://afdian.net/a/LTCat
 BakaXL: https://www.BakaXL.com
 
 若在启动 BakaXL 或 PCL2 时出现了 .NET Framework 异常，请在 [此处](https://dotnet.microsoft.com/zh-cn/download/dotnet-framework/thank-you/net48-offline-installer) 下载安装 .NET Framework 4.8。
-
-若在启动 BakaXL 或 PCL2 时出现了 .NET Framework 异常，请在 [此处](https://dotnet.microsoft.com/zh-cn/download/dotnet-framework/thank-you/net48-offline-installer) 下载安装 .NET Framework 4.8。
 :::
 
 **请确保您能够复现崩溃**，并找到 `.minecraft\versions\<实例名称>\logs\latest.log` 文件（如果未启用版本隔离，则为 `.minecraft\logs\latest.log`），开始分析其中的内容。
@@ -27,18 +25,6 @@ BakaXL: https://www.BakaXL.com
 在下文中，我们可能会提供一系列关键词。您可以定位到 Log 文件中最后一串 Traceback（以许多 at 开头的行）的前一行，选中并复制从 `java.` 开始到最后。然后使用 Ctrl + F 快捷键进行检索，或者将关键词复制到日志文件中进行检索。请注意，原则上每次只查询一行日志，不建议同时复制和查询多行。
 
 如果您的游戏因为未响应而崩溃，我们暂时没有办法解决 :(
-
-:::warning 注意
-本文档主要针对 Windows 7 及以上版本 和 macOS 10.10 及以上版本编写。
-
-如果您是使用 Windows XP / Windows Vista / Linux 的极客用户，我们不一定提供相关参考，文中方案也不一定适用于您的系统环境，由此带来的任何问题请您发扬极客精神自行解决。
-
-**本文档所提供的方案仅供参考，您操作造成的问题由您自行承担！**
-
-**本文档所提供的方案仅供参考，您操作造成的问题由您自行承担！！**
-
-**本文档所提供的方案仅供参考，您操作造成的问题由您自行承担！！！**
-:::
 
 :::warning 注意
 本文档主要针对 Windows 7 及以上版本 和 macOS 10.10 及以上版本编写。
@@ -61,16 +47,13 @@ BakaXL: https://www.BakaXL.com
 `Java` 是 Minecraft *(我的世界)* 启动所必须的环境。在 1.16 及之前的版本推荐使用 Java 8。在 1.17 及以后的版本，需要使用 Java 17 及更高的版本。
 
 ## 通用常见问题
-## 通用常见问题
 
-### OpenGL 错误（聊天栏中出现）
 ### OpenGL 错误（聊天栏中出现）
 
 | 错误码 | 可能原因                          | 解决方法                                                     |
 | ------ | --------------------------------- | ------------------------------------------------------------ |
 | 1280   | OptiFine / Mods 冲突 / OpenGL 版本错误 | 更换 OptiFine 版本、检查 Mods 冲突或尝试更新显卡驱动           |
 | 1281   | Mods / 图像设置 / 显卡驱动 / 光影       | 尝试更新显卡驱动或检查 Mods 问题(如检查后无问题,则暂时无解)    |
-| 1282   | 显卡驱动 / Mods 冲突 / 着色器出错      | 更换游戏版本，更换 OptiFine 版本，检查 Mods 问题，检查材质包和光影包，或更换显卡驱动 |
 | 1282   | 显卡驱动 / Mods 冲突 / 着色器出错      | 更换游戏版本，更换 OptiFine 版本，检查 Mods 问题，检查材质包和光影包，或更换显卡驱动 |
 | 1283   | Mods                              | 更换光影或检查 Mods 问题                                       |
 | 1284   | 显卡驱动 / Mods 冲突 / 着色器出错      | 更换光影或检查 Mods 问题                                       |
