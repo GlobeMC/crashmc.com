@@ -107,13 +107,15 @@ Could not reserve enough space
 
 解释：游戏因为使用 OpenJ9 而崩溃了。
 
-解决方案：卸载当前 Java ，然后前往其他地方获取一个非 OpenJ9 的 Java 。
+解决方案：卸载当前 Java ，然后前往其他地方获取一个非 OpenJ9 的 Java。
 
-在启动器设置中获取 Java <LauncherBadge type="bakaxl" text="BakaXL" /> ：前往 `本体设置 - Java 虚拟机与内存` ，点击获取对应的 Java 版本。
+:::details 常见的第三方启动器获取 Java 方法
+在<LauncherBadge type="bakaxl" text="BakaXL" />启动器设置中获取 Java：前往 `本体设置 - Java 虚拟机与内存` ，点击获取对应的 Java 版本。
 
-在启动器中获取 Java <LauncherBadge type="pcl" text="PCL2" /> ：卸载当前 Java 后重启启动器，直接点击启动游戏，启动器提示自动补全 Java 时，点击 `自动下载` 。
+在<LauncherBadge type="pcl" text="PCL2" />启动器中获取 Java：卸载当前 Java 后重启启动器，直接点击启动游戏，启动器提示自动补全 Java 时，点击 `自动下载` 。
 
-在启动器中获取 Java <LauncherBadge type="hmcl" text="HMCL" /> ：卸载当前 Java 后重启启动器，按照启动器引导下载 Java 。
+在<LauncherBadge type="hmcl" text="HMCL" />启动器中获取 Java：卸载当前 Java 后重启启动器，按照启动器引导下载 Java。
+:::
 
 关键词：
 
@@ -135,11 +137,13 @@ OpenJ9 is incompatible
 :::
 卸载当前 Java ，然后去其他地方重新获取 64 位的 Java。
 
-在启动器设置中获取 Java <LauncherBadge type="bakaxl" text="BakaXL" /> ：前往 `本体设置 - Java 虚拟机与内存` ，点击获取对应的 Java 版本。
+:::details 常见的第三方启动器获取 Java 方法
+在<LauncherBadge type="bakaxl" text="BakaXL" />启动器设置中获取 Java：前往 `本体设置 - Java 虚拟机与内存` ，点击获取对应的 Java 版本。
 
-在启动器中获取 Java <LauncherBadge type="pcl" text="PCL2" /> ：卸载当前 Java 后重启启动器，直接点击启动游戏，启动器提示自动补全 Java 时，点击 `自动下载` 。
+在<LauncherBadge type="pcl" text="PCL2" />启动器中获取 Java：卸载当前 Java 后重启启动器，直接点击启动游戏，启动器提示自动补全 Java 时，点击 `自动下载` 。
 
-在启动器中获取 Java <LauncherBadge type="hmcl" text="HMCL" /> ：卸载当前 Java 后重启启动器，按照启动器引导下载 Java。
+在<LauncherBadge type="hmcl" text="HMCL" />启动器中获取 Java：卸载当前 Java 后重启启动器，按照启动器引导下载 Java。
+:::
 
 2.
 :::warning 注意
