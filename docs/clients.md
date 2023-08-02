@@ -177,11 +177,11 @@ Could not reserve enough space for 1048576KB object heap
 
 :::details 常见的第三方启动器补全功能位置
 
-重置核心 <LauncherBadge type="bakaxl" text="BakaXL" />：核心列表 -> 点击核心 -> 高级核心管理 -> 恢复 / 删除 -> 重置此核心
+重置核心 <LauncherBadge type="bakaxl" text="BakaXL" />：`核心列表` -> `点击核心` -> `高级核心管理` -> `恢复 / 删除` -> `重置此核心`
 
-更新游戏资源文件 <LauncherBadge type="hmcl" text="HMCL" />：点击左边的实例名称 -> 管理 -> 更新游戏资源文件
+更新游戏资源文件 <LauncherBadge type="hmcl" text="HMCL" />：点击左边的`实例名称` -> `管理` -> `更新游戏资源文件`
 
-补全文件 <LauncherBadge type="pcl" text="PCL2" />：版本设置 -> 补全文件
+补全文件 <LauncherBadge type="pcl" text="PCL2" />：`版本设置` -> `补全文件`
 :::
 
 如果你在启动游戏时弹出了 **含有 OpenGL 字样** 的英文弹窗，请前往你使用的显卡官网下载对应你显卡的最新驱动并安装。如果你使用的是 3 代及以前的 Intel 核显，则理论上无法游玩任何需要 Java 17 的版本。你也可以尝试使用软渲染器<LauncherBadge type="hmcl" text="仅 HMCL" />（在 `游戏特定设置` -> `高级设置` -> `渲染器` 里修改），但这可能会严重降低游戏性能。
@@ -222,11 +222,11 @@ Maybe try a lower resolution resourcepack?
 
 :::details 常见的第三方启动器补全功能位置
 
-重置核心 <LauncherBadge type="bakaxl" text="BakaXL" />：核心列表 -> 点击核心 -> 高级核心管理 -> 恢复 / 删除 -> 重置此核心
+重置核心 <LauncherBadge type="bakaxl" text="BakaXL" />：`核心列表` -> `点击核心` -> `高级核心管理` -> `恢复 / 删除` -> `重置此核心`
 
-更新游戏资源文件 <LauncherBadge type="hmcl" text="HMCL" />：点击左边的实例名称 -> 管理 -> 更新游戏资源文件
+更新游戏资源文件 <LauncherBadge type="hmcl" text="HMCL" />：点击左边的`实例名称` -> `管理` -> `更新游戏资源文件`
 
-补全文件 <LauncherBadge type="pcl" text="PCL2" />：版本设置 -> 补全文件
+补全文件 <LauncherBadge type="pcl" text="PCL2" />：`版本设置` -> `补全文件`
 :::
 
 关键词：
@@ -362,7 +362,7 @@ Invalid module name: '' is not a Java identifier
 
 重新安装：请尝试重新全新安装 Forge，而非使用其他启动器修改 Forge 版本。
 
-重置核心<LauncherBadge type="bakaxl" text="仅 BakaXL" /> ：前往 `核心列表 - 核心高级设置 - 恢复 / 删除 - 重置此核心` 尝试重置核心。
+重置核心<LauncherBadge type="bakaxl" text="仅 BakaXL" /> ：前往 `核心列表` -> `核心高级设置` -> `恢复 / 删除` -> `重置此核心` 尝试重置核心。
 
 关键词：
 ```
