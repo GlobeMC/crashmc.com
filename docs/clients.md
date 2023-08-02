@@ -69,7 +69,6 @@ BakaXL: https://www.BakaXL.com
 驱动下载：[Intel](https://www.intel.cn/content/www/cn/zh/download-center/home.html) | [AMD](https://www.amd.com/zh-hans/support) | [Nvidia](https://www.nvidia.cn/geforce/drivers/)
 
 关键词：
-关键词
 
 ```
 // 显卡驱动问题
