@@ -109,7 +109,11 @@ Could not reserve enough space
 
 解决方案：卸载当前 Java ，然后前往其他地方获取一个非 OpenJ9 的 Java 。
 
-在启动器设置中获取 Java <LauncherBadge type="bakaxl" text="仅 BakaXL" /> ：前往 `本体设置 - Java 虚拟机与内存` ，点击获取对应的 Java 版本。
+在启动器设置中获取 Java <LauncherBadge type="bakaxl" text="BakaXL" /> ：前往 `本体设置 - Java 虚拟机与内存` ，点击获取对应的 Java 版本。
+
+在启动器中获取 Java <LauncherBadge type="pcl" text="PCL2" /> ：卸载当前 Java 后重启启动器，直接点击启动游戏，启动器提示自动补全 Java 时，点击 `自动下载` 。
+
+在启动器中获取 Java <LauncherBadge type="hmcl" text="HMCL" /> ：卸载当前 Java 后重启启动器，按照启动器引导下载 Java 。
 
 关键词：
 
@@ -287,9 +291,9 @@ Unsupported class file major version
 
 解决方案：卸载当前 Java 8 ，然后前往其他地方获取版本号小于等于 8u312 且大于等于 8u51 的 Java 8。
 
-在启动器设置中获取 Java <LauncherBadge type="bakaxl" text="仅 BakaXL" /> ：前往 `本体设置 - Java 虚拟机与内存` ，点击 `获取 Java 8` 。
+在启动器设置中获取 Java <LauncherBadge type="bakaxl" text="BakaXL" /> ：前往 `本体设置 - Java 虚拟机与内存` ，点击 `获取 Java 8` 。
 
-在启动器中获取 Java <LauncherBadge type="pcl" text="仅 PCL2" /> ：卸载当前所有 Java 8 后重启启动器，直接点击启动游戏，启动器提示自动补全 Java 时，点击 `自动下载` 。
+在启动器中获取 Java <LauncherBadge type="pcl" text="PCL2" /> ：卸载当前所有 Java 8 后重启启动器，直接点击启动游戏，启动器提示自动补全 Java 时，点击 `自动下载` 。
 
 在启动器中获取 Java <LauncherBadge type="hmcl" text="HMCL" /> ：卸载当前 Java 后重启启动器，按照启动器引导下载 Java。
 
