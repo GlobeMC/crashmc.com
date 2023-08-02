@@ -17,7 +17,7 @@ PCL2: https://afdian.net/a/LTCat
 
 BakaXL: https://www.BakaXL.com
 
-若在启动 BakaXL 或 PCL2 时出现了 .NET Framework 异常，请在 [此处](https://dotnet.microsoft.com/zh-cn/download/dotnet-framework/thank-you/net48-offline-installer) 下载安装 .NET Framework 4.8 。
+若在启动 BakaXL 或 PCL2 时出现了 .NET Framework 异常，请在 [此处](https://dotnet.microsoft.com/zh-cn/download/dotnet-framework/thank-you/net48-offline-installer) 下载安装 .NET Framework 4.8。
 :::
 
 **请确保您能够复现崩溃**，并找到 `.minecraft\versions\<实例名称>\logs\latest.log` 文件（如果未启用版本隔离，则为 `.minecraft\logs\latest.log`），开始分析其中的内容。
