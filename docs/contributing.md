@@ -16,9 +16,11 @@ import LauncherBadge from '../components/LauncherBadge.vue'
 
 例：`Minecraft`、`OptiFine`、`What your love is your life`。
 
-在涉及路径时，请在路径的前后加上空格
+在涉及路径时，请在路径的前后加上空格。
 
 例：`路径 D:/PCL/.minecraft/mods 是存放 Mods 的地方`
+
+在涉及任何站外链接时，请优先添加官方链接，尽量避免不必要的第三方链接。
 
 如果某一个解决方案为特定启动器独占功能，请使用 Vue Component 注明。示例如下：
 
