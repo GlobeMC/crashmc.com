@@ -32,7 +32,7 @@ const { title } = useData();
 const giscusConfig = reactive({
 	repo: "GlobeMC/crashmc.com",
 	repoId: "R_kgDOKBR8xw",
-	category: "Announcements",
+	category: "Giscus",
 	categoryId: "DIC_kwDOKBR8x84CYOmB",
 	mapping: "title",
 	strict: "0",
