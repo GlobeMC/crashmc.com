@@ -407,9 +407,9 @@ net.minecraft.util.ResourceLocationException: Non [a-z0-9_.-] character in names
    - 注 2: 其他第三方启动器的 `<游戏路径>` 一般是与启动器文件同级的 `.minecraft` 文件夹  
    - **注 3: `.DS_Store` 用于保存文件移动记录 _(可见并不是非常重要)_ 。但若不在游戏目录下执行本操作, 将无法撤回任何文件移动操作, 并且 `find` 指令耗时也会很长**
 3. 执行如下指令:
-```sh
-rm $(find . -name .DS_Store 2>/dev/null)
-```
+   ```sh
+   rm $(find . -name .DS_Store 2>/dev/null)
+   ```
 :::
 
 ##### 不兼容 Mac 的 Mod
