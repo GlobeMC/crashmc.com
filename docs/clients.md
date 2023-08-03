@@ -475,6 +475,30 @@ net.fabricmc.loader.impl.FormattedException: Mod resolution encountered an incom
 which is missing!
 ```
 
+#### Mod 冲突
+
+解释：由于两个或多个 Mods 互相冲突，导致游戏无法正常运行。
+
+解决方案：移除相互冲突的其中一个 Mod。
+
+```
+// 在示例中，您应该移除 OptiFabric，或移除 Sodium 和 Iris
+net.fabricmc.loader.impl.FormattedException: Mod resolution encountered an incompatible mod set!
+A potential solution has been determined:
+	 - Replace mod 'Sodium' (sodium) 0.4.10+build.27 with any version that is compatible with:
+		 - optifabric 1.13.25
+	 - Replace mod 'Iris' (iris) 1.6.4 with any version that is compatible with:
+		 - optifabric 1.13.25
+```
+
+关键词：
+
+```
+net.fabricmc.loader.impl.FormattedException: Mod resolution encountered an incompatible mod set!
+
+that is compatible with
+```
+
 ### Quilt
 
 #### 缺少前置
