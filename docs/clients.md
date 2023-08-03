@@ -433,6 +433,16 @@ java.lang.IllegalStateException: GLFW error before init: [0x10008]Cocoa: Failed 
 
 ### Fabric
 
+#### 版本不兼容
+
+解释：有 Mod 与当前游戏版本不兼容
+
+```
+// 在示例中，你应该安装 Fabric API 1.20.1 版
+- Mod 'Fabric API' (fabric-api) 0.82.1+1.20 requires any version between 1.20- (inclusive) and 1.20.1- (exclusive) of 'Minecraft' (minecraft), but only the wrong version is present: 1.20.1!
+
+```
+
 #### 缺少前置
 
 解释：有 Mod 依赖其他 Mod 运行，但未安装依赖的 Mod
