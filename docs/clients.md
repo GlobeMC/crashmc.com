@@ -482,7 +482,7 @@ which is missing!
 解决方案：移除相互冲突的其中一个 Mod。
 
 ```
-// 在示例中，你应该移除 OptiFabric，或移除 Sodium 和 Iris
+// 在示例中，您应该移除 OptiFabric，或移除 Sodium 和 Iris
 net.fabricmc.loader.impl.FormattedException: Mod resolution encountered an incompatible mod set!
 A potential solution has been determined:
 	 - Replace mod 'Sodium' (sodium) 0.4.10+build.27 with any version that is compatible with:
