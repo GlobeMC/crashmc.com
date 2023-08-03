@@ -5,3 +5,4 @@ cache
 .pnp.loader.mjs
 .yarn/install-state.gz
 yarn.lock
+.vscode
