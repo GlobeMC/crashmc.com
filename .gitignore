@@ -6,3 +6,4 @@ cache
 .yarn/install-state.gz
 yarn.lock
 .vscode
+logs
