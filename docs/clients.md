@@ -4,48 +4,6 @@ import LauncherBadge from '../components/LauncherBadge.vue'
 
 # 客户端崩溃
 
-## 在此之前...
-
-本文档是为第三方启动器进行最佳优化的。如果您正在使用 **官方启动器**（Minecraft Launcher），我们建议您尝试使用 **第三方启动器** 以复现问题并进行排查。通常情况下，第三方启动器更适合进行 Mod 相关调试。
-
-:::tip 提示
-常见的第三方启动器的官网：
-
-HMCL: https://hmcl.huangyuhui.net
-
-PCL2: https://afdian.net/a/LTCat
-
-BakaXL: https://www.BakaXL.com
-
-若在启动 BakaXL 或 PCL2 时出现了 .NET Framework 异常，请在 [此处](https://dotnet.microsoft.com/zh-cn/download/dotnet-framework/thank-you/net48-offline-installer) 下载安装 .NET Framework 4.8。
-:::
-
-**请确保您能够复现崩溃**，并找到 `.minecraft\versions\<实例名称>\logs\latest.log` 文件（如果未启用版本隔离，则为 `.minecraft\logs\latest.log`），开始分析其中的内容。
-
-在下文中，我们可能会提供一系列关键词。您可以定位到 Log 文件中最后一串 Traceback（以许多 at 开头的行）的前一行，选中并复制从 `java.` 开始到最后。然后使用 Ctrl + K 快捷键进行检索，或者将关键词复制到日志文件中进行检索。请注意，原则上每次只查询一行日志，不建议同时复制和查询多行。
-
-如果您的游戏因为未响应而崩溃，我们暂时没有办法解决 :(
-
-:::warning 注意
-本文档主要针对 Windows 7 及以上版本 和 macOS 10.10 及以上版本编写。
-
-如果您是使用 Windows XP / Windows Vista / Linux 的极客用户，我们不一定提供相关参考，文中方案也不一定适用于您的系统环境，由此带来的任何问题请您发扬极客精神自行解决。
-
-**本文档所提供的方案仅供参考，您操作造成的问题由您自行承担！**
-
-**本文档所提供的方案仅供参考，您操作造成的问题由您自行承担！！**
-
-**本文档所提供的方案仅供参考，您操作造成的问题由您自行承担！！！**
-:::
-
-## 说明及名词解释
-
-`Forge`、`NeoForge`、`Fabric`、`Quilt`、`LiteLoader` 均为 Mod 加载器，绝大多数的崩溃和 Mod 安装不正确有关。
-
-`OptiFine`*(高清修复)* 是一个 Mod，它可以提高游戏的帧率，减少游戏的卡顿和延迟，并提供更多的图像设置。不正确的使用此 Mod 很容易导致崩溃，不建议和多个优化 Mods 同时安装。
-
-`Java` 是 Minecraft *(我的世界)* 启动所必须的环境。在 1.16 及之前的版本推荐使用 Java 8。在 1.17 及以后的版本，需要使用 Java 17 及更高的版本。
-
 ## 通用常见问题
 
 ### OpenGL 错误（聊天栏中出现）
