@@ -1,28 +1,32 @@
 <template>
   <div id="analyzer_main">
-    <h4 style="text-align: center;">请点击按钮上传导出的 .zip/.txt/.log 文件</h4>
+    <h4 style="text-align: center;">请点击按钮上传导出的 .zip/.txt/.log 文件,并尽量不要更改导出文件的名称。</h4>
     <img class="icon_upload" src="../docs/src/logo-upload.svg">
     <div class="file_uploader_container">
       <h4 id="file_uploader_label" for="file_uploader" singleLine="false">{{ labelMsg }}</h4>
-      <button v-bind:disabled="isBtnDisabled" id="file_uploader_btn" onclick="file_uploader.click()">{{ btnMsg }}</button>
+      <button v-bind:disabled="isBtnDisabled" id="file_uploader_btn" data-umami-event="Analysis Button Click"
+        onclick="file_uploader.click()">{{ btnMsg }}</button>
       <input type="file" name="file_uploader" id="file_uploader" @change="Checkfiles" style="display: none;" />
     </div>
   </div>
 </template>
 
 <script setup>
+import JSZip from 'jszip';
 import { ref } from 'vue';
 
 var isBtnDisabled = ref(false);
 var labelMsg = ref('未选择文件');
 var btnMsg = ref('开始上传');
+var launcher = 'Unknown'
 
 function Checkfiles() {
+  launcher = 'Unknown'
   var fup = document.getElementById('file_uploader');
-  var fileName = fup.value;
-  var ext = fileName.substring(fileName.lastIndexOf('.') + 1).toLowerCase();
+  var filePath = fup.value;
+  var ext = filePath.substring(filePath.lastIndexOf('.') + 1).toLowerCase();
   if (ext == "zip" || ext == "log" || ext == "txt") {
-    labelMsg.value = fileName;
+    labelMsg.value = filePath;
     btnMsg.value = "正在分析";
     isBtnDisabled.value = true;
     var file = document.getElementById('file_uploader').files[0]
@@ -38,20 +42,78 @@ function Checkfiles() {
 function StartAnalysis(file, ext) {
   var reader = new FileReader(file);
   if (ext != 'zip') {
-    reader.readAsText(file);
-    reader.onload = (e) => {
-      var logMsg = e.target.result;
-      if (logMsg.includes("BakaXL")) {
-        console.log('BakaXL');
-      }
-    };
+    try {
+      reader.readAsText(file);
+      reader.onload = (e) => {
+        var logMsg = e.target.result;
+        if (logMsg.includes("BakaXL")) {
+          launcher = 'BakaXL'
+          LogAnalysis(logMsg);
+        }
+        if (logMsg.includes('Minecraft Crash Report')) {
+          launcher = 'Vanilla'
+          LogAnalysis(logMsg);
+        }
+      };
+    }
+    catch {
+      FinishAnalysis('ReadLogErr');
+    }
+  }
+  else {
+    try {
+      var logZip = new JSZip();
+      // more files !
+      logZip.loadAsync(file)
+        .then(function (zip) {
+          var result = zip.file('latest.log');
+          if (result == null) {
+            FinishAnalysis('CanFetchLogFile', '0')
+          }
+          else {
+            return result.async("string");
+          }
+        })
+        .then(function (content) {
+          if (file.name.includes('minecraft-exported-crash-info')) {
+            launcher = 'HMCL'
+            LogAnalysis(content);
+          }
+          else if (file.name.includes('错误报告')) {
+            launcher = 'PCL'
+            LogAnalysis(content);
+          }
+        })
+    }
+    catch (error) {
+      FinishAnalysis('UnzipErr', error);
+    }
   }
 }
 
-function BakaXLLogAnalysis(log) {
-
+function LogAnalysis(log) {
+  console.warn(launcher);
+  console.log(log);
+}
+function FinishAnalysis(Status, Msg) {
+  if (Status == 'CanFetchLogFile') {
+    console.error('Zip 文件中不含有 Latest.log');
+    umami.track('Analysis Error', { Status: 'Zip 文件中不含有 Latest.log', ErrMsg: Msg });
+  }
+  else if (Status == 'ReadLogErr') {
+    console.error('Log 文件读取错误');
+    umami.track('Analysis Error', { Status: 'Log 文件读取错误', ErrMsg: Msg });
+  }
+  else if (Status == 'UnzipErr') {
+    console.error('日志文件解压错误');
+    umami.track('Analysis Error', { Status: '日志文件解压错误', ErrMsg: Msg });
+  }
+  else {
+    umami.track('Analysis Finish', { Status: 'Success', Launcher: launcher, CrashReason: 'lorem' });
+  }
 }
 </script>
+
 <style scoped>
 div {
   height: auto;
