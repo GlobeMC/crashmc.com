@@ -66,7 +66,7 @@ BakaXL: https://www.BakaXL.com
 
 解决方法：检查显卡驱动是否为最新；如果有独立显卡的请使用独立显卡运行游戏，而非核显。
 
-驱动下载：[Intel](https://www.intel.cn/content/www/cn/zh/download-center/home.html) | [AMD](https://www.amd.com/zh-hans/support) | [Nvidia](https://www.nvidia.cn/geforce/drivers/)
+驱动下载：[Intel](https://www.intel.cn/content/www/cn/zh/search.html#sort=relevancy&f:@tabfilter=[Downloads]&f:@stm_10385_zh=[%E6%98%BE%E5%8D%A1]) | [AMD](https://www.amd.com/zh-hans/support) | [Nvidia](https://www.nvidia.cn/geforce/drivers/)
 
 关键词：
 
@@ -117,6 +117,12 @@ Could not reserve enough space
 在<LauncherBadge type="hmcl" text="HMCL" />启动器中获取 Java：卸载当前 Java 后重启启动器，按照启动器引导下载 Java。
 :::
 
+:::details 其他 Java 获取方法
+从官网下载并手动安装 Java: [Java 8](https://www.java.com/zh-CN/download/) | [JDK 17+](https://www.oracle.com/java/technologies/downloads/)
+
+获取 (Java 9+) 且已存档的 JDK 包: <https://jdk.java.net/archive/>
+:::
+
 关键词：
 
 ```
@@ -143,6 +149,12 @@ OpenJ9 is incompatible
 在<LauncherBadge type="pcl" text="PCL2" />启动器中获取 Java：卸载当前 Java 后重启启动器，直接点击启动游戏，启动器提示自动补全 Java 时，点击 `自动下载` 。
 
 在<LauncherBadge type="hmcl" text="HMCL" />启动器中获取 Java：卸载当前 Java 后重启启动器，按照启动器引导下载 Java。
+:::
+
+:::details 其他 Java 获取方法
+从官网下载并手动安装 Java: [Java 8](https://www.java.com/zh-CN/download/) | [JDK 17+](https://www.oracle.com/java/technologies/downloads/)
+
+获取 (Java 9+) 且已存档的 JDK 包: <https://jdk.java.net/archive/>
 :::
 
 2.
@@ -301,6 +313,12 @@ Unsupported class file major version
 在<LauncherBadge type="hmcl" text="HMCL" />启动器中获取 Java：卸载当前 Java 后重启启动器，按照启动器引导下载 Java。
 :::
 
+:::details 其他 Java 获取方法
+从官网下载并手动安装 Java: [Java 8](https://www.java.com/zh-CN/download/) | [JDK 17+](https://www.oracle.com/java/technologies/downloads/)
+
+获取 (Java 9+) 且已存档的 JDK 包: <https://jdk.java.net/archive/>
+:::
+
 #### Mod 重复安装
 
 解释：由于有 Mod 重复安装，导致游戏无法正常运行。
@@ -371,14 +389,28 @@ Found multiple arguments for option fml.forgeVersion, but you asked for only one
 
 #### 系统问题
 
-##### Mac 下存在 .DS_Store 文件夹报错
+##### Mac 下存在 .DS_Store 文件报错
 
 ```
 Caused by: net.minecraft.util.ResourceLocationException: Non [a-z0-9_.-] character in namespace of location: .DS_Store:
 net.minecraft.util.ResourceLocationException: Non [a-z0-9_.-] character in namespace of location: .DS_Store:
 ```
 
-解决方法：删除 `.DS_Store` 文件夹
+解决方法：删除 `.DS_Store` 文件
+
+:::details 解决步骤
+由于 `.DS_Store` 文件是 MacOS 的隐藏文件, 只能通过执行指令进行删除
+
+1. 进入搜索栏, 搜索 `终端` 或 `Terminal`, 并打开该软件
+2. (可选) 使用 `cd <游戏路径>` 指令进入游戏目录
+   - 注 1: 官启的 `<游戏路径>` 为 `"~/Library/Application Support/minecraft/"`
+   - 注 2: 其他第三方启动器的 `<游戏路径>` 一般是与启动器文件同级的 `.minecraft` 文件夹  
+   - **注 3: `.DS_Store` 用于保存文件移动记录 _(可见并不是非常重要)_ 。但若不在游戏目录下执行本操作, 将无法撤回任何文件移动操作, 并且 `find` 指令耗时也会很长**
+3. 执行如下指令:
+   ```sh
+   rm $(find . -name .DS_Store 2>/dev/null)
+   ```
+:::
 
 ##### 不兼容 Mac 的 Mod
 
@@ -400,6 +432,16 @@ java.lang.IllegalStateException: GLFW error before init: [0x10008]Cocoa: Failed 
 ### NeoForge
 
 ### Fabric
+
+#### 版本不兼容
+
+解释：有 Mod 与当前游戏版本不兼容
+
+```
+// 在示例中，你应该安装 Fabric API 1.20.1 版
+- Mod 'Fabric API' (fabric-api) 0.82.1+1.20 requires any version between 1.20- (inclusive) and 1.20.1- (exclusive) of 'Minecraft' (minecraft), but only the wrong version is present: 1.20.1!
+
+```
 
 #### 缺少前置
 
@@ -441,6 +483,30 @@ Unmet dependency listing:
 net.fabricmc.loader.impl.FormattedException: Mod resolution encountered an incompatible mod set!
 
 which is missing!
+```
+
+#### Mod 冲突
+
+解释：由于两个或多个 Mods 互相冲突，导致游戏无法正常运行。
+
+解决方案：移除相互冲突的其中一个 Mod。
+
+```
+// 在示例中，您应该移除 OptiFabric，或移除 Sodium 和 Iris
+net.fabricmc.loader.impl.FormattedException: Mod resolution encountered an incompatible mod set!
+A potential solution has been determined:
+	 - Replace mod 'Sodium' (sodium) 0.4.10+build.27 with any version that is compatible with:
+		 - optifabric 1.13.25
+	 - Replace mod 'Iris' (iris) 1.6.4 with any version that is compatible with:
+		 - optifabric 1.13.25
+```
+
+关键词：
+
+```
+net.fabricmc.loader.impl.FormattedException: Mod resolution encountered an incompatible mod set!
+
+that is compatible with
 ```
 
 ### Quilt

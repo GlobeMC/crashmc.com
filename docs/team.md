@@ -3,15 +3,23 @@ import { VPTeamMembers } from 'vitepress/theme'
 
 const members = [
   {
-    avatar: 'https://github.com/bwtx2023.png',
+    avatar: 'https://s1.ax1x.com/2023/08/03/pPiZ9DP.jpg',
     name: 'bwtx2023',
     title: '创建者',
     links: [
       { icon: 'github', link: 'https://github.com/bwtx2023' },
     ]
+  },  
+  {
+    avatar: 'https://s1.ax1x.com/2023/08/02/pPP4Tc6.jpg',
+    name: 'HRxiaohu',
+    title: '开发者',
+    links: [
+      { icon: 'github', link: 'https://github.com/HRxiaohu' },
+    ]
   },
   {
-    avatar: 'https://jsd.onmicrosoft.cn/avatar/636d113ce37111d08f08faee780ce9b8',
+    avatar: 'https://s1.ax1x.com/2023/08/03/pPiZCHf.jpg',
     name: 'Big_Cake',
     title: '站点维护',
     links: [
@@ -43,7 +51,7 @@ const members = [
     ]
   },
   {
-    avatar: 'https://github.com/Rovniced.png',
+    avatar: 'https://s1.ax1x.com/2023/08/03/pPiZiE8.jpg',
     name: 'Enlysure',
     title: '文档贡献者',
     links: [
@@ -67,7 +75,7 @@ const members = [
     ]
   },
   {
-    avatar: 'https://github.com/zkitefly.png',
+    avatar: 'https://s1.ax1x.com/2023/08/03/pPiZFUS.jpg',
     name: 'zkitefly',
     title: '文档贡献者',
     links: [
@@ -75,7 +83,7 @@ const members = [
     ]
   },
   {
-    avatar: 'https://github.com/ZhuRuoLing.png',
+    avatar: 'https://s1.ax1x.com/2023/08/03/pPiZk4g.jpg',
     name: '竹若泠',
     title: '文档贡献者',
     links: [
@@ -91,7 +99,7 @@ const members = [
     ]
   },
   {
-    avatar: 'https://github.com/Hex-Dragon.png',
+    avatar: 'https://s1.ax1x.com/2023/08/03/pPiZECQ.png',
     name: 'Hex Dragon',
     title: '文档贡献组织',
     links: [
@@ -103,6 +111,6 @@ const members = [
 
 # GlobeMC 成员列表
 
-此处列出了 GlobeMC 团队的所有成员，没有他们就不会有团队的立项。
+此处列出了 GlobeMC 团队的所有成员，没有他们就不会有项目的诞生。
 
 <VPTeamMembers size="small" :members="members" />
