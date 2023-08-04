@@ -11,6 +11,7 @@ body:
       label: "描述问题"
       description: 请简单描述您遇到的问题
       placeholder: 问题描述……
+      render: bash
     validations:
       required: true
   - type: textarea
@@ -39,7 +40,7 @@ body:
     attributes:
       label: "操作系统"
       description: 您使用的操作系统是？
-      multiple: true
+      multiple: false
       options:
         - Windows
         - Linux
@@ -47,7 +48,7 @@ body:
     validations:
       required: true
   - type: dropdown
-    id: side
+    id: dropdown
     attributes:
       label: "客户端 / 服务端"
       description: 出现崩溃的位置是客户端 / 服务端？
