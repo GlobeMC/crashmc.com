@@ -212,7 +212,7 @@ net.minecraft.util.crash.CrashException: Loading NBT data
 
 解决方法：
 
-换一个存档
+尝试打开存档目录，然后删除 `level.dat`，并将 `level.dat_old` 重命名为 `level.dat`。
 
 #### 资源包过大
 
