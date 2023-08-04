@@ -13,7 +13,7 @@
       <hr />
       <h4 id="analysis_result_title">分析结果:</h4>
       <p id="analysis_result_msg">分析器歇逼了</p>
-      <button id="redirect_btn" @click="FinishAnalysis">导航到解决方案</button>
+      <button id="redirect_btn" @click="redirectBtnClick">{{ redirectMsg }}</button>
     </div>
   </div>
 </template>
@@ -25,6 +25,7 @@ import { ref } from 'vue';
 var isBtnDisabled = ref(false);
 var labelMsg = ref('未选择文件');
 var btnMsg = ref('开始上传');
+var redirectMsg = ref('导航到解决方案');
 var launcher = 'Unknown'
 var redirect_url = null;
 var increaseOpacTimer = null;
@@ -77,6 +78,8 @@ function Clean() {
   document.getElementById('analysis_result_main').style.display = 'none';
   document.getElementById('analysis_result_main').style.opacity = 0;
   document.getElementById('analysis_result_msg').innerText = '分析器歇逼了';
+  redirectMsg = ref('导航到解决方案');
+  redirect_url = null;
   clearInterval(increaseOpacTimer);
   clearInterval(increaseHeightTimer);
 }
@@ -165,13 +168,12 @@ function StartAnalysis(file, ext) {
   }
 }
 function LogAnalysis(log) {
-  if(''){}
-  else{
-    ShowAnalysisResult('本工具还未收录您所遇到的错误，请点击下方按钮前往 Github 反馈。','https://github.com/GlobeMC/crashmc.com/issues/new')
-  }
+  ShowAnalysisResult('本工具还未收录您所遇到的错误，请点击下方按钮前往 Github 反馈。', 'https://github.com/GlobeMC/crashmc.com/issues/new/choose')
+  umami.track('Analysis Finish', { Status: 'Unrecord', Launcher: launcher });
+  redirectMsg = ref('提交反馈');
 }
-function ShowAnalysisResult(msg,result_url) {
-  redirect_url.value = redirect_url;
+function ShowAnalysisResult(msg, result_url) {
+  redirect_url = result_url;
   document.getElementById('analysis_result_main').style.display = 'block';
   document.getElementById('analysis_result_msg').innerText = msg;
 
@@ -217,6 +219,8 @@ function ShowAnalysisResult(msg,result_url) {
 
   isBtnDisabled.value = false;
   btnMsg.value = '重新上传'
+
+  FinishAnalysis('Success', '0')
 }
 function FinishAnalysis(Status, Msg) {
   if (Status == 'CanFetchLogFile') {
@@ -238,9 +242,12 @@ function FinishAnalysis(Status, Msg) {
     umami.track('Analysis Error', { Status: '日志文件解压错误', ErrMsg: Msg });
   }
   else if (Status == 'Success') {
-    window.location.href = redirect_url;
     umami.track('Analysis Finish', { Status: 'Success', Launcher: launcher, CrashReason: 'lorem' });
   }
+}
+
+function redirectBtnClick() {
+  window.location.href = redirect_url;
 }
 </script>
 

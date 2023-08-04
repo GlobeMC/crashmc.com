@@ -24,6 +24,6 @@ import analyzer from '../components/analyzer.vue'
 
 :::warning 隐私声明
 
-所有文件的分析仅会在本地进行，部分错误信息将会上传到云端。
+所有文件的分析仅会在本地进行，仅会有部分错误信息被上传到云端。
 
 :::

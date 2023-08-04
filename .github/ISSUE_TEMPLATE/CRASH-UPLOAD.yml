@@ -32,6 +32,7 @@ body:
     attributes:
       label: "崩溃日志"
       description: 请将您的崩溃日志粘贴到此处
+      placeholder: 日志...
       render: bash
     validations:
       required: true
