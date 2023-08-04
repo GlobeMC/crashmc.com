@@ -124,7 +124,7 @@ export default withPwa(
         {
           async: "",
           src: "https://status.crashmc.com/script.js",
-          "data-website-id": "6b974786-7a1b-4944-a939-f370c16b1765",
+          "data-website-id": "6c316054-6e56-402b-8246-39311e4ad0a4",
         },
       ],
     ],
