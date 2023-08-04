@@ -5,8 +5,14 @@
     <div class="file_uploader_container">
       <h4 id="file_uploader_label" for="file_uploader" singleLine="false">{{ labelMsg }}</h4>
       <button v-bind:disabled="isBtnDisabled" id="file_uploader_btn" data-umami-event="Analysis Button Click"
-        onclick="file_uploader.click()">{{ btnMsg }}</button>
+        onclick=file_uploader.click();>{{ btnMsg }}</button>
       <input type="file" name="file_uploader" id="file_uploader" @change="Checkfiles" style="display: none;" />
+    </div>
+    <div id="analysis_result_main">
+      <hr />
+      <h4 id="analysis_result_title">分析结果:</h4>
+      <p id="analysis_result_msg">分析器歇逼了</p>
+      <button id="redirect_btn" @click="FinishAnalysis">导航到解决方案</button>
     </div>
   </div>
 </template>
@@ -19,8 +25,21 @@ var isBtnDisabled = ref(false);
 var labelMsg = ref('未选择文件');
 var btnMsg = ref('开始上传');
 var launcher = 'Unknown'
+var redirect_url = null;
+var increaseOpacTimer = null;
+var increaseHeightTimer = null;
+var decreaseHeightTimer = null;
+
+function Clean() {
+  document.getElementById('analysis_result_main').style.display = 'none';
+  document.getElementById('analysis_result_main').style.opacity = 0;
+  document.getElementById('analysis_result_msg').innerText = '分析器歇逼了';
+  clearInterval(increaseOpacTimer);
+  clearInterval(increaseHeightTimer);
+}
 
 function Checkfiles() {
+  Clean();
   launcher = 'Unknown'
   var fup = document.getElementById('file_uploader');
   var filePath = fup.value;
@@ -68,7 +87,20 @@ function StartAnalysis(file, ext) {
         .then(function (zip) {
           var result = zip.file('latest.log');
           if (result == null) {
-            FinishAnalysis('CanFetchLogFile', '0')
+            var result1 = zip.file(/crash-(.*).txt/);
+            if (result == null) {
+              var result2 = zip.file('游戏崩溃前的输出.txt');
+              if (result2 == null) {
+                FinishAnalysis('CanFetchLogFile', '(＃°Д°)')
+              }
+              else {
+                launcher = 'PCL';
+                return result2.async("string");
+              }
+            }
+            else {
+              return result1[0].async("string");
+            }
           }
           else {
             return result.async("string");
@@ -90,25 +122,80 @@ function StartAnalysis(file, ext) {
     }
   }
 }
-
 function LogAnalysis(log) {
   console.warn(launcher);
   console.log(log);
+  ShowAnalysisResult('Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.')
+}
+  
+function ShowAnalysisResult(msg) {
+  document.getElementById('analysis_result_main').style.display = 'block';
+  document.getElementById('analysis_result_msg').innerText = msg;
+
+  //展开动画
+  var count = 0;
+
+  var con = document.getElementById('analysis_result_main');
+  var conHeight = con.offsetHeight;
+  var h = 0; clearInterval(increaseHeightTimer);
+  increaseHeightTimer = setInterval(function () {
+    count += 1;
+    h += 2 + count;
+    if (h >= conHeight) {
+      h = conHeight;
+      clearInterval(increaseHeightTimer);
+    }
+    con.style.height = h + 'px';
+  }, 10);
+
+  setTimeout(function () {
+
+
+    var alpha = 30;
+    //透明度动画
+    var oDiv = document.getElementById('analysis_result_main');//关闭定时器
+    increaseOpacTimer = setInterval(function () {//打开另一个计时器
+      var speed = 0;
+      if (alpha > oDiv) {
+        speed = -10;//设置变化的速度
+      } else {
+        speed = 10;
+      }
+      if (alpha == oDiv) {
+        clearInterval(increaseOpacTimer);//相等的时候关闭计时器
+      } else {
+        alpha += speed;//透明度不断减小
+        oDiv.style.filter = 'alpha(opacity:' + alpha + ')';//IE
+        oDiv.style.opacity = alpha / 100;//火狐，chrome
+      }//改变透明度
+    }, 40)
+
+  }, 300);
+
+  isBtnDisabled.value = false;
+  btnMsg.value = '重新上传'
 }
 function FinishAnalysis(Status, Msg) {
   if (Status == 'CanFetchLogFile') {
-    console.error('Zip 文件中不含有 Latest.log');
-    umami.track('Analysis Error', { Status: 'Zip 文件中不含有 Latest.log', ErrMsg: Msg });
+    labelMsg.value = 'Zip 文件中不含有有效的 Log 文件';
+    btnMsg.value = '重新上传';
+    isBtnDisabled = false;
+    umami.track('Analysis Error', { Status: 'Zip 文件中不含有有效的 Log 文件', ErrMsg: Msg });
   }
   else if (Status == 'ReadLogErr') {
-    console.error('Log 文件读取错误');
+    labelMsg.value = 'Log 文件读取错误';
+    btnMsg.value = '重新上传';
+    isBtnDisabled = false;
     umami.track('Analysis Error', { Status: 'Log 文件读取错误', ErrMsg: Msg });
   }
   else if (Status == 'UnzipErr') {
-    console.error('日志文件解压错误');
+    labelMsg.value = '日志文件解压错误';
+    btnMsg.value = '重新上传';
+    isBtnDisabled = false;
     umami.track('Analysis Error', { Status: '日志文件解压错误', ErrMsg: Msg });
   }
-  else {
+  else if (Status == 'Success') {
+    window.location.href = redirect_url;
     umami.track('Analysis Finish', { Status: 'Success', Launcher: launcher, CrashReason: 'lorem' });
   }
 }
@@ -116,8 +203,22 @@ function FinishAnalysis(Status, Msg) {
 
 <style scoped>
 div {
-  height: auto;
-  width: auto;
+  height: 100%;
+  width: 100%;
+}
+
+p {
+  margin: 0;
+  padding: 0;
+}
+
+#analysis_result_main {
+  display: none;
+  opacity: 0;
+}
+
+#analysis_result_title {
+  margin-top: 10px;
 }
 
 #analyzer_main {
@@ -129,6 +230,14 @@ div {
   padding: 16px 16px 8px;
   line-height: 24px;
   font-size: var(--vp-custom-block-font-size);
+  display: block;
+}
+
+#analysis_result_main {
+  text-align: center;
+  margin: auto;
+  width: 100%;
+  height: 100%;
 }
 
 .icon_upload {
@@ -144,7 +253,7 @@ div {
   height: 100%;
 }
 
-#file_uploader_btn {
+button {
   margin-top: 3px;
   height: 35px;
   width: 120px;
@@ -155,7 +264,7 @@ div {
   transition: all 0.3s;
 }
 
-#file_uploader_btn:hover {
+button:hover {
   animation-direction: alternate;
   transform: scale(1.05);
   transition: all 0.3s;
