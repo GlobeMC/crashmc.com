@@ -20,6 +20,7 @@ export default withPwa(
       logo: "/logo-brand.png",
       nav: [
         { text: "主页", link: "/" },
+        { text: "基础知识", link: "/basis" },
         { text: "客户端崩溃", link: "/clients" },
         { text: "服务器崩溃", link: "/servers" },
         { text: "贡献指南", link: "/contributing" },
@@ -83,6 +84,8 @@ export default withPwa(
         {
           text: "文档",
           items: [
+            {
+              text: "基础知识", link: "/basis" },
             { text: "客户端崩溃", link: "/clients" },
             { text: "服务端崩溃", link: "/servers" },
             { text: "Mixin", link: "/mixin" },
