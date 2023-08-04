@@ -1,0 +1,59 @@
+name: "提交崩溃"
+description: 上传未收录的崩溃类型
+title: "📄[UPLOAD-CRASH] 请输入标题"
+labels: [
+  "崩溃提交"
+]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: "描述问题"
+      description: 请简单描述您遇到的问题
+      placeholder: 问题描述……
+    validations:
+      required: true
+  - type: textarea
+    id: reprod
+    attributes:
+      label: "您正在进行的操作是？"
+      description: 请详细描述崩溃发生时你正在做的事
+      value: |
+        1. 
+        2. 
+        3. 
+        4. 游戏崩溃
+      render: bash
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: "崩溃日志"
+      description: 请将您的崩溃日志粘贴到此处
+      render: bash
+    validations:
+      required: true
+  - type: dropdown
+    id: os
+    attributes:
+      label: "操作系统"
+      description: 您使用的操作系统是？
+      multiple: true
+      options:
+        - Windows
+        - Linux
+        - Mac
+    validations:
+      required: true
+  - type: dropdown
+    id: side
+    attributes:
+      label: "客户端 / 服务端"
+      description: 出现崩溃的位置是客户端 / 服务端？
+      multiple: false
+      options:
+        - 客户端
+        - 服务端
+    validations:
+      required: true
