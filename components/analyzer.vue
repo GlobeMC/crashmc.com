@@ -45,10 +45,10 @@ function Checkfiles() {
   var filePath = fup.value;
   var ext = filePath.substring(filePath.lastIndexOf('.') + 1).toLowerCase();
   if (ext == "zip" || ext == "log" || ext == "txt") {
-    labelMsg.value = filePath;
     btnMsg.value = "正在分析";
     isBtnDisabled.value = true;
     var file = document.getElementById('file_uploader').files[0]
+    labelMsg.value = file.name;
     StartAnalysis(file, ext);
     return true;
   }
