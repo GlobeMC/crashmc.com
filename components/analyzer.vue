@@ -223,26 +223,32 @@ function ShowAnalysisResult(msg, result_url) {
   FinishAnalysis('Success', '0')
 }
 function FinishAnalysis(Status, Msg) {
-  if (Status == 'CanFetchLogFile') {
-    labelMsg.value = 'Zip 文件中不含有有效的 Log 文件';
-    btnMsg.value = '重新上传';
-    isBtnDisabled = false;
-    umami.track('Analysis Error', { Status: 'Zip 文件中不含有有效的 Log 文件', ErrMsg: Msg });
-  }
-  else if (Status == 'ReadLogErr') {
-    labelMsg.value = 'Log 文件读取错误';
-    btnMsg.value = '重新上传';
-    isBtnDisabled = false;
-    umami.track('Analysis Error', { Status: 'Log 文件读取错误', ErrMsg: Msg });
-  }
-  else if (Status == 'UnzipErr') {
-    labelMsg.value = '日志文件解压错误';
-    btnMsg.value = '重新上传';
-    isBtnDisabled = false;
-    umami.track('Analysis Error', { Status: '日志文件解压错误', ErrMsg: Msg });
-  }
-  else if (Status == 'Success') {
-    umami.track('Analysis Finish', { Status: 'Success', Launcher: launcher, CrashReason: 'lorem' });
+  switch (Status) {
+    case 'CanFetchLogFile':
+      labelMsg.value = 'Zip 文件中不含有有效的 Log 文件';
+      btnMsg.value = '重新上传';
+      isBtnDisabled = false;
+      umami.track('Analysis Error', { Status: 'Zip 文件中不含有有效的 Log 文件', ErrMsg: Msg });
+      break;
+
+    case 'ReadLogErr':
+
+      labelMsg.value = 'Log 文件读取错误';
+      btnMsg.value = '重新上传';
+      isBtnDisabled = false;
+      umami.track('Analysis Error', { Status: 'Log 文件读取错误', ErrMsg: Msg });
+      break;
+
+    case 'UnzipErr':
+      labelMsg.value = '日志文件解压错误';
+      btnMsg.value = '重新上传';
+      isBtnDisabled = false;
+      umami.track('Analysis Error', { Status: '日志文件解压错误', ErrMsg: Msg });
+      break;
+
+    case 'Success':
+      umami.track('Analysis Finish', { Status: 'Success', Launcher: launcher, CrashReason: 'lorem' });
+      break;
   }
 }
 

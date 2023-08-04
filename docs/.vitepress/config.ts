@@ -123,8 +123,8 @@ export default withPwa(
         "script",
         {
           async: "",
-          src: "https://umami.lihaoyu.cn/api.js",
-          "data-website-id": "913a41bc-fd2c-479c-8594-8e507d81b07d",
+          src: "https://status.crashmc.com/script.js",
+          "data-website-id": "6b974786-7a1b-4944-a939-f370c16b1765",
         },
       ],
     ],
