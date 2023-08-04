@@ -63,7 +63,7 @@ A：要对 `Minecraft` 的游戏错误 / 崩溃进行处理，您首先要对游
 :::
 - [Visual Studio Code: A source-code editor made by Microsoft](https://code.visualstudio.com)
   > 一个轻量的、美观的文本编辑器，深受广大程序员喜爱。
-- Windows 记事簿（说实话, `Windows 10 / 11` 的记事簿还是很好用的，如果你不想下载什么软件就用它吧）
+- Windows 记事簿（说实话， `Windows 10 / 11` 的记事簿还是很好用的，如果你不想下载什么软件就用它吧）
 
 ## 第一站结束
 
