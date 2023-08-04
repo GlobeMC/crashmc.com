@@ -214,6 +214,8 @@ net.minecraft.util.crash.CrashException: Loading NBT data
 
 尝试打开存档目录，然后删除 `level.dat`，并将 `level.dat_old` 重命名为 `level.dat`。
 
+对于专业玩家，您也可以使用 NBT 编辑器。
+
 #### 资源包过大
 
 解释：由于资源包过大，或是你的显卡配置不足，导致游戏不能正常运行。
