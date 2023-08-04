@@ -22,8 +22,8 @@ export default withPwa(
         { text: "主页", link: "/" },
         { text: "崩溃分析工具", link: "/analyzer" },
         { text: "基础知识", link: "/basis" },
-        { text: "客户端崩溃", link: "/clients" },
-        { text: "服务器崩溃", link: "/servers" },
+        { text: "客户端崩溃", link: "/client/" },
+        { text: "服务器崩溃", link: "/server/" },
         { text: "贡献指南", link: "/contributing" },
       ],
 
@@ -86,7 +86,15 @@ export default withPwa(
           text: "文档",
           items: [
             { text: "基础知识", link: "/basis" },
-            { text: "客户端崩溃", link: "/clients" },
+            {
+              text: "客户端崩溃",
+              collapsed: true,
+              items: [
+                { text: "系统问题", link: "/client/system" },
+                { text: "原版问题", link: "/client/vanilla" },
+                { text: "mod 问题", link: "/client/mods"},
+              ]
+            },
             { text: "服务端崩溃", link: "/servers" },
             { text: "Mixin", link: "/mixin" },
           ],
