@@ -8,12 +8,12 @@
         onclick=file_uploader.click();>{{ btnMsg }}</button>
       <input type="file" name="file_uploader" id="file_uploader" @change="Checkfiles" style="display: none;" />
     </div>
-      <div id="analysis_result_main">
-        <hr />
-        <h4 id="analysis_result_title">分析结果:</h4>
-        <p id="analysis_result_msg">分析器歇逼了</p>
-        <button id="redirect_btn" @click="FinishAnalysis">导航到解决方案</button>
-      </div>
+    <div id="analysis_result_main">
+      <hr />
+      <h4 id="analysis_result_title">分析结果:</h4>
+      <p id="analysis_result_msg">分析器歇逼了</p>
+      <button id="redirect_btn" @click="FinishAnalysis">导航到解决方案</button>
+    </div>
   </div>
 </template>
 
@@ -87,19 +87,19 @@ function StartAnalysis(file, ext) {
         .then(function (zip) {
           var result = zip.file('latest.log');
           if (result == null) {
-            result = zip.file(/crash-(.*).txt/);
+            var result1 = zip.file(/crash-(.*).txt/);
             if (result == null) {
-              result = zip.file('游戏崩溃前的输出.txt');
-              if (result == null) {
+              var result2 = zip.file('游戏崩溃前的输出.txt');
+              if (result2 == null) {
                 FinishAnalysis('CanFetchLogFile', '(＃°Д°)')
               }
               else {
                 launcher = 'PCL';
-                return result.async("string");
+                return result2.async("string");
               }
             }
             else {
-              return result[0].async("string");
+              return result1[0].async("string");
             }
           }
           else {
@@ -127,6 +127,7 @@ function LogAnalysis(log) {
   console.log(log);
   ShowAnalysisResult('Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.')
 }
+  
 function ShowAnalysisResult(msg) {
   document.getElementById('analysis_result_main').style.display = 'block';
   document.getElementById('analysis_result_msg').innerText = msg;
@@ -176,15 +177,21 @@ function ShowAnalysisResult(msg) {
 }
 function FinishAnalysis(Status, Msg) {
   if (Status == 'CanFetchLogFile') {
-    console.error('Zip 文件中不含有有效的 Log 文件');
+    labelMsg.value = 'Zip 文件中不含有有效的 Log 文件';
+    btnMsg.value = '重新上传';
+    isBtnDisabled = false;
     umami.track('Analysis Error', { Status: 'Zip 文件中不含有有效的 Log 文件', ErrMsg: Msg });
   }
   else if (Status == 'ReadLogErr') {
-    console.error('Log 文件读取错误');
+    labelMsg.value = 'Log 文件读取错误';
+    btnMsg.value = '重新上传';
+    isBtnDisabled = false;
     umami.track('Analysis Error', { Status: 'Log 文件读取错误', ErrMsg: Msg });
   }
   else if (Status == 'UnzipErr') {
-    console.error('日志文件解压错误');
+    labelMsg.value = '日志文件解压错误';
+    btnMsg.value = '重新上传';
+    isBtnDisabled = false;
     umami.track('Analysis Error', { Status: '日志文件解压错误', ErrMsg: Msg });
   }
   else if (Status == 'Success') {
