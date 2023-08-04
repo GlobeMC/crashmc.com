@@ -9,9 +9,16 @@ import analyzer from '../components/analyzer.vue'
 施工中 请绕行
 
 :::
+
 ---
 
 <analyzer/>
+
+:::tip 帮助
+
+如分析模块长时间未响应请刷新页面重试。
+
+:::
 
 :::warning 隐私声明
 

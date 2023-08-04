@@ -1,5 +1,6 @@
 <template>
-  <div id="analyzer_main">
+  <div id="analyzer_main" @dragenter="handleDragEnter" @dragover="handleDragOver" @drop="handleDrop"
+    @dragleave="handleDragLeave">
     <h4 style="text-align: center;">请点击按钮上传导出的 .zip/.txt/.log 文件,并尽量不要更改导出文件的名称。</h4>
     <img class="icon_upload" src="../docs/src/logo-upload.svg">
     <div class="file_uploader_container">
@@ -28,8 +29,50 @@ var launcher = 'Unknown'
 var redirect_url = null;
 var increaseOpacTimer = null;
 var increaseHeightTimer = null;
-var decreaseHeightTimer = null;
 
+function handleDragEnter(e) {
+  document.getElementById('analyzer_main').style.backgroundColor = 'rgba(255,255,255,0.5)';
+  e.preventDefault(); // 阻止浏览器默认拖拽行为
+
+}
+function handleDragOver(e) {
+  document.getElementById('analyzer_main').style.backgroundColor = 'rgba(255,255,255,0.5)';
+  e.preventDefault(); // 阻止浏览器默认拖拽行为
+}
+function handleDragLeave(e) {
+  document.getElementById('analyzer_main').style.backgroundColor = 'var(--vp-custom-block-tip-bg)';
+}
+function handleDrop(e) {
+
+  e.preventDefault(); // 阻止浏览器默认拖拽行为
+  const files = e.dataTransfer.files; // 获取拖拽过来的文件
+  // 处理文件
+  handleFiles(files);
+}
+function handleFiles(files) {
+  document.getElementById('analyzer_main').style.backgroundColor = 'var(--vp-custom-block-tip-bg)';
+  Clean();
+  if (files.length != 1) {
+    labelMsg.value = '仅能上传一个文件'
+  }
+  else {
+    launcher = 'Unknown'
+    var file = files[0];
+    var filePath = files[0].name;
+    var ext = filePath.substring(filePath.lastIndexOf('.') + 1).toLowerCase();
+    if (ext == "zip" || ext == "log" || ext == "txt") {
+      btnMsg.value = "正在分析";
+      isBtnDisabled.value = true;
+      labelMsg.value = file.name;
+      StartAnalysis(file, ext);
+      return true;
+    }
+    else {
+      document.getElementById('file_uploader_label').innerText = "请上传 .zip/.txt/.log 文件!";
+      return false;
+    }
+  }
+}
 function Clean() {
   document.getElementById('analysis_result_main').style.display = 'none';
   document.getElementById('analysis_result_main').style.opacity = 0;
@@ -37,7 +80,6 @@ function Clean() {
   clearInterval(increaseOpacTimer);
   clearInterval(increaseHeightTimer);
 }
-
 function Checkfiles() {
   Clean();
   launcher = 'Unknown'
@@ -127,7 +169,6 @@ function LogAnalysis(log) {
   console.log(log);
   ShowAnalysisResult('Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.')
 }
-  
 function ShowAnalysisResult(msg) {
   document.getElementById('analysis_result_main').style.display = 'block';
   document.getElementById('analysis_result_msg').innerText = msg;
