@@ -85,12 +85,17 @@ export default withPwa(
         {
           text: "文档",
           items: [
-            { text: "崩溃分析工具", link: "/analyzer" },
             { text: "基础知识", link: "/basis" },
             { text: "客户端崩溃", link: "/clients" },
             { text: "服务端崩溃", link: "/servers" },
             { text: "Mixin", link: "/mixin" },
           ],
+        },
+        {
+          text: "工具",
+          items: [
+            { text: "崩溃分析工具", link: "/analyzer" },
+          ]
         },
         {
           text: "贡献",

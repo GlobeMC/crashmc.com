@@ -1,8 +1,8 @@
 # 基础知识
 
-正在阅读本文档的玩家您好，我相信您此刻一定在游玩 `Minecraft` 时遇到了某些令人烦恼的问题。不论是单人愉悦游玩，或是架设服务器与好友畅玩。   
+正在阅读本文档的玩家您好，我相信您此刻一定在游玩 `Minecraft` 时遇到了某些令人烦恼的问题。不论是单人愉悦游玩，或是架设服务器与好友畅玩。
 
-> `Minecraft` 这个游戏，各种BUG和解决方案如果写成一堆不重复的书，摞起来的厚度可以比姚明还高。（引用自[ DinnerBone 个人博客](https://www.cnblogs.com/Dinnerbone/p/12045117.html)）
+> `Minecraft` 这个游戏，各种 Bug 和解决方案如果写成一堆不重复的书，摞起来的厚度可以比姚明还高。（引用自 [DinnerBone 个人博客](https://www.cnblogs.com/Dinnerbone/p/12045117.html)）
 
 幸运的是，这篇文档都能在一定程度上帮助您或多或少地解决一部分问题，换个角度说，在阅读了这篇文档以后，您对 `Minecraft` 这个游戏也将会有更深的理解。
 
@@ -32,12 +32,12 @@ A：要对 `Minecraft` 的游戏错误 / 崩溃进行处理，您首先要对游
 
 而由于开发 `Minecraft` 的工作室 `Mojang` 的一些原因，许多国内的玩家没办法使用 `正版启动器`（后文以 `官启` 代之）获得很好的游戏体验，因此便催生了一些社区开发者制作的 `第三方启动器`，此处列举几个国内著名的第三方启动器，如下表：
 
-|启动器名称|官网链接|开发者|
-|---|---|---|
-|HMCL|[Hello Minecraft! Launcher](https://hmcl.huangyuhui.net/)|huangyuhui|
-|BakaXL|[BakaXL 官方网站](https://www.bakaxl.com/)|TT|
-|PCL2|[龙猫爱发电](https://afdian.net/a/LTCat)|龙腾猫跃|
-|……|……|……|
+| 启动器名称 | 官网链接                                                  | 开发者     |
+| ---------- | --------------------------------------------------------- | ---------- |
+| HMCL       | [Hello Minecraft! Launcher](https://hmcl.huangyuhui.net/) | huangyuhui |
+| BakaXL     | [BakaXL 官方网站](https://www.bakaxl.com/)                | TT         |
+| PCL2       | [龙猫爱发电](https://afdian.net/a/LTCat)                  | 龙腾猫跃   |
+| ……         | ……                                                        | ……         |
 
 大部分时候，`Minecraft` 开发者们都会使用这些第三方启动器而不是使用官启，他们提供了更多的调试选项及错误输出为开发者解决问题提供方便。
 
@@ -63,7 +63,7 @@ A：要对 `Minecraft` 的游戏错误 / 崩溃进行处理，您首先要对游
 :::
 - [Visual Studio Code: A source-code editor made by Microsoft](https://code.visualstudio.com)
   > 一个轻量的、美观的文本编辑器，深受广大程序员喜爱。
-- Windows 记事簿（说实话， `Windows 10 / 11` 的记事簿还是很好用的，如果你不想下载什么软件就用它吧）
+- Windows 记事本（说实话， `Windows 10 / 11` 的记事本还是很好用的，如果你不想下载什么软件就用它吧）
 
 ## 第一站结束
 
