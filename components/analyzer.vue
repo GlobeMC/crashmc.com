@@ -1,223 +1,281 @@
 <template>
-  <div id="analyzer_main" @dragenter="handleDragEnter" @dragover="handleDragOver" @drop="handleDrop"
-    @dragleave="handleDragLeave">
-    <h4 style="text-align: center;">请点击按钮上传导出的 .zip/.txt/.log 文件,并尽量不要更改导出文件的名称。</h4>
-    <img class="icon_upload" src="../docs/src/logo-upload.svg">
-    <div class="file_uploader_container">
-      <h4 id="file_uploader_label" for="file_uploader" singleLine="false">{{ labelMsg }}</h4>
-      <button v-bind:disabled="isBtnDisabled" id="file_uploader_btn" data-umami-event="Analysis Button Click"
-        onclick=file_uploader.click();>{{ btnMsg }}</button>
-      <input type="file" name="file_uploader" id="file_uploader" @change="Checkfiles" style="display: none;" />
+  <ClientOnly>
+    <div
+      id="analyzer_main"
+      @dragenter="handleDragEnter"
+      @dragover="handleDragOver"
+      @drop="handleDrop"
+      @dragleave="handleDragLeave"
+    >
+      <h4 style="text-align: center">
+        请点击按钮上传导出的 .zip/.txt/.log 文件,并尽量不要更改导出文件的名称。
+      </h4>
+      <img class="icon_upload" src="../docs/src/logo-upload.svg" />
+      <div class="file_uploader_container">
+        <h4 id="file_uploader_label" for="file_uploader" singleLine="false">
+          {{ labelMsg }}
+        </h4>
+        <button
+          v-bind:disabled="isBtnDisabled"
+          id="file_uploader_btn"
+          data-umami-event="Analysis Button Click"
+          onclick="file_uploader.click();"
+        >
+          {{ btnMsg }}
+        </button>
+        <input
+          type="file"
+          name="file_uploader"
+          id="file_uploader"
+          @change="Checkfiles"
+          style="display: none"
+        />
+      </div>
+      <div id="analysis_result_main">
+        <hr />
+        <h4 id="analysis_result_title">分析结果:</h4>
+        <p id="analysis_result_msg">分析器歇逼了</p>
+        <button id="redirect_btn" @click="redirectBtnClick">
+          {{ redirectMsg }}
+        </button>
+      </div>
     </div>
-    <div id="analysis_result_main">
-      <hr />
-      <h4 id="analysis_result_title">分析结果:</h4>
-      <p id="analysis_result_msg">分析器歇逼了</p>
-      <button id="redirect_btn" @click="redirectBtnClick">{{ redirectMsg }}</button>
-    </div>
-  </div>
+  </ClientOnly>
 </template>
 
 <script setup>
-import JSZip from 'jszip';
-import { ref } from 'vue';
+import JSZip from "jszip";
+import { ref } from "vue";
 
 var isBtnDisabled = ref(false);
-var labelMsg = ref('未选择文件');
-var btnMsg = ref('开始上传');
-var redirectMsg = ref('导航到解决方案');
-var launcher = 'Unknown'
+var labelMsg = ref("未选择文件");
+var btnMsg = ref("开始上传");
+var redirectMsg = ref("导航到解决方案");
+var launcher = "Unknown";
 var redirect_url = null;
 var increaseOpacTimer = null;
 var increaseHeightTimer = null;
 
 const CUR_URL = window.document.location.href;
-const ROOT_URL = CUR_URL.substring(0, CUR_URL.indexOf(window.document.location.pathname));
+const ROOT_URL = CUR_URL.substring(
+  0,
+  CUR_URL.indexOf(window.document.location.pathname)
+);
 
-const SYSTEM_URL = ROOT_URL + '/system.html';
-const VANILLA_URL = ROOT_URL + '/vanilla.html';
-const MODS_URL = ROOT_URL + '/mods.html';
-
+const SYSTEM_URL = ROOT_URL + "/system.html";
+const VANILLA_URL = ROOT_URL + "/vanilla.html";
+const MODS_URL = ROOT_URL + "/mods.html";
 
 function handleDragEnter(e) {
-  document.getElementById('analyzer_main').style.backgroundColor = 'rgba(255,255,255,0.5)';
+  document.getElementById("analyzer_main").style.backgroundColor =
+    "rgba(255,255,255,0.5)";
   e.preventDefault(); // 阻止浏览器默认拖拽行为
-
 }
 function handleDragOver(e) {
-  document.getElementById('analyzer_main').style.backgroundColor = 'rgba(255,255,255,0.5)';
+  document.getElementById("analyzer_main").style.backgroundColor =
+    "rgba(255,255,255,0.5)";
   e.preventDefault(); // 阻止浏览器默认拖拽行为
 }
 function handleDragLeave(e) {
-  document.getElementById('analyzer_main').style.backgroundColor = 'var(--vp-custom-block-tip-bg)';
+  document.getElementById("analyzer_main").style.backgroundColor =
+    "var(--vp-custom-block-tip-bg)";
 }
 function handleDrop(e) {
-
   e.preventDefault(); // 阻止浏览器默认拖拽行为
   const files = e.dataTransfer.files; // 获取拖拽过来的文件
   // 处理文件
   handleFiles(files);
 }
 function handleFiles(files) {
-  document.getElementById('analyzer_main').style.backgroundColor = 'var(--vp-custom-block-tip-bg)';
+  document.getElementById("analyzer_main").style.backgroundColor =
+    "var(--vp-custom-block-tip-bg)";
   Clean();
   if (files.length != 1) {
-    labelMsg.value = '仅能上传一个文件'
-  }
-  else {
-    launcher = 'Unknown'
+    labelMsg.value = "仅能上传一个文件";
+  } else {
+    launcher = "Unknown";
     var file = files[0];
     var filePath = files[0].name;
-    var ext = filePath.substring(filePath.lastIndexOf('.') + 1).toLowerCase();
+    var ext = filePath.substring(filePath.lastIndexOf(".") + 1).toLowerCase();
     if (ext == "zip" || ext == "log" || ext == "txt") {
       btnMsg.value = "正在分析";
       isBtnDisabled.value = true;
       labelMsg.value = file.name;
       StartAnalysis(file, ext);
       return true;
-    }
-    else {
-      document.getElementById('file_uploader_label').innerText = "请上传 .zip/.txt/.log 文件!";
+    } else {
+      document.getElementById("file_uploader_label").innerText =
+        "请上传 .zip/.txt/.log 文件!";
       return false;
     }
   }
 }
 function Clean() {
-  document.getElementById('analysis_result_main').style.display = 'none';
-  document.getElementById('analysis_result_main').style.opacity = 0;
-  document.getElementById('analysis_result_msg').innerText = '分析器歇逼了';
-  redirectMsg = ref('导航到解决方案');
+  document.getElementById("analysis_result_main").style.display = "none";
+  document.getElementById("analysis_result_main").style.opacity = 0;
+  document.getElementById("analysis_result_msg").innerText = "分析器歇逼了";
+  redirectMsg = ref("导航到解决方案");
   redirect_url = null;
   clearInterval(increaseOpacTimer);
   clearInterval(increaseHeightTimer);
 }
 function Checkfiles() {
   Clean();
-  launcher = 'Unknown'
-  var fup = document.getElementById('file_uploader');
+  launcher = "Unknown";
+  var fup = document.getElementById("file_uploader");
   var filePath = fup.value;
-  var ext = filePath.substring(filePath.lastIndexOf('.') + 1).toLowerCase();
+  var ext = filePath.substring(filePath.lastIndexOf(".") + 1).toLowerCase();
   if (ext == "zip" || ext == "log" || ext == "txt") {
     btnMsg.value = "正在分析";
     isBtnDisabled.value = true;
-    var file = document.getElementById('file_uploader').files[0]
+    var file = document.getElementById("file_uploader").files[0];
     labelMsg.value = file.name;
     StartAnalysis(file, ext);
     return true;
-  }
-  else {
-    document.getElementById('file_uploader_label').innerText = "请上传 .zip/.txt/.log 文件!";
+  } else {
+    document.getElementById("file_uploader_label").innerText =
+      "请上传 .zip/.txt/.log 文件!";
     fup.focus();
     return false;
   }
 }
 function StartAnalysis(file, ext) {
   var reader = new FileReader(file);
-  if (ext != 'zip') {
+  if (ext != "zip") {
     try {
       reader.readAsText(file);
       reader.onload = (e) => {
         var logMsg = e.target.result;
         LogAnalysis(logMsg);
-      }
+      };
+    } catch {
+      FinishAnalysis("ReadLogErr");
     }
-    catch {
-      FinishAnalysis('ReadLogErr');
-    }
-  }
-  else {
+  } else {
     try {
       var jsZip = new JSZip();
 
       // 从本地或URL加载一个Zip文件
-      jsZip.loadAsync(file).then(function (zip) {
-        // 遍历Zip中的文件对象
-        for (let key in zip.files) {
-          // 判断是否是文件夹
-          if (!zip.files[key].dir) {
-            if (zip.files[key].name.toLowerCase().includes('pcl') || zip.files[key].name.includes('游戏崩溃前的输出.txt')) {
-              launcher = 'PCL'
+      jsZip
+        .loadAsync(file)
+        .then(function (zip) {
+          // 遍历Zip中的文件对象
+          for (let key in zip.files) {
+            // 判断是否是文件夹
+            if (!zip.files[key].dir) {
+              if (
+                zip.files[key].name.toLowerCase().includes("pcl") ||
+                zip.files[key].name.includes("游戏崩溃前的输出.txt")
+              ) {
+                launcher = "PCL";
+              }
             }
           }
-        }
-        for (let key in zip.files) {
-          // 判断是否是文件夹
-          if (!zip.files[key].dir) {
-            if (zip.files[key].name.toLowerCase().includes('hmcl')) {
-              launcher = 'HMCL'
+          for (let key in zip.files) {
+            // 判断是否是文件夹
+            if (!zip.files[key].dir) {
+              if (zip.files[key].name.toLowerCase().includes("hmcl")) {
+                launcher = "HMCL";
+              }
             }
           }
-        }
-        for (let key in zip.files) {
-          if (!zip.files[key].dir) {
-            if (zip.files[key].name == 'latest.log') {
-              return zip.files[key].async("string");
+          for (let key in zip.files) {
+            if (!zip.files[key].dir) {
+              if (zip.files[key].name == "latest.log") {
+                return zip.files[key].async("string");
+              }
             }
           }
-        }
-        for (let key in zip.files) {
-          if (!zip.files[key].dir) {
-            if (zip.files[key].name.search(/crash-(.*).txt/) != -1) {
-              return zip.files[key].async("string");
+          for (let key in zip.files) {
+            if (!zip.files[key].dir) {
+              if (zip.files[key].name.search(/crash-(.*).txt/) != -1) {
+                return zip.files[key].async("string");
+              }
             }
           }
-        }
 
-        for (let key in zip.files) {
-          if (!zip.files[key].dir) {
-            if (zip.files[key].name == 'minecraft.log' || zip.files[key].name == '游戏崩溃前的输出.txt') {
-              return zip.files[key].async("string");
-            } else {
-              FinishAnalysis('CanFetchLogFile', '(＃°Д°)')
-              return;
+          for (let key in zip.files) {
+            if (!zip.files[key].dir) {
+              if (
+                zip.files[key].name == "minecraft.log" ||
+                zip.files[key].name == "游戏崩溃前的输出.txt"
+              ) {
+                return zip.files[key].async("string");
+              } else {
+                FinishAnalysis("CanFetchLogFile", "(＃°Д°)");
+                return;
+              }
             }
           }
-        }
-      }).then(function (content) {
-        LogAnalysis(content)
-      })
-    }
-    catch (error) {
-      FinishAnalysis('UnzipErr', error);
+        })
+        .then(function (content) {
+          LogAnalysis(content);
+        });
+    } catch (error) {
+      FinishAnalysis("UnzipErr", error);
     }
   }
   function LogAnalysis(log) {
-
-    if (log.includes('PCL')) {
-      launcher = 'PCL'
-    }
-    else if (log.includes('HMCL')) {
-      launcher = 'HMCL'
-    }
-    else if (log.includes('BakaXL')) {
-      launcher = 'BakaXL'
+    if (log.includes("PCL")) {
+      launcher = "PCL";
+    } else if (log.includes("HMCL")) {
+      launcher = "HMCL";
+    } else if (log.includes("BakaXL")) {
+      launcher = "BakaXL";
     }
 
-    if (log.includes('java.lang.OutOfMemoryError') || log.includes('Could not reserve enough space')) {
-      ShowAnalysisResult('Success', 'Java 内存分配不足', SYSTEM_URL + '#内存问题', '内存不足')
-    }
-    else if (log.includes('Could not reserve enough space for 1048576KB object heap')) {
-      ShowAnalysisResult('Success', '32 位 Java 内存分配超过 1 G', SYSTEM_URL + '#内存问题', '32 位 Java 内存分配超过 1 G')
-    }
-    else if (log.includes('Couldn\'t set pixel format') | log.includes('Pixel format not accelerated') | log.includes('The driver does not appear to support OpenGL')) {
-      ShowAnalysisResult('Success', '显卡驱动 / 显卡驱动问题', SYSTEM_URL + '#显卡-显卡驱动问题', '显卡-显卡驱动问题')
-    }
-    else {
-      ShowAnalysisResult('Unrecord', '本工具还未收录您所遇到的错误，请点击下方按钮前往 Github 反馈。', 'https://github.com/GlobeMC/crashmc.com/issues/new/choose', 'Unrecord');
+    if (
+      log.includes("java.lang.OutOfMemoryError") ||
+      log.includes("Could not reserve enough space")
+    ) {
+      ShowAnalysisResult(
+        "Success",
+        "Java 内存分配不足",
+        SYSTEM_URL + "#内存问题",
+        "内存不足"
+      );
+    } else if (
+      log.includes("Could not reserve enough space for 1048576KB object heap")
+    ) {
+      ShowAnalysisResult(
+        "Success",
+        "32 位 Java 内存分配超过 1 G",
+        SYSTEM_URL + "#内存问题",
+        "32 位 Java 内存分配超过 1 G"
+      );
+    } else if (
+      log.includes("Couldn't set pixel format") |
+      log.includes("Pixel format not accelerated") |
+      log.includes("The driver does not appear to support OpenGL")
+    ) {
+      ShowAnalysisResult(
+        "Success",
+        "显卡驱动 / 显卡驱动问题",
+        SYSTEM_URL + "#显卡-显卡驱动问题",
+        "显卡-显卡驱动问题"
+      );
+    } else {
+      ShowAnalysisResult(
+        "Unrecord",
+        "本工具还未收录您所遇到的错误，请点击下方按钮前往 Github 反馈。",
+        "https://github.com/GlobeMC/crashmc.com/issues/new/choose",
+        "Unrecord"
+      );
     }
   }
 }
 function ShowAnalysisResult(status, msg, result_url, status_msg) {
   redirect_url = result_url;
-  document.getElementById('analysis_result_main').style.display = 'block';
-  document.getElementById('analysis_result_msg').innerText = msg;
+  document.getElementById("analysis_result_main").style.display = "block";
+  document.getElementById("analysis_result_msg").innerText = msg;
 
   //展开动画
   var count = 0;
 
-  var con = document.getElementById('analysis_result_main');
+  var con = document.getElementById("analysis_result_main");
   var conHeight = con.offsetHeight;
-  var h = 0; clearInterval(increaseHeightTimer);
+  var h = 0;
+  clearInterval(increaseHeightTimer);
   increaseHeightTimer = setInterval(function () {
     count += 1;
     h += 2 + count;
@@ -225,69 +283,79 @@ function ShowAnalysisResult(status, msg, result_url, status_msg) {
       h = conHeight;
       clearInterval(increaseHeightTimer);
     }
-    con.style.height = h + 'px';
+    con.style.height = h + "px";
   }, 10);
 
   setTimeout(function () {
-
-
     var alpha = 30;
     //透明度动画
-    var oDiv = document.getElementById('analysis_result_main');//关闭定时器
-    increaseOpacTimer = setInterval(function () {//打开另一个计时器
+    var oDiv = document.getElementById("analysis_result_main"); //关闭定时器
+    increaseOpacTimer = setInterval(function () {
+      //打开另一个计时器
       var speed = 0;
       if (alpha > oDiv) {
-        speed = -10;//设置变化的速度
+        speed = -10; //设置变化的速度
       } else {
         speed = 10;
       }
       if (alpha == oDiv) {
-        clearInterval(increaseOpacTimer);//相等的时候关闭计时器
+        clearInterval(increaseOpacTimer); //相等的时候关闭计时器
       } else {
-        alpha += speed;//透明度不断减小
-        oDiv.style.filter = 'alpha(opacity:' + alpha + ')';//IE
-        oDiv.style.opacity = alpha / 100;//火狐，chrome
-      }//改变透明度
-    }, 40)
-
+        alpha += speed; //透明度不断减小
+        oDiv.style.filter = "alpha(opacity:" + alpha + ")"; //IE
+        oDiv.style.opacity = alpha / 100; //火狐，chrome
+      } //改变透明度
+    }, 40);
   }, 300);
 
   isBtnDisabled.value = false;
-  btnMsg.value = '重新上传';
+  btnMsg.value = "重新上传";
 
   FinishAnalysis(status, status_msg);
 }
 function FinishAnalysis(status, msg) {
   switch (status) {
-    case 'CanFetchLogFile':
-      labelMsg.value = 'Zip 文件中不含有有效的 Log 文件';
-      btnMsg.value = '重新上传';
+    case "CanFetchLogFile":
+      labelMsg.value = "Zip 文件中不含有有效的 Log 文件";
+      btnMsg.value = "重新上传";
       isBtnDisabled = false;
-      umami.track('Analysis Error', { Status: 'Zip 文件中不含有有效的 Log 文件', ErrMsg: msg });
+      umami.track("Analysis Error", {
+        Status: "Zip 文件中不含有有效的 Log 文件",
+        ErrMsg: msg,
+      });
       break;
 
-    case 'ReadLogErr':
-
-      labelMsg.value = 'Log 文件读取错误';
-      btnMsg.value = '重新上传';
+    case "ReadLogErr":
+      labelMsg.value = "Log 文件读取错误";
+      btnMsg.value = "重新上传";
       isBtnDisabled = false;
-      umami.track('Analysis Error', { Status: 'Log 文件读取错误', ErrMsg: msg });
+      umami.track("Analysis Error", {
+        Status: "Log 文件读取错误",
+        ErrMsg: msg,
+      });
       break;
 
-    case 'UnzipErr':
-      labelMsg.value = '日志文件解压错误';
-      btnMsg.value = '重新上传';
+    case "UnzipErr":
+      labelMsg.value = "日志文件解压错误";
+      btnMsg.value = "重新上传";
       isBtnDisabled = false;
-      umami.track('Analysis Error', { Status: '日志文件解压错误', ErrMsg: msg });
+      umami.track("Analysis Error", {
+        Status: "日志文件解压错误",
+        ErrMsg: msg,
+      });
       break;
-    case 'Unrecord':
-      umami.track('Unrecord Crash', { Status: 'Unrecord', Launcher: launcher });
-      redirectMsg = ref('提交反馈');
-    case 'Success':
-      umami.track('Analysis Finish', { Status: 'Success', Launcher: launcher, CrashReason: msg });
+    case "Unrecord":
+      umami.track("Unrecord Crash", { Status: "Unrecord", Launcher: launcher });
+      redirectMsg = ref("提交反馈");
+    case "Success":
+      umami.track("Analysis Finish", {
+        Status: "Success",
+        Launcher: launcher,
+        CrashReason: msg,
+      });
       break;
     default:
-      umami.track('Analysis Error', { Status: '未知错误', Launcher: launcher });
+      umami.track("Analysis Error", { Status: "未知错误", Launcher: launcher });
       break;
   }
 }
