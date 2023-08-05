@@ -238,67 +238,67 @@ function StartAnalysis(file, ext) {
       FinishAnalysis('UnzipErr', error)
     }
   }
+}
 
-  /**
-   * 日志分析 (一堆 if)
-   * @param {string} log log 原文
-   */
-  function LogAnalysis(log) {
-    //启动器判断 (最准)
-    if (log.includes('PCL')) {
-      launcher = 'PCL'
-    } else if (log.includes('HMCL')) {
-      launcher = 'HMCL'
-    } else if (log.includes('BakaXL')) {
-      launcher = 'BakaXL'
-    }
+/**
+ * 日志分析 (一堆 if)
+ * @param {string} log log 原文
+ */
+function LogAnalysis(log) {
+  //启动器判断 (最准)
+  if (log.includes('PCL')) {
+    launcher = 'PCL'
+  } else if (log.includes('HMCL')) {
+    launcher = 'HMCL'
+  } else if (log.includes('BakaXL')) {
+    launcher = 'BakaXL'
+  }
 
-    //一堆屎 (错误判断)
-    if (
-      log.includes('java.lang.OutOfMemoryError') ||
-      log.includes('Could not reserve enough space')
-    ) {
-      ShowAnalysisResult(
-        'Success',
-        'Java 内存分配不足',
-        SYSTEM_URL + '#内存问题',
-        '内存不足'
-      )
-    } else if (
-      log.includes('Could not reserve enough space for 1048576KB object heap')
-    ) {
-      ShowAnalysisResult(
-        'Success',
-        '32 位 Java 内存分配超过 1 G',
-        SYSTEM_URL + '#内存问题',
-        '32 位 Java 内存分配超过 1 G'
-      )
-    } else if (
-      log.includes("Couldn't set pixel format") |
-      log.includes('Pixel format not accelerated') |
-      log.includes('The driver does not appear to support OpenGL')
-    ) {
-      ShowAnalysisResult(
-        'Success',
-        '显卡驱动 / 显卡驱动问题',
-        SYSTEM_URL + '#显卡-显卡驱动问题',
-        '显卡-显卡驱动问题'
-      )
-    } else {
-      ShowAnalysisResult(
-        'Unrecord',
-        '本工具还未收录您所遇到的错误，请点击下方按钮前往 Github 反馈。',
-        'https://github.com/GlobeMC/crashmc.com/issues/new/choose',
-        'Unrecord'
-      )
-    }
+  //一堆屎 (错误判断)
+  if (
+    log.includes('java.lang.OutOfMemoryError') ||
+    log.includes('Could not reserve enough space')
+  ) {
+    ShowAnalysisResult(
+      'Success',
+      'Java 内存分配不足',
+      SYSTEM_URL + '#内存问题',
+      '内存不足'
+    )
+  } else if (
+    log.includes('Could not reserve enough space for 1048576KB object heap')
+  ) {
+    ShowAnalysisResult(
+      'Success',
+      '32 位 Java 内存分配超过 1 G',
+      SYSTEM_URL + '#内存问题',
+      '32 位 Java 内存分配超过 1 G'
+    )
+  } else if (
+    log.includes("Couldn't set pixel format") |
+    log.includes('Pixel format not accelerated') |
+    log.includes('The driver does not appear to support OpenGL')
+  ) {
+    ShowAnalysisResult(
+      'Success',
+      '显卡驱动 / 显卡驱动问题',
+      SYSTEM_URL + '#显卡-显卡驱动问题',
+      '显卡-显卡驱动问题'
+    )
+  } else {
+    ShowAnalysisResult(
+      'Unrecord',
+      '本工具还未收录您所遇到的错误，请点击下方按钮前往 Github 反馈。',
+      'https://github.com/GlobeMC/crashmc.com/issues/new/choose',
+      'Unrecord'
+    )
   }
 }
 
 /**
  * 展示分析结果
- * @param {string} status 状态消息 
- * @param {string} msg 向用户展示的消息 
+ * @param {string} status 状态消息
+ * @param {string} msg 向用户展示的消息
  * @param {string} result_url 重定向 url
  * @param {string} status_msg 状态信息
  */
@@ -356,8 +356,8 @@ function ShowAnalysisResult(status, msg, result_url, status_msg) {
 
 /**
  * 结束分析
- * @param {string} status 分析状态 
- * @param {string} msg 传递信息 
+ * @param {string} status 分析状态
+ * @param {string} msg 传递信息
  */
 function FinishAnalysis(status, msg) {
   switch (status) {
