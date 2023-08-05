@@ -139,6 +139,18 @@ Invalid module name: '' is not a Java identifier
 Found multiple arguments for option fml.forgeVersion, but you asked for only one
 ```
 
+### Night Config 库的问题
+
+解释：Night Config 库的一些常见问题导致的，会导致无法读取配置文件。有关详细信息，可访问[此处](https://github.com/Fuzss/nightconfigfixes#readme)查看。
+
+解决方案：请尝试下载并安装该 Mod：`Night Config Fixes`。[MC百科](https://www.mcmod.cn/class/9007.html) | [CurseForge](https://www.curseforge.com/minecraft/mc-mods/night-config-fixes)
+
+关键词：
+
+```
+Caused by: com.electronwill.nightconfig.core.io.ParsingException: Not enough data available
+```
+
 ## NeoForge
 
 ## Fabric
