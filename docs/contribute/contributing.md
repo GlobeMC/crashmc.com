@@ -1,5 +1,5 @@
 <script setup>
-import LauncherBadge from '../components/LauncherBadge.vue'
+import LauncherBadge from '../../components/LauncherBadge.vue'
 </script>
 
 # 贡献指南
@@ -26,33 +26,41 @@ import LauncherBadge from '../components/LauncherBadge.vue'
 
 :::warning 警告
 在使用 Component 之前，请务必在 Markdown 最顶部引入它。
+
 ```vue
 <script setup>
 import LauncherBadge from '../components/LauncherBadge.vue'
 </script>
 ```
+
 :::
 
 :::details HMCL
+
 ### 修改渲染器 <LauncherBadge type="hmcl" text="仅 HMCL" />
 
 ```md
 ### 修改渲染器 <LauncherBadge type="hmcl" text="仅 HMCL" />
 ```
+
 :::
 
 :::details BakaXL
+
 ### 重置核心 <LauncherBadge type="bakaxl" text="仅 BakaXL" />
 
 ```md
 ### 重置核心 <LauncherBadge type="bakaxl" text="仅 BakaXL" />
 ```
+
 :::
 
-:::details PCL2
+:::details
+
 ### 修改验证服务器 <LauncherBadge type="pcl" text="仅 PCL2" />
 
 ```md
 ### 修改验证服务器 <LauncherBadge type="pcl" text="仅 PCL2" />
 ```
+
 :::
