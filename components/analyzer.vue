@@ -31,6 +31,14 @@ var redirect_url = null;
 var increaseOpacTimer = null;
 var increaseHeightTimer = null;
 
+const CUR_URL = window.document.location.href;
+const ROOT_URL = CUR_URL.substring(0, CUR_URL.indexOf(window.document.location.pathname));
+
+const SYSTEM_URL = ROOT_URL + '/system.html';
+const VANILLA_URL = ROOT_URL + '/vanilla.html';
+const MODS_URL = ROOT_URL + '/mods.html';
+
+
 function handleDragEnter(e) {
   document.getElementById('analyzer_main').style.backgroundColor = 'rgba(255,255,255,0.5)';
   e.preventDefault(); // 阻止浏览器默认拖拽行为
@@ -110,15 +118,8 @@ function StartAnalysis(file, ext) {
       reader.readAsText(file);
       reader.onload = (e) => {
         var logMsg = e.target.result;
-        if (logMsg.includes("BakaXL")) {
-          launcher = 'BakaXL'
-          LogAnalysis(logMsg);
-        }
-        if (logMsg.includes('Minecraft Crash Report')) {
-          launcher = 'Vanilla'
-          LogAnalysis(logMsg);
-        }
-      };
+        LogAnalysis(logMsg);
+      }
     }
     catch {
       FinishAnalysis('ReadLogErr');
@@ -130,13 +131,27 @@ function StartAnalysis(file, ext) {
       // more files !
       logZip.loadAsync(file)
         .then(function (zip) {
+          if (file.name.includes('minecraft-exported-crash-info')) {
+            launcher = 'HMCL'
+          }
+          else if (file.name.includes('错误报告')) {
+            launcher = 'PCL'
+          }
+
           var result = zip.file('latest.log');
           if (result == null) {
             var result1 = zip.file(/crash-(.*).txt/);
             if (result == null) {
               var result2 = zip.file('游戏崩溃前的输出.txt');
               if (result2 == null) {
-                FinishAnalysis('CanFetchLogFile', '(＃°Д°)')
+                var result3 = zip.file('minecraft.log');
+                if (result3 == null) {
+                  FinishAnalysis('CanFetchLogFile', '(＃°Д°)')
+                }
+                else {
+                  launcher = 'HMCL';
+                  return result3.async("string");
+                }
               }
               else {
                 launcher = 'PCL';
@@ -152,14 +167,7 @@ function StartAnalysis(file, ext) {
           }
         })
         .then(function (content) {
-          if (file.name.includes('minecraft-exported-crash-info')) {
-            launcher = 'HMCL'
-            LogAnalysis(content);
-          }
-          else if (file.name.includes('错误报告')) {
-            launcher = 'PCL'
-            LogAnalysis(content);
-          }
+          LogAnalysis(content);
         })
     }
     catch (error) {
@@ -168,7 +176,29 @@ function StartAnalysis(file, ext) {
   }
 }
 function LogAnalysis(log) {
-  ShowAnalysisResult('Unrecord', '本工具还未收录您所遇到的错误，请点击下方按钮前往 Github 反馈。', 'https://github.com/GlobeMC/crashmc.com/issues/new/choose', 'Unrecord');
+
+  if (log.includes('PCL')){
+    launcher = 'PCL'
+  }
+  else if (log.includes('HMCL')){
+    launcher = 'HMCL'
+  }  
+  else if (log.includes('BakaXL')){
+    launcher = 'BakaXL'
+  }
+
+  if (log.includes('java.lang.OutOfMemoryError') || log.includes('Could not reserve enough space')) {
+    ShowAnalysisResult('Success', 'Java 内存分配不足', SYSTEM_URL + '#内存问题', '内存不足')
+  }
+  else if (log.includes('Could not reserve enough space for 1048576KB object heap')) {
+    ShowAnalysisResult('Success', '32 位 Java 内存分配超过 1 G', SYSTEM_URL + '#内存问题', '32 位 Java 内存分配超过 1 G')
+  }
+  else if (log.includes('Couldn\'t set pixel format') | log.includes('Pixel format not accelerated') | log.includes('The driver does not appear to support OpenGL')) {
+    ShowAnalysisResult('Success', '显卡驱动 / 显卡驱动问题', SYSTEM_URL + '#显卡-显卡驱动问题', '显卡-显卡驱动问题')
+  }
+  else {
+    ShowAnalysisResult('Unrecord', '本工具还未收录您所遇到的错误，请点击下方按钮前往 Github 反馈。', 'https://github.com/GlobeMC/crashmc.com/issues/new/choose', 'Unrecord');
+  }
 }
 function ShowAnalysisResult(status, msg, result_url, status_msg) {
   redirect_url = result_url;

@@ -15,10 +15,10 @@ hero:
       link: /analyzer
     - theme: alt
       text: 客户端崩溃
-      link: /clients
+      link: /client/
     - theme: alt
       text: 服务器崩溃
-      link: /servers
+      link: /server/
 
 features:
   - title: 方便
