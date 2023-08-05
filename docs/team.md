@@ -105,6 +105,14 @@ const members = [
     links: [
       { icon: 'github', link: 'https://github.com/Hex-Dragon' },
     ]
+  },
+  {
+    avatar: 'https://jsd.onmicrosoft.cn/avatar/3eee0d09ddccea63d72a986732f62539.png',
+    name: 'bingling-sama',
+    title: '文档贡献者',
+    links: [
+      { icon: 'github', link: 'https://github.com/bingling-sama' },
+    ]
   }
 ]
 </script>
