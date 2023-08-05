@@ -121,6 +121,23 @@ Extracted mod jars found, loading will NOT continue
 Invalid module name: '' is not a Java identifier
 ```
 
+## 一些 Mod 需要访问国外网络
+
+解释：一些整合包里会内置一个自动下载 Mod 的 Mod，但部分 Mod 需要访问国外网络才能顺利下载。下面列出目前已知的访问国外网络：
+
+```
+- modpack-update-checker
+
+- commonality
+
+```
+
+解决方案：
+
+1.尝试禁用这些 Mod；
+
+2.挂个梯子。
+
 ## Forge
 
 ### Json 问题
