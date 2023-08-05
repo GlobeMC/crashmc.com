@@ -1,4 +1,4 @@
-import type { VitePWAOptions } from "vite-plugin-pwa";
+import type { VitePWAOptions } from "vite-plugin-pwa"
 
 export const pwa: Partial<VitePWAOptions> = {
   outDir: ".vitepress/dist",
@@ -71,4 +71,4 @@ export const pwa: Partial<VitePWAOptions> = {
       },
     ],
   },
-};
+}

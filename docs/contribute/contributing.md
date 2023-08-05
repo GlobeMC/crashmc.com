@@ -29,7 +29,7 @@ import LauncherBadge from '../../components/LauncherBadge.vue'
 
 ```vue
 <script setup>
-import LauncherBadge from '../components/LauncherBadge.vue'
+  import LauncherBadge from "../components/LauncherBadge.vue"
 </script>
 ```
 

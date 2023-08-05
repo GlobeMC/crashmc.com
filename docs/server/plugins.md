@@ -21,7 +21,6 @@ java.lang.RuntimeException: Server attempted to load chunk saved with newer vers
 
 > 关于应该使用的游戏版本，请查阅 [数据版本 - Minecraft Wiki](https://minecraft.fandom.com/zh/wiki/数据版本#数据版本列表)。
 
-
 ## 代理端
 
 ### BungeeCord 及其衍生服务端

@@ -15,7 +15,7 @@
 解决方法：根据 Log 引导使用正确的 Java 版本启动游戏。检查括号内的 `class file version` 后跟随的数字，然后在 Java 版本列表里查找对应的 Java 大版本。
 
 ```
-// 示例中是因为使用的 Java 与 Minecraft 要求的 Java 版本不符导致崩溃，应当使用 Java 17 
+// 示例中是因为使用的 Java 与 Minecraft 要求的 Java 版本不符导致崩溃，应当使用 Java 17
 // 因为安装了 Mod 导致崩溃时， net/minecraft/client/main/Main 部分会改变
 // 因此建议只检索 java.lang.UnsupportedClassVersionError 部分
 java.lang.UnsupportedClassVersionError: net/minecraft/client/main/Main has been compiled by a more recent version of the Java Runtime (class file version 61.0), this version of the Java Runtime only recognizes class file versions up to 52.0
@@ -25,8 +25,8 @@ java.lang.UnsupportedClassVersionError: net/fabricmc/loader/impl/launch/knot/Kno
 Unsupported class file major version
 ```
 
-| 关键词                                                   | 解决方法                            |
-| ------------------------------------------------------ | ----------------------------------- |
+| 关键词                                                 | 解决方法                                |
+| ------------------------------------------------------ | --------------------------------------- |
 | `no such method: sun.misc.Unsafe.defineAnonymousClass` | Java 版本过高，降低 Java 版本至 17 以下 |
 
 附 Java 版本查询列表
@@ -34,20 +34,20 @@ Unsupported class file major version
 :::details Java 版本查询列表
 | Java 大版本 | Class File Version |
 |------------|--------------------|
-| Java 20    | 64                 |
-| Java 19    | 63                 |
-| Java 18    | 62                 |
-| Java 17    | 61                 |
-| Java 16    | 60                 |
-| Java 15    | 59                 |
-| Java 14    | 58                 |
-| Java 13    | 57                 |
-| Java 12    | 56                 |
-| Java 11    | 55                 |
-| Java 10    | 54                 |
-| Java  9    | 53                 |
-| Java  8    | 52                 |
-| Java  7    | 51                 |
+| Java 20 | 64 |
+| Java 19 | 63 |
+| Java 18 | 62 |
+| Java 17 | 61 |
+| Java 16 | 60 |
+| Java 15 | 59 |
+| Java 14 | 58 |
+| Java 13 | 57 |
+| Java 12 | 56 |
+| Java 11 | 55 |
+| Java 10 | 54 |
+| Java 9 | 53 |
+| Java 8 | 52 |
+| Java 7 | 51 |
 :::
 
 ### 其他 Java 问题
@@ -134,9 +134,11 @@ Invalid module name: '' is not a Java identifier
 重置核心<LauncherBadge type="bakaxl" text="仅 BakaXL" /> ：前往 `核心列表` -> `核心高级设置` -> `恢复 / 删除` -> `重置此核心` 尝试重置核心。
 
 关键词：
+
 ```
 Found multiple arguments for option fml.forgeVersion, but you asked for only one
 ```
+
 ## NeoForge
 
 ## Fabric
@@ -284,7 +286,6 @@ java.lang.NoSuchMethodError: net.minecraft.world.server.ChunkManager$ProxyTicket
 - 点击 `Show all versions` 即可展开所有的游戏版本，点击 `+ More` 和 `+ Preview versions` 可展开更多
 
 - 若显示 `Forge N/A` 则代表该版本的 OptiFine 不兼容任何 Forge 版本
-
 
 你可以复制下面的关键词，然后在日志中查找是否有匹配，以确定是否是该原因导致崩溃（关键词仅供参考）
 
