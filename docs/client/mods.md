@@ -126,10 +126,10 @@ Invalid module name: '' is not a Java identifier
 解释：一些整合包里会内置一个自动下载 Mod 的 Mod，但部分 Mod 需要访问国外网络才能顺利下载。下面列出目前已知的访问国外网络：
 
 ```
+// 这个 Mod 会访问失败时直接崩溃游戏
 - modpack-update-checker
-
+// 这个 Mod 会让游戏在加载 Mod 阶段未响应。
 - commonality
-
 ```
 
 解决方案：
