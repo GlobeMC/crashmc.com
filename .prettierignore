@@ -1,0 +1,5 @@
+.github
+.vscode
+.history
+.obsidian
+pnpm-lock.yaml
