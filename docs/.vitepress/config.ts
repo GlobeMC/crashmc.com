@@ -21,8 +21,27 @@ export default withPwa(
       nav: [
         { text: "主页", link: "/" },
         { text: "崩溃分析工具", link: "/analyzer" },
-        { text: "客户端崩溃", link: "/clients" },
-        { text: "服务器崩溃", link: "/servers" },
+        { text: "基础知识", link: "/basis" },
+        {
+          text: "客户端崩溃",
+          activeMatch: "/client/*",
+          items: [
+            { text: "系统问题", link: "/client/system" },
+            { text: "原版问题", link: "/client/vanilla" },
+            { text: "Mod 问题", link: "/client/mods"},
+          ]
+        },
+        {
+          text: "服务端崩溃",
+          activeMatch: "/server/*",
+          items: [
+            { text: "通用问题", link: "/server/shared" },
+            { text: "原版问题", link: "/server/vanilla" },
+            { text: "Mod 端问题", link: "/server/mods" },
+            { text: "插件端问题", link: "/server/plugins" },
+            { text: "整合端问题", link: "/server/hybrid" },
+          ]
+        },
         { text: "贡献指南", link: "/contributing" },
       ],
 
@@ -84,11 +103,35 @@ export default withPwa(
         {
           text: "文档",
           items: [
-            { text: "崩溃分析工具", link: "/analyzer" },
-            { text: "客户端崩溃", link: "/clients" },
-            { text: "服务端崩溃", link: "/servers" },
+            { text: "基础知识", link: "/basis" },
+            {
+              text: "客户端崩溃",
+              collapsed: true,
+              items: [
+                { text: "系统问题", link: "/client/system" },
+                { text: "原版问题", link: "/client/vanilla" },
+                { text: "Mod 问题", link: "/client/mods"},
+              ]
+            },
+            {
+              text: "服务端崩溃",
+              collapsed: true,
+              items: [
+                { text: "通用问题", link: "/server/shared" },
+                { text: "原版问题", link: "/server/vanilla" },
+                { text: "Mod 端问题", link: "/server/mods" },
+                { text: "插件端问题", link: "/server/plugins" },
+                { text: "整合端问题", link: "/server/hybrid" },
+              ]
+            },
             { text: "Mixin", link: "/mixin" },
           ],
+        },
+        {
+          text: "工具",
+          items: [
+            { text: "崩溃分析工具", link: "/analyzer" },
+          ]
         },
         {
           text: "贡献",
