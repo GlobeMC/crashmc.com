@@ -168,11 +168,9 @@ function StartAnalysis(file, ext) {
   }
 }
 function LogAnalysis(log) {
-  ShowAnalysisResult('本工具还未收录您所遇到的错误，请点击下方按钮前往 Github 反馈。', 'https://github.com/GlobeMC/crashmc.com/issues/new/choose')
-  umami.track('Analysis Finish', { Status: 'Unrecord', Launcher: launcher });
-  redirectMsg = ref('提交反馈');
+  ShowAnalysisResult('Unrecord', '本工具还未收录您所遇到的错误，请点击下方按钮前往 Github 反馈。', 'https://github.com/GlobeMC/crashmc.com/issues/new/choose', 'Unrecord');
 }
-function ShowAnalysisResult(msg, result_url) {
+function ShowAnalysisResult(status, msg, result_url, status_msg) {
   redirect_url = result_url;
   document.getElementById('analysis_result_main').style.display = 'block';
   document.getElementById('analysis_result_msg').innerText = msg;
@@ -218,17 +216,17 @@ function ShowAnalysisResult(msg, result_url) {
   }, 300);
 
   isBtnDisabled.value = false;
-  btnMsg.value = '重新上传'
+  btnMsg.value = '重新上传';
 
-  FinishAnalysis('Success', '0')
+  FinishAnalysis(status, status_msg);
 }
-function FinishAnalysis(Status, Msg) {
-  switch (Status) {
+function FinishAnalysis(status, msg) {
+  switch (status) {
     case 'CanFetchLogFile':
       labelMsg.value = 'Zip 文件中不含有有效的 Log 文件';
       btnMsg.value = '重新上传';
       isBtnDisabled = false;
-      umami.track('Analysis Error', { Status: 'Zip 文件中不含有有效的 Log 文件', ErrMsg: Msg });
+      umami.track('Analysis Error', { Status: 'Zip 文件中不含有有效的 Log 文件', ErrMsg: msg });
       break;
 
     case 'ReadLogErr':
@@ -236,18 +234,23 @@ function FinishAnalysis(Status, Msg) {
       labelMsg.value = 'Log 文件读取错误';
       btnMsg.value = '重新上传';
       isBtnDisabled = false;
-      umami.track('Analysis Error', { Status: 'Log 文件读取错误', ErrMsg: Msg });
+      umami.track('Analysis Error', { Status: 'Log 文件读取错误', ErrMsg: msg });
       break;
 
     case 'UnzipErr':
       labelMsg.value = '日志文件解压错误';
       btnMsg.value = '重新上传';
       isBtnDisabled = false;
-      umami.track('Analysis Error', { Status: '日志文件解压错误', ErrMsg: Msg });
+      umami.track('Analysis Error', { Status: '日志文件解压错误', ErrMsg: msg });
       break;
-
+    case 'Unrecord':
+      umami.track('Unrecord Crash', { Status: 'Unrecord', Launcher: launcher });
+      redirectMsg = ref('提交反馈');
     case 'Success':
-      umami.track('Analysis Finish', { Status: 'Success', Launcher: launcher, CrashReason: 'lorem' });
+      umami.track('Analysis Finish', { Status: 'Success', Launcher: launcher, CrashReason: msg });
+      break;
+    default:
+      umami.track('Analysis Error', { Status: '未知错误', Launcher: launcher });
       break;
   }
 }
