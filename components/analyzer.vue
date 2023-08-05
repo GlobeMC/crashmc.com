@@ -127,77 +127,84 @@ function StartAnalysis(file, ext) {
   }
   else {
     try {
-      var logZip = new JSZip();
-      // more files !
-      logZip.loadAsync(file)
-        .then(function (zip) {
-          if (file.name.includes('minecraft-exported-crash-info')) {
-            launcher = 'HMCL'
-          }
-          else if (file.name.includes('错误报告')) {
-            launcher = 'PCL'
-          }
+      var jsZip = new JSZip();
 
-          var result = zip.file('latest.log');
-          if (result == null) {
-            var result1 = zip.file(/crash-(.*).txt/);
-            if (result == null) {
-              var result2 = zip.file('游戏崩溃前的输出.txt');
-              if (result2 == null) {
-                var result3 = zip.file('minecraft.log');
-                if (result3 == null) {
-                  FinishAnalysis('CanFetchLogFile', '(＃°Д°)')
-                }
-                else {
-                  launcher = 'HMCL';
-                  return result3.async("string");
-                }
-              }
-              else {
-                launcher = 'PCL';
-                return result2.async("string");
-              }
-            }
-            else {
-              return result1[0].async("string");
+      // 从本地或URL加载一个Zip文件
+      jsZip.loadAsync(file).then(function (zip) {
+        // 遍历Zip中的文件对象
+        for (let key in zip.files) {
+          // 判断是否是文件夹
+          if (!zip.files[key].dir) {
+            if (zip.files[key].name.toLowerCase().includes('pcl') || zip.files[key].name.includes('游戏崩溃前的输出.txt')) {
+              launcher = 'PCL'
             }
           }
-          else {
-            return result.async("string");
+        }
+        for (let key in zip.files) {
+          // 判断是否是文件夹
+          if (!zip.files[key].dir) {
+            if (zip.files[key].name.toLowerCase().includes('hmcl')) {
+              launcher = 'HMCL'
+            }
           }
-        })
-        .then(function (content) {
-          LogAnalysis(content);
-        })
+        }
+        for (let key in zip.files) {
+          if (!zip.files[key].dir) {
+            if (zip.files[key].name == 'latest.log') {
+              return zip.files[key].async("string");
+            }
+          }
+        }
+        for (let key in zip.files) {
+          if (!zip.files[key].dir) {
+            if (zip.files[key].name.search(/crash-(.*).txt/) != -1) {
+              return zip.files[key].async("string");
+            }
+          }
+        }
+
+        for (let key in zip.files) {
+          if (!zip.files[key].dir) {
+            if (zip.files[key].name == 'minecraft.log' || zip.files[key].name == '游戏崩溃前的输出.txt') {
+              return zip.files[key].async("string");
+            } else {
+              FinishAnalysis('CanFetchLogFile', '(＃°Д°)')
+              return;
+            }
+          }
+        }
+      }).then(function (content) {
+        LogAnalysis(content)
+      })
     }
     catch (error) {
       FinishAnalysis('UnzipErr', error);
     }
   }
-}
-function LogAnalysis(log) {
+  function LogAnalysis(log) {
 
-  if (log.includes('PCL')){
-    launcher = 'PCL'
-  }
-  else if (log.includes('HMCL')){
-    launcher = 'HMCL'
-  }  
-  else if (log.includes('BakaXL')){
-    launcher = 'BakaXL'
-  }
+    if (log.includes('PCL')) {
+      launcher = 'PCL'
+    }
+    else if (log.includes('HMCL')) {
+      launcher = 'HMCL'
+    }
+    else if (log.includes('BakaXL')) {
+      launcher = 'BakaXL'
+    }
 
-  if (log.includes('java.lang.OutOfMemoryError') || log.includes('Could not reserve enough space')) {
-    ShowAnalysisResult('Success', 'Java 内存分配不足', SYSTEM_URL + '#内存问题', '内存不足')
-  }
-  else if (log.includes('Could not reserve enough space for 1048576KB object heap')) {
-    ShowAnalysisResult('Success', '32 位 Java 内存分配超过 1 G', SYSTEM_URL + '#内存问题', '32 位 Java 内存分配超过 1 G')
-  }
-  else if (log.includes('Couldn\'t set pixel format') | log.includes('Pixel format not accelerated') | log.includes('The driver does not appear to support OpenGL')) {
-    ShowAnalysisResult('Success', '显卡驱动 / 显卡驱动问题', SYSTEM_URL + '#显卡-显卡驱动问题', '显卡-显卡驱动问题')
-  }
-  else {
-    ShowAnalysisResult('Unrecord', '本工具还未收录您所遇到的错误，请点击下方按钮前往 Github 反馈。', 'https://github.com/GlobeMC/crashmc.com/issues/new/choose', 'Unrecord');
+    if (log.includes('java.lang.OutOfMemoryError') || log.includes('Could not reserve enough space')) {
+      ShowAnalysisResult('Success', 'Java 内存分配不足', SYSTEM_URL + '#内存问题', '内存不足')
+    }
+    else if (log.includes('Could not reserve enough space for 1048576KB object heap')) {
+      ShowAnalysisResult('Success', '32 位 Java 内存分配超过 1 G', SYSTEM_URL + '#内存问题', '32 位 Java 内存分配超过 1 G')
+    }
+    else if (log.includes('Couldn\'t set pixel format') | log.includes('Pixel format not accelerated') | log.includes('The driver does not appear to support OpenGL')) {
+      ShowAnalysisResult('Success', '显卡驱动 / 显卡驱动问题', SYSTEM_URL + '#显卡-显卡驱动问题', '显卡-显卡驱动问题')
+    }
+    else {
+      ShowAnalysisResult('Unrecord', '本工具还未收录您所遇到的错误，请点击下方按钮前往 Github 反馈。', 'https://github.com/GlobeMC/crashmc.com/issues/new/choose', 'Unrecord');
+    }
   }
 }
 function ShowAnalysisResult(status, msg, result_url, status_msg) {
