@@ -42,7 +42,16 @@ export default withPwa(
             { text: "整合端问题", link: "/server/hybrid" },
           ]
         },
-        { text: "贡献指南", link: "/contributing" },
+        { text: "Mixin", link: "/mixin" },
+        {
+          text: "贡献",
+          activeMatch: "/contribute/*",
+          items: [
+            { text: "贡献指南", link: "/contributing" },
+            { text: "崩溃提交", link: "https://github.com/GlobeMC/crashmc.com/issues/new/choose" }
+          ]
+        },
+        { text: "关于我们", link: "/about" }
       ],
 
       footer: {
@@ -110,7 +119,7 @@ export default withPwa(
               items: [
                 { text: "系统问题", link: "/client/system" },
                 { text: "原版问题", link: "/client/vanilla" },
-                { text: "Mod 问题", link: "/client/mods"},
+                { text: "Mod 问题", link: "/client/mods" },
               ]
             },
             {
@@ -137,9 +146,10 @@ export default withPwa(
           text: "贡献",
           items: [
             { text: "贡献指南", link: "/contributing" },
-            { text: "团队", link: "/team" },
+            { text: "崩溃提交", link: "https://github.com/GlobeMC/crashmc.com/issues/new/choose" },
           ],
         },
+        { text: "关于我们", link: "/team" },
       ],
 
       socialLinks: [{ icon: "github", link: "https://github.com/GlobeMC" }],

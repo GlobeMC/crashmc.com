@@ -1,3 +1,7 @@
+---
+author: HRxiaohu
+---
+
 <script setup>
 import analyzer from '../components/analyzer.vue'
 </script>

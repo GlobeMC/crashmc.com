@@ -1,26 +1,28 @@
-<template>
+<!-- <template>
   <div class="author" v-if="$frontmatter.author">
-    <span>本文作者：{{ $frontmatter.author }}</span>
+    <span>本文作者:  {{ $frontmatter.author }}</span>
   </div>
+</template> -->
+
+<template>
+  <p class="Author">
+    本文作者 : {{ $frontmatter.author }}
+  </p>
 </template>
 
 <style scoped>
-.author {
+.Author {
   line-height: 24px;
   font-size: 14px;
   font-weight: 500;
-  color: var(--vp-c-text-2);
-  text-align: right;
-  margin-right: 1px;
+  color: var(--vp-c-brand);
 }
 
 @media (min-width: 640px) {
-  .author {
+  .Author {
     line-height: 32px;
     font-size: 14px;
     font-weight: 500;
-    text-align: right;
-    margin-right: 1px;
   }
 }
 </style>
