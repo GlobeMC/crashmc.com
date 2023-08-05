@@ -20,8 +20,8 @@
   </div>
 </template>
 <script lang="ts" setup>
-  import { reactive, ref, watch } from "vue"
   import { useData, useRoute } from "vitepress"
+  import { reactive, ref, watch } from "vue"
 
   const route = useRoute()
 
