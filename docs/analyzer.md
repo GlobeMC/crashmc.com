@@ -14,6 +14,10 @@ import analyzer from '../components/analyzer.vue'
 
 ---
 
+<analyzer />
+
+---
+
 :::tip 帮助
 - 如分析模块长时间未响应请刷新页面重试。
 - 如果分析工具提供的解决方案无效，或者本工具还未收录您遇到的错误时，请在页面下方留言。
@@ -25,5 +29,3 @@ import analyzer from '../components/analyzer.vue'
 :::
 
 ---
-
-<analyzer />
