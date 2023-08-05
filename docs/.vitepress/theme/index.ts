@@ -1,7 +1,7 @@
 import { h } from "vue"
 import Theme from "vitepress/theme"
 import "./style.css"
-import Comment from "./components/comment.vue"
+import Comment from "./components/Comment.vue"
 import Author from "./components/Author.vue"
 import ReloadPrompt from "./components/ReloadPrompt.vue"
 import LauncherBadge from "./globalComponents/LauncherBadge.vue"
