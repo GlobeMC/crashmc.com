@@ -92,7 +92,7 @@ export default withPwa(
               items: [
                 { text: "系统问题", link: "/client/system" },
                 { text: "原版问题", link: "/client/vanilla" },
-                { text: "mod 问题", link: "/client/mods"},
+                { text: "Mod 问题", link: "/client/mods"},
               ]
             },
             { text: "服务端崩溃", link: "/servers" },
