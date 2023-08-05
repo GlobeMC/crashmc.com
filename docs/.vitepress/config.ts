@@ -47,7 +47,7 @@ export default withPwa(
           activeMatch: "/contribute/*",
           items: [
             { text: "贡献指南", link: "/contribute/contributing" },
-            { text: "崩溃提交", link: "/contribute/crash-report" }
+            { text: "崩溃提交", link: "https://github.com/GlobeMC/crashmc.com/issues/new/choose" }
           ]
         },
         { text: "关于我们", link: "/about" }
@@ -145,7 +145,7 @@ export default withPwa(
           text: "贡献",
           items: [
             { text: "贡献指南", link: "/contribute/contributing" },
-            { text: "崩溃提交", link: "/contribute/crash-report" },
+            { text: "崩溃提交", link: "https://github.com/GlobeMC/crashmc.com/issues/new/choose" },
           ],
         },
         { text: "关于我们", link: "/about" },
