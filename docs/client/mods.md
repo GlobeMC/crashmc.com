@@ -121,6 +121,19 @@ Extracted mod jars found, loading will NOT continue
 Invalid module name: '' is not a Java identifier
 ```
 
+## Mod 文件损坏
+
+解释：可能在下载 Mod 文件时出现一些意外，导致 Mod 文件在读取的时候
+
+解决方法：重新下载这个 Mod 并将原来的替换。
+
+关键词：
+
+```
+//可查看上下文观察是哪个 Mod 损坏了。
+Caused by: java.util.zip.ZipException: zip END header not found
+```
+
 ## 一些 Mod 需要访问国外网络
 
 解释：一些整合包里会内置一个自动下载 Mod 的 Mod，但部分 Mod 需要访问国外网络才能顺利下载。下面列出目前已知的访问国外网络：
