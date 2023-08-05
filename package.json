@@ -2,7 +2,8 @@
   "scripts": {
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs"
+    "docs:preview": "vitepress preview docs",
+    "docs:format": "prettier --write ."
   },
   "name": "mccrash-docs",
   "version": "0.0.0",
@@ -11,6 +12,7 @@
   "devDependencies": {
     "@giscus/vue": "^2.3.0",
     "@vite-pwa/vitepress": "^0.2.0",
+    "prettier": "^3.0.1",
     "tslib": "^2.6.1",
     "vite-plugin-pwa": "^0.16.4",
     "vitepress": "1.0.0-beta.7",

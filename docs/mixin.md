@@ -10,10 +10,9 @@
 > Mixin is a trait/mixin and bytecode weaving framework for Java using ASM  
 > SpongePowered Mixin 在各个 Mod 加载器中都有广泛应用
 
-
 ## 如何判断我的 Minecraft 中是否有 Mixin 的参与？
 
-在日志中查找 `SpongePowered MIXIN Subsystem` 这段文字, 如果找到说明您的 Mod 加载器中使用了 Mixin  
+在日志中查找 `SpongePowered MIXIN Subsystem` 这段文字, 如果找到说明您的 Mod 加载器中使用了 Mixin
 
 ## 在此之前...
 
@@ -22,6 +21,7 @@
 ### Rubidium 与 OptiFine 冲突
 
 若看见了 `OptiFine ZIP file:` ，说明您安装了 OptiFine ，这一行后面是您的 OptiFine 路径
+
 ```
 // 在示例中，您的 OptiFine 的路径为 C:\.minecraft\libraries\optifine\OptiFine\1.19.2_HD_U_I2\OptiFine-1.19.2_HD_U_I2.jar
 OptiFine ZIP file: C:\.minecraft\libraries\optifine\OptiFine\1.19.2_HD_U_I2\OptiFine-1.19.2_HD_U_I2.jar
@@ -44,6 +44,3 @@ org.spongepowered.asm.mixin.injection.throwables.InvalidInjectionException: @At(
 删除掉其中任意一个模组
 
 ### Mod 版本 / Mod 所适用的 Minecraft 版本错误
-
-
-

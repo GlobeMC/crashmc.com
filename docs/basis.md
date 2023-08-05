@@ -1,3 +1,7 @@
+---
+author: bingling_sama
+---
+
 # 基础知识
 
 正在阅读本文档的玩家您好，我们相信您此刻一定在游玩 `Minecraft` 时遇到了某些令人烦恼的问题。不论是单人愉悦游玩，或是架设服务器与好友畅玩。
@@ -12,7 +16,7 @@
 
 ## 启程之前
 
-在开始我们的 `Minecraft` 错误报告分析之前，我将先为您解开一部分心理上的疑惑。   
+在开始我们的 `Minecraft` 错误报告分析之前，我将先为您解开一部分心理上的疑惑。
 
 > Q：我为什么要自己修崩溃？
 
@@ -28,7 +32,7 @@ A：要对 `Minecraft` 的游戏错误 / 崩溃进行处理，您首先要对游
 
 ## 梦的开始
 
-作为一名 `Minecraft` 玩家，想必您应该知道 `Minecraft` 游戏的启动，需要用到 `Mojang` 官方提供的 **启动器（Launcher）** 来启动游戏。~~作为一名购买了正版游戏的玩家，您一定是知道的吧？对吧？~~   
+作为一名 `Minecraft` 玩家，想必您应该知道 `Minecraft` 游戏的启动，需要用到 `Mojang` 官方提供的 **启动器（Launcher）** 来启动游戏。~~作为一名购买了正版游戏的玩家，您一定是知道的吧？对吧？~~
 
 而由于开发 `Minecraft` 的工作室 `Mojang` 的一些原因，许多国内的玩家没办法使用 **官方启动器（Minecraft Launcher）**（后文以 **官启** 代之）获得很好的游戏体验，因此便催生了一些社区开发者制作的 **第三方启动器**，此处列举几个国内著名的第三方启动器，如下表：
 
@@ -50,6 +54,7 @@ A：要对 `Minecraft` 的游戏错误 / 崩溃进行处理，您首先要对游
 `日志` 是在包括 `Minecraft` 错误分析的程序调试过程中十分重要的提供有效信息的文件，而 `Minecraft` 的日志通常需要玩家亲自进入游戏文件夹寻找，而具体的日志文件位置大致有如下几种：
 
 - 客户端崩溃日志：`.minecraft\crash-reports\crash-***.txt`
+
   > 若启用了 `版本隔离` ，则位于：`.minecraft\versions\***\crash-reports\crash-***.txt`
 
 - 服务端崩溃日志：位于你服务端根目录下，如果你的服务器经常出现问题崩溃的话，你应该能在这看到很多 ~~你的服务端发出的抱怨~~ 崩溃日志
@@ -64,10 +69,10 @@ A：要对 `Minecraft` 的游戏错误 / 崩溃进行处理，您首先要对游
 
 - Windows 记事本（说实话， `Windows 10 / 11` 的记事本还是很好用的，如果你不想下载什么软件就用它吧）
 - [NotepadNext: A cross-platform, reimplementation of Notepad++.](https://github.com/dail8859/NotepadNext)
-:::details Q&A
-  > Q：为什么不用 Notepad++？   
+  :::details Q&A
+  > Q：为什么不用 Notepad++？  
   > A：Notepad++ 的作者存在一些严重的政治立场问题，在这里不过多提及，但他本人将这种问题带入了他的作品之中，因此我本人并不推荐使用 Notepad++。
-:::
+  > :::
 - [Visual Studio Code: A source-code editor made by Microsoft](https://code.visualstudio.com)
   > 一个轻量的、美观的文本编辑器，深受广大程序员喜爱。
 
@@ -81,9 +86,10 @@ A：要对 `Minecraft` 的游戏错误 / 崩溃进行处理，您首先要对游
 
 `Forge`、`NeoForge`、`Fabric`、`Quilt`、`LiteLoader` 均为 Mod 加载器，绝大多数的崩溃和 Mod 安装不正确有关。
 
-`OptiFine`*(高清修复)* 是一个 Mod，它可以提高游戏的帧率，减少游戏的卡顿和延迟，并提供更多的图像设置。不正确的使用此 Mod 很容易导致崩溃，不建议和多个优化 Mods 同时安装。
+`OptiFine`_(高清修复)_ 是一个 Mod，它可以提高游戏的帧率，减少游戏的卡顿和延迟，并提供更多的图像设置。不正确的使用此 Mod 很容易导致崩溃，不建议和多个优化 Mods 同时安装。
 
-`Java` 是 Minecraft *(我的世界)* 启动所必须的环境。在 1.16 及之前的版本推荐使用 Java 8。在 1.17 及以后的版本，需要使用 Java 17 及更高的版本。
+`Java` 是 Minecraft _(我的世界)_ 启动所必须的环境。在 1.16 及之前的版本推荐使用 Java 8。在 1.17 及以后的版本，需要使用 Java 17 及更高的版本。
+
 ## 第一站结束
 
 看到这里，相信您已经对 `Minecraft` 的错误及崩溃有一定的了解了，接下来继续阅读后面的文章将会对您带来更多的帮助。

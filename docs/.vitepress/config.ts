@@ -1,10 +1,10 @@
-import { withPwa } from "@vite-pwa/vitepress";
-import process from "node:process";
-import { defineConfig } from "vitepress";
-import { pwa } from "./scripts/pwa";
+import { withPwa } from "@vite-pwa/vitepress"
+import process from "node:process"
+import { defineConfig } from "vitepress"
+import { pwa } from "./scripts/pwa"
 
-const COMMIT_ID = process.env.CF_PAGES_COMMIT_SHA || process.env.COMMIT_REF;
-const commitRef = COMMIT_ID?.slice(0, 8);
+const COMMIT_ID = process.env.CF_PAGES_COMMIT_SHA || process.env.COMMIT_REF
+const commitRef = COMMIT_ID?.slice(0, 8)
 
 export default withPwa(
   defineConfig({
@@ -21,15 +21,14 @@ export default withPwa(
       nav: [
         { text: "主页", link: "/" },
         { text: "崩溃分析工具", link: "/analyzer" },
-        { text: "基础知识", link: "/basis" },
         {
           text: "客户端崩溃",
           activeMatch: "/client/*",
           items: [
             { text: "系统问题", link: "/client/system" },
             { text: "原版问题", link: "/client/vanilla" },
-            { text: "Mod 问题", link: "/client/mods"},
-          ]
+            { text: "Mod 问题", link: "/client/mods" },
+          ],
         },
         {
           text: "服务端崩溃",
@@ -40,9 +39,21 @@ export default withPwa(
             { text: "Mod 端问题", link: "/server/mods" },
             { text: "插件端问题", link: "/server/plugins" },
             { text: "整合端问题", link: "/server/hybrid" },
-          ]
+          ],
         },
-        { text: "贡献指南", link: "/contributing" },
+        { text: "Mixin", link: "/mixin" },
+        {
+          text: "贡献",
+          activeMatch: "/contribute/*",
+          items: [
+            { text: "贡献指南", link: "/contribute/contributing" },
+            {
+              text: "崩溃提交",
+              link: "https://github.com/GlobeMC/crashmc.com/issues/new/choose",
+            },
+          ],
+        },
+        { text: "关于我们", link: "/about" },
       ],
 
       footer: {
@@ -106,40 +117,42 @@ export default withPwa(
             { text: "基础知识", link: "/basis" },
             {
               text: "客户端崩溃",
-              collapsed: true,
               items: [
+                { text: "客户端介绍", link: "/client/" },
                 { text: "系统问题", link: "/client/system" },
                 { text: "原版问题", link: "/client/vanilla" },
-                { text: "Mod 问题", link: "/client/mods"},
-              ]
+                { text: "Mod 问题", link: "/client/mods" },
+              ],
             },
             {
               text: "服务端崩溃",
-              collapsed: true,
               items: [
+                { text: "服务端介绍", link: "/server/" },
                 { text: "通用问题", link: "/server/shared" },
                 { text: "原版问题", link: "/server/vanilla" },
                 { text: "Mod 端问题", link: "/server/mods" },
                 { text: "插件端问题", link: "/server/plugins" },
                 { text: "整合端问题", link: "/server/hybrid" },
-              ]
+              ],
             },
             { text: "Mixin", link: "/mixin" },
           ],
         },
         {
           text: "工具",
-          items: [
-            { text: "崩溃分析工具", link: "/analyzer" },
-          ]
+          items: [{ text: "崩溃分析工具", link: "/analyzer" }],
         },
         {
           text: "贡献",
           items: [
-            { text: "贡献指南", link: "/contributing" },
-            { text: "团队", link: "/team" },
+            { text: "贡献指南", link: "/contribute/contributing" },
+            {
+              text: "崩溃提交",
+              link: "https://github.com/GlobeMC/crashmc.com/issues/new/choose",
+            },
           ],
         },
+        { text: "关于我们", link: "/about" },
       ],
 
       socialLinks: [{ icon: "github", link: "https://github.com/GlobeMC" }],
@@ -173,5 +186,5 @@ export default withPwa(
     ],
 
     pwa,
-  })
-);
+  }),
+)

@@ -7,7 +7,7 @@
  * Colors
  * -------------------------------------------------------------------------- */
 
- :root {
+:root {
   --vp-c-brand: #646cff;
   --vp-c-brand-light: #747bff;
   --vp-c-brand-lighter: #9499ff;
@@ -93,8 +93,7 @@
  * Component: Launcher Bage
  * -------------------------------------------------------------------------- */
 
-
- :root {
+:root {
   --vp-badge-bakaxl-border: #1689ca;
   --vp-badge-bakaxl-text: #ffffff;
   --vp-badge-bakaxl-bg: #28b0ea;
@@ -104,4 +103,4 @@
   --vp-badge-pcl-border: #2264ae;
   --vp-badge-pcl-text: #ffffff;
   --vp-badge-pcl-bg: #0069df;
- }
+}
