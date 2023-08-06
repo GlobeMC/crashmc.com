@@ -41,8 +41,8 @@
 </template>
 
 <script setup>
-import JSZip from "jszip"
-import { ref } from "vue"
+import JSZip from "jszip";
+import { ref } from "vue";
 
 // 变量初始化
 var isBtnDisabled = ref(false)
@@ -222,7 +222,7 @@ function StartAnalysis(file, ext) {
               ) {
                 return zip.files[key].async("string")
               } else {
-                FinishAnalysis("CanFetchLogFile", "(＃°Д°)")
+                FinishAnalysis("FetchLogErr", "(＃°Д°)")
                 return
               }
             }
@@ -269,7 +269,7 @@ function LogAnalysis(log) {
       "Success",
       "32 位 Java 内存分配超过 1 G",
       SYSTEM_URL + "#内存问题",
-      "32 位 Java 内存分配超过 1 G",
+      "32_Bit_Java_Memory",
     )
   } else if (
     log.includes("Couldn't set pixel format") |
@@ -278,11 +278,41 @@ function LogAnalysis(log) {
   ) {
     ShowAnalysisResult(
       "Success",
-      "显卡驱动 / 显卡驱动问题",
+      "显卡 / 显卡驱动问题",
       SYSTEM_URL + "#显卡-显卡驱动问题",
-      "显卡-显卡驱动问题",
+      "GPU_DRIVER",
     )
-  } else {
+  } else if (
+    log.includes("Open J9 is not supported") |
+    log.includes("OpenJ9 is incompatible") |
+    log.includes(".J9VMInternals.")
+  ) {
+    ShowAnalysisResult(
+      "Success",
+      "使用了 OpenJ9",
+      SYSTEM_URL + "#使用-openj9",
+      "Used_OpenJ9",
+    )
+  }  else if (
+    log.includes("Caused by: net.minecraft.util.ResourceLocationException: Non [a-z0-9_.-] character in namespace of location: .DS_Store:") |
+    log.includes("net.minecraft.util.ResourceLocationException: Non [a-z0-9_.-] character in namespace of location: .DS_Store:")
+  ) {
+    ShowAnalysisResult(
+      "Success",
+      "存在 .DS_Store 文件导致报错",
+      SYSTEM_URL + "#mac-下存在-ds-store-文件导致报错",
+      "DS_Store",
+    )
+  } else if (
+    log.search(/java.lang.IllegalStateException: GLFW error before init: [*]Cocoa: Failed to find service port for display/)  != -1
+  ) {
+    ShowAnalysisResult(
+      "Success",
+      "Mac 下初始化 OpenGL 窗口问题",
+      SYSTEM_URL + "#mac-下初始化-opengl-窗口问题",
+      "Mac_OpenGL_Init",
+    )
+  }else {
     ShowAnalysisResult(
       "Unrecord",
       "本工具还未收录您所遇到的错误，请点击下方按钮前往 Github 反馈。",
@@ -358,12 +388,12 @@ function ShowAnalysisResult(status, msg, result_url, status_msg) {
  */
 function FinishAnalysis(status, msg) {
   switch (status) {
-    case "CanFetchLogFile":
+    case "FetchLogErr":
       labelMsg.value = "Zip 文件中不含有有效的 Log 文件"
       btnMsg.value = "重新上传"
       isBtnDisabled = false
       umami.track("Analysis Error", {
-        Status: "Zip 文件中不含有有效的 Log 文件",
+        Status: "No_Log_File_In_Zip",
         ErrMsg: msg,
       })
       break
@@ -373,7 +403,7 @@ function FinishAnalysis(status, msg) {
       btnMsg.value = "重新上传"
       isBtnDisabled = false
       umami.track("Analysis Error", {
-        Status: "Log 文件读取错误",
+        Status: "Cannot_Read_Log_File",
         ErrMsg: msg,
       })
       break
@@ -383,26 +413,32 @@ function FinishAnalysis(status, msg) {
       btnMsg.value = "重新上传"
       isBtnDisabled = false
       umami.track("Analysis Error", {
-        Status: "日志文件解压错误",
+        Status: "Cannot_Unzip_Log_File",
         ErrMsg: msg,
+      })
+      break
+    case "ErrOpenRstPage":
+      umami.track("Analysis Error", {
+        Status: "Cannot_Redirect_To_Resolution",
+        Launcher: launcher,
       })
       break
     case "Unrecord":
       umami.track("Unrecord Crash", {
-        Status: "Unrecord",
+        Status: "Unrecord_Crash",
         Launcher: launcher,
       })
-      redirectMsg = ref("提交反馈")
+      redirectMsg.value = "提交反馈"
     case "Success":
       umami.track("Analysis Finish", {
-        Status: "Success",
+        Status: "Analysis_Success",
         Launcher: launcher,
         CrashReason: msg,
       })
       break
     default:
       umami.track("Analysis Error", {
-        Status: "未知错误",
+        Status: "Unknown_Error",
         Launcher: launcher,
       })
       break
@@ -413,7 +449,16 @@ function FinishAnalysis(status, msg) {
  * 重定向按钮
  */
 function redirectBtnClick() {
-  window.location.href = redirect_url
+  if (
+    redirect_url == "https://github.com/GlobeMC/crashmc.com/issues/new/choose"
+  ) {
+    window.open(redirect_url)
+  } else if (redirect_url == null || redirect_url == undefined) {
+    labelMsg.value = "无法重定向到解决方案页面"
+    FinishAnalysis("ErrOpenRstPage", redirect_url)
+  } else {
+    window.location.href = redirect_url
+  }
 }
 </script>
 

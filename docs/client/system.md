@@ -108,11 +108,10 @@ OpenJ9 is incompatible
 解释：由于使用了 32 位 Java 且分配了 1G 以上内存，导致游戏无法正常启动。
 
 解决方法：
-
-1.  :::warning 注意
-    此方法仅适用于 64 位系统。
-    :::
-    卸载当前 Java ，然后去其他地方重新获取 64 位的 Java。
+:::warning 注意
+此方法仅适用于 64 位系统。
+:::
+1. 卸载当前 Java ，然后去其他地方重新获取 64 位的 Java。
 
 :::details 常见的第三方启动器获取 Java 方法
 在<LauncherBadge type="bakaxl" text="BakaXL" />启动器设置中获取 Java：前往 `本体设置` -> `Java 虚拟机与内存` ，点击获取对应的 Java 版本。
@@ -128,15 +127,15 @@ OpenJ9 is incompatible
 获取 (Java 9+) 且已存档的 JDK 包: <https://jdk.java.net/archive/>
 :::
 
-2.  :::warning 注意
-    不推荐使用此方法，可能会导致游戏卡顿，但 32 位系统只能这么做。
-    :::
-    在启动器的内存设置中调整游戏内存分配至小于等于 1G （1G = 1024M）。
+:::warning 注意
+不推荐使用此方法，可能会导致游戏卡顿，但 32 位系统只能这么做。
+:::
+2. 在启动器的内存设置中调整游戏内存分配至小于等于 1G （1G = 1024M）。
 
-3.  :::warning 注意
-    需要一定技术基础，适用于 32 位系统，但为 64 位处理器。
-    :::
-    自行重装系统为 64 位。你可以使用微软官方提供的重装工具，抑或是使用 `EasyRC 一键重装` 等无捆绑一键重装工具。
+:::warning 注意
+需要一定技术基础，适用于 32 位系统，但为 64 位处理器。
+:::
+3.自行重装系统为 64 位。你可以使用微软官方提供的重装工具，抑或是使用 `EasyRC 一键重装` 等无捆绑一键重装工具。
 
 关键词：
 
@@ -150,7 +149,7 @@ TO BE COLLECTED
 
 ## MacOS 问题
 
-### Mac 下存在 .DS_Store 文件报错
+### Mac 下存在 .DS_Store 文件导致报错
 
 ```
 Caused by: net.minecraft.util.ResourceLocationException: Non [a-z0-9_.-] character in namespace of location: .DS_Store:
