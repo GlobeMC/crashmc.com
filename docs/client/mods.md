@@ -273,10 +273,6 @@ which is missing!
 
 ![Liteloader-mod-01](https://raw.githubusercontent.com/bingxin666/crashmc_pic/main/client/mods/liteloader-mod-02.png "提示缺少的前置库")
 
-当然，也可能出现下图这种情况，这代表您需要在互联网上手动寻找该模组所需要的前置。
-
-![Liteloader-mod-02](https://raw.githubusercontent.com/bingxin666/crashmc_pic/main/client/mods/liteloader-mod-01.png "未提示缺少的前置库")
-
 解决方法：
 
 1. 安装依赖 Mod
