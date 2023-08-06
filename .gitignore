@@ -137,3 +137,12 @@ cache
 .pnp.cjs
 .pnp.loader.mjs
 yarn.lock
+
+#CloudIDE
+.lightly
+.c_bin
+.classes
+node_modules
+dist-ssr
+*.local
+.lightly

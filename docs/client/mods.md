@@ -261,6 +261,30 @@ which is missing!
 
 ## LiteLoader
 
+### 缺少前置
+
+解释：有 Mod 依赖其他 Mod 运行，但未安装依赖的 Mod。
+
+请注意：与其他 Mods 加载器不同的是，通过 LiteLoader 加载的 Mod 在缺少前置的时候并不会导致游戏崩溃，因此您需要手动查看是否存在前置 Mod 缺失的情况。
+
+进入游戏后，点击游戏右上角的半透明浮窗即可查看通过 LiteLoader 安装的 Mods 列表。
+
+在一般情况下，点击显示 `缺少前置库` 的 Mod 后，会打开该 Mod 的详情界面，在界面中会提示您该 Mod 所需要的前置。
+
+![Liteloader-mod-01](https://raw.githubusercontent.com/bingxin666/crashmc_pic/main/client/mods/liteloader-mod-02.png "提示缺少的前置库")
+
+解决方法：
+
+1. 安装依赖 Mod
+
+您可以通过 [MC百科](https://www.mcmod.cn/)、[Modrinth](https://modrinth.com/mods)、[CurseForge](https://www.curseforge.com/minecraft/mc-mods) 等网站搜索 Mods 所需的前置 Mods。
+
+> Modrinth 和 CurseForge 目前为止未提供中文界面，有困难的用户建议使用 MC百科 进行查询。
+
+2. 删除需要前置的 Mod
+
+根据 Mods 列表的提示，手动删除对应的 Mod。
+
 ## OptiFine
 
 #### 无法加载世界
