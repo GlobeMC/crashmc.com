@@ -1,7 +1,3 @@
-<script setup>
-import LauncherBadge from '../../components/LauncherBadge.vue'
-</script>
-
 # 贡献指南
 
 ## 排版标准
@@ -22,20 +18,9 @@ import LauncherBadge from '../../components/LauncherBadge.vue'
 
 在涉及任何站外链接时，请优先添加官方链接，尽量避免不必要的第三方链接。
 
-如果某一个解决方案为特定启动器独占功能，请使用 Vue Component 注明。示例如下：
+如果某一个解决方案为特定启动器独占功能，我们提供了全局组件来标注它。示例如下：
 
-:::warning 警告
-在使用 Component 之前，请务必在 Markdown 最顶部引入它。
-
-```vue
-<script setup>
-  import LauncherBadge from "../components/LauncherBadge.vue"
-</script>
-```
-
-:::
-
-:::details HMCL
+:::tip HMCL
 
 ### 修改渲染器 <LauncherBadge type="hmcl" text="仅 HMCL" />
 
@@ -45,7 +30,7 @@ import LauncherBadge from '../../components/LauncherBadge.vue'
 
 :::
 
-:::details BakaXL
+:::tip BakaXL
 
 ### 重置核心 <LauncherBadge type="bakaxl" text="仅 BakaXL" />
 
@@ -55,7 +40,7 @@ import LauncherBadge from '../../components/LauncherBadge.vue'
 
 :::
 
-:::details
+:::tip PCL2
 
 ### 修改验证服务器 <LauncherBadge type="pcl" text="仅 PCL2" />
 

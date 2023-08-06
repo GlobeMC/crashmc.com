@@ -9,7 +9,7 @@
       <h4 style="text-align: center">
         请点击按钮上传导出的 .zip/.txt/.log 文件,并尽量不要更改导出文件的名称。
       </h4>
-      <img class="icon_upload" src="../docs/src/logo-upload.svg" />
+      <img class="icon_upload" src="../../../src/logo-upload.svg" />
       <div class="file_uploader_container">
         <h4 id="file_uploader_label" for="file_uploader" singleLine="false">
           {{ labelMsg }}

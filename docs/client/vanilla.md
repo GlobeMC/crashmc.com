@@ -1,7 +1,3 @@
-<script setup>
-import LauncherBadge from '../../components/LauncherBadge.vue'
-</script>
-
 # 原版问题
 
 `Minecraft` 原版游戏中本身也存在许多问题，这里列出部分常见问题及解决方案。
