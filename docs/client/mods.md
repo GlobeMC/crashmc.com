@@ -121,6 +121,36 @@ Extracted mod jars found, loading will NOT continue
 Invalid module name: '' is not a Java identifier
 ```
 
+## Mod 文件损坏
+
+解释：可能在下载 Mod 文件时出现一些意外，导致 Mod 文件在读取的时候
+
+解决方法：重新下载这个 Mod 并将原来的替换。
+
+关键词：
+
+```
+//可查看上下文观察是哪个 Mod 损坏了。
+Caused by: java.util.zip.ZipException: zip END header not found
+```
+
+## 一些 Mod 需要访问国外网络
+
+解释：一些整合包里会内置一个自动下载 Mod 的 Mod，但部分 Mod 需要访问国外网络才能顺利下载。下面列出目前已知的访问国外网络：
+
+```
+// 这个 Mod 会访问失败时直接崩溃游戏
+- modpack-update-checker
+// 这个 Mod 会让游戏在加载 Mod 阶段未响应。
+- commonality
+```
+
+解决方案：
+
+1.尝试禁用这些 Mod；
+
+2.挂个梯子。
+
 ## Forge
 
 ### Json 问题
@@ -137,6 +167,18 @@ Invalid module name: '' is not a Java identifier
 
 ```
 Found multiple arguments for option fml.forgeVersion, but you asked for only one
+```
+
+### Night Config 库的问题
+
+解释：Night Config 库的一些常见问题导致的，会导致无法读取配置文件。有关详细信息，可访问[此处](https://github.com/Fuzss/nightconfigfixes#readme)查看。
+
+解决方案：请尝试下载并安装该 Mod：`Night Config Fixes`。[MC百科](https://www.mcmod.cn/class/9007.html) | [CurseForge](https://www.curseforge.com/minecraft/mc-mods/night-config-fixes)
+
+关键词：
+
+```
+Caused by: com.electronwill.nightconfig.core.io.ParsingException: Not enough data available
 ```
 
 ## NeoForge
