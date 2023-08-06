@@ -1,9 +1,9 @@
 ---
-author: HRxiaohu
+contributors: [HRxiaohu]
 ---
 
 <script setup>
-import analyzer from '../components/analyzer.vue'
+import Analyzer from './.vitepress/theme/components/Analyzer.vue'
 </script>
 
 # 崩溃分析工具
@@ -14,7 +14,7 @@ import analyzer from '../components/analyzer.vue'
 
 ---
 
-<analyzer />
+<Analyzer />
 
 ---
 

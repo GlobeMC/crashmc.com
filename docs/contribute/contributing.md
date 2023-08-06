@@ -1,6 +1,6 @@
-<script setup>
-import LauncherBadge from '../../components/LauncherBadge.vue'
-</script>
+---
+contributors: [HRxiaohu]
+---
 
 # 贡献指南
 
@@ -22,45 +22,47 @@ import LauncherBadge from '../../components/LauncherBadge.vue'
 
 在涉及任何站外链接时，请优先添加官方链接，尽量避免不必要的第三方链接。
 
-如果某一个解决方案为特定启动器独占功能，请使用 Vue Component 注明。示例如下：
+如果某一个解决方案为特定启动器独占功能，我们提供了全局组件来标注它。示例如下：
+
+:::tip HMCL
+
+### 修改渲染器 <LauncherBadge type="hmcl" text="仅 HMCL" />
+
+```MarkDown
+### 修改渲染器 <LauncherBadge type="hmcl" text="仅 HMCL" />
+```
+
+:::
+
+:::tip BakaXL
+
+### 重置核心 <LauncherBadge type="bakaxl" text="仅 BakaXL" />
+
+```MarkDown
+### 重置核心 <LauncherBadge type="bakaxl" text="仅 BakaXL" />
+```
+
+:::
+
+:::tip PCL2
+
+### 修改验证服务器 <LauncherBadge type="pcl" text="仅 PCL2" />
+
+```MarkDown
+### 修改验证服务器 <LauncherBadge type="pcl" text="仅 PCL2" />
+```
+
+:::
+
+在您完成文档修改后，请在 MarkDown 文档的最上方修改 contributors FrontMatter，以将您的 Github 用户名添加到贡献者列表，格式如下。
+
+```MarkDown
+---
+contributors: [用户名, 用户名, 用户名]
+---
+```
 
 :::warning 警告
-在使用 Component 之前，请务必在 Markdown 最顶部引入它。
-
-```vue
-<script setup>
-  import LauncherBadge from "../components/LauncherBadge.vue"
-</script>
-```
-
-:::
-
-:::details HMCL
-
-### 修改渲染器 <LauncherBadge type="hmcl" text="仅 HMCL" />
-
-```md
-### 修改渲染器 <LauncherBadge type="hmcl" text="仅 HMCL" />
-```
-
-:::
-
-:::details BakaXL
-
-### 重置核心 <LauncherBadge type="bakaxl" text="仅 BakaXL" />
-
-```md
-### 重置核心 <LauncherBadge type="bakaxl" text="仅 BakaXL" />
-```
-
-:::
-
-:::details
-
-### 修改验证服务器 <LauncherBadge type="pcl" text="仅 PCL2" />
-
-```md
-### 修改验证服务器 <LauncherBadge type="pcl" text="仅 PCL2" />
-```
-
+- 请一定要使用 Github 用户名署名，否则我们无法获取您的头像。
+- 上述代码中所使用的均为英文半角逗号！
 :::

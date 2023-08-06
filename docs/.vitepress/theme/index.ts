@@ -1,19 +1,22 @@
-import { h } from "vue"
 import Theme from "vitepress/theme"
-import "./style.css"
-import comment from "../../../components/comment.vue"
-import Author from "./components/Author.vue"
+import { h } from "vue"
+import Comment from "./components/Comment.vue"
+import Contributors from "./components/Contributors.vue"
+import LauncherBadge from "./components/LauncherBadge.vue"
 import ReloadPrompt from "./components/ReloadPrompt.vue"
+import "./style.css"
 
 export default {
   ...Theme,
   Layout: () => {
     return h(Theme.Layout, null, {
       // https://vitepress.dev/guide/extending-default-theme#layout-slots
-      "doc-after": () => h(comment),
-      "doc-footer-before": () => h(Author),
+      "doc-after": () => h(Comment),
+      "doc-footer-before": () => h(Contributors),
       "layout-bottom": () => h(ReloadPrompt),
     })
   },
-  // ...
+  enhanceApp(ctx) {
+    ctx.app.component("LauncherBadge", LauncherBadge)
+  },
 }

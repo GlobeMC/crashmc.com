@@ -49,7 +49,7 @@ export default withPwa(
             { text: "贡献指南", link: "/contribute/contributing" },
             {
               text: "崩溃提交",
-              link: "https://github.com/GlobeMC/crashmc.com/issues/new/choose",
+              link: "/contribute/crash-report",
             },
           ],
         },
@@ -112,6 +112,10 @@ export default withPwa(
 
       sidebar: [
         {
+          text: "工具",
+          items: [{ text: "崩溃分析工具", link: "/analyzer" }],
+        },
+        {
           text: "文档",
           items: [
             { text: "基础知识", link: "/basis" },
@@ -139,16 +143,12 @@ export default withPwa(
           ],
         },
         {
-          text: "工具",
-          items: [{ text: "崩溃分析工具", link: "/analyzer" }],
-        },
-        {
           text: "贡献",
           items: [
             { text: "贡献指南", link: "/contribute/contributing" },
             {
               text: "崩溃提交",
-              link: "https://github.com/GlobeMC/crashmc.com/issues/new/choose",
+              link: "/contribute/crash-report",
             },
           ],
         },
