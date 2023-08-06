@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useData } from "vitepress";
-import { computed } from "vue";
+import { useData } from "vitepress"
+import { computed } from "vue"
 import members from "../../data/members"
 
 const defaultAuthor = "GlobeMC"
@@ -14,7 +14,9 @@ const contributors = computed(() => {
 })
 
 function getAvatarUrl(name: string) {
-  return members.find((member) => { return member.name === name })?.avatar
+  return members.find((member) => {
+    return member.name === name
+  })?.avatar
 }
 
 function getGithubLink(name: string) {
@@ -29,7 +31,10 @@ function isNotEmpty(arr: string | string[]) {
 <template>
   <p class="vp-main-color con">本文贡献者:</p>
   <div v-if="isNotEmpty(contributors)" class="flex flex-wrap gap-4">
-    <div v-for="contributor of contributors" :key="contributor" class="flex gap-2 items-center vp-main-color">
+    <div
+      v-for="contributor of contributors"
+      :key="contributor"
+      class="flex gap-2 items-center vp-main-color">
       <a :href="getGithubLink(contributor)" rel="noreferrer" target="_blank">
         <img :src="getAvatarUrl(contributor)" class="w-8 h-8 rounded-full" />
       </a>

@@ -58,9 +58,10 @@ contributors: [HRxiaohu]
 
 ```md
 ---
-contributors: [用户名,用户名,用户名]
+contributors: [用户名, 用户名, 用户名]
 ---
 ```
+
 :::warning 警告
 请一定要使用您的 Github 用户名，否则我们的组件无法获取您的头像。
 :::

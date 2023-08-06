@@ -20,48 +20,48 @@
   </div>
 </template>
 <script lang="ts" setup>
-  import { useData, useRoute } from "vitepress"
-  import { reactive, ref, watch } from "vue"
+import { useData, useRoute } from "vitepress"
+import { reactive, ref, watch } from "vue"
 
-  const route = useRoute()
+const route = useRoute()
 
-  const { title } = useData()
+const { title } = useData()
 
-  // params generate in https://giscus.app/zh-CN
-  const giscusConfig = reactive({
-    repo: "GlobeMC/crashmc.com",
-    repoId: "R_kgDOKBR8xw",
-    category: "Giscus",
-    categoryId: "DIC_kwDOKBR8x84CYOmB",
-    mapping: "title",
-    strict: "0",
-    reactionsEnabled: "1",
-    emitMetadata: "0",
-    inputPosition: "top",
-    theme: "preferred_color_scheme",
-    lang: "zh-CN",
-    loading: "lazy",
-  })
+// params generate in https://giscus.app/zh-CN
+const giscusConfig = reactive({
+  repo: "GlobeMC/crashmc.com",
+  repoId: "R_kgDOKBR8xw",
+  category: "Giscus",
+  categoryId: "DIC_kwDOKBR8x84CYOmB",
+  mapping: "title",
+  strict: "0",
+  reactionsEnabled: "1",
+  emitMetadata: "0",
+  inputPosition: "top",
+  theme: "preferred_color_scheme",
+  lang: "zh-CN",
+  loading: "lazy",
+})
 
-  const showComment = ref(true)
-  watch(
-    () => route.path,
-    () => {
-      showComment.value = false
-      setTimeout(() => {
-        showComment.value = true
-      }, 200)
-    },
-    {
-      immediate: true,
-    },
-  )
+const showComment = ref(true)
+watch(
+  () => route.path,
+  () => {
+    showComment.value = false
+    setTimeout(() => {
+      showComment.value = true
+    }, 200)
+  },
+  {
+    immediate: true,
+  },
+)
 </script>
 <style>
-  /* // TODO 使用giscus自定义主题结合vitepress主题切换 */
-  .comments {
-    margin-top: 20px;
-    padding: 20px;
-    border-radius: 10px;
-  }
+/* // TODO 使用giscus自定义主题结合vitepress主题切换 */
+.comments {
+  margin-top: 20px;
+  padding: 20px;
+  border-radius: 10px;
+}
 </style>
