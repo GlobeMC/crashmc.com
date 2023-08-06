@@ -54,28 +54,15 @@ contributors: [HRxiaohu]
 
 :::
 
-在您完成文档修改后，请进行以下操作，将你的名称添加到贡献者列表:
-
-1. 请在 MarkDown 文档的最上方修改 contributors FrontMatter，以将您的名称添加到贡献者列表，格式如下。
+在您完成文档修改后，请在 MarkDown 文档的最上方修改 contributors FrontMatter，以将您的 Github 用户名添加到贡献者列表，格式如下。
 
 ```MarkDown
 ---
-contributors: [名称, 名称, 名称]
+contributors: [用户名, 用户名, 用户名]
 ---
 ```
 
-2. 请修改 [members.ts](https://github.com/GlobeMC/crashmc.com/blob/main/docs/.vitepress/data/members.ts) 文件，并按照如下格式添加您的信息。
-
-```TypeScript
-  {
-    avatar: "头像链接 (请使用稳定的图床)",
-    name: "名称",
-    title: "文档贡献者",
-    links: [{ icon: "github", link: "您的 Github 个人资料链接" }],
-  },
-
-```
-
 :::warning 警告
-上述代码中所使用的均为英文半角逗号！
+- 请一定要使用 Github 用户名署名，否则我们无法获取您的头像。
+- 上述代码中所使用的均为英文半角逗号！
 :::

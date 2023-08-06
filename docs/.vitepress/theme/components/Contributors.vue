@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { useData } from "vitepress"
-import { computed } from "vue"
-import members from "../../data/members"
+import { useData } from "vitepress";
+import { computed } from "vue";
 
 const defaultAuthor = "GlobeMC"
 const { frontmatter } = useData()
@@ -14,17 +13,11 @@ const contributors = computed(() => {
 })
 
 function getAvatarUrl(name: string) {
-  return members.find((member) => {
-    return member.name === name
-  })?.avatar
+  return `https://cdn.crashmc.com/https://github.com/${name}.png`
 }
-
 function getGithubLink(name: string) {
-  return members.find((member) => {
-    return member.name === name
-  })?.links[0].link
+  return `https://cdn.crashmc.com/https://github.com/${name}`
 }
-
 function isNotEmpty(arr: string | string[]) {
   return Array.isArray(arr) && arr.length
 }
@@ -53,7 +46,7 @@ function isNotEmpty(arr: string | string[]) {
       rel="noreferrer"
       target="_blank"
       class="flex items-center gap-2">
-      <img src="../../../public/logo-brand.png" class="w-8 h-8 rounded-full" />
+      <img src="/logo-brand.png" class="w-8 h-8 rounded-full" />
       <p class="vp-main-clolr">{{ "GlobeMC" }}</p>
     </a>
   </div>
