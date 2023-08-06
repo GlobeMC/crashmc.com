@@ -1,3 +1,7 @@
+---
+contributors: [HRxiaohu]
+---
+
 # 贡献指南
 
 ## 排版标准
@@ -48,4 +52,15 @@
 ### 修改验证服务器 <LauncherBadge type="pcl" text="仅 PCL2" />
 ```
 
+:::
+
+在您完成文档修改后，请在 MarkDown 文档的最上方修改 contributors FrontMatter，将您的 Github 用户名添加到贡献者列表，格式如下。
+
+```md
+---
+contributors: [用户名,用户名,用户名]
+---
+```
+:::warning 警告
+请一定要使用您的 Github 用户名，否则我们的组件无法获取您的头像。
 :::

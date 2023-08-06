@@ -1,5 +1,5 @@
 ---
-author: bingling_sama
+contributors: [bingling-sama]
 ---
 
 # 崩溃提交

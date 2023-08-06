@@ -1,10 +1,10 @@
-import { h } from "vue"
 import Theme from "vitepress/theme"
-import "./style.css"
+import { h } from "vue"
 import Comment from "./components/Comment.vue"
-import Author from "./components/Author.vue"
+import Contributors from "./components/Contributors.vue"
+import LauncherBadge from "./components/LauncherBadge.vue"
 import ReloadPrompt from "./components/ReloadPrompt.vue"
-import LauncherBadge from "./globalComponents/LauncherBadge.vue"
+import "./style.css"
 
 export default {
   ...Theme,
@@ -12,7 +12,7 @@ export default {
     return h(Theme.Layout, null, {
       // https://vitepress.dev/guide/extending-default-theme#layout-slots
       "doc-after": () => h(Comment),
-      "doc-footer-before": () => h(Author),
+      "doc-footer-before": () => h(Contributors),
       "layout-bottom": () => h(ReloadPrompt),
     })
   },
