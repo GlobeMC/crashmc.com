@@ -271,7 +271,7 @@ which is missing!
 
 在一般情况下，点击显示 `缺少前置库` 的 Mod 后，会打开该 Mod 的详情界面，在界面中会提示您该 Mod 所需要的前置。
 
-![Liteloader-mod-01](https://raw.githubusercontent.com/bingxin666/crashmc_pic/main/client/mods/liteloader-mod-02.png "提示缺少的前置库")
+![Liteloader-mod-01](https://cdn.crashmc.com/https://raw.githubusercontent.com/bingxin666/crashmc_pic/main/client/mods/liteloader-mod-02.png "提示缺少的前置库")
 
 解决方法：
 
