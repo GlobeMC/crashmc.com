@@ -20,7 +20,9 @@ function getAvatarUrl(name: string) {
 }
 
 function getGithubLink(name: string) {
-  return `https://github.com/${name}`
+  return members.find((member) => {
+    return member.name === name
+  })?.links[0].link
 }
 
 function isNotEmpty(arr: string | string[]) {
@@ -35,17 +37,25 @@ function isNotEmpty(arr: string | string[]) {
       v-for="contributor of contributors"
       :key="contributor"
       class="flex gap-2 items-center vp-main-color">
-      <a :href="getGithubLink(contributor)" rel="noreferrer" target="_blank">
+      <a
+        :href="getGithubLink(contributor)"
+        rel="noreferrer"
+        target="_blank"
+        class="flex items-center gap-2">
         <img :src="getAvatarUrl(contributor)" class="w-8 h-8 rounded-full" />
+        <p class="vp-main-color">{{ contributor }}</p>
       </a>
-      <p class="vp-main-color">{{ contributor }}</p>
     </div>
   </div>
   <div v-else class="flex gap-2 items-center">
-    <a :href="getGithubLink(defaultAuthor)" rel="noreferrer" target="_blank">
-      <img :src="getAvatarUrl(defaultAuthor)" class="w-8 h-8 rounded-full" />
+    <a
+      :href="getGithubLink(defaultAuthor)"
+      rel="noreferrer"
+      target="_blank"
+      class="flex items-center gap-2">
+      <img src="../../../public/logo-brand.png" class="w-8 h-8 rounded-full" />
+      <p class="vp-main-clolr">{{ "GlobeMC" }}</p>
     </a>
-    <p class="vp-main-clolr">{{ "GlobeMC" }}</p>
   </div>
 </template>
 
@@ -54,7 +64,7 @@ function isNotEmpty(arr: string | string[]) {
   display: flex;
 }
 
-.flex-warp {
+.flex-wrap {
   flex-wrap: wrap;
 }
 
@@ -97,6 +107,6 @@ p {
 }
 
 .con {
-  margin-bottom: 6px;
+  margin-bottom: 5px;
 }
 </style>

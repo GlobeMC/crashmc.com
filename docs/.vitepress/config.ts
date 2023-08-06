@@ -112,6 +112,10 @@ export default withPwa(
 
       sidebar: [
         {
+          text: "工具",
+          items: [{ text: "崩溃分析工具", link: "/analyzer" }],
+        },
+        {
           text: "文档",
           items: [
             { text: "基础知识", link: "/basis" },
@@ -137,10 +141,6 @@ export default withPwa(
             },
             { text: "Mixin", link: "/mixin" },
           ],
-        },
-        {
-          text: "工具",
-          items: [{ text: "崩溃分析工具", link: "/analyzer" }],
         },
         {
           text: "贡献",

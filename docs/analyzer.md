@@ -1,5 +1,5 @@
 ---
-author: HRxiaohu
+contributors: [HRxiaohu]
 ---
 
 <script setup>

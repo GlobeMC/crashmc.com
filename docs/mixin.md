@@ -12,7 +12,7 @@
 
 ## 如何判断我的 Minecraft 中是否有 Mixin 的参与？
 
-在日志中查找 `SpongePowered MIXIN Subsystem` 这段文字, 如果找到说明您的 Mod 加载器中使用了 Mixin
+在日志中查找 `SpongePowered MIXIN Subsystem` 这段文字，如果找到说明您的 Mod 加载器中使用了 Mixin
 
 ## 在此之前...
 
