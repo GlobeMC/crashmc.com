@@ -147,9 +147,9 @@ Could not reserve enough space for 1048576KB object heap
 
 TO BE COLLECTED
 
-## MacOS 问题
+## macOS 问题
 
-### Mac 下存在 .DS_Store 文件导致报错
+### macOS 下存在 .DS_Store 文件导致报错
 
 ```
 Caused by: net.minecraft.util.ResourceLocationException: Non [a-z0-9_.-] character in namespace of location: .DS_Store:
@@ -159,7 +159,7 @@ net.minecraft.util.ResourceLocationException: Non [a-z0-9_.-] character in names
 解决方法：删除 `.DS_Store` 文件
 
 :::details 解决步骤
-由于 `.DS_Store` 文件是 MacOS 的隐藏文件， 只能通过执行指令进行删除
+由于 `.DS_Store` 文件是 macOS 的隐藏文件， 只能通过执行指令进行删除
 
 1. 进入搜索栏，搜索 `终端` 或 `Terminal`， 并打开该软件
 2. (可选) 使用 `cd <游戏路径>` 指令进入游戏目录
@@ -172,7 +172,7 @@ net.minecraft.util.ResourceLocationException: Non [a-z0-9_.-] character in names
    ```
    :::
 
-### 不兼容 Mac 的 Mod
+### 不兼容 macOS 的 Mod
 
 ```
 Exception caught during firing event: Unable to load library 'imm32':
@@ -181,7 +181,7 @@ class io.github.reserveword.imblocker.IMBlocker$RegistryEvents
 
 解决方法：删除 `IMBlocker` 模组（此模组仅适用于 Windows）
 
-### Mac 下初始化 OpenGL 窗口问题
+### macOS 下初始化 OpenGL 窗口问题
 
 ```
 java.lang.IllegalStateException: GLFW error before init: [0x10008]Cocoa: Failed to find service port for display
