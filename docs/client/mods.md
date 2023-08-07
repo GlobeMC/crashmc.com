@@ -6,13 +6,13 @@
 
 ### Java 版本不匹配
 
-解释：有些时候一些 Mod 会要求特殊的 Java 版本，比如 Java 11。此时使用不正确的 Java 版本将无法启动游戏。
+解释：有些时候，一些 Mod 会要求特殊的 Java 版本。此时使用不正确的 Java 版本将无法启动游戏。
 
 :::warning 注意
-除非你匹配到了示例中的关键词，否则我们始终建议保持启动器的 **自动决定 Java** 功能为开启状态。
+除非你匹配到了下方示例中的关键词，否则，我们始终建议保持启动器的 **自动决定 Java** 功能为开启状态。
 :::
 
-解决方法：根据 Log 引导使用正确的 Java 版本启动游戏。检查括号内的 `class file version` 后跟随的数字，然后在 Java 版本列表里查找对应的 Java 大版本。
+解决方案：根据 Log 引导，使用正确的 Java 版本启动游戏。检查括号内的 `class file version` 后跟随的数字，然后在 Java 版本列表里查找对应的 Java 大版本。
 
 ```
 // 示例中是因为使用的 Java 与 Minecraft 要求的 Java 版本不符导致崩溃，应当使用 Java 17
@@ -25,7 +25,7 @@ java.lang.UnsupportedClassVersionError: net/fabricmc/loader/impl/launch/knot/Kno
 Unsupported class file major version
 ```
 
-| 关键词                                                 | 解决方法                                |
+| 关键词                                                 | 解决方案                                |
 | ------------------------------------------------------ | --------------------------------------- |
 | `no such method: sun.misc.Unsafe.defineAnonymousClass` | Java 版本过高，降低 Java 版本至 17 以下 |
 
@@ -54,7 +54,7 @@ Unsupported class file major version
 
 解释：由于低版本 Forge 和高版本 Java 不兼容，导致了游戏崩溃。
 
-解决方案：卸载当前 Java 8 ，然后前往其他地方获取版本号小于等于 8u312 且大于等于 8u51 的 Java 8。
+解决方案：卸载当前 Java 8 ，然后前往其他地方获取版本号在 `8u51-8u312` 之间的 Java 8。
 
 :::details 常见的第三方启动器获取 Java 方法
 在<LauncherBadge type="bakaxl" text="BakaXL" />启动器设置中获取 Java：前往 `本体设置` -> `Java 虚拟机与内存` ，点击获取对应的 Java 版本。
@@ -86,7 +86,7 @@ ModResolutionException: Duplicate
 
 ## Mod 过多导致超出 ID 限制
 
-解释：你所安装的 Mod 过多，超出了游戏的 ID 限制，导致游戏崩溃。
+解释：安装的 Mod 过多，超出了游戏的 ID 限制，导致游戏崩溃。
 
 解决方案：请尝试安装 JEID 等修复 Mod，或删除部分大型 Mod。
 
@@ -98,7 +98,7 @@ maximum id range exceeded
 
 ## 解压了 Mod
 
-解释：因为 Mod 文件被解压了，游戏无法继续运行。
+解释：因为 Mod 文件被解压，导致游戏崩溃。
 
 解决方案：删除 Mods 文件夹中已被解压的 Mod ，然后重新获取被删除的 Mod。
 
@@ -125,7 +125,7 @@ Invalid module name: '' is not a Java identifier
 
 解释：可能在下载 Mod 文件时出现一些意外，导致 Mod 文件在读取的时候
 
-解决方法：重新下载这个 Mod 并将原来的替换。
+解决方案：重新下载这个 Mod 并将原来的替换。
 
 关键词：
 
@@ -173,7 +173,7 @@ Found multiple arguments for option fml.forgeVersion, but you asked for only one
 
 解释：Night Config 库的一些常见问题导致的，会导致无法读取配置文件。有关详细信息，可访问[此处](https://github.com/Fuzss/nightconfigfixes#readme)查看。
 
-解决方案：请尝试下载并安装该 Mod：`Night Config Fixes`。[MC百科](https://www.mcmod.cn/class/9007.html) | [CurseForge](https://www.curseforge.com/minecraft/mc-mods/night-config-fixes)
+解决方案：请尝试下载并安装该 Mod：`Night Config Fixes`。[MC 百科](https://www.mcmod.cn/class/9007.html) | [CurseForge](https://www.curseforge.com/minecraft/mc-mods/night-config-fixes)
 
 关键词：
 
@@ -199,7 +199,7 @@ Caused by: com.electronwill.nightconfig.core.io.ParsingException: Not enough dat
 
 解释：有 Mod 依赖其他 Mod 运行，但未安装依赖的 Mod
 
-解决方法：
+解决方案：
 
 1. 安装依赖 Mod
 
@@ -215,9 +215,9 @@ Unmet dependency listing:
 	 - Mod 'Zoomify' (zoomify) 2.11.0 requires any version of fabric-api, which is missing!
 ```
 
-您也可以通过 [MC百科](https://www.mcmod.cn/)、[Modrinth](https://modrinth.com/mods)、[CurseForge](https://www.curseforge.com/minecraft/mc-mods) 等网站搜索 Mods 所需的前置 Mods。
+您也可以通过 [MC 百科](https://www.mcmod.cn/)、[Modrinth](https://modrinth.com/mods)、[CurseForge](https://www.curseforge.com/minecraft/mc-mods) 等网站搜索 Mods 所需的前置 Mods。
 
-> Modrinth 和 CurseForge 目前为止未提供中文界面，有困难的用户建议使用 MC百科 进行查询。
+> Modrinth 和 CurseForge 目前为止未提供中文界面，有困难的用户建议使用 MC 百科 进行查询。
 
 2. 删除需要前置的 Mod
 
@@ -265,9 +265,9 @@ that is compatible with
 
 ### 缺少前置
 
-解释：有 Mod 依赖其他 Mod 运行，但未安装依赖的 Mod
+解释：有 Mod 依赖于其他 Mod 运行，但未安装依赖的 Mod。
 
-解决方法：
+解决方案：
 
 1. 安装依赖 Mod
 
@@ -282,9 +282,9 @@ that is compatible with
 Sodium Extra requires version [0.4.10, ∞) of sodium, which is missing!
 ```
 
-您也可以通过 [MC百科](https://www.mcmod.cn/)、[Modrinth](https://modrinth.com/mods)、[CurseForge](https://www.curseforge.com/minecraft/mc-mods) 等网站搜索 Mods 所需的前置 Mods。
+您也可以通过 [MC 百科](https://www.mcmod.cn/)、[Modrinth](https://modrinth.com/mods)、[CurseForge](https://www.curseforge.com/minecraft/mc-mods) 等网站搜索 Mods 所需的前置 Mods。
 
-> Modrinth 和 CurseForge 目前为止未提供中文界面，有困难的用户建议使用 MC百科 进行查询。
+> Modrinth 和 CurseForge 目前为止未提供中文界面，有困难的用户建议使用 MC 百科 进行查询。
 
 2. 删除需要前置的 Mod
 
@@ -315,13 +315,13 @@ which is missing!
 
 ![Liteloader-mod-01](https://cdn.crashmc.com/https://raw.githubusercontent.com/bingxin666/crashmc_pic/main/client/mods/liteloader-mod-02.png "提示缺少的前置库")
 
-解决方法：
+解决方案：
 
 1. 安装依赖 Mod
 
-您可以通过 [MC百科](https://www.mcmod.cn/)、[Modrinth](https://modrinth.com/mods)、[CurseForge](https://www.curseforge.com/minecraft/mc-mods) 等网站搜索 Mods 所需的前置 Mods。
+您可以通过 [MC 百科](https://www.mcmod.cn/)、[Modrinth](https://modrinth.com/mods)、[CurseForge](https://www.curseforge.com/minecraft/mc-mods) 等网站搜索 Mods 所需的前置 Mods。
 
-> Modrinth 和 CurseForge 目前为止未提供中文界面，有困难的用户建议使用 MC百科 进行查询。
+> Modrinth 和 CurseForge 目前为止未提供中文界面，有困难的用户建议使用 MC 百科 进行查询。
 
 2. 删除需要前置的 Mod
 
@@ -345,7 +345,7 @@ java.lang.NoSuchMethodError: net.minecraft.world.server.ChunkManager$ProxyTicket
 
 解释：使用的 Forge 版本过高 / 过低 或 OptiFine 并未兼容该版本的 Forge，导致游戏崩溃。
 
-解决方法：前往 [OptiFine 官网](https://optifine.net/downloads) ，按照提示安装对应的 Forge 版本。
+解决方案：前往 [OptiFine 官网](https://optifine.net/downloads) ，按照提示安装对应的 Forge 版本。
 
 提示：
 
@@ -353,7 +353,7 @@ java.lang.NoSuchMethodError: net.minecraft.world.server.ChunkManager$ProxyTicket
 
 - 若显示 `Forge N/A` 则代表该版本的 OptiFine 不兼容任何 Forge 版本
 
-你可以复制下面的关键词，然后在日志中查找是否有匹配，以确定是否是该原因导致崩溃（关键词仅供参考）
+你可以在日志中逐个匹配下面的关键词，以确定是否是该原因导致崩溃（关键词仅供参考）
 
 ```
 java.lang.NoSuchMethodError: 'java.lang.Class sun.misc.Unsafe.defineAnonymousClass(java.lang.Class, byte[], java.lang.Object[])'
@@ -371,6 +371,8 @@ java.lang.NoSuchMethodError: 'void net.minecraft.client.renderer.block.model.Bak
 java.lang.NoSuchMethodError: 'void net.minecraft.client.renderer.texture.SpriteContents.<init>(net.minecraft.resources.ResourceLocation
 
 java.lang.NoSuchMethodError: 'void net.minecraft.server.level.DistanceManager.addRegionTicket(net.minecraft.server.level.TicketType, net.minecraft.world.level.ChunkPos, int, java.lang.Object, boolean)'
+
+java.lang.NoSuchMethodError: net.minecraft.launchwrapper.ITweaker.injectIntoClassLoader(Lnet/minecraft/launchwrapper/LaunchClassLoader;)V
 
 TRANSFORMER/net.optifine/net.optifine.reflect.Reflector.<clinit>(Reflector.java
 ```
