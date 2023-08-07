@@ -32,7 +32,7 @@ features:
     details: 有任何改进建议都可以提交 Pull Requests
   - title: 快速
     icon: 🚀
-    details: 基于 VitePress，页面加载速度更快，同时性能更好
+    details: 基于 VitePress，页面加载速度更快，性能更好
 
 title: CrashMC
 titleTemplate: 为一般玩家编写的 Minecraft 崩溃分析指南
