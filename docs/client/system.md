@@ -191,4 +191,11 @@ java.lang.IllegalStateException: GLFW error before init: [0x10008]Cocoa: Failed 
 
 ## Linux 问题
 
-TO BE COLLECTED
+### 不兼容 Linux 的 Mod
+
+```
+Exception caught during firing event: Unable to load library 'imm32':
+class io.github.reserveword.imblocker.IMBlocker$RegistryEvents
+```
+
+解决方法：删除 `IMBlocker` 模组（此模组仅适用于 Windows）
