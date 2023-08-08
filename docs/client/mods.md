@@ -123,25 +123,25 @@ Invalid module name: '' is not a Java identifier
 
 ## Mod 文件损坏
 
-解释：可能在下载 Mod 文件时出现一些意外，导致 Mod 文件读取时出错。
+解释：可能在下载 Mod 文件时出现一些意外，导致 Mod 文件在读取的时候
 
 解决方案：重新下载这个 Mod 并将原来的替换。
 
 关键词：
 
 ```
-// 可查看上下文观察是哪个 Mod 损坏了。
+//可查看上下文观察是哪个 Mod 损坏了。
 Caused by: java.util.zip.ZipException: zip END header not found
 ```
 
 ## 一些 Mod 需要访问国外网络
 
-解释：一些整合包里会内置一个自动下载 Mod 的 Mod，但部分 Mod 需要访问国外网络才能顺利下载。下面列出目前已知访问国外网络的 Mod：
+解释：一些整合包里会内置一个自动下载 Mod 的 Mod，但部分 Mod 需要访问国外网络才能顺利下载。下面列出目前已知的访问国外网络：
 
 ```
 // 这个 Mod 会访问失败时直接崩溃游戏
 - modpack-update-checker
-// 这个 Mod 会让游戏在加载 Mod 阶段未响应
+// 这个 Mod 会让游戏在加载 Mod 阶段未响应。
 - commonality
 ```
 
@@ -149,7 +149,7 @@ Caused by: java.util.zip.ZipException: zip END header not found
 
 1.尝试禁用这些 Mod；
 
-2.使用加速器或 VPN。
+2.挂个梯子。
 
 ## Forge
 
@@ -201,7 +201,7 @@ Missing or unsupported mandatory dependencies:
         Mod ID: 'blueprint', Requested by: 'boatload', Expected range: '[5.4.0,)', Actual version: '[MISSING]'
 ```
 
-您也可以通过 [MC 百科](https://www.mcmod.cn/)、[Modrinth](https://modrinth.com/mods)、[CurseForge](https://www.curseforge.com/minecraft/mc-mods) 等网站搜索 Mods 所需的前置 Mods。
+您也可以通过 [MC 百科](https://www.mcmod.cn/)、[Modrinth](https://modrinth.com/mods)、[CurseForge](https://www.curseforge.com/minecraft/mc-mods) 等网站搜索 Mod 所需的前置 Mod。
 
 > Modrinth 和 CurseForge 目前为止未提供中文界面，有困难的用户建议使用 MC 百科 进行查询。
 
@@ -279,7 +279,7 @@ which is missing!
 
 ### Mod 冲突
 
-解释：由于两个或多个 Mods 互相冲突，导致游戏无法正常运行。
+解释：由于两个或多个 Mod 互相冲突，导致游戏无法正常运行。
 
 解决方案：移除相互冲突的其中一个 Mod。
 
@@ -322,7 +322,7 @@ that is compatible with
 Sodium Extra requires version [0.4.10, ∞) of sodium, which is missing!
 ```
 
-您也可以通过 [MC 百科](https://www.mcmod.cn/)、[Modrinth](https://modrinth.com/mods)、[CurseForge](https://www.curseforge.com/minecraft/mc-mods) 等网站搜索 Mods 所需的前置 Mods。
+您也可以通过 [MC 百科](https://www.mcmod.cn/)、[Modrinth](https://modrinth.com/mods)、[CurseForge](https://www.curseforge.com/minecraft/mc-mods) 等网站搜索 Mod 所需的前置 Mod。
 
 > Modrinth 和 CurseForge 目前为止未提供中文界面，有困难的用户建议使用 MC 百科 进行查询。
 
@@ -365,15 +365,15 @@ which is missing!
 
 2. 删除需要前置的 Mod
 
-根据 Mods 列表的提示，手动删除对应的 Mod。
+根据 Mod 列表的提示，手动删除对应的 Mod。
 
 ## OptiFine
 
 #### 无法加载世界
 
-解释：使用的 OptiFine 导致了游戏出现问题。
+解释：使用的 OptiFine 导致了游戏出现问题
 
-解决方案：可以尝试更换 OptiFine 的版本。
+解决方案：可以尝试更换 OptiFine 的版本
 
 关键词：
 
@@ -389,11 +389,11 @@ java.lang.NoSuchMethodError: net.minecraft.world.server.ChunkManager$ProxyTicket
 
 提示：
 
-- 点击 `Show all versions` 即可展开所有的游戏版本，点击 `+ More` 和 `+ Preview versions` 可展开更多；
+- 点击 `Show all versions` 即可展开所有的游戏版本，点击 `+ More` 和 `+ Preview versions` 可展开更多
 
-- 若显示 `Forge N/A` 则代表该版本的 OptiFine 不兼容任何 Forge 版本。
+- 若显示 `Forge N/A` 则代表该版本的 OptiFine 不兼容任何 Forge 版本
 
-你可以在日志中逐个匹配下面的关键词，以确定是否是该原因导致崩溃（关键词仅供参考）。
+你可以在日志中逐个匹配下面的关键词，以确定是否是该原因导致崩溃（关键词仅供参考）
 
 ```
 java.lang.NoSuchMethodError: 'java.lang.Class sun.misc.Unsafe.defineAnonymousClass(java.lang.Class, byte[], java.lang.Object[])'
