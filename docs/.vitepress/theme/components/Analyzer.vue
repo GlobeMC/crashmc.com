@@ -251,7 +251,9 @@ function LogAnalysis(log) {
     launcher = "BakaXL"
   }
 
-  //一堆屎 (错误判断)
+  // 错误判断
+
+  // 内存不足
   if (
     log.includes("java.lang.OutOfMemoryError") ||
     log.includes("Could not reserve enough space")
@@ -262,6 +264,8 @@ function LogAnalysis(log) {
       SYSTEM_URL + "#内存问题",
       "内存不足",
     )
+
+  // 32 位超过 1G
   } else if (
     log.includes("Could not reserve enough space for 1048576KB object heap")
   ) {
@@ -271,6 +275,8 @@ function LogAnalysis(log) {
       SYSTEM_URL + "#内存问题",
       "32_Bit_Java_Memory",
     )
+
+  // 显卡驱动问题
   } else if (
     log.includes("Couldn't set pixel format") |
     log.includes("Pixel format not accelerated") |
@@ -282,6 +288,8 @@ function LogAnalysis(log) {
       SYSTEM_URL + "#显卡-显卡驱动问题",
       "GPU_DRIVER",
     )
+
+  // OpenJ9
   } else if (
     log.includes("Open J9 is not supported") |
     log.includes("OpenJ9 is incompatible") |
@@ -293,8 +301,11 @@ function LogAnalysis(log) {
       SYSTEM_URL + "#使用-openj9",
       "Used_OpenJ9",
     )
+
+  // .DS_Store
   }  else if (
-    log.includes("Caused by: net.minecraft.util.ResourceLocationException: Non [a-z0-9_.-] character in namespace of location: .DS_Store:") |
+    log.includes(
+        "Caused by: net.minecraft.util.ResourceLocationException: Non [a-z0-9_.-] character in namespace of location: .DS_Store:") |
     log.includes("net.minecraft.util.ResourceLocationException: Non [a-z0-9_.-] character in namespace of location: .DS_Store:")
   ) {
     ShowAnalysisResult(
@@ -303,6 +314,8 @@ function LogAnalysis(log) {
       SYSTEM_URL + "#mac-下存在-ds-store-文件导致报错",
       "DS_Store",
     )
+
+  // OpenGL 窗口问题
   } else if (
     log.search(/java.lang.IllegalStateException: GLFW error before init: [*]Cocoa: Failed to find service port for display/)  != -1
   ) {
@@ -312,7 +325,54 @@ function LogAnalysis(log) {
       SYSTEM_URL + "#mac-下初始化-opengl-窗口问题",
       "Mac_OpenGL_Init",
     )
-  }else {
+
+  // 页面文件太小
+  } else if (
+    log.includes("页面文件太小，无法完成操作。")
+  ) {
+    ShowAnalysisResult(
+      "Success",
+      "页面文件太小",
+      SYSTEM_URL + "#页面文件问题",
+      "页面文件太小",
+    )
+
+  // 存档损坏
+  } else if (
+    log.search(/Exception reading [*]\\level.dat/)  != -1 ||
+    log.includes("Caused by: java.util.zip.ZipException: invalid distance too far back") ||
+    log.includes("net.minecraft.util.crash.CrashException: Loading NBT data")
+  ) {
+    ShowAnalysisResult(
+      "Success",
+      "存档损坏",
+      VANILLA_URL + "#存档损坏",
+      "存档损坏",
+    )
+
+  // 资源包过大
+  } else if (
+    log.includes("Maybe try a lower resolution resourcepack?")
+  ) {
+    ShowAnalysisResult(
+      "Success",
+      "资源包过大",
+      VANILLA_URL + "#资源包过大",
+      "资源包过大",
+    )
+
+  // 文件校验失败
+  } else if (
+    log.includes("signer information does not match signer information of other classes in the same package")
+  ) {
+    ShowAnalysisResult(
+      "Success",
+      "文件校验失败",
+      VANILLA_URL + "#文件校验失败",
+      "文件校验失败",
+    )
+
+  } else {
     ShowAnalysisResult(
       "Unrecord",
       "本工具还未收录您所遇到的错误，请点击下方按钮前往 Github 反馈。",
