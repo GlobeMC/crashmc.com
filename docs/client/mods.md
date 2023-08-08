@@ -100,7 +100,7 @@ maximum id range exceeded
 
 解释：因为 Mod 文件被解压，导致游戏崩溃。
 
-解决方案：删除 Mods 文件夹中已被解压的 Mod ，然后重新获取被删除的 Mod。
+解决方案：删除 `mods` 文件夹中已被解压的 Mod ，然后重新获取被删除的 Mod。
 
 关键词：
 
@@ -123,25 +123,25 @@ Invalid module name: '' is not a Java identifier
 
 ## Mod 文件损坏
 
-解释：可能在下载 Mod 文件时出现一些意外，导致 Mod 文件在读取的时候
+解释：可能在下载 Mod 文件时出现一些意外，导致 Mod 文件读取时出错。
 
 解决方案：重新下载这个 Mod 并将原来的替换。
 
 关键词：
 
 ```
-//可查看上下文观察是哪个 Mod 损坏了。
+// 可查看上下文观察是哪个 Mod 损坏了。
 Caused by: java.util.zip.ZipException: zip END header not found
 ```
 
 ## 一些 Mod 需要访问国外网络
 
-解释：一些整合包里会内置一个自动下载 Mod 的 Mod，但部分 Mod 需要访问国外网络才能顺利下载。下面列出目前已知的访问国外网络：
+解释：一些整合包里会内置一个自动下载 Mod 的 Mod，但部分 Mod 需要访问国外网络才能顺利下载。下面列出目前已知访问国外网络的 Mod：
 
 ```
 // 这个 Mod 会访问失败时直接崩溃游戏
 - modpack-update-checker
-// 这个 Mod 会让游戏在加载 Mod 阶段未响应。
+// 这个 Mod 会让游戏在加载 Mod 阶段未响应
 - commonality
 ```
 
@@ -149,7 +149,7 @@ Caused by: java.util.zip.ZipException: zip END header not found
 
 1.尝试禁用这些 Mod；
 
-2.挂个梯子。
+2.使用加速器或 VPN。
 
 ## Forge
 
@@ -181,13 +181,53 @@ Found multiple arguments for option fml.forgeVersion, but you asked for only one
 Caused by: com.electronwill.nightconfig.core.io.ParsingException: Not enough data available
 ```
 
+### 缺少前置
+
+解释：有 Mod 依赖其他 Mod 运行，但未安装依赖的 Mod。
+
+解决方案：
+
+1. 安装依赖 Mod
+
+找到 `Mod ID` 字样，然后根据后面提示的 Mod 信息查找对应 Mod 并下载安装。
+
+如果一个 Mod 要求特定版本的另一个 Mod ，那么你应当寻找符合要求的 Mod 版本。
+
+相关英文提示： any -> 任何 ； version(s) -> 版本 ； require(s) -> 要求，需要 ； of -> 的（介词）
+
+```
+// 在示例中，您应该安装 Boatload Mod 的前置 Mod：Blueprint 高于 5.4.0 的版本。
+Missing or unsupported mandatory dependencies:
+        Mod ID: 'blueprint', Requested by: 'boatload', Expected range: '[5.4.0,)', Actual version: '[MISSING]'
+```
+
+您也可以通过 [MC 百科](https://www.mcmod.cn/)、[Modrinth](https://modrinth.com/mods)、[CurseForge](https://www.curseforge.com/minecraft/mc-mods) 等网站搜索 Mods 所需的前置 Mods。
+
+> Modrinth 和 CurseForge 目前为止未提供中文界面，有困难的用户建议使用 MC 百科 进行查询。
+
+1. 删除需要前置的 Mod
+
+找到 `Requested by` 字样，然后根据前面提示的 Mod 信息删除对应 Mod。
+
+```
+// 在示例中，您应该删除 Boatload Mod。
+Missing or unsupported mandatory dependencies:
+        Mod ID: 'blueprint', Requested by: 'boatload', Expected range: '[5.4.0,)', Actual version: '[MISSING]'
+```
+
+关键词
+
+```
+Missing or unsupported mandatory dependencies:
+```
+
 ## NeoForge
 
 ## Fabric
 
 ### 版本不兼容
 
-解释：有 Mod 与当前游戏版本不兼容
+解释：有 Mod 与当前游戏版本不兼容。
 
 ```
 // 在示例中，你应该安装 Fabric API 1.20.1 版
@@ -197,7 +237,7 @@ Caused by: com.electronwill.nightconfig.core.io.ParsingException: Not enough dat
 
 ### 缺少前置
 
-解释：有 Mod 依赖其他 Mod 运行，但未安装依赖的 Mod
+解释：有 Mod 依赖其他 Mod 运行，但未安装依赖的 Mod。
 
 解决方案：
 
@@ -215,7 +255,7 @@ Unmet dependency listing:
 	 - Mod 'Zoomify' (zoomify) 2.11.0 requires any version of fabric-api, which is missing!
 ```
 
-您也可以通过 [MC 百科](https://www.mcmod.cn/)、[Modrinth](https://modrinth.com/mods)、[CurseForge](https://www.curseforge.com/minecraft/mc-mods) 等网站搜索 Mods 所需的前置 Mods。
+您也可以通过 [MC 百科](https://www.mcmod.cn/)、[Modrinth](https://modrinth.com/mods)、[CurseForge](https://www.curseforge.com/minecraft/mc-mods) 等网站搜索 Mod 所需的前置 Mod。
 
 > Modrinth 和 CurseForge 目前为止未提供中文界面，有困难的用户建议使用 MC 百科 进行查询。
 
@@ -307,9 +347,9 @@ which is missing!
 
 解释：有 Mod 依赖其他 Mod 运行，但未安装依赖的 Mod。
 
-请注意：与其他 Mods 加载器不同的是，通过 LiteLoader 加载的 Mod 在缺少前置的时候并不会导致游戏崩溃，因此您需要手动查看是否存在前置 Mod 缺失的情况。
+请注意：与其他 Mod 加载器不同的是，通过 LiteLoader 加载的 Mod 在缺少前置的时候并不会导致游戏崩溃，因此您需要手动查看是否存在前置 Mod 缺失的情况。
 
-进入游戏后，点击游戏右上角的半透明浮窗即可查看通过 LiteLoader 安装的 Mods 列表。
+进入游戏后，点击游戏右上角的半透明浮窗即可查看通过 LiteLoader 安装的 Mod 列表。
 
 在一般情况下，点击显示 `缺少前置库` 的 Mod 后，会打开该 Mod 的详情界面，在界面中会提示您该 Mod 所需要的前置。
 
@@ -319,7 +359,7 @@ which is missing!
 
 1. 安装依赖 Mod
 
-您可以通过 [MC 百科](https://www.mcmod.cn/)、[Modrinth](https://modrinth.com/mods)、[CurseForge](https://www.curseforge.com/minecraft/mc-mods) 等网站搜索 Mods 所需的前置 Mods。
+您可以通过 [MC 百科](https://www.mcmod.cn/)、[Modrinth](https://modrinth.com/mods)、[CurseForge](https://www.curseforge.com/minecraft/mc-mods) 等网站搜索 Mod 所需的前置 Mod。
 
 > Modrinth 和 CurseForge 目前为止未提供中文界面，有困难的用户建议使用 MC 百科 进行查询。
 
@@ -331,9 +371,9 @@ which is missing!
 
 #### 无法加载世界
 
-解释：使用的 OptiFine 导致了游戏出现问题
+解释：使用的 OptiFine 导致了游戏出现问题。
 
-解决方案：可以尝试更换 OptiFine 的版本
+解决方案：可以尝试更换 OptiFine 的版本。
 
 关键词：
 
@@ -349,11 +389,11 @@ java.lang.NoSuchMethodError: net.minecraft.world.server.ChunkManager$ProxyTicket
 
 提示：
 
-- 点击 `Show all versions` 即可展开所有的游戏版本，点击 `+ More` 和 `+ Preview versions` 可展开更多
+- 点击 `Show all versions` 即可展开所有的游戏版本，点击 `+ More` 和 `+ Preview versions` 可展开更多；
 
-- 若显示 `Forge N/A` 则代表该版本的 OptiFine 不兼容任何 Forge 版本
+- 若显示 `Forge N/A` 则代表该版本的 OptiFine 不兼容任何 Forge 版本。
 
-你可以在日志中逐个匹配下面的关键词，以确定是否是该原因导致崩溃（关键词仅供参考）
+你可以在日志中逐个匹配下面的关键词，以确定是否是该原因导致崩溃（关键词仅供参考）。
 
 ```
 java.lang.NoSuchMethodError: 'java.lang.Class sun.misc.Unsafe.defineAnonymousClass(java.lang.Class, byte[], java.lang.Object[])'
