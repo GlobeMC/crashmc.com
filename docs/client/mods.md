@@ -205,7 +205,7 @@ Missing or unsupported mandatory dependencies:
 
 > Modrinth 和 CurseForge 目前为止未提供中文界面，有困难的用户建议使用 MC 百科 进行查询。
 
-1. 删除需要前置的 Mod
+2. 删除需要前置的 Mod
 
 找到 `Requested by` 字样，然后根据前面提示的 Mod 信息删除对应 Mod。
 
@@ -246,6 +246,22 @@ Missing or unsupported mandatory dependencies:
 您也可以通过 [MC 百科](https://www.mcmod.cn/)、[Modrinth](https://modrinth.com/mods)、[CurseForge](https://www.curseforge.com/minecraft/mc-mods) 等网站搜索 Mod 所需的前置 Mod。
 
 > Modrinth 和 CurseForge 目前为止未提供中文界面，有困难的用户建议使用 MC 百科 进行查询。
+
+2. 删除需要前置的 Mod
+
+找到 `Requested by` 字样，然后根据前面提示的 Mod 信息删除对应 Mod。
+
+```
+// 在示例中，您应该删除 Boatload Mod。
+Missing or unsupported mandatory dependencies:
+        Mod ID: 'blueprint', Requested by: 'boatload', Expected range: '[5.4.0,)', Actual version: '[MISSING]'
+```
+
+关键词
+
+```
+Missing or unsupported mandatory dependencies:
+```
 
 ## Fabric
 
