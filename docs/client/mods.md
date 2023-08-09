@@ -223,6 +223,30 @@ Missing or unsupported mandatory dependencies:
 
 ## NeoForge
 
+### 缺少前置
+
+解释：有 Mod 依赖其他 Mod 运行，但未安装依赖的 Mod。
+
+解决方案：
+
+1. 安装依赖 Mod
+
+找到 `Mod ID` 字样，然后根据后面提示的 Mod 信息查找对应 Mod 并下载安装。
+
+如果一个 Mod 要求特定版本的另一个 Mod ，那么你应当寻找符合要求的 Mod 版本。
+
+相关英文提示： any -> 任何 ； version(s) -> 版本 ； require(s) -> 要求，需要 ； of -> 的（介词）
+
+```
+// 在示例中，您应该安装 Boatload Mod 的前置 Mod：Blueprint 高于 5.4.0 的版本。
+Missing or unsupported mandatory dependencies:
+        Mod ID: 'blueprint', Requested by: 'boatload', Expected range: '[5.4.0,)', Actual version: '[MISSING]'
+```
+
+您也可以通过 [MC 百科](https://www.mcmod.cn/)、[Modrinth](https://modrinth.com/mods)、[CurseForge](https://www.curseforge.com/minecraft/mc-mods) 等网站搜索 Mod 所需的前置 Mod。
+
+> Modrinth 和 CurseForge 目前为止未提供中文界面，有困难的用户建议使用 MC 百科 进行查询。
+
 ## Fabric
 
 ### 版本不兼容
