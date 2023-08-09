@@ -72,7 +72,7 @@ A：要对 `Minecraft` 的游戏错误 / 崩溃进行处理，您首先要对游
   :::details Q&A
   > Q：为什么不用 Notepad++？  
   > A：Notepad++ 的作者存在一些严重的政治立场问题，在这里不过多提及，但他本人将这种问题带入了他的作品之中，因此我本人并不推荐使用 Notepad++。
-  > :::
+  :::
 - [Visual Studio Code: A source-code editor made by Microsoft](https://code.visualstudio.com)
   > 一个轻量的、美观的文本编辑器，深受广大程序员喜爱。
 
