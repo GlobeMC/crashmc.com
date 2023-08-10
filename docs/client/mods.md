@@ -440,8 +440,6 @@ java.lang.NoSuchMethodError: 'java.lang.Class sun.misc.Unsafe.defineAnonymousCla
 
 java.lang.NoSuchMethodError: 'java.lang.String com.mojang.blaze3d.systems.RenderSystem.getBackendDescription()'
 
-java.lang.NoSuchMethodError: 'java.lang.String com.mojang.blaze3d.systems.RenderSystem.getBackendDescription()'
-
 java.lang.NoSuchMethodError: 'net.minecraft.network.chat.FormattedText net.minecraft.client.gui.Font.ellipsize(net.minecraft.network.chat.FormattedText, int)'
 
 java.lang.NoSuchMethodError: 'void net.minecraft.server.level.DistanceManager
