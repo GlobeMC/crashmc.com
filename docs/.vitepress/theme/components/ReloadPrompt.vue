@@ -48,25 +48,39 @@ onBeforeMount(async () => {
 
 <style>
 .pwa-toast {
-  position: fixed;
-  right: 0;
-  bottom: 0;
-  margin: 16px;
-  padding: 12px;
-  border: 1px solid #8885;
-  border-radius: 4px;
-  z-index: 100;
-  text-align: left;
-  box-shadow: 3px 4px 5px 0 #8885;
+  --c-divider: var(--vp-c-divider-light);
 }
-.pwa-toast #pwa-message {
-  margin-bottom: 8px;
+.pwa-toast .pwa-refresh {
+  border-color: var(--vp-button-brand-border);
+  color: var(--vp-button-brand-text);
+  background-color: var(--vp-button-brand-bg);
 }
-.pwa-toast button {
-  border: 1px solid #8885;
-  outline: none;
-  margin-right: 5px;
-  border-radius: 2px;
-  padding: 3px 10px;
+.pwa-toast .pwa-refresh:hover {
+  border-color: var(--vp-button-brand-hover-border);
+  color: var(--vp-button-brand-hover-text);
+  background-color: var(--vp-button-brand-hover-bg);
+}
+.pwa-toast .pwa-refresh:active {
+  border-color: var(--vp-button-brand-active-border);
+  color: var(--vp-button-brand-active-text);
+  background-color: var(--vp-button-brand-active-bg);
+}
+.pwa-toast .pwa-cancel {
+  border-color: var(--vp-button-alt-border);
+  color: var(--vp-button-alt-text);
+  background-color: var(--vp-button-alt-bg);
+}
+.pwa-toast .pwa-cancel:hover {
+  border-color: var(--vp-button-alt-hover-border);
+  color: var(--vp-button-alt-hover-text);
+  background-color: var(--vp-button-alt-hover-bg);
+}
+.pwa-toast .pwa-cancel:active {
+  border-color: var(--vp-button-alt-active-border);
+  color: var(--vp-button-alt-active-text);
+  background-color: var(--vp-button-alt-active-bg);
+}
+.dark .pwa-toast {
+  --pwa-divider: var(--vp-c-divider-dark-1);
 }
 </style>

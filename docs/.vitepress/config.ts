@@ -54,6 +54,7 @@ export default withPwa(
           ],
         },
         { text: "关于我们", link: "/about" },
+        { text: "捐赠支持", link: "https://afdian.net/a/Pigeon0v0" },
       ],
 
       footer: {
@@ -68,10 +69,10 @@ export default withPwa(
           appId: "A163FFFXG6",
           apiKey: "a8c4a4fedda9caccaed0b99fa4d7999e",
           indexName: "crashmc",
-          placeholder: "搜索文档",
+          placeholder: "搜索楞何楞想要得嘢？",
           translations: {
             button: {
-              buttonText: "搜索文档",
+              buttonText: "搜索楞何楞想要得嘢？",
               buttonAriaLabel: "搜索文档",
             },
             modal: {
@@ -170,7 +171,7 @@ export default withPwa(
       sidebarMenuLabel: "菜单",
       returnToTopLabel: "返回顶部",
       externalLinkIcon: true,
-      darkModeSwitchLabel: "切换深色模式",
+      darkModeSwitchLabel: "外观",
     },
 
     head: [

@@ -16,7 +16,7 @@ function getAvatarUrl(name: string) {
   return `https://cdn.crashmc.com/https://github.com/${name}.png`
 }
 function getGithubLink(name: string) {
-  return `https://cdn.crashmc.com/https://github.com/${name}`
+  return `https://github.com/${name}`
 }
 function isNotEmpty(arr: string | string[]) {
   return Array.isArray(arr) && arr.length

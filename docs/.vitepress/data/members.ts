@@ -78,10 +78,10 @@ const members = [
     links: [{ icon: "github", link: "https://github.com/ztsinsun" }],
   },
   {
-    avatar: "https://cdn.crashmc.com/https://github.com/Hex-Dragon.png",
-    name: "Hex Dragon",
-    title: "文档贡献组织",
-    links: [{ icon: "github", link: "https://github.com/Hex-Dragon" }],
+    avatar: "https://cdn.crashmc.com/https://github.com/LTCatt.png",
+    name: "龙腾猫跃",
+    title: "文档贡献者",
+    links: [{ icon: "github", link: "https://github.com/LTCatt" }],
   },
 ]
 
