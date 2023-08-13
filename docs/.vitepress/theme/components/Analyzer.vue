@@ -99,7 +99,7 @@ function handleDrop(e) {
 function handleFiles(files) {
   document.getElementById("analyzer_main").style.backgroundColor =
     "var(--vp-custom-block-tip-bg)"
-  Clean()
+  Clean() // 重新初始化
   if (files.length != 1) {
     labelMsg.value = "仅能上传一个文件"
   } else {
@@ -132,7 +132,9 @@ function Clean() {
   clearInterval(increaseHeightTimer)
 }
 
-// 检查文件
+/**
+ * 分析文件。可以分析返回 true，不能分析返回 false。
+ */
 function Checkfiles() {
   Clean()
   launcher = "Unknown"
@@ -148,7 +150,7 @@ function Checkfiles() {
     return true
   } else {
     document.getElementById("file_uploader_label").innerText =
-      "请上传 .zip/.txt/.log 文件!"
+      "请上传 .zip/.txt/.log 文件！"
     fup.focus()
     return false
   }
@@ -161,8 +163,8 @@ function Checkfiles() {
  */
 function StartAnalysis(file, ext) {
   var reader = new FileReader(file)
-  // Log / Txt 文件处理
-  if (ext != "zip") {
+
+  if (ext != "zip") { // Log / Txt 文件处理
     try {
       reader.readAsText(file)
       reader.onload = (e) => {
@@ -176,16 +178,16 @@ function StartAnalysis(file, ext) {
   } else {
     try {
       var jsZip = new JSZip()
-      // 从本地或URL加载一个Zip文件
+      // 从本地或 URL 加载一个 Zip 文件
       jsZip
         .loadAsync(file)
-        .then(function (zip) {
-          // 遍历Zip中的文件对象
+        .then(function (zip) { // 由 jsZip 库传递 zip 文件
+          // 启动器分析
+          // 遍历 Zip 中的文件对象
           for (let key in zip.files) {
-            // 判断是否是文件夹
-            if (!zip.files[key].dir) {
+            if (!zip.files[key].dir) { // 不是文件夹，则进行分析
               if (
-                zip.files[key].name.toLowerCase().includes("pcl") ||
+                zip.files[key].name.toLowerCase().includes("pcl") || // PCL 启动器日志.txt
                 zip.files[key].name.includes("游戏崩溃前的输出.txt")
               ) {
                 launcher = "PCL"
@@ -193,39 +195,33 @@ function StartAnalysis(file, ext) {
             }
           }
           for (let key in zip.files) {
-            // 判断是否是文件夹
-            if (!zip.files[key].dir) {
-              if (zip.files[key].name.toLowerCase().includes("hmcl")) {
+            if (!zip.files[key].dir) { // 不是文件夹，则进行分析
+              if (zip.files[key].name.toLowerCase().includes("hmcl")) { // hmcl.log
                 launcher = "HMCL"
               }
             }
           }
+
+          // 日志读取
+          logText = ""
           for (let key in zip.files) {
-            if (!zip.files[key].dir) {
-              if (zip.files[key].name == "latest.log") {
-                return zip.files[key].async("string")
-              }
-            }
-          }
-          for (let key in zip.files) {
-            if (!zip.files[key].dir) {
-              if (zip.files[key].name.search(/crash-(.*).txt/) != -1) {
-                return zip.files[key].async("string")
-              }
-            }
-          }
-          for (let key in zip.files) {
-            if (!zip.files[key].dir) {
+            if (!zip.files[key].dir) { // 不是文件夹，则进行读取
               if (
-                zip.files[key].name == "minecraft.log" ||
-                zip.files[key].name == "游戏崩溃前的输出.txt"
-              ) {
-                return zip.files[key].async("string")
-              } else {
-                FinishAnalysis("FetchLogErr", "(＃°Д°)")
-                return
+                zip.files[key].name == "latest.log" ||                 // latest.log
+                zip.files[key].name == "debug.log" ||                  // debug.log
+                zip.files[key].name.search(/crash-(.*).txt/) != -1 ||  // crash-***.txt
+                zip.files[key].name == "minecraft.log" ||              // minecraft.log
+                zip.files[key].name == "游戏崩溃前的输出.txt"           // 游戏崩溃前的输出.txt（仅 PCL）
+                ) {
+                logText = logText + zip.files[key].async("string") + "\n"
               }
             }
+          }
+          if (logText == "") { // 啥都没读到
+            FinishAnalysis("FetchLogErr", "(＃°Д°)")
+            return
+          } else { // 读到日志了，贼棒
+            return logText
           }
         })
         .then(function (content) {
@@ -238,10 +234,11 @@ function StartAnalysis(file, ext) {
 }
 
 /**
- * 日志分析 (一堆 if)
- * @param {string} log log 原文
+ * 分析日志，并展示分析结果。
+ * @param {string} log Log 原文。
+ * @param {string} [RawOutput=""] 可选，游戏输出。
  */
-function LogAnalysis(log) {
+function LogAnalysis(log, RawOutput="") {
   //启动器判断 (最准)
   if (log.includes("PCL")) {
     launcher = "PCL"
