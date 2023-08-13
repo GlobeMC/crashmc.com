@@ -1,14 +1,19 @@
 <script setup lang="ts">
 import { onBeforeMount, ref } from "vue"
 
+const offlineReady = ref(false)
 const needRefresh = ref(false)
 
 let updateServiceWorker: (() => Promise<void>) | undefined
 
-function onNeedRefresh() {
+const onOfflineReady = () => {
+  offlineReady.value = true
+}
+const onNeedRefresh = () => {
   needRefresh.value = true
 }
-async function close() {
+const close = async () => {
+  offlineReady.value = false
   needRefresh.value = false
 }
 
@@ -16,13 +21,14 @@ onBeforeMount(async () => {
   const { registerSW } = await import("virtual:pwa-register")
   updateServiceWorker = registerSW({
     immediate: true,
+    onOfflineReady,
     onNeedRefresh,
   })
 })
 </script>
 
 <template>
-  <template v-if="needRefresh">
+  <template v-if="offlineReady || needRefresh">
     <div
       class="pwa-toast z-100 bg-$vp-c-bg border border-$pwa-divider fixed right-0 bottom-0 m-6 px-6 py-4 rounded shadow-xl"
       role="alertdialog"
@@ -58,7 +64,7 @@ onBeforeMount(async () => {
   z-index: 100;
   text-align: left;
   box-shadow: 3px 4px 5px 0 #8885;
-  --c-divider: var(--vp-c-divider-light);
+  background-color: var(--vp-c-bg-soft);
 }
 .pwa-toast #pwa-message {
   margin-bottom: 8px;
