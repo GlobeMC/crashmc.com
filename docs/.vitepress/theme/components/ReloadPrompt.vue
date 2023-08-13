@@ -9,10 +9,10 @@ let updateServiceWorker: (() => Promise<void>) | undefined
 const onOfflineReady = () => {
   offlineReady.value = true
 }
-const onNeedRefresh = () => {
+function onNeedRefresh() {
   needRefresh.value = true
 }
-const close = async () => {
+async function close() {
   offlineReady.value = false
   needRefresh.value = false
 }
@@ -28,7 +28,7 @@ onBeforeMount(async () => {
 </script>
 
 <template>
-  <template v-if="offlineReady || needRefresh">
+  <template v-if="needRefresh">
     <div
       class="pwa-toast z-100 bg-$vp-c-bg border border-$pwa-divider fixed right-0 bottom-0 m-6 px-6 py-4 rounded shadow-xl"
       role="alertdialog"
