@@ -1,9 +1,9 @@
 const members = [
   {
-    avatar: "https://cdn.crashmc.com/https://github.com/bwtx2023.png",
-    name: "bwtx2023",
+    avatar: "https://cdn.crashmc.com/https://github.com/Pigeon0v0.png",
+    name: "Pigeon0v0",
     title: "创建者",
-    links: [{ icon: "github", link: "https://github.com/bwtx2023" }],
+    links: [{ icon: "github", link: "https://github.com/Pigeon0v0" }],
   },
   {
     avatar: "https://cdn.crashmc.com/https://github.com/HRxiaohu.png",
