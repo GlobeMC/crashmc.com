@@ -60,9 +60,9 @@ const ROOT_URL = CUR_URL.substring(
   CUR_URL.indexOf(window.document.location.pathname),
 ) // 根网址
 
-const SYSTEM_URL = ROOT_URL + "/system.html" // 系统问题
-const VANILLA_URL = ROOT_URL + "/vanilla.html" // 原版问题
-const MODS_URL = ROOT_URL + "/mods.html" // Mod 问题
+const SYSTEM_URL = ROOT_URL + "/client/system.html" // 系统问题
+const VANILLA_URL = ROOT_URL + "/client/vanilla.html" // 原版问题
+const MODS_URL = ROOT_URL + "/client/mods.html" // Mod 问题
 
 // 阻止浏览器默认拖拽行为
 function handleDragEnter(e) {

@@ -8,8 +8,10 @@ import Analyzer from './.vitepress/theme/components/Analyzer.vue'
 
 # 崩溃分析工具
 
-:::warning 警告 ⚠
-施工中 请绕行
+:::tip 提示
+崩溃分析工具目前处于测试阶段，可能不稳定。
+
+如果你愿意帮助我们，就请试用一下，我们期待你的贡献！
 :::
 
 ---

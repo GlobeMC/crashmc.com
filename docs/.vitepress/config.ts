@@ -51,9 +51,9 @@ export default withPwa(
               text: "崩溃提交",
               link: "/contribute/crash-report",
             },
+            { text: "贡献者列表", link: "/contribute/contributors" },
           ],
         },
-        { text: "关于我们", link: "/about" },
         { text: "捐赠支持", link: "https://afdian.net/a/Pigeon0v0" },
       ],
 
@@ -151,9 +151,9 @@ export default withPwa(
               text: "崩溃提交",
               link: "/contribute/crash-report",
             },
+            { text: "贡献者名单", link: "/contribute/contributors.html" },
           ],
         },
-        { text: "关于我们", link: "/about" },
       ],
 
       socialLinks: [{ icon: "github", link: "https://github.com/GlobeMC" }],
