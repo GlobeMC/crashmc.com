@@ -10,7 +10,7 @@ export const pwa: Partial<VitePWAOptions> = {
     short_name: "CrashMC 文档",
     description: "为一般玩家编写的 Minecraft 崩溃分析指南",
     theme_color: "#ffffff",
-    start_url: "/",
+    start_url: "/?utm_source=web_app_manifest",
     lang: "zh-CN",
     display: "standalone",
     categories: ["minecraft", "crash"],
