@@ -236,9 +236,8 @@ function StartAnalysis(file, ext) {
 /**
  * 分析日志，并展示分析结果。
  * @param {string} log Log 原文。
- * @param {string} [RawOutput=""] 可选，游戏输出。
  */
-function LogAnalysis(log, RawOutput="") {
+function LogAnalysis(log) {
   //启动器判断 (最准)
   if (log.includes("PCL")) {
     launcher = "PCL"
