@@ -4,6 +4,10 @@
 **以下内容可能是高度技术性的 并不一定适合新手查看**
 :::
 
+:::info WIP
+本页文档仍在编写，如果你感兴趣的话，可以帮助我们完善它
+:::
+
 ## Mixin 是什么？
 
 > [SpongePowered Mixin](https://github.com/SpongePowered/Mixin) (下称 Mixin) 是一套用于在程序运行时通过代码注入实现对程序行为进行修改的一套支持库  
