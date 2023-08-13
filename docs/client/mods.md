@@ -27,7 +27,7 @@ Unsupported class file major version
 
 | 关键词                                                 | 解决方案                                |
 | ------------------------------------------------------ | --------------------------------------- |
-| `no such method: sun.misc.Unsafe.defineAnonymousClass` | Java 版本过高，降低 Java 版本至 17 以下 |
+| `no such method: sun.misc.Unsafe.defineAnonymousClass` | Java 版本过高，降低 Java 版本至 [Java 8u312](https://ghproxy.com/https://github.com/bell-sw/Liberica/releases/download/8u312%2B7/bellsoft-jre8u312+7-windows-amd64-full.msi) 或者 [Java 11.0.13](https://ghproxy.com/https://github.com/bell-sw/Liberica/releases/download/11.0.13%2B8/bellsoft-jre11.0.13+8-windows-amd64-full.msi) |
 
 附 Java 版本查询列表
 
@@ -173,7 +173,7 @@ Found multiple arguments for option fml.forgeVersion, but you asked for only one
 
 解释：Night Config 库的一些常见问题导致的，会导致无法读取配置文件。有关详细信息，可访问[此处](https://github.com/Fuzss/nightconfigfixes#readme)查看。
 
-解决方案：请尝试下载并安装该 Mod：`Night Config Fixes`。[MC 百科](https://www.mcmod.cn/class/9007.html) | [CurseForge](https://www.curseforge.com/minecraft/mc-mods/night-config-fixes)
+解决方案：请尝试下载并安装该 Mod：`Night Config Fixes`。[MC百科](https://www.mcmod.cn/class/9007.html) | [CurseForge](https://www.curseforge.com/minecraft/mc-mods/night-config-fixes)
 
 关键词：
 
@@ -201,11 +201,11 @@ Missing or unsupported mandatory dependencies:
         Mod ID: 'blueprint', Requested by: 'boatload', Expected range: '[5.4.0,)', Actual version: '[MISSING]'
 ```
 
-您也可以通过 [MC 百科](https://www.mcmod.cn/)、[Modrinth](https://modrinth.com/mods)、[CurseForge](https://www.curseforge.com/minecraft/mc-mods) 等网站搜索 Mod 所需的前置 Mod。
+您也可以通过 [MC百科](https://www.mcmod.cn/)、[Modrinth](https://modrinth.com/mods)、[CurseForge](https://www.curseforge.com/minecraft/mc-mods) 等网站搜索 Mod 所需的前置 Mod。
 
-> Modrinth 和 CurseForge 目前为止未提供中文界面，有困难的用户建议使用 MC 百科 进行查询。
+> Modrinth 和 CurseForge 目前为止未提供中文界面，有困难的用户建议使用 MC百科 进行查询。
 
-1. 删除需要前置的 Mod
+2. 删除需要前置的 Mod
 
 找到 `Requested by` 字样，然后根据前面提示的 Mod 信息删除对应 Mod。
 
@@ -222,6 +222,46 @@ Missing or unsupported mandatory dependencies:
 ```
 
 ## NeoForge
+
+### 缺少前置
+
+解释：有 Mod 依赖其他 Mod 运行，但未安装依赖的 Mod。
+
+解决方案：
+
+1. 安装依赖 Mod
+
+找到 `Mod ID` 字样，然后根据后面提示的 Mod 信息查找对应 Mod 并下载安装。
+
+如果一个 Mod 要求特定版本的另一个 Mod ，那么你应当寻找符合要求的 Mod 版本。
+
+相关英文提示： any -> 任何 ； version(s) -> 版本 ； require(s) -> 要求，需要 ； of -> 的（介词）
+
+```
+// 在示例中，您应该安装 Boatload Mod 的前置 Mod：Blueprint 高于 5.4.0 的版本。
+Missing or unsupported mandatory dependencies:
+        Mod ID: 'blueprint', Requested by: 'boatload', Expected range: '[5.4.0,)', Actual version: '[MISSING]'
+```
+
+您也可以通过 [MC百科](https://www.mcmod.cn/)、[Modrinth](https://modrinth.com/mods)、[CurseForge](https://www.curseforge.com/minecraft/mc-mods) 等网站搜索 Mod 所需的前置 Mod。
+
+> Modrinth 和 CurseForge 目前为止未提供中文界面，有困难的用户建议使用 MC百科 进行查询。
+
+2. 删除需要前置的 Mod
+
+找到 `Requested by` 字样，然后根据前面提示的 Mod 信息删除对应 Mod。
+
+```
+// 在示例中，您应该删除 Boatload Mod。
+Missing or unsupported mandatory dependencies:
+        Mod ID: 'blueprint', Requested by: 'boatload', Expected range: '[5.4.0,)', Actual version: '[MISSING]'
+```
+
+关键词
+
+```
+Missing or unsupported mandatory dependencies:
+```
 
 ## Fabric
 
@@ -397,8 +437,6 @@ java.lang.NoSuchMethodError: net.minecraft.world.server.ChunkManager$ProxyTicket
 
 ```
 java.lang.NoSuchMethodError: 'java.lang.Class sun.misc.Unsafe.defineAnonymousClass(java.lang.Class, byte[], java.lang.Object[])'
-
-java.lang.NoSuchMethodError: 'java.lang.String com.mojang.blaze3d.systems.RenderSystem.getBackendDescription()'
 
 java.lang.NoSuchMethodError: 'java.lang.String com.mojang.blaze3d.systems.RenderSystem.getBackendDescription()'
 

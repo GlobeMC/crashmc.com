@@ -60,9 +60,9 @@ const ROOT_URL = CUR_URL.substring(
   CUR_URL.indexOf(window.document.location.pathname),
 ) // 根网址
 
-const SYSTEM_URL = ROOT_URL + "/system.html" // 系统问题
-const VANILLA_URL = ROOT_URL + "/vanilla.html" // 原版问题
-const MODS_URL = ROOT_URL + "/mods.html" // Mod 问题
+const SYSTEM_URL = ROOT_URL + "/client/system.html" // 系统问题
+const VANILLA_URL = ROOT_URL + "/client/vanilla.html" // 原版问题
+const MODS_URL = ROOT_URL + "/client/mods.html" // Mod 问题
 
 // 阻止浏览器默认拖拽行为
 function handleDragEnter(e) {
@@ -369,10 +369,221 @@ function LogAnalysis(log, RawOutput="") {
       "文件校验失败",
     )
 
+  // Mod 问题
+  // Java 版本不匹配
+  } else if (
+    log.includes("java.lang.UnsupportedClassVersionError") || 
+    log.includes("Unsupported class file major version") || 
+    log.includes("no such method: sun.misc.Unsafe.defineAnonymousClass")
+  ) {
+    ShowAnalysisResult(
+      "Success",
+      "Java 版本不匹配",
+      MODS_URL + "#java-版本不匹配",
+      "Java 版本不匹配",
+    )
+
+  // Mod 重复安装
+  } else if (
+    log.includes("DuplicateModsFoundException") || 
+    log.includes("Found a duplicate mod") || 
+    log.includes("ModResolutionException: Duplicate")
+  ) {
+    ShowAnalysisResult(
+      "Success",
+      "Mod 重复安装",
+      MODS_URL + "#mod-重复安装",
+      "Mod 重复安装",
+    )
+
+  // Mod 过多导致超出 ID 限制
+  } else if (
+    log.includes("maximum id range exceeded")
+  ) {
+    ShowAnalysisResult(
+      "Success",
+      "Mod 过多导致超出 ID 限制",
+      MODS_URL + "#mod-过多导致超出-id-限制",
+      "Mod 过多导致超出 ID 限制",
+    )
+
+  // 解压了 Mod
+  } else if (
+    log.includes("The directories below appear to be extracted jar files. Fix this before you continue.") || 
+    log.includes("Extracted mod jars found, loading will NOT continue")
+  ) {
+    ShowAnalysisResult(
+      "Success",
+      "解压了 Mod",
+      MODS_URL + "#解压了-mod",
+      "解压了 Mod",
+    )
+
+  // Mod 名称含有特殊字符
+  } else if (
+    log.includes("Invalid module name: '' is not a Java identifier")
+  ) {
+    ShowAnalysisResult(
+      "Success",
+      "Mod 名称含有特殊字符",
+      MODS_URL + "#mod-名称含有特殊字符",
+      "Mod 名称含有特殊字符",
+    )
+
+  // Mod 文件损坏
+  } else if (
+    log.includes("Caused by: java.util.zip.ZipException: zip END header not found")
+  ) {
+    ShowAnalysisResult(
+      "Success",
+      "Mod 文件损坏",
+      MODS_URL + "#mod-文件损坏",
+      "Mod 文件损坏",
+    )
+
+  // 一些 Mod 需要访问国外网络
+  } else if (
+    log.includes("modpack-update-checker") || 
+    log.includes("commonality")
+  ) {
+    ShowAnalysisResult(
+      "Success",
+      "一些 Mod 需要访问国外网络",
+      MODS_URL + "#一些-mod-需要访问国外网络",
+      "一些 Mod 需要访问国外网络",
+    )
+
+  // Forge Json 问题
+  } else if (
+    log.includes("Found multiple arguments for option fml.forgeVersion, but you asked for only one")
+  ) {
+    ShowAnalysisResult(
+      "Success",
+      "Forge Json 问题",
+      MODS_URL + "#json-问题",
+      "Forge Json 问题",
+    )
+
+  // Night Config 库问题
+  } else if (
+    log.includes("forge") && 
+    log.includes("Caused by: com.electronwill.nightconfig.core.io.ParsingException: Not enough data available")
+  ) {
+    ShowAnalysisResult(
+      "Success",
+      "Night Config 库问题",
+      MODS_URL + "#night-config-库的问题",
+      "Night Config 库问题",
+    )
+
+  // Forge 缺少前置
+  } else if (
+    log.includes("forge") && 
+    log.includes("Missing or unsupported mandatory dependencies:") && 
+    log.includes("neoforge") == false
+  ) {
+    ShowAnalysisResult(
+      "Success",
+      "Forge 缺少前置 Mod",
+      MODS_URL + "#缺少前置",
+      "Forge 缺少前置 Mod",
+    )
+
+  // NeoForge 缺少前置
+  } else if (
+    log.includes("neoforge") && 
+    log.includes("Missing or unsupported mandatory dependencies:")
+  ) {
+    ShowAnalysisResult(
+      "Success",
+      "NeoForge 缺少前置 Mod",
+      MODS_URL + "#缺少前置-1",
+      "NeoForge 缺少前置 Mod",
+    )
+
+  // Fabric Mod 版本不兼容
+  } else if (
+    log.includes("fabric") && 
+    log.includes("but only the wrong version is present")
+  ) {
+    ShowAnalysisResult(
+      "Success",
+      "Fabric Mod 版本不兼容",
+      MODS_URL + "#版本不兼容",
+      "Fabric Mod 版本不兼容",
+    )
+
+  // Fabric Mod 缺少前置
+  } else if (
+    log.includes("fabric") && 
+    log.includes("Unmet dependency listing:")
+  ) {
+    ShowAnalysisResult(
+      "Success",
+      "Fabric Mod 缺少前置",
+      MODS_URL + "#缺少前置-2",
+      "Fabric Mod 缺少前置",
+    )
+
+  // Fabric Mod 冲突
+  } else if (
+    log.includes("net.fabricmc.loader.impl.FormattedException: Mod resolution encountered an incompatible mod set!") || 
+    log.includes("that is compatible with")
+  ) {
+    ShowAnalysisResult(
+      "Success",
+      "Fabric Mod 冲突",
+      MODS_URL + "#mod-冲突",
+      "Fabric Mod 冲突",
+    )
+
+  // Quilt Mod 缺少前置
+  } else if (
+    log.includes("quilt") && 
+    log.includes("which is missing!")
+  ) {
+    ShowAnalysisResult(
+      "Success",
+      "Quilt Mod 缺少前置",
+      MODS_URL + "#缺少前置-3",
+      "Quilt Mod 缺少前置",
+    )
+
+  // OptiFine 无法加载世界
+  } else if (
+    log.includes("java.lang.NoSuchMethodError: net.minecraft.world.server.ChunkManager$ProxyTicketManager.shouldForceTicks(J)Z")
+  ) {
+    ShowAnalysisResult(
+      "Success",
+      "OptiFine 导致无法加载世界",
+      MODS_URL + "#无法加载世界",
+      "OptiFine 导致无法加载世界",
+    )
+
+  // Forge 与 OptiFine 兼容性问题导致的崩溃
+  } else if (
+    log.includes("java.lang.NoSuchMethodError: 'java.lang.Class sun.misc.Unsafe.defineAnonymousClass(java.lang.Class, byte[], java.lang.Object[])'") || 
+    log.includes("java.lang.NoSuchMethodError: 'java.lang.String com.mojang.blaze3d.systems.RenderSystem.getBackendDescription()'") || 
+    log.includes("java.lang.NoSuchMethodError: 'net.minecraft.network.chat.FormattedText net.minecraft.client.gui.Font.ellipsize(net.minecraft.network.chat.FormattedText, int)'") || 
+    log.includes("java.lang.NoSuchMethodError: 'void net.minecraft.server.level.DistanceManager") || 
+    log.includes("java.lang.NoSuchMethodError: 'void net.minecraft.client.renderer.block.model.BakedQuad.<init>(int[], int, net.minecraft.core.Direction, net.minecraft.client.renderer.texture.TextureAtlasSprite, boolean, boolean)'") || 
+    log.includes("java.lang.NoSuchMethodError: 'void net.minecraft.client.renderer.texture.SpriteContents.<init>(net.minecraft.resources.ResourceLocation") || 
+    log.includes("java.lang.NoSuchMethodError: 'void net.minecraft.server.level.DistanceManager.addRegionTicket(net.minecraft.server.level.TicketType, net.minecraft.world.level.ChunkPos, int, java.lang.Object, boolean)'") || 
+    log.includes("java.lang.NoSuchMethodError: net.minecraft.launchwrapper.ITweaker.injectIntoClassLoader(Lnet/minecraft/launchwrapper/LaunchClassLoader;)V") || 
+    log.includes("TRANSFORMER/net.optifine/net.optifine.reflect.Reflector.<clinit>(Reflector.java")
+  ) {
+    ShowAnalysisResult(
+      "Success",
+      "Forge 与 OptiFine 兼容性问题导致的崩溃",
+      MODS_URL + "#forge-与-optifine-兼容性问题导致的崩溃",
+      "Forge 与 OptiFine 兼容性问题导致的崩溃",
+    )
+
+  // 以上都无
   } else {
     ShowAnalysisResult(
       "Unrecord",
-      "本工具还未收录您所遇到的错误，请点击下方按钮前往 Github 反馈。",
+      "本工具还未收录您所遇到的错误，请点击下方按钮前往 GitHub 反馈。",
       "https://github.com/GlobeMC/crashmc.com/issues/new/choose",
       "Unrecord",
     )
