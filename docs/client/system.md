@@ -189,6 +189,14 @@ java.lang.IllegalStateException: GLFW error before init: [0x10008]Cocoa: Failed 
 
 解决方法<Badge type="warning" text="实验性" />：先开一个浏览器全屏，然后启动游戏，在还没弹出窗口的时候迅速切回浏览器，等差不多游戏窗口出来了之后再切回去。
 
+### 在 macOS 上的Java
+
+```
+Terminating app due to uncaught exception 'NSInternalInconsistencyException', reason: 'NSWindow drag regions should only be invalidated on the Main Thread!'
+```
+
+解决方案：卸载现在的 Java ，安装 [Java 8u241](https://files.multimc.org/downloads/jre-8u241-macosx-x64.dmg)
+
 ## Linux 问题
 
 ### 不兼容 Linux 的 Mod
