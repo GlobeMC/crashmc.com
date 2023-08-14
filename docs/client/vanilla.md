@@ -74,13 +74,17 @@ Maybe try a lower resolution resourcepack?
 signer information does not match signer information of other classes in the same package
 ```
 
-## 显存溢出
+## 显存 / 内存问题
 
-解释：显存溢出。
+解释：显存溢出，或者内存分配过多导致问题。
 
-解决方案：在桌面右键 `此电脑`，依次点击 `属性` -- `高级系统设置`，按下图顺序改成 `自动管理所有驱动器分页文件大小`，改完后点三个 `确定`（**不要**点右上角的叉），然后重启计算机。
+解决方案：请逐个尝试以下方案。
+
+1. 在桌面右键 `此电脑`，依次点击 `属性` -- `高级系统设置`，按下图顺序改成 `自动管理所有驱动器分页文件大小`，改完后点三个 `确定`（**不要**点右上角的叉），然后重启计算机。
 
 ![显存溢出解决方案](https://img.kookapp.cn/assets/2023-03/bGbLMNRnws1020j1.png)
+
+2. 将内存分配量手动调低，再次尝试启动游戏。
 
 关键词：
 
