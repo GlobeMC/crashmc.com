@@ -146,3 +146,6 @@ node_modules
 dist-ssr
 *.local
 .lightly
+
+# macOS
+.DS_Store
