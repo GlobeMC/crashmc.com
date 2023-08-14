@@ -85,6 +85,7 @@ signer information does not match signer information of other classes in the sam
 ![显存溢出解决方案](https://img.kookapp.cn/assets/2023-03/bGbLMNRnws1020j1.png)
 
 2. 将内存分配量手动调低，再次尝试启动游戏。
+3. 关闭光影。
 
 关键词：
 
