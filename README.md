@@ -8,6 +8,13 @@
 
 ## 贡献
 
+### 依赖工具
+
+- [Git](https://git-scm.com/downloads)
+- [pnpm](https://pnpm.io/installation)
+
+### 注意事项
+
 请先 [Fork](https://github.com/GlobeMC/crashmc.com/fork) 本仓库，然后进行文档修改。
 
 请注意：在非 Log 信息以外的任何地方，如果出现中文文字、英文单词和阿拉伯数字混用的情况，请在它们之间添加空格；如果有斜杠的，请在斜杠两边增加一个空格。

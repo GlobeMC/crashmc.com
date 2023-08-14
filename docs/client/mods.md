@@ -407,6 +407,18 @@ which is missing!
 
 根据 Mod 列表的提示，手动删除对应的 Mod。
 
+### 与 Forge 冲突
+
+解释：由于 LiteLoader 与 Forge 冲突，游戏崩溃了。
+
+解决方案：卸载 LiteLoader（重新安装没有 LiteLoader 的实例，然后迁移数据）。
+
+关键词：
+
+```
+org.spongepowered.asm.service.ServiceInitialisationException: ModLauncher is not available
+```
+
 ## OptiFine
 
 #### 无法加载世界
