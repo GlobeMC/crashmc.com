@@ -512,6 +512,20 @@ function LogAnalysis(log) {
       "Quilt Mod 缺少前置",
     )
 
+  // LiteLoader 与 Forge 冲突
+  } else if (
+    log.includes("forge") && 
+    log.includes("liteloader") && 
+    log.includes("org.spongepowered.asm.service.ServiceInitialisationException: ModLauncher is not available") && 
+    log.includes("neoforge") == false
+  ) {
+    showAnalysisResult(
+      "Success",
+      "LiteLoader 与 Forge 冲突",
+      MODS_URL + "#与-forge-冲突",
+      "LiteLoader 与 Forge 冲突",
+    )
+
   // OptiFine 无法加载世界
   } else if (
     log.includes("java.lang.NoSuchMethodError: net.minecraft.world.server.ChunkManager$ProxyTicketManager.shouldForceTicks(J)Z")
