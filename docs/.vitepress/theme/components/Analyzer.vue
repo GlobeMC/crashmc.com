@@ -28,6 +28,7 @@ const ROOT_URL = CUR_URL.substring( // 根网址
 const SYSTEM_URL = ROOT_URL + "/client/system.html" // 系统问题
 const VANILLA_URL = ROOT_URL + "/client/vanilla.html" // 原版问题
 const MODS_URL = ROOT_URL + "/client/mods.html" // Mod 问题
+const MIXIN_URL = ROOT_URL + "/mixin.html" // Mod 问题
 
 // 阻止浏览器默认拖拽行为
 function handleDragEnter(e) {
@@ -474,7 +475,10 @@ function LogAnalysis(log) {
   // Fabric Mod 缺少前置
   } else if (
     log.includes("fabric") && 
-    log.includes("Unmet dependency listing:")
+    log.includes("Unmet dependency listing:") && 
+    log.includes("requires") && 
+    log.includes("which is missing!") && 
+    log.includes("is incompatible with") == false
   ) {
     showAnalysisResult(
       "Success",
@@ -485,8 +489,9 @@ function LogAnalysis(log) {
 
   // Fabric Mod 冲突
   } else if (
-    log.includes("net.fabricmc.loader.impl.FormattedException: Mod resolution encountered an incompatible mod set!") || 
-    log.includes("that is compatible with")
+    log.includes("net.fabricmc.loader.impl.FormattedException: Mod resolution encountered an incompatible mod set!") && 
+    log.includes("that is compatible with") && 
+    log.includes("is incompatible with")
   ) {
     showAnalysisResult(
       "Success",
@@ -505,6 +510,20 @@ function LogAnalysis(log) {
       "Quilt Mod 缺少前置",
       MODS_URL + "#缺少前置-3",
       "Quilt Mod 缺少前置",
+    )
+
+  // LiteLoader 与 Forge 冲突
+  } else if (
+    log.includes("forge") && 
+    log.includes("liteloader") && 
+    log.includes("org.spongepowered.asm.service.ServiceInitialisationException: ModLauncher is not available") && 
+    log.includes("neoforge") == false
+  ) {
+    showAnalysisResult(
+      "Success",
+      "LiteLoader 与 Forge 冲突",
+      MODS_URL + "#与-forge-冲突",
+      "LiteLoader 与 Forge 冲突",
     )
 
   // OptiFine 无法加载世界
@@ -535,6 +554,18 @@ function LogAnalysis(log) {
       "Forge 与 OptiFine 兼容性问题导致的崩溃",
       MODS_URL + "#forge-与-optifine-兼容性问题导致的崩溃",
       "Forge 与 OptiFine 兼容性问题导致的崩溃",
+    )
+
+  // Mixin 注入失败
+  } else if (
+    log.includes("Mixin apply for mod") && 
+    log.includes("failed")
+  ) {
+    showAnalysisResult(
+      "Success",
+      "Mixin 注入失败",
+      MIXIN_URL + "#mixin-注入失败",
+      "Mixin 注入失败",
     )
 
   // 以上都无
