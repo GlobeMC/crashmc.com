@@ -3,11 +3,12 @@ import JSZip from "jszip";
 import { ref } from "vue";
 
 // 元素引用
-const analyzerMain = ref(null)
-const analysisResultMain = ref(null)
 const fileUploader = ref(null)
 
 // 变量初始化
+const analyzerBackgroundColor = ""
+
+const analysisShowResult = ref(false)
 const isBtnDisabled = ref(false)
 const labelMsg = ref("未选择文件")
 const btnMsg = ref("开始上传")
@@ -30,17 +31,17 @@ const MODS_URL = ROOT_URL + "/client/mods.html" // Mod 问题
 
 // 阻止浏览器默认拖拽行为
 function handleDragEnter(e) {
-  analyzerMain.value.style.backgroundColor = "rgba(255,255,255,0.5)"
+  analyzerBackgroundColor.value = "rgba(255,255,255,0.5)"
 }
 
 // 动画
 function handleDragOver(e) {
-  analyzerMain.value.style.backgroundColor = "rgba(255,255,255,0.5)"
+  analyzerBackgroundColor.value = "rgba(255,255,255,0.5)"
 }
 
 // 动画
 function handleDragLeave(e) {
-  analyzerMain.value.style.backgroundColor = "var(--vp-custom-block-tip-bg)"
+  analyzerBackgroundColor.value = "var(--vp-custom-block-tip-bg)"
 }
 
 // 动画
@@ -55,8 +56,7 @@ function handleDrop(e) {
  * @param {File} files 拖拽的文件
  */
 function handleFiles(files) {
-  analyzerMain.value.style.backgroundColor =
-    "var(--vp-custom-block-tip-bg)"
+  analyzerBackgroundColor.value = "var(--vp-custom-block-tip-bg)"
   clean()
   if (files.length != 1) {
     labelMsg.value = "仅能上传一个文件"
@@ -80,8 +80,7 @@ function handleFiles(files) {
 
 // 清理 (重新初始化)
 function clean() {
-  analysisResultMain.value.style.display = "none"
-  analysisResultMain.value.style.opacity = 0
+  analysisShowResult.value = false
   analysisResultMsg.value = "分析器歇逼了"
   redirectMsg.value = "导航到解决方案"
   redirect_url = null
@@ -559,46 +558,8 @@ function LogAnalysis(log) {
 function showAnalysisResult(status, msg, result_url, status_msg) {
   //信息更改
   redirect_url = result_url
-  analysisResultMain.value.style.display = "block"
   analysisResultMsg.value = msg
-
-  //展开动画
-  var count = 0
-  var con = analysisResultMain.value
-  var conHeight = con.offsetHeight
-  var h = 0
-  clearInterval(increaseHeightTimer)
-  increaseHeightTimer = setInterval(function () {
-    count += 1
-    h += 2 + count
-    if (h >= conHeight) {
-      h = conHeight
-      clearInterval(increaseHeightTimer)
-    }
-    con.style.height = h + "px"
-  }, 10)
-
-  //透明度动画 (延迟)
-  setTimeout(function () {
-    var alpha = 30
-    var oDiv = analysisResultMain.value //关闭定时器
-    increaseOpacTimer = setInterval(function () {
-      //打开另一个计时器
-      var speed = 0
-      if (alpha > oDiv) {
-        speed = -10 //设置变化的速度
-      } else {
-        speed = 10
-      }
-      if (alpha == oDiv) {
-        clearInterval(increaseOpacTimer) //相等的时候关闭计时器
-      } else {
-        alpha += speed //透明度不断减小
-        oDiv.style.filter = "alpha(opacity:" + alpha + ")" //IE
-        oDiv.style.opacity = alpha / 100 //火狐，chrome
-      } //改变透明度
-    }, 40)
-  }, 300)
+  analysisShowResult.value = true
 
   // 消息更改
   isBtnDisabled.value = false
@@ -680,7 +641,7 @@ function redirectBtnClick() {
     redirect_url == "https://github.com/GlobeMC/crashmc.com/issues/new/choose"
   ) {
     window.open(redirect_url)
-  } else if (redirect_url == null || redirect_url == undefined) {
+  } else if (redirect_url === null || typeof redirect_url === 'undefined') {
     labelMsg.value = "无法重定向到解决方案页面"
     finishAnalysis("ErrOpenRstPage", redirect_url)
   } else {
@@ -692,14 +653,14 @@ function redirectBtnClick() {
 <template>
   <ClientOnly>
     <div
-      ref="analyzerMain"
       class="analyzer-main"
+      :style="{'background-color': analyzerBackgroundColor}"
       @dragenter.prevent="handleDragEnter"
       @dragover.prevent="handleDragOver"
       @drop.prevent="handleDrop"
       @dragleave.prevent="handleDragLeave">
       <h4 style="text-align: center">
-        请点击按钮上传导出的 .zip/.txt/.log 文件,并尽量不要更改导出文件的名称。
+        请点击按钮上传导出的 .zip/.txt/.log 文件, 并尽量不要更改导出文件的名称。
       </h4>
       <img class="icon-upload" src="../../../src/logo-upload.svg" />
       <div class="file-uploader-container">
@@ -721,14 +682,16 @@ function redirectBtnClick() {
           @change="checkfiles"
           style="display: none" />
       </div>
-      <div ref="analysisResultMain" class="analysis-result-main">
-        <hr />
-        <h4 class="analysis-result-title">分析结果:</h4>
-        <p class="analysis-result-msg">{{analysisResultMsg}}</p>
-        <button class="redirect-btn" @click="redirectBtnClick">
-          {{ redirectMsg }}
-        </button>
-      </div>
+      <Transition name="analysis-result">
+        <div v-if="analysisShowResult" class="analysis-result-main">
+          <hr />
+          <h4 class="analysis-result-title">分析结果:</h4>
+          <p class="analysis-result-msg">{{analysisResultMsg}}</p>
+          <button class="redirect-btn" @click="redirectBtnClick">
+            {{ redirectMsg }}
+          </button>
+        </div>
+      </Transition>
     </div>
   </ClientOnly>
 </template>
@@ -742,11 +705,6 @@ div {
 p {
   margin: 0;
   padding: 0;
-}
-
-.analysis-result-main {
-  display: none;
-  opacity: 0;
 }
 
 .analysis-result-title {
@@ -770,6 +728,18 @@ p {
   margin: auto;
   width: 100%;
   height: 100%;
+  max-height: 8rem;
+}
+
+.analysis-result-enter-active,
+.analysis-result-leave-active {
+  transition: all 0.6s;
+}
+
+.analysis-result-enter-from,
+.analysis-result-leave-to {
+  max-height: 0 !important;
+  opacity: 0;
 }
 
 .icon-upload {
@@ -785,7 +755,7 @@ p {
   height: 100%;
 }
 
-button {
+.file-uploader-btn {
   margin-top: 3px;
   height: 35px;
   width: 120px;
@@ -796,9 +766,10 @@ button {
   transition: all 0.3s;
 }
 
-button:hover {
+.file-uploader-btn:hover {
   animation-direction: alternate;
   transform: scale(1.05);
   transition: all 0.3s;
 }
+
 </style>
