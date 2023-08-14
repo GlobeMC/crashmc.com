@@ -4,6 +4,10 @@
 **以下内容可能是高度技术性的 并不一定适合新手查看**
 :::
 
+:::info WIP
+本页文档仍在编写，如果你感兴趣的话，可以帮助我们完善它
+:::
+
 ## Mixin 是什么？
 
 > [SpongePowered Mixin](https://github.com/SpongePowered/Mixin) (下称 Mixin) 是一套用于在程序运行时通过代码注入实现对程序行为进行修改的一套支持库  
@@ -17,6 +21,19 @@
 ## 在此之前...
 
 ## 常见崩溃实例
+
+### Mixin 注入失败
+
+解释：由于一个或多个 Mod 的 Mixin 注入失败，导致游戏出错。
+
+解决方案：查看日志了解是哪一个或多个 Mod 出错，然后移除它们。
+
+关键词：
+
+```
+Mixin apply for mod
+failed
+```
 
 ### Rubidium 与 OptiFine 冲突
 

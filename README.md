@@ -8,6 +8,13 @@
 
 ## 贡献
 
+### 依赖工具
+
+- [Git](https://git-scm.com/downloads)
+- [pnpm](https://pnpm.io/installation)
+
+### 注意事项
+
 请先 [Fork](https://github.com/GlobeMC/crashmc.com/fork) 本仓库，然后进行文档修改。
 
 请注意：在非 Log 信息以外的任何地方，如果出现中文文字、英文单词和阿拉伯数字混用的情况，请在它们之间添加空格；如果有斜杠的，请在斜杠两边增加一个空格。
@@ -28,13 +35,7 @@
 
 ### 客户端崩溃
 
-- [ ] 收录大多数常见崩溃
-
-- [ ] 收录大多数原版崩溃
-
-- [ ] 收录大多数因 Mods 引起的崩溃
-
-- [ ] 收录大多数因 OptiFine 引起的崩溃
+- [ ] 继续收录崩溃信息
 
 ### 服务端崩溃
 
@@ -46,15 +47,11 @@
 
 ### 进阶内容
 
-- [ ] 等待补充
-
-### 其他
-
-- [ ] 实现全自动分析日志
+- [ ] 实现全自动分析日志 API 以供其他服务接入
 
 ## 鸣谢
 
 - [XieXiLin](https://github.com/XieXiLin2)：提供域名资金支持
 - [23355607](https://github.com/2623684696)：域名管理
-- [PCL2](https://github.com/Hex-Dragon/PCL2)：提供了部分日志分析规则
+- [龙腾猫跃 / PCL2](https://github.com/Hex-Dragon/PCL2)：提供了部分日志分析规则
 - 各位志愿者: 提供了很多日志分析经验，没有你们河豚分析不会成立

@@ -15,8 +15,8 @@ const contributors = computed(() => {
 function getAvatarUrl(name: string) {
   return `https://cdn.crashmc.com/https://github.com/${name}.png`
 }
-function getGithubLink(name: string) {
-  return `https://cdn.crashmc.com/https://github.com/${name}`
+function getGitHubLink(name: string) {
+  return `https://github.com/${name}`
 }
 function isNotEmpty(arr: string | string[]) {
   return Array.isArray(arr) && arr.length
@@ -31,7 +31,7 @@ function isNotEmpty(arr: string | string[]) {
       :key="contributor"
       class="flex gap-2 items-center vp-main-color">
       <a
-        :href="getGithubLink(contributor)"
+        :href="getGitHubLink(contributor)"
         rel="noreferrer"
         target="_blank"
         class="flex items-center gap-2">
@@ -42,7 +42,7 @@ function isNotEmpty(arr: string | string[]) {
   </div>
   <div v-else class="flex gap-2 items-center">
     <a
-      :href="getGithubLink(defaultAuthor)"
+      :href="getGitHubLink(defaultAuthor)"
       rel="noreferrer"
       target="_blank"
       class="flex items-center gap-2">

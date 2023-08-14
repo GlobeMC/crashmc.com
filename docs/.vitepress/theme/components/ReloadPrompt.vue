@@ -1,14 +1,19 @@
 <script setup lang="ts">
 import { onBeforeMount, ref } from "vue"
 
+const offlineReady = ref(false)
 const needRefresh = ref(false)
 
 let updateServiceWorker: (() => Promise<void>) | undefined
 
+const onOfflineReady = () => {
+  offlineReady.value = true
+}
 function onNeedRefresh() {
   needRefresh.value = true
 }
 async function close() {
+  offlineReady.value = false
   needRefresh.value = false
 }
 
@@ -16,6 +21,7 @@ onBeforeMount(async () => {
   const { registerSW } = await import("virtual:pwa-register")
   updateServiceWorker = registerSW({
     immediate: true,
+    onOfflineReady,
     onNeedRefresh,
   })
 })
@@ -58,6 +64,7 @@ onBeforeMount(async () => {
   z-index: 100;
   text-align: left;
   box-shadow: 3px 4px 5px 0 #8885;
+  background-color: var(--vp-c-bg-soft);
 }
 .pwa-toast #pwa-message {
   margin-bottom: 8px;
@@ -68,5 +75,38 @@ onBeforeMount(async () => {
   margin-right: 5px;
   border-radius: 2px;
   padding: 3px 10px;
+}
+.pwa-toast .pwa-refresh {
+  border-color: var(--vp-button-brand-border);
+  color: var(--vp-button-brand-text);
+  background-color: var(--vp-button-brand-bg);
+}
+.pwa-toast .pwa-refresh:hover {
+  border-color: var(--vp-button-brand-hover-border);
+  color: var(--vp-button-brand-hover-text);
+  background-color: var(--vp-button-brand-hover-bg);
+}
+.pwa-toast .pwa-refresh:active {
+  border-color: var(--vp-button-brand-active-border);
+  color: var(--vp-button-brand-active-text);
+  background-color: var(--vp-button-brand-active-bg);
+}
+.pwa-toast .pwa-cancel {
+  border-color: var(--vp-button-alt-border);
+  color: var(--vp-button-alt-text);
+  background-color: var(--vp-button-alt-bg);
+}
+.pwa-toast .pwa-cancel:hover {
+  border-color: var(--vp-button-alt-hover-border);
+  color: var(--vp-button-alt-hover-text);
+  background-color: var(--vp-button-alt-hover-bg);
+}
+.pwa-toast .pwa-cancel:active {
+  border-color: var(--vp-button-alt-active-border);
+  color: var(--vp-button-alt-active-text);
+  background-color: var(--vp-button-alt-active-bg);
+}
+.dark .pwa-toast {
+  --pwa-divider: var(--vp-c-divider-dark-1);
 }
 </style>

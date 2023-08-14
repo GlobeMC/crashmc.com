@@ -1,92 +1,52 @@
-<template>
-  <ClientOnly>
-    <div
-      id="analyzer_main"
-      @dragenter="handleDragEnter"
-      @dragover="handleDragOver"
-      @drop="handleDrop"
-      @dragleave="handleDragLeave">
-      <h4 style="text-align: center">
-        请点击按钮上传导出的 .zip/.txt/.log 文件,并尽量不要更改导出文件的名称。
-      </h4>
-      <img class="icon_upload" src="../../../src/logo-upload.svg" />
-      <div class="file_uploader_container">
-        <h4 id="file_uploader_label" for="file_uploader" singleLine="false">
-          {{ labelMsg }}
-        </h4>
-        <button
-          v-bind:disabled="isBtnDisabled"
-          id="file_uploader_btn"
-          data-umami-event="Analysis Button Click"
-          onclick="file_uploader.click();">
-          {{ btnMsg }}
-        </button>
-        <input
-          type="file"
-          name="file_uploader"
-          id="file_uploader"
-          @change="Checkfiles"
-          style="display: none" />
-      </div>
-      <div id="analysis_result_main">
-        <hr />
-        <h4 id="analysis_result_title">分析结果:</h4>
-        <p id="analysis_result_msg">分析器歇逼了</p>
-        <button id="redirect_btn" @click="redirectBtnClick">
-          {{ redirectMsg }}
-        </button>
-      </div>
-    </div>
-  </ClientOnly>
-</template>
-
 <script setup>
 import JSZip from "jszip";
 import { ref } from "vue";
 
+// 元素引用
+const fileUploader = ref(null)
+
 // 变量初始化
-var isBtnDisabled = ref(false)
-var labelMsg = ref("未选择文件")
-var btnMsg = ref("开始上传")
-var redirectMsg = ref("导航到解决方案")
+const analyzerBackgroundColor = ""
+
+const analysisShowResult = ref(false)
+const isBtnDisabled = ref(false)
+const labelMsg = ref("未选择文件")
+const btnMsg = ref("开始上传")
+const analysisResultMsg = ref("")
+const redirectMsg = ref("导航到解决方案")
 var launcher = "Unknown"
 var redirect_url = null
 var increaseOpacTimer = null
 var increaseHeightTimer = null
 
-const CUR_URL = window.document.location.href // 当前网址
-const ROOT_URL = CUR_URL.substring(
+const CUR_URL = window.location.href // 当前网址
+const ROOT_URL = CUR_URL.substring( // 根网址
   0,
-  CUR_URL.indexOf(window.document.location.pathname),
-) // 根网址
+  CUR_URL.indexOf(window.location.pathname),
+)
 
-const SYSTEM_URL = ROOT_URL + "/system.html" // 系统问题
-const VANILLA_URL = ROOT_URL + "/vanilla.html" // 原版问题
-const MODS_URL = ROOT_URL + "/mods.html" // Mod 问题
+const SYSTEM_URL = ROOT_URL + "/client/system.html" // 系统问题
+const VANILLA_URL = ROOT_URL + "/client/vanilla.html" // 原版问题
+const MODS_URL = ROOT_URL + "/client/mods.html" // Mod 问题
+const MIXIN_URL = ROOT_URL + "/mixin.html" // Mod 问题
 
 // 阻止浏览器默认拖拽行为
 function handleDragEnter(e) {
-  document.getElementById("analyzer_main").style.backgroundColor =
-    "rgba(255,255,255,0.5)"
-  e.preventDefault()
+  analyzerBackgroundColor.value = "rgba(255,255,255,0.5)"
 }
 
 // 动画
 function handleDragOver(e) {
-  document.getElementById("analyzer_main").style.backgroundColor =
-    "rgba(255,255,255,0.5)"
-  e.preventDefault() // 阻止浏览器默认拖拽行为
+  analyzerBackgroundColor.value = "rgba(255,255,255,0.5)"
 }
 
 // 动画
 function handleDragLeave(e) {
-  document.getElementById("analyzer_main").style.backgroundColor =
-    "var(--vp-custom-block-tip-bg)"
+  analyzerBackgroundColor.value = "var(--vp-custom-block-tip-bg)"
 }
 
 // 动画
 function handleDrop(e) {
-  e.preventDefault() // 阻止浏览器默认拖拽行为
   const files = e.dataTransfer.files // 获取拖拽过来的文件
   // 处理文件
   handleFiles(files)
@@ -97,9 +57,8 @@ function handleDrop(e) {
  * @param {File} files 拖拽的文件
  */
 function handleFiles(files) {
-  document.getElementById("analyzer_main").style.backgroundColor =
-    "var(--vp-custom-block-tip-bg)"
-  Clean()
+  analyzerBackgroundColor.value = "var(--vp-custom-block-tip-bg)"
+  clean()
   if (files.length != 1) {
     labelMsg.value = "仅能上传一个文件"
   } else {
@@ -111,44 +70,41 @@ function handleFiles(files) {
       btnMsg.value = "正在分析"
       isBtnDisabled.value = true
       labelMsg.value = file.name
-      StartAnalysis(file, ext)
+      startAnalysis(file, ext)
       return true
     } else {
-      document.getElementById("file_uploader_label").innerText =
-        "请上传 .zip/.txt/.log 文件!"
+      labelMsg.value = "请上传 .zip/.txt/.log 文件!"
       return false
     }
   }
 }
 
 // 清理 (重新初始化)
-function Clean() {
-  document.getElementById("analysis_result_main").style.display = "none"
-  document.getElementById("analysis_result_main").style.opacity = 0
-  document.getElementById("analysis_result_msg").innerText = "分析器歇逼了"
-  redirectMsg = ref("导航到解决方案")
+function clean() {
+  analysisShowResult.value = false
+  analysisResultMsg.value = "分析器歇逼了"
+  redirectMsg.value = "导航到解决方案"
   redirect_url = null
   clearInterval(increaseOpacTimer)
   clearInterval(increaseHeightTimer)
 }
 
 // 检查文件
-function Checkfiles() {
-  Clean()
+function checkfiles() {
+  clean()
   launcher = "Unknown"
-  var fup = document.getElementById("file_uploader")
+  var fup = fileUploader.value
   var filePath = fup.value
   var ext = filePath.substring(filePath.lastIndexOf(".") + 1).toLowerCase()
-  if (ext == "zip" || ext == "log" || ext == "txt") {
+  if (["zip", "log", "txt"].includes(ext)) {
     btnMsg.value = "正在分析"
     isBtnDisabled.value = true
-    var file = document.getElementById("file_uploader").files[0]
+    var file = fileUploader.value.files[0]
     labelMsg.value = file.name
-    StartAnalysis(file, ext)
+    startAnalysis(file, ext)
     return true
   } else {
-    document.getElementById("file_uploader_label").innerText =
-      "请上传 .zip/.txt/.log 文件!"
+    labelMsg.value = "请上传 .zip/.txt/.log 文件!"
     fup.focus()
     return false
   }
@@ -159,7 +115,7 @@ function Checkfiles() {
  * @param {File} file 文件对象
  * @param {string} ext 文件后缀
  */
-function StartAnalysis(file, ext) {
+function startAnalysis(file, ext) {
   var reader = new FileReader(file)
   // Log / Txt 文件处理
   if (ext != "zip") {
@@ -171,7 +127,7 @@ function StartAnalysis(file, ext) {
       }
     } catch {
       // 日志读取错误
-      FinishAnalysis("ReadLogErr")
+      finishAnalysis("ReadLogErr")
     }
   } else {
     try {
@@ -222,7 +178,7 @@ function StartAnalysis(file, ext) {
               ) {
                 return zip.files[key].async("string")
               } else {
-                FinishAnalysis("FetchLogErr", "(＃°Д°)")
+                finishAnalysis("FetchLogErr", "(＃°Д°)")
                 return
               }
             }
@@ -232,7 +188,7 @@ function StartAnalysis(file, ext) {
           LogAnalysis(content)
         })
     } catch (error) {
-      FinishAnalysis("UnzipErr", error)
+      finishAnalysis("UnzipErr", error)
     }
   }
 }
@@ -258,7 +214,7 @@ function LogAnalysis(log) {
     log.includes("java.lang.OutOfMemoryError") ||
     log.includes("Could not reserve enough space")
   ) {
-    ShowAnalysisResult(
+    showAnalysisResult(
       "Success",
       "Java 内存分配不足",
       SYSTEM_URL + "#内存问题",
@@ -269,7 +225,7 @@ function LogAnalysis(log) {
   } else if (
     log.includes("Could not reserve enough space for 1048576KB object heap")
   ) {
-    ShowAnalysisResult(
+    showAnalysisResult(
       "Success",
       "32 位 Java 内存分配超过 1 G",
       SYSTEM_URL + "#内存问题",
@@ -282,7 +238,7 @@ function LogAnalysis(log) {
     log.includes("Pixel format not accelerated") |
     log.includes("The driver does not appear to support OpenGL")
   ) {
-    ShowAnalysisResult(
+    showAnalysisResult(
       "Success",
       "显卡 / 显卡驱动问题",
       SYSTEM_URL + "#显卡-显卡驱动问题",
@@ -295,7 +251,7 @@ function LogAnalysis(log) {
     log.includes("OpenJ9 is incompatible") |
     log.includes(".J9VMInternals.")
   ) {
-    ShowAnalysisResult(
+    showAnalysisResult(
       "Success",
       "使用了 OpenJ9",
       SYSTEM_URL + "#使用-openj9",
@@ -308,7 +264,7 @@ function LogAnalysis(log) {
         "Caused by: net.minecraft.util.ResourceLocationException: Non [a-z0-9_.-] character in namespace of location: .DS_Store:") |
     log.includes("net.minecraft.util.ResourceLocationException: Non [a-z0-9_.-] character in namespace of location: .DS_Store:")
   ) {
-    ShowAnalysisResult(
+    showAnalysisResult(
       "Success",
       "存在 .DS_Store 文件导致报错",
       SYSTEM_URL + "#mac-下存在-ds-store-文件导致报错",
@@ -319,7 +275,7 @@ function LogAnalysis(log) {
   } else if (
     log.search(/java.lang.IllegalStateException: GLFW error before init: [*]Cocoa: Failed to find service port for display/)  != -1
   ) {
-    ShowAnalysisResult(
+    showAnalysisResult(
       "Success",
       "Mac 下初始化 OpenGL 窗口问题",
       SYSTEM_URL + "#mac-下初始化-opengl-窗口问题",
@@ -330,7 +286,7 @@ function LogAnalysis(log) {
   } else if (
     log.includes("页面文件太小，无法完成操作。")
   ) {
-    ShowAnalysisResult(
+    showAnalysisResult(
       "Success",
       "页面文件太小",
       SYSTEM_URL + "#页面文件问题",
@@ -343,7 +299,7 @@ function LogAnalysis(log) {
     log.includes("Caused by: java.util.zip.ZipException: invalid distance too far back") ||
     log.includes("net.minecraft.util.crash.CrashException: Loading NBT data")
   ) {
-    ShowAnalysisResult(
+    showAnalysisResult(
       "Success",
       "存档损坏",
       VANILLA_URL + "#存档损坏",
@@ -354,7 +310,7 @@ function LogAnalysis(log) {
   } else if (
     log.includes("Maybe try a lower resolution resourcepack?")
   ) {
-    ShowAnalysisResult(
+    showAnalysisResult(
       "Success",
       "资源包过大",
       VANILLA_URL + "#资源包过大",
@@ -365,7 +321,7 @@ function LogAnalysis(log) {
   } else if (
     log.includes("signer information does not match signer information of other classes in the same package")
   ) {
-    ShowAnalysisResult(
+    showAnalysisResult(
       "Success",
       "文件校验失败",
       VANILLA_URL + "#文件校验失败",
@@ -379,7 +335,7 @@ function LogAnalysis(log) {
     log.includes("Unsupported class file major version") || 
     log.includes("no such method: sun.misc.Unsafe.defineAnonymousClass")
   ) {
-    ShowAnalysisResult(
+    showAnalysisResult(
       "Success",
       "Java 版本不匹配",
       MODS_URL + "#java-版本不匹配",
@@ -392,7 +348,7 @@ function LogAnalysis(log) {
     log.includes("Found a duplicate mod") || 
     log.includes("ModResolutionException: Duplicate")
   ) {
-    ShowAnalysisResult(
+    showAnalysisResult(
       "Success",
       "Mod 重复安装",
       MODS_URL + "#mod-重复安装",
@@ -403,7 +359,7 @@ function LogAnalysis(log) {
   } else if (
     log.includes("maximum id range exceeded")
   ) {
-    ShowAnalysisResult(
+    showAnalysisResult(
       "Success",
       "Mod 过多导致超出 ID 限制",
       MODS_URL + "#mod-过多导致超出-id-限制",
@@ -415,7 +371,7 @@ function LogAnalysis(log) {
     log.includes("The directories below appear to be extracted jar files. Fix this before you continue.") || 
     log.includes("Extracted mod jars found, loading will NOT continue")
   ) {
-    ShowAnalysisResult(
+    showAnalysisResult(
       "Success",
       "解压了 Mod",
       MODS_URL + "#解压了-mod",
@@ -426,7 +382,7 @@ function LogAnalysis(log) {
   } else if (
     log.includes("Invalid module name: '' is not a Java identifier")
   ) {
-    ShowAnalysisResult(
+    showAnalysisResult(
       "Success",
       "Mod 名称含有特殊字符",
       MODS_URL + "#mod-名称含有特殊字符",
@@ -437,7 +393,7 @@ function LogAnalysis(log) {
   } else if (
     log.includes("Caused by: java.util.zip.ZipException: zip END header not found")
   ) {
-    ShowAnalysisResult(
+    showAnalysisResult(
       "Success",
       "Mod 文件损坏",
       MODS_URL + "#mod-文件损坏",
@@ -449,7 +405,7 @@ function LogAnalysis(log) {
     log.includes("modpack-update-checker") || 
     log.includes("commonality")
   ) {
-    ShowAnalysisResult(
+    showAnalysisResult(
       "Success",
       "一些 Mod 需要访问国外网络",
       MODS_URL + "#一些-mod-需要访问国外网络",
@@ -460,7 +416,7 @@ function LogAnalysis(log) {
   } else if (
     log.includes("Found multiple arguments for option fml.forgeVersion, but you asked for only one")
   ) {
-    ShowAnalysisResult(
+    showAnalysisResult(
       "Success",
       "Forge Json 问题",
       MODS_URL + "#json-问题",
@@ -472,7 +428,7 @@ function LogAnalysis(log) {
     log.includes("forge") && 
     log.includes("Caused by: com.electronwill.nightconfig.core.io.ParsingException: Not enough data available")
   ) {
-    ShowAnalysisResult(
+    showAnalysisResult(
       "Success",
       "Night Config 库问题",
       MODS_URL + "#night-config-库的问题",
@@ -485,7 +441,7 @@ function LogAnalysis(log) {
     log.includes("Missing or unsupported mandatory dependencies:") && 
     log.includes("neoforge") == false
   ) {
-    ShowAnalysisResult(
+    showAnalysisResult(
       "Success",
       "Forge 缺少前置 Mod",
       MODS_URL + "#缺少前置",
@@ -497,7 +453,7 @@ function LogAnalysis(log) {
     log.includes("neoforge") && 
     log.includes("Missing or unsupported mandatory dependencies:")
   ) {
-    ShowAnalysisResult(
+    showAnalysisResult(
       "Success",
       "NeoForge 缺少前置 Mod",
       MODS_URL + "#缺少前置-1",
@@ -509,7 +465,7 @@ function LogAnalysis(log) {
     log.includes("fabric") && 
     log.includes("but only the wrong version is present")
   ) {
-    ShowAnalysisResult(
+    showAnalysisResult(
       "Success",
       "Fabric Mod 版本不兼容",
       MODS_URL + "#版本不兼容",
@@ -519,9 +475,12 @@ function LogAnalysis(log) {
   // Fabric Mod 缺少前置
   } else if (
     log.includes("fabric") && 
-    log.includes("Unmet dependency listing:")
+    log.includes("Unmet dependency listing:") && 
+    log.includes("requires") && 
+    log.includes("which is missing!") && 
+    log.includes("is incompatible with") == false
   ) {
-    ShowAnalysisResult(
+    showAnalysisResult(
       "Success",
       "Fabric Mod 缺少前置",
       MODS_URL + "#缺少前置-2",
@@ -530,10 +489,11 @@ function LogAnalysis(log) {
 
   // Fabric Mod 冲突
   } else if (
-    log.includes("net.fabricmc.loader.impl.FormattedException: Mod resolution encountered an incompatible mod set!") || 
-    log.includes("that is compatible with")
+    log.includes("net.fabricmc.loader.impl.FormattedException: Mod resolution encountered an incompatible mod set!") && 
+    log.includes("that is compatible with") && 
+    log.includes("is incompatible with")
   ) {
-    ShowAnalysisResult(
+    showAnalysisResult(
       "Success",
       "Fabric Mod 冲突",
       MODS_URL + "#mod-冲突",
@@ -545,18 +505,32 @@ function LogAnalysis(log) {
     log.includes("quilt") && 
     log.includes("which is missing!")
   ) {
-    ShowAnalysisResult(
+    showAnalysisResult(
       "Success",
       "Quilt Mod 缺少前置",
       MODS_URL + "#缺少前置-3",
       "Quilt Mod 缺少前置",
     )
 
+  // LiteLoader 与 Forge 冲突
+  } else if (
+    log.includes("forge") && 
+    log.includes("liteloader") && 
+    log.includes("org.spongepowered.asm.service.ServiceInitialisationException: ModLauncher is not available") && 
+    log.includes("neoforge") == false
+  ) {
+    showAnalysisResult(
+      "Success",
+      "LiteLoader 与 Forge 冲突",
+      MODS_URL + "#与-forge-冲突",
+      "LiteLoader 与 Forge 冲突",
+    )
+
   // OptiFine 无法加载世界
   } else if (
     log.includes("java.lang.NoSuchMethodError: net.minecraft.world.server.ChunkManager$ProxyTicketManager.shouldForceTicks(J)Z")
   ) {
-    ShowAnalysisResult(
+    showAnalysisResult(
       "Success",
       "OptiFine 导致无法加载世界",
       MODS_URL + "#无法加载世界",
@@ -575,16 +549,28 @@ function LogAnalysis(log) {
     log.includes("java.lang.NoSuchMethodError: net.minecraft.launchwrapper.ITweaker.injectIntoClassLoader(Lnet/minecraft/launchwrapper/LaunchClassLoader;)V") || 
     log.includes("TRANSFORMER/net.optifine/net.optifine.reflect.Reflector.<clinit>(Reflector.java")
   ) {
-    ShowAnalysisResult(
+    showAnalysisResult(
       "Success",
       "Forge 与 OptiFine 兼容性问题导致的崩溃",
       MODS_URL + "#forge-与-optifine-兼容性问题导致的崩溃",
       "Forge 与 OptiFine 兼容性问题导致的崩溃",
     )
 
+  // Mixin 注入失败
+  } else if (
+    log.includes("Mixin apply for mod") && 
+    log.includes("failed")
+  ) {
+    showAnalysisResult(
+      "Success",
+      "Mixin 注入失败",
+      MIXIN_URL + "#mixin-注入失败",
+      "Mixin 注入失败",
+    )
+
   // 以上都无
   } else {
-    ShowAnalysisResult(
+    showAnalysisResult(
       "Unrecord",
       "本工具还未收录您所遇到的错误，请点击下方按钮前往 GitHub 反馈。",
       "https://github.com/GlobeMC/crashmc.com/issues/new/choose",
@@ -600,56 +586,18 @@ function LogAnalysis(log) {
  * @param {string} result_url 重定向 url
  * @param {string} status_msg 状态信息
  */
-function ShowAnalysisResult(status, msg, result_url, status_msg) {
+function showAnalysisResult(status, msg, result_url, status_msg) {
   //信息更改
   redirect_url = result_url
-  document.getElementById("analysis_result_main").style.display = "block"
-  document.getElementById("analysis_result_msg").innerText = msg
-
-  //展开动画
-  var count = 0
-  var con = document.getElementById("analysis_result_main")
-  var conHeight = con.offsetHeight
-  var h = 0
-  clearInterval(increaseHeightTimer)
-  increaseHeightTimer = setInterval(function () {
-    count += 1
-    h += 2 + count
-    if (h >= conHeight) {
-      h = conHeight
-      clearInterval(increaseHeightTimer)
-    }
-    con.style.height = h + "px"
-  }, 10)
-
-  //透明度动画 (延迟)
-  setTimeout(function () {
-    var alpha = 30
-    var oDiv = document.getElementById("analysis_result_main") //关闭定时器
-    increaseOpacTimer = setInterval(function () {
-      //打开另一个计时器
-      var speed = 0
-      if (alpha > oDiv) {
-        speed = -10 //设置变化的速度
-      } else {
-        speed = 10
-      }
-      if (alpha == oDiv) {
-        clearInterval(increaseOpacTimer) //相等的时候关闭计时器
-      } else {
-        alpha += speed //透明度不断减小
-        oDiv.style.filter = "alpha(opacity:" + alpha + ")" //IE
-        oDiv.style.opacity = alpha / 100 //火狐，chrome
-      } //改变透明度
-    }, 40)
-  }, 300)
+  analysisResultMsg.value = msg
+  analysisShowResult.value = true
 
   // 消息更改
   isBtnDisabled.value = false
   btnMsg.value = "重新上传"
 
   //结束分析
-  FinishAnalysis(status, status_msg)
+  finishAnalysis(status, status_msg)
 }
 
 /**
@@ -657,7 +605,7 @@ function ShowAnalysisResult(status, msg, result_url, status_msg) {
  * @param {string} status 分析状态
  * @param {string} msg 传递信息
  */
-function FinishAnalysis(status, msg) {
+function finishAnalysis(status, msg) {
   switch (status) {
     case "FetchLogErr":
       labelMsg.value = "Zip 文件中不含有有效的 Log 文件"
@@ -724,14 +672,60 @@ function redirectBtnClick() {
     redirect_url == "https://github.com/GlobeMC/crashmc.com/issues/new/choose"
   ) {
     window.open(redirect_url)
-  } else if (redirect_url == null || redirect_url == undefined) {
+  } else if (redirect_url === null || typeof redirect_url === 'undefined') {
     labelMsg.value = "无法重定向到解决方案页面"
-    FinishAnalysis("ErrOpenRstPage", redirect_url)
+    finishAnalysis("ErrOpenRstPage", redirect_url)
   } else {
     window.location.href = redirect_url
   }
 }
 </script>
+
+<template>
+  <ClientOnly>
+    <div
+      class="analyzer-main"
+      :style="{'background-color': analyzerBackgroundColor}"
+      @dragenter.prevent="handleDragEnter"
+      @dragover.prevent="handleDragOver"
+      @drop.prevent="handleDrop"
+      @dragleave.prevent="handleDragLeave">
+      <h4 style="text-align: center">
+        请点击按钮上传导出的 .zip/.txt/.log 文件, 并尽量不要更改导出文件的名称。
+      </h4>
+      <img class="icon-upload" src="../../../src/logo-upload.svg" />
+      <div class="file-uploader-container">
+        <h4 class="file-uploader-label" for="file-uploader" singleLine="false">
+          {{ labelMsg }}
+        </h4>
+        <button
+          :disabled="isBtnDisabled"
+          class="file-uploader-btn"
+          data-umami-event="Analysis Button Click"
+          @click="fileUploader.click()">
+          {{ btnMsg }}
+        </button>
+        <input
+          ref="fileUploader"
+          type="file"
+          name="file_uploader"
+          id="file-uploader"
+          @change="checkfiles"
+          style="display: none" />
+      </div>
+      <Transition name="analysis-result">
+        <div v-if="analysisShowResult" class="analysis-result-main">
+          <hr />
+          <h4 class="analysis-result-title">分析结果:</h4>
+          <p class="analysis-result-msg">{{analysisResultMsg}}</p>
+          <button class="redirect-btn" @click="redirectBtnClick">
+            {{ redirectMsg }}
+          </button>
+        </div>
+      </Transition>
+    </div>
+  </ClientOnly>
+</template>
 
 <style scoped>
 div {
@@ -744,16 +738,11 @@ p {
   padding: 0;
 }
 
-#analysis_result_main {
-  display: none;
-  opacity: 0;
-}
-
-#analysis_result_title {
+.analysis-result-title {
   margin-top: 10px;
 }
 
-#analyzer_main {
+.analyzer-main {
   border: 1px solid transparent;
   border-color: var(--vp-custom-block-tip-border);
   color: var(--vp-custom-block-tip-text);
@@ -765,27 +754,39 @@ p {
   display: block;
 }
 
-#analysis_result_main {
+.analysis-result-main {
   text-align: center;
   margin: auto;
   width: 100%;
   height: 100%;
+  max-height: 8rem;
 }
 
-.icon_upload {
+.analysis-result-enter-active,
+.analysis-result-leave-active {
+  transition: all 0.6s;
+}
+
+.analysis-result-enter-from,
+.analysis-result-leave-to {
+  max-height: 0 !important;
+  opacity: 0;
+}
+
+.icon-upload {
   margin: auto;
   height: 20%;
   width: 20%;
 }
 
-.file_uploader_container {
+.file-uploader-container {
   text-align: center;
   margin: auto;
   width: 100%;
   height: 100%;
 }
 
-button {
+.file-uploader-btn {
   margin-top: 3px;
   height: 35px;
   width: 120px;
@@ -796,9 +797,10 @@ button {
   transition: all 0.3s;
 }
 
-button:hover {
+.file-uploader-btn:hover {
   animation-direction: alternate;
   transform: scale(1.05);
   transition: all 0.3s;
 }
+
 </style>

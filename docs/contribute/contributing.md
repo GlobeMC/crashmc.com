@@ -28,7 +28,7 @@ contributors: [HRxiaohu]
 
 ### 修改渲染器 <LauncherBadge type="hmcl" text="仅 HMCL" />
 
-```MarkDown
+```md
 ### 修改渲染器 <LauncherBadge type="hmcl" text="仅 HMCL" />
 ```
 
@@ -38,7 +38,7 @@ contributors: [HRxiaohu]
 
 ### 重置核心 <LauncherBadge type="bakaxl" text="仅 BakaXL" />
 
-```MarkDown
+```md
 ### 重置核心 <LauncherBadge type="bakaxl" text="仅 BakaXL" />
 ```
 
@@ -48,21 +48,21 @@ contributors: [HRxiaohu]
 
 ### 修改验证服务器 <LauncherBadge type="pcl" text="仅 PCL2" />
 
-```MarkDown
+```md
 ### 修改验证服务器 <LauncherBadge type="pcl" text="仅 PCL2" />
 ```
 
 :::
 
-在您完成文档修改后，请在 MarkDown 文档的最上方修改 contributors FrontMatter，以将您的 Github 用户名添加到贡献者列表，格式如下。
+在您完成文档修改后，请在 Markdown 文档的最上方修改 contributors Frontmatter，以将您的 GitHub 用户名添加到贡献者列表，格式如下。
 
-```MarkDown
+```md
 ---
 contributors: [用户名, 用户名, 用户名]
 ---
 ```
 
 :::warning 警告
-- 请一定要使用 Github 用户名署名，否则我们无法获取您的头像。
+- 请一定要使用 GitHub 用户名署名，否则我们无法获取您的头像。
 - 上述代码中所使用的均为英文半角逗号！
 :::
