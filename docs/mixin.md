@@ -22,6 +22,19 @@
 
 ## 常见崩溃实例
 
+### Mixin 注入失败
+
+解释：由于一个或多个 Mod 的 Mixin 注入失败，导致游戏出错。
+
+解决方案：查看日志了解是哪一个或多个 Mod 出错，然后移除它们。
+
+关键词：
+
+```
+Mixin apply for mod
+failed
+```
+
 ### Rubidium 与 OptiFine 冲突
 
 若看见了 `OptiFine ZIP file:` ，说明您安装了 OptiFine ，这一行后面是您的 OptiFine 路径
