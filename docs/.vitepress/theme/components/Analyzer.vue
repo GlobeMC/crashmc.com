@@ -125,7 +125,7 @@ function startAnalysis(file, ext) {
       reader.readAsText(file)
       reader.onload = (e) => {
         var logMsg = e.target.result
-        LogAnalysis(logMsg)
+        logAnalysis(logMsg)
       }
     } catch {
       // 日志读取错误
@@ -159,7 +159,7 @@ function startAnalysis(file, ext) {
           }
 
           // 日志读取
-          logText = ""
+          var logText = ""
           for (let key in zip.files) {
             if (!zip.files[key].dir) { // 不是文件夹，则进行读取
               if (
@@ -167,21 +167,21 @@ function startAnalysis(file, ext) {
                 zip.files[key].name == "debug.log" ||                  // debug.log
                 zip.files[key].name.search(/crash-(.*).txt/) != -1 ||  // crash-***.txt
                 zip.files[key].name == "minecraft.log" ||              // minecraft.log
-                zip.files[key].name == "游戏崩溃前的输出.txt"           // 游戏崩溃前的输出.txt（仅 PCL）
+                zip.files[key].name == "游戏崩溃前的输出.txt"            // 游戏崩溃前的输出.txt（仅 PCL）
                 ) {
-                logText = logText + zip.files[key].async("string") + "\n"
+                logText += zip.files[key].async("string") + "\n"
               }
             }
           }
           if (logText == "") { // 啥都没读到
-            FinishAnalysis("FetchLogErr", "(＃°Д°)")
+            finishAnalysis("FetchLogErr", "(＃°Д°)")
             return
           } else { // 读到日志了，贼棒
             return logText
           }
         })
         .then(function (content) {
-          LogAnalysis(content)
+          logAnalysis(content)
         })
     } catch (error) {
       finishAnalysis("UnzipErr", error)
@@ -193,7 +193,7 @@ function startAnalysis(file, ext) {
  * 分析日志，并展示分析结果。
  * @param {string} log Log 原文。
  */
-function LogAnalysis(log) {
+function logAnalysis(log) {
   //启动器判断 (最准)
   if (log.includes("PCL")) {
     launcher = "PCL"
