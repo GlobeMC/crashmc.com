@@ -109,11 +109,13 @@ java.lang.IllegalStateException: failed to create a child event loop
 4. 关闭您的加速器或 VPN。
 5. 更新显卡驱动程序。
 6. 如您正在使用 NVIDIA，请在 NVIDIA 控制面板的 “管理 3D 设置” 中对 Minecraft 恢复默认设置。
-7. 以管理员身份打开 cmd.exe，**依次**输入以下命令后重启计算机：
+7. 对于 Windows 操作系统，使用 Win+S 打开搜索框，搜索 “cmd”，点击搜索结果中右侧 “以管理员身份运行” 选项以使用管理员身份打开 cmd.exe，**依次**输入以下命令后重启计算机：
 
-> 以下命令将重置您的 WINSOCK、IPV4、IPV6 网络。
+::: warning 警告
+以下命令将重置您的 WINSOCK、IPV4、IPV6 网络。
+:::
 
-```
+```bat
 netsh winsock reset 
 netsh winsock reset catalog 
 netsh int ipv4 reset reset.log 
