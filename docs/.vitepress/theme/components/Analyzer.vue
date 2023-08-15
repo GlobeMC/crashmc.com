@@ -6,7 +6,7 @@ import { ref } from "vue";
 const fileUploader = ref(null)
 
 // 变量初始化
-const analyzerBackgroundColor = ""
+const analyzerBackgroundColor = ref("")
 
 const analysisShowResult = ref(false)
 const isBtnDisabled = ref(false)
@@ -33,13 +33,11 @@ const MIXIN_URL = ROOT_URL + "/mixin.html" // Mod 问题
 // 阻止浏览器默认拖拽行为
 function handleDragEnter(e) {
   analyzerBackgroundColor.value = "rgba(255,255,255,0.5)"
-  e.preventDefault()
 }
 
 // 动画
 function handleDragOver(e) {
   analyzerBackgroundColor.value = "rgba(255,255,255,0.5)"
-  e.preventDefault() // 阻止浏览器默认拖拽行为
 }
 
 // 动画
@@ -49,7 +47,6 @@ function handleDragLeave(e) {
 
 // 动画
 function handleDrop(e) {
-  e.preventDefault()
   const files = e.dataTransfer.files // 获取拖拽过来的文件
   // 处理文件
   handleFiles(files)
