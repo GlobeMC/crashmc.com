@@ -92,3 +92,28 @@ signer information does not match signer information of other classes in the sam
 ```
 message='GL_OUT_OF_MEMORY error generated. Failed to allocate memory for buffer data.'
 ```
+
+## 防火墙 / 防病毒安全软件 / 网络环境问题
+
+关键词：
+
+```
+java.lang.IllegalStateException: failed to create a child event loop
+```
+
+解决方案：请逐个尝试以下方案。
+
+1. 如您安装了 Avast，尝试重新安装 Avast 并重启。
+2. 如您安装了 McAfee（及其衍生产品）或 Outpost Security，尝试卸载该软件并再次重新启动游戏。
+3. 如您没有防病毒安全软件，尝试在 Microsoft Defender 中的 “防火墙和网络保护” 中关闭 “专用网络保护”。
+4. 关闭您的加速器或 VPN。
+5. 更新显卡驱动程序。
+6. 如您正在使用 NVIDIA，请在 NVIDIA 控制面板的 “管理 3D 设置” 中对 Minecraft 恢复默认设置。
+7. 以管理员身份打开终端，**依次**输入以下命令后重启计算机：
+> 以下命令将重置您的 WINSOCK、IPV4、IPV6 网络。
+```
+netsh winsock reset 
+netsh winsock reset catalog 
+netsh int ipv4 reset reset.log 
+netsh int ipv6 reset reset.log
+```
