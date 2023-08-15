@@ -128,7 +128,7 @@ function startAnalysis(file, ext) {
       reader.readAsText(file)
       reader.onload = (e) => {
         var logMsg = e.target.result
-        LogAnalysis(logMsg)
+        logAnalysis(logMsg)
       }
     } catch {
       // 日志读取错误
@@ -192,7 +192,7 @@ function startAnalysis(file, ext) {
           }
         })
         .then(function (content) {
-          LogAnalysis(content)
+          logAnalysis(content)
         })
     } catch (error) {
       finishAnalysis("UnzipErr", error)
@@ -204,7 +204,7 @@ function startAnalysis(file, ext) {
  * 分析日志，并展示分析结果。
  * @param {string} log Log 原文。
  */
-function LogAnalysis(log) {
+function logAnalysis(log) {
   console.log("开始分析日志")
   // 启动器判断 (最准)
   if (log.includes("PCL")) {
