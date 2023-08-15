@@ -103,7 +103,7 @@ java.lang.IllegalStateException: failed to create a child event loop
 
 解决方案：请逐个尝试以下方案。
 
-1. 如您安装了 Avast，尝试重新安装 Avast。
+1. 如您安装了 Avast，尝试重新安装并重启 Avast。
 2. 如您安装了 McAfee（及其衍生产品）或 Outpost Security，尝试卸载该软件并再次重新启动游戏。
 3. 如您没有防病毒安全软件，尝试在 Microsoft Defender 中的 “防火墙和网络保护” 中关闭 “专用网络保护”。
 4. 关闭您的加速器或 VPN。
