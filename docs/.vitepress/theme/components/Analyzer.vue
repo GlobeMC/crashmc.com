@@ -159,7 +159,7 @@ function startAnalysis(file, ext) {
           }
 
           // 日志读取
-          logText = ""
+          var logText = ""
           for (let key in zip.files) {
             if (!zip.files[key].dir) { // 不是文件夹，则进行读取
               if (
@@ -167,9 +167,9 @@ function startAnalysis(file, ext) {
                 zip.files[key].name == "debug.log" ||                  // debug.log
                 zip.files[key].name.search(/crash-(.*).txt/) != -1 ||  // crash-***.txt
                 zip.files[key].name == "minecraft.log" ||              // minecraft.log
-                zip.files[key].name == "游戏崩溃前的输出.txt"           // 游戏崩溃前的输出.txt（仅 PCL）
+                zip.files[key].name == "游戏崩溃前的输出.txt"            // 游戏崩溃前的输出.txt（仅 PCL）
                 ) {
-                logText = logText + zip.files[key].async("string") + "\n"
+                logText += zip.files[key].async("string") + "\n"
               }
             }
           }
