@@ -6,7 +6,7 @@
 
 > 以下的原版游戏皆指 **未安装 OptiFine 或者 Mod 加载器等修改原版核心工具** 的 Minecraft 游戏实例。
 
-在处理原版崩溃之前，需要注意的是 Mojang 几乎完全没有可能写一个 100% 会爆炸的东西出来然后推送到正式版。因此 99% 的原版崩溃问题都来自外界。
+在处理原版崩溃之前，需要注意的是 Mojang 几乎完全没有可能写一个 100% 会爆炸的东西出来然后推送到正式版。因此 99.99% 的原版崩溃问题都来自外界。
 
 首先请确保已经打开了启动器的 **自动决定 Java** 功能，否则可能会因为使用的 Java 版本错误而导致启动失败。
 
@@ -72,4 +72,23 @@ Maybe try a lower resolution resourcepack?
 
 ```
 signer information does not match signer information of other classes in the same package
+```
+
+## 显存 / 内存问题
+
+解释：显存溢出，或者内存分配过多导致问题。
+
+解决方案：请逐个尝试以下方案。
+
+1. 在桌面右键 `此电脑`，依次点击 `属性` -- `高级系统设置`，按下图顺序改成 `自动管理所有驱动器分页文件大小`，改完后点三个 `确定`（**不要**点右上角的叉），然后重启计算机。
+
+![显存溢出解决方案](https://img.kookapp.cn/assets/2023-03/bGbLMNRnws1020j1.png)
+
+2. 将内存分配量手动调低，再次尝试启动游戏。
+3. 关闭光影。
+
+关键词：
+
+```
+message='GL_OUT_OF_MEMORY error generated. Failed to allocate memory for buffer data.'
 ```
