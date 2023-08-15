@@ -57,6 +57,7 @@ function handleDrop(e) {
  * @param {File} files 拖拽的文件
  */
 function handleFiles(files) {
+  console.log("文件拖拽：" + files)
   analyzerBackgroundColor.value = "var(--vp-custom-block-tip-bg)"
   clean() // 重新初始化
   if (files.length != 1) {
@@ -81,6 +82,7 @@ function handleFiles(files) {
 
 // 清理 (重新初始化)
 function clean() {
+  console.log("重新初始化")
   analysisShowResult.value = false
   analysisResultMsg.value = "分析器歇逼了"
   redirectMsg.value = "导航到解决方案"
@@ -99,6 +101,7 @@ function checkfiles() {
   var filePath = fup.value
   var ext = filePath.substring(filePath.lastIndexOf(".") + 1).toLowerCase()
   if (["zip", "log", "txt"].includes(ext)) {
+    console.log("分析文件：" + ext)
     btnMsg.value = "正在分析"
     isBtnDisabled.value = true
     var file = fileUploader.value.files[0]
@@ -146,6 +149,7 @@ function startAnalysis(file, ext) {
                 zip.files[key].name.toLowerCase().includes("pcl") || // PCL 启动器日志.txt
                 zip.files[key].name.includes("游戏崩溃前的输出.txt")
               ) {
+                console.log("已确定启动器类型为：PCL")
                 launcher = "PCL"
               }
             }
@@ -153,31 +157,38 @@ function startAnalysis(file, ext) {
           for (let key in zip.files) {
             if (!zip.files[key].dir) { // 不是文件夹，则进行分析
               if (zip.files[key].name.toLowerCase().includes("hmcl")) { // hmcl.log
+                console.log("已确定启动器类型为：HMCL")
                 launcher = "HMCL"
               }
             }
           }
 
-          // 日志读取
-          var logText = ""
           for (let key in zip.files) {
-            if (!zip.files[key].dir) { // 不是文件夹，则进行读取
-              if (
-                zip.files[key].name == "latest.log" ||                 // latest.log
-                zip.files[key].name == "debug.log" ||                  // debug.log
-                zip.files[key].name.search(/crash-(.*).txt/) != -1 ||  // crash-***.txt
-                zip.files[key].name == "minecraft.log" ||              // minecraft.log
-                zip.files[key].name == "游戏崩溃前的输出.txt"            // 游戏崩溃前的输出.txt（仅 PCL）
-                ) {
-                logText += zip.files[key].async("string") + "\n"
+            if (!zip.files[key].dir) {
+              if (zip.files[key].name == "latest.log") {
+                return zip.files[key].async("string")
               }
             }
           }
-          if (logText == "") { // 啥都没读到
-            finishAnalysis("FetchLogErr", "(＃°Д°)")
-            return
-          } else { // 读到日志了，贼棒
-            return logText
+          for (let key in zip.files) {
+            if (!zip.files[key].dir) {
+              if (zip.files[key].name.search(/crash-(.*).txt/) != -1) {
+                return zip.files[key].async("string")
+              }
+            }
+          }
+          for (let key in zip.files) {
+            if (!zip.files[key].dir) {
+              if (
+                zip.files[key].name == "minecraft.log" ||
+                zip.files[key].name == "游戏崩溃前的输出.txt"
+              ) {
+                return zip.files[key].async("string")
+              } else {
+                finishAnalysis("FetchLogErr", "(＃°Д°)")
+                return
+              }
+            }
           }
         })
         .then(function (content) {
@@ -194,7 +205,8 @@ function startAnalysis(file, ext) {
  * @param {string} log Log 原文。
  */
 function logAnalysis(log) {
-  //启动器判断 (最准)
+  console.log("开始分析日志")
+  // 启动器判断 (最准)
   if (log.includes("PCL")) {
     launcher = "PCL"
   } else if (log.includes("HMCL")) {
@@ -566,6 +578,7 @@ function logAnalysis(log) {
 
   // 以上都无
   } else {
+    console.log("日志分析结束，没有找到可能的原因")
     showAnalysisResult(
       "Unrecord",
       "本工具还未收录您所遇到的错误，请点击下方按钮前往 GitHub 反馈。",
@@ -576,14 +589,15 @@ function logAnalysis(log) {
 }
 
 /**
- * 展示分析结果
- * @param {string} status 状态消息
- * @param {string} msg 向用户展示的消息
- * @param {string} result_url 重定向 url
- * @param {string} status_msg 状态信息
+ * 展示分析结果。
+ * @param {string} status 状态消息。
+ * @param {string} msg 向用户展示的消息。
+ * @param {string} result_url 重定向 Url。
+ * @param {string} status_msg 状态信息。
  */
 function showAnalysisResult(status, msg, result_url, status_msg) {
-  //信息更改
+  console.log("展示分析结果：(" + status + ") " + msg)
+  // 信息更改
   redirect_url = result_url
   analysisResultMsg.value = msg
   analysisShowResult.value = true
@@ -592,16 +606,17 @@ function showAnalysisResult(status, msg, result_url, status_msg) {
   isBtnDisabled.value = false
   btnMsg.value = "重新上传"
 
-  //结束分析
+  // 结束分析
   finishAnalysis(status, status_msg)
 }
 
 /**
- * 结束分析
- * @param {string} status 分析状态
- * @param {string} msg 传递信息
+ * 结束分析。
+ * @param {string} status 分析状态。
+ * @param {string} msg 传递信息。
  */
 function finishAnalysis(status, msg) {
+  console.log("结束分析：(" + status + ") " + msg)
   switch (status) {
     case "FetchLogErr":
       labelMsg.value = "Zip 文件中不含有有效的 Log 文件"
