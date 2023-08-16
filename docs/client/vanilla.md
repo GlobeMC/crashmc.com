@@ -108,6 +108,16 @@ java.lang.IllegalStateException: failed to create a child event loop
 3. 如您没有防病毒安全软件，尝试在 Microsoft Defender 中的 “防火墙和网络保护” 中关闭 “专用网络保护”。
 4. 关闭您的加速器或 VPN。
 5. 前往 Oracle 官网下载最新版 Java，并将该 Java 设置为游戏 Java。
+
+:::details 常见的第三方启动器设置版本 Java 功能位置
+
+Java 虚拟机 <LauncherBadge type="bakaxl" text="BakaXL" />：`核心列表` -> `点击核心` -> `高级核心管理` -> `Java 虚拟机与内存` -> `为此核心启用单独的 Java 虚拟机设定` 设置为 `开`
+
+Java 路径 <LauncherBadge type="hmcl" text="HMCL" />：点击左边的 `实例名称` -> `Java 路径`
+
+游戏 Java <LauncherBadge type="pcl" text="PCL2" />：`版本设置` -> `设置` -> `游戏 Java`
+:::
+
 6. 更新显卡驱动程序。
 7. 如您正在使用 NVIDIA，请在 NVIDIA 控制面板的 “管理 3D 设置” 中对 Minecraft 恢复默认设置。
 8. 对于 Windows 操作系统，使用 Win+S 打开搜索框，搜索 “cmd”，点击搜索结果中右侧 “以管理员身份运行” 选项以使用管理员身份打开 cmd.exe，**依次**输入以下命令后重启计算机：
@@ -132,7 +142,15 @@ netsh int ipv6 reset reset.log
 方法一：
 
 1. 关闭所有游戏实例。
-2. 打开版本所在的 Minecraft 文件夹，删除以下名称的文件夹（如未找到则无需操作）：assets、bin、libraries、versions、webcache、config、defaultconfigs、usercache.json、usernamecache.json。
+2. 打开版本所在的 Minecraft 游戏文件夹，删除以下名称的文件夹（如未找到则无需操作）：assets、bin、libraries、versions、webcache、config、defaultconfigs、usercache.json、usernamecache.json。
+
+:::details 常见的第三方启动器打开当前游戏文件夹位置
+
+<LauncherBadge type="bakaxl" text="BakaXL" />：向下滑动页面 -> `本体设置` -> `游戏目录` -> `可读写的 Minecraft 实例目录` -> 当前版本所在的游戏文件夹右侧的定位按钮
+
+<LauncherBadge type="pcl" text="PCL2" />：`版本选择` -> 鼠标悬浮于当前处在的游戏文件夹上方 -> 左边栏右侧出现的齿轮按钮 -> `打开`
+:::
+
 3. 重新下载并安装 Minecraft。
 4. 关闭所有 Minecraft 启动器。
 5. 重新启动游戏。
