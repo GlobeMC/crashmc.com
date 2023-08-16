@@ -112,7 +112,7 @@ java.lang.IllegalStateException: failed to create a child event loop
 7. 对于 Windows 操作系统，使用 Win+S 打开搜索框，搜索 “cmd”，点击搜索结果中右侧 “以管理员身份运行” 选项以使用管理员身份打开 cmd.exe，**依次**输入以下命令后重启计算机：
 
 ::: warning 警告
-以下命令将重置您的 WINSOCK、IPV4、IPV6 网络。
+以下命令将重置您的 WINSOCK、IPv4、IPv6 网络。
 :::
 
 ```bat
