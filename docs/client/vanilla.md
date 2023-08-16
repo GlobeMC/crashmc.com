@@ -107,9 +107,10 @@ java.lang.IllegalStateException: failed to create a child event loop
 2. 如您安装了 McAfee（及其衍生产品）或 Outpost Security，尝试卸载该软件并再次重新启动游戏。
 3. 如您没有防病毒安全软件，尝试在 Microsoft Defender 中的 “防火墙和网络保护” 中关闭 “专用网络保护”。
 4. 关闭您的加速器或 VPN。
-5. 更新显卡驱动程序。
-6. 如您正在使用 NVIDIA，请在 NVIDIA 控制面板的 “管理 3D 设置” 中对 Minecraft 恢复默认设置。
-7. 对于 Windows 操作系统，使用 Win+S 打开搜索框，搜索 “cmd”，点击搜索结果中右侧 “以管理员身份运行” 选项以使用管理员身份打开 cmd.exe，**依次**输入以下命令后重启计算机：
+5. 前往 Oracle 官网下载最新版 Java，并将该 Java 设置为游戏 Java。
+6. 更新显卡驱动程序。
+7. 如您正在使用 NVIDIA，请在 NVIDIA 控制面板的 “管理 3D 设置” 中对 Minecraft 恢复默认设置。
+8. 对于 Windows 操作系统，使用 Win+S 打开搜索框，搜索 “cmd”，点击搜索结果中右侧 “以管理员身份运行” 选项以使用管理员身份打开 cmd.exe，**依次**输入以下命令后重启计算机：
 
 ::: warning 警告
 以下命令将重置您的 WINSOCK、IPv4、IPv6 网络。
@@ -121,3 +122,27 @@ netsh winsock reset catalog
 netsh int ipv4 reset reset.log 
 netsh int ipv6 reset reset.log
 ```
+
+如以上方案仍无法解决崩溃问题，请尝试以下的**临时解决方案**：
+
+::: warning 警告
+请注意，以下解决方案均是临时的，无法彻底解决崩溃问题，多次使用后可能导致存档加载困难甚至进一步导致存档损坏，请结合自身情况适当进行采用。
+:::
+
+方法一：
+
+1. 关闭所有游戏实例。
+2. 打开版本所在的 Minecraft 文件夹，删除以下名称的文件夹（如未找到则无需操作）：assets、bin、libraries、versions、webcache、config、defaultconfigs、usercache.json、usernamecache.json。
+3. 重新下载并安装 Minecraft。
+4. 关闭所有 Minecraft 启动器。
+5. 重新启动游戏。
+
+通常，在进行上述操作后，游戏会成功启动一至两次，而后问题会再次出现。
+
+方法二：
+
+::: warning 警告
+请注意，重复此办法打开存档数次后，存档将愈加难以成功进入。
+:::
+
+进入游戏后，重复尝试进入存档，通常会有很大概率在第二次成功打开存档。
