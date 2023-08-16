@@ -139,7 +139,7 @@ function startAnalysis(file, ext) {
       reader.readAsText(file)
       reader.onload = (e) => {
         var logMsg = e.target.result
-        LogAnalysis(logMsg)
+        logAnalysis(logMsg)
       }
     } catch {
       // 日志读取错误
@@ -201,7 +201,7 @@ function startAnalysis(file, ext) {
           }
         })
         .then(function (content) {
-          LogAnalysis(content)
+          logAnalysis(content)
         })
     } catch (error) {
       finishAnalysis("UnzipErr", error)
