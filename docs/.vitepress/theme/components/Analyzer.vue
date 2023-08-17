@@ -458,9 +458,32 @@ function LogAnalysis(log) {
     log.includes("Missing or unsupported mandatory dependencies:") && 
     log.includes("neoforge") == false
   ) {
+    missingMod = new Array()
+    // 按行分割日志
+    spilted = log.split("\n")
+    // 获取缺少的 Mod 信息
+    for (let key in spilted) {
+        if (spilted[key].includes("Mod ID: ") |
+        spilted[key].includes(", Requested by: ")
+        ) {
+            // 正则匹配单引号内内容
+            matches = spilted[key].match(/'([^']+)'/g)
+            missingMod.push(
+                matches[0].replace(/'/g, "") + " " + // Mod 名称，例如 'oculus'
+                matches[2].replace(/'/g, "").replace(/\$\{minecraft_version\}/g, "MinecraftVersion") // Mod 版本，例如 '[1.4,)'，之后可以把最低 / 最高版本提取出来解析一遍
+            )
+        }
+    }
+    missingMod = Array.from(new Set(missingMod)) // 数组去重
+    // 转为字符串
+    missingStr = ""
+    for (let key in missingMod) {
+        missingStr = missingStr + "; " + missingMod[key]
+    }
+    missingStr = missingStr.substring(2) // 去除开头的逗号
     showAnalysisResult(
       "Success",
-      "Forge 缺少前置 Mod",
+      "Forge 缺少前置 Mod：" + missingStr,
       MODS_URL + "#缺少前置",
       "Forge 缺少前置 Mod",
     )
