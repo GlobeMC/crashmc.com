@@ -51,8 +51,10 @@ A：要对 `Minecraft` 的游戏错误 / 崩溃进行处理，您首先要对游
 使用非最新启动器导致的问题均不在本网站解决范围内！
 :::
 
-:::tip BakaXL / PCL2 无法使用？
+:::tip BakaXL / PCL2 / HMCL 无法使用？
 若在启动 BakaXL 或 PCL2 时出现了 .NET Framework 异常，请在 [此处](https://dotnet.microsoft.com/zh-cn/download/dotnet-framework/thank-you/net48-offline-installer) 下载安装 .NET Framework 4.8。
+若使用 HMCL 启动失败或启动时出现 JavaFX 缺失相关提示，请尝试在系统设置中卸载相关 Java，然后下载并安装 [微软 JDK](https://microsoft.com/openjdk) 后再尝试启动。
+若尝试上述解决方案仍无法解决，请前往相关渠道进行反馈。
 :::
 
 ## 关于日志
