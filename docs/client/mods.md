@@ -448,6 +448,8 @@ java.lang.NoSuchMethodError: net.minecraft.world.server.ChunkManager$ProxyTicket
 你可以在日志中逐个匹配下面的关键词，以确定是否是该原因导致崩溃（关键词仅供参考）。
 
 ```
+java.lang.NoSuchMethodError: 'void net.minecraftforge.client.gui.overlay.ForgeGui.renderSelectedItemName(net.minecraft.client.gui.GuiGraphics, int)'
+
 java.lang.NoSuchMethodError: 'java.lang.Class sun.misc.Unsafe.defineAnonymousClass(java.lang.Class, byte[], java.lang.Object[])'
 
 java.lang.NoSuchMethodError: 'java.lang.String com.mojang.blaze3d.systems.RenderSystem.getBackendDescription()'
