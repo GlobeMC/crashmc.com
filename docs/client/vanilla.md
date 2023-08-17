@@ -146,7 +146,7 @@ netsh int ipv6 reset reset.log
 
 :::details 常见的第三方启动器打开当前游戏文件夹位置
 
-<LauncherBadge type="bakaxl" text="BakaXL" />：向下滑动页面 -> `本体设置` -> `游戏目录` -> `可读写的 Minecraft 实例目录` -> 当前版本所在的游戏文件夹右侧的定位按钮
+<LauncherBadge type="bakaxl" text="BakaXL" />：切换至下方页面 -> `本体设置` -> `游戏目录` -> `可读写的 Minecraft 实例目录` -> 当前版本所在的游戏文件夹右侧的定位按钮
 
 <LauncherBadge type="pcl" text="PCL2" />：`版本选择` -> 鼠标悬浮于当前处在的游戏文件夹上方 -> 左边栏右侧出现的齿轮按钮 -> `打开`
 :::
