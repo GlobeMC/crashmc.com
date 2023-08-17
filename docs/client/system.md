@@ -48,6 +48,8 @@ The driver does not appear to support OpenGL
 
 内存优化 <LauncherBadge type="pcl" text="PCL2" /> ：前往 `设置` -> `游戏` -> `游戏内存` ，确保内存配置选项为 `自动配置` 。然后前往 `更多 - 百宝箱` ，点击 `内存优化` ，然后按照提示给予启动器管理员权限，等待内存优化完成后再次启动游戏。
 
+内存设置 <LauncherBadge type="hmcl" text="HMCL" /> ：前往 `游戏特定设置` -> `游戏内存` ，确保勾选了 `自动分配内存` 。
+
 关键词：
 
 ```
