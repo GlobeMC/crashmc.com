@@ -1,13 +1,15 @@
 import type { VitePWAOptions } from "vite-plugin-pwa"
 
+const pwaName = process.env.PWA_NAME || "CrashMC 文档（本地）"
+
 export const pwa: Partial<VitePWAOptions> = {
   outDir: ".vitepress/dist",
   registerType: "prompt",
   includeManifestIcons: false,
   manifest: {
     id: "/",
-    name: "CrashMC 文档",
-    short_name: "CrashMC 文档",
+    name: `${pwaName}`,
+    short_name: `${pwaName}`,
     description: "为一般玩家编写的 Minecraft 崩溃分析指南",
     theme_color: "#ffffff",
     start_url: "/?utm_source=web_app_manifest",
@@ -60,6 +62,20 @@ export const pwa: Partial<VitePWAOptions> = {
         handler: "CacheFirst",
         options: {
           cacheName: "gstatic-fonts-cache",
+          expiration: {
+            maxEntries: 10,
+            maxAgeSeconds: 60 * 60 * 24 * 365, // <== 365 days
+          },
+          cacheableResponse: {
+            statuses: [0, 200],
+          },
+        },
+      },
+      {
+        urlPattern: /^https:\/\/cdn\.crashmc\.com\/.*/i,
+        handler: "NetworkFirst",
+        options: {
+          cacheName: "github-images-cache",
           expiration: {
             maxEntries: 10,
             maxAgeSeconds: 60 * 60 * 24 * 365, // <== 365 days
