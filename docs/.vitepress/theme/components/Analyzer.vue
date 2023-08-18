@@ -139,7 +139,7 @@ function startAnalysis(file, ext) {
       reader.readAsText(file)
       reader.onload = (e) => {
         var logMsg = e.target.result
-        logAnalysis(logMsg)
+        LogAnalysis(logMsg)
       }
     } catch {
       // 日志读取错误
@@ -176,7 +176,7 @@ function startAnalysis(file, ext) {
 
           // 日志读取
           console.log("开始获取日志文件")
-          logText = ""
+          var logText = ""
           for (let key in zip.files) {
             if (!zip.files[key].dir) { // 不是文件夹，则进行读取
               if (
@@ -201,7 +201,7 @@ function startAnalysis(file, ext) {
           }
         })
         .then(function (content) {
-          logAnalysis(content)
+          LogAnalysis(content)
         })
     } catch (error) {
       finishAnalysis("UnzipErr", error)
@@ -458,9 +458,9 @@ function LogAnalysis(log) {
     log.includes("Missing or unsupported mandatory dependencies:") && 
     log.includes("neoforge") == false
   ) {
-    missingMod = new Array()
+    var missingMod = new Array()
     // 按行分割日志
-    spilted = log.split("\n")
+    var spilted = log.split("\n")
     // 获取缺少的 Mod 信息
     for (let key in spilted) {
         if (spilted[key].includes("Mod ID: ") |
@@ -476,7 +476,7 @@ function LogAnalysis(log) {
     }
     missingMod = Array.from(new Set(missingMod)) // 数组去重
     // 转为字符串
-    missingStr = ""
+    var missingStr = ""
     for (let key in missingMod) {
         missingStr = missingStr + "; " + missingMod[key]
     }
