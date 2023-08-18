@@ -125,6 +125,7 @@ export default withPwa(
               text: "客户端崩溃",
               items: [
                 { text: "客户端介绍", link: "/client/" },
+                { text: "通用问题", link: "/client/shared" },
                 { text: "系统问题", link: "/client/system" },
                 { text: "原版问题", link: "/client/vanilla" },
                 { text: "Mod 问题", link: "/client/mods" },
