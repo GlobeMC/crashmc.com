@@ -53,8 +53,8 @@ function handleDrop(e) {
 }
 
 /**
- * 拖拽文件处理
- * @param {File} files 拖拽的文件
+ * 拖拽文件处理。
+ * @param {File} files 拖拽的文件。
  */
 function handleFiles(files) {
   console.log("文件拖拽：" + files)
@@ -80,7 +80,9 @@ function handleFiles(files) {
   }
 }
 
-// 清理 (重新初始化)
+/**
+ * 重新初始化。
+ */
 function clean() {
   console.log("重新初始化")
   analysisShowResult.value = false
@@ -89,6 +91,15 @@ function clean() {
   redirect_url = null
   clearInterval(increaseOpacTimer)
   clearInterval(increaseHeightTimer)
+}
+
+/**
+ * 根据指定的 zip 文件与索引，读取文件的全部内容。
+ * @param {zip} zip zip 文件。
+ * @param {int} key 索引。
+ */
+async function GetLog(zip, key) {
+    return await zip.files[key].async("string");
 }
 
 /**
@@ -163,32 +174,30 @@ function startAnalysis(file, ext) {
             }
           }
 
+          // 日志读取
+          console.log("开始获取日志文件")
+          logText = ""
           for (let key in zip.files) {
-            if (!zip.files[key].dir) {
-              if (zip.files[key].name == "latest.log") {
-                return zip.files[key].async("string")
-              }
-            }
-          }
-          for (let key in zip.files) {
-            if (!zip.files[key].dir) {
-              if (zip.files[key].name.search(/crash-(.*).txt/) != -1) {
-                return zip.files[key].async("string")
-              }
-            }
-          }
-          for (let key in zip.files) {
-            if (!zip.files[key].dir) {
+            if (!zip.files[key].dir) { // 不是文件夹，则进行读取
               if (
-                zip.files[key].name == "minecraft.log" ||
-                zip.files[key].name == "游戏崩溃前的输出.txt"
-              ) {
-                return zip.files[key].async("string")
-              } else {
-                finishAnalysis("FetchLogErr", "(＃°Д°)")
-                return
-              }
+                zip.files[key].name == "latest.log" ||                 // latest.log
+                zip.files[key].name == "debug.log" ||                  // debug.log
+                zip.files[key].name.search(/crash-(.*).txt/) != -1 ||  // crash-***.txt
+                zip.files[key].name == "minecraft.log" ||              // minecraft.log
+                zip.files[key].name == "游戏崩溃前的输出.txt"           // 游戏崩溃前的输出.txt（仅 PCL）
+                ) {
+                    logText = logText + GetLog(zip, key) + "\n"
+                    console.log("已读取的文件：" + zip.files[key].name)
+              } else { console.log("未读取的文件：" + zip.files[key].name) }
             }
+          }
+          if (logText == "") { // 啥都没读到
+            console.log("日志获取完成，没有获取到可用日志")
+            finishAnalysis("FetchLogErr", "(＃°Д°)")
+            return
+          } else { // 读到日志了，贼棒
+            console.log("日志获取完成，长度为：" + logText.length + " 字符")
+            return logText
           }
         })
         .then(function (content) {
@@ -204,7 +213,7 @@ function startAnalysis(file, ext) {
  * 分析日志，并展示分析结果。
  * @param {string} log Log 原文。
  */
-function logAnalysis(log) {
+function LogAnalysis(log) {
   console.log("开始分析日志")
   // 启动器判断 (最准)
   if (log.includes("PCL")) {
@@ -449,9 +458,32 @@ function logAnalysis(log) {
     log.includes("Missing or unsupported mandatory dependencies:") && 
     log.includes("neoforge") == false
   ) {
+    missingMod = new Array()
+    // 按行分割日志
+    spilted = log.split("\n")
+    // 获取缺少的 Mod 信息
+    for (let key in spilted) {
+        if (spilted[key].includes("Mod ID: ") |
+        spilted[key].includes(", Requested by: ")
+        ) {
+            // 正则匹配单引号内内容
+            matches = spilted[key].match(/'([^']+)'/g)
+            missingMod.push(
+                matches[0].replace(/'/g, "") + " " + // Mod 名称，例如 'oculus'
+                matches[2].replace(/'/g, "").replace(/\$\{minecraft_version\}/g, "MinecraftVersion") // Mod 版本，例如 '[1.4,)'，之后可以把最低 / 最高版本提取出来解析一遍
+            )
+        }
+    }
+    missingMod = Array.from(new Set(missingMod)) // 数组去重
+    // 转为字符串
+    missingStr = ""
+    for (let key in missingMod) {
+        missingStr = missingStr + "; " + missingMod[key]
+    }
+    missingStr = missingStr.substring(2) // 去除开头的逗号
     showAnalysisResult(
       "Success",
-      "Forge 缺少前置 Mod",
+      "Forge 缺少前置 Mod：" + missingStr,
       MODS_URL + "#缺少前置",
       "Forge 缺少前置 Mod",
     )
@@ -677,7 +709,7 @@ function finishAnalysis(status, msg) {
 }
 
 /**
- * 重定向按钮
+ * 重定向按钮。
  */
 function redirectBtnClick() {
   if (
