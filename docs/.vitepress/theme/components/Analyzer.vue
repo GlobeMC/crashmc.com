@@ -244,7 +244,18 @@ async function logAnalysis(log) {
 
   // 错误判断
 
-  var errors = await MCLA.analyzeLogErrors(log)
+  var errors
+  try {
+    errors = await MCLA.analyzeLogErrors(log)
+  }catch(err){
+    console.error('MCLA error:', err)
+    showAnalysisResult(
+      "MCLA-Error",
+      "MCLA分析器意外退出，请点击下方按钮前往 GitHub 反馈。",
+      "https://github.com/kmcsr/mcla/issues/new",
+    )
+    return
+  }
   console.debug('MCLA.analyzeLogErrors result:', errors)
   if(errors && errors.length > 0){
     // TODO: show all parsed errors
@@ -264,6 +275,7 @@ async function logAnalysis(log) {
       return
     }
   }
+
   // 32 位超过 1G
   if (
     log.includes("Could not reserve enough space for 1048576KB object heap")
