@@ -6,7 +6,7 @@ const props = defineProps({
 
 const prefix = props.name || 'v'
 
-function waitForAnimationFrame(ms){
+function waitForAnimationFrame(){
 	return new Promise((re) => requestAnimationFrame(re))
 }
 
