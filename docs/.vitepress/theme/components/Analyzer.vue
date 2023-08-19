@@ -246,7 +246,7 @@ async function logAnalysis(log) {
     console.error('MCLA error:', err)
     showAnalysisResult(
       "MCLA-Error",
-      "MCLA分析器意外退出，请点击下方按钮前往 GitHub 反馈。",
+      "MCLA 分析器意外退出，请点击下方按钮前往 GitHub 反馈。",
       "https://github.com/kmcsr/mcla/issues/new",
     )
     return
