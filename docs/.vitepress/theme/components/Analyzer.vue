@@ -3,6 +3,7 @@ import JSZip from "jszip"
 import { useRouter } from "vitepress"
 import { ref, onBeforeMount, onUnmounted } from "vue"
 import axios from "axios"
+import TransitionExpand from './TransitionExpand.vue'
 import { useCDN } from "../../cdn"
 
 //@global_define MCLA = undefined
@@ -35,7 +36,7 @@ const MODS_URL = "/client/mods.html" // Mod 问题
 const MIXIN_URL = "/mixin.html" // Mod 问题
 
 async function loadMCLA(){
-  await import(GO_WASM_EXEC_URL) // set variable `window.Go``
+  await import(GO_WASM_EXEC_URL /* @vite-ignore */) // set variable `window.Go``
   const go = new Go()
   const res = await WebAssembly.instantiateStreaming(fetch(MCLA_WASM_URL), go.importObject)
   go.run(res.instance)
@@ -172,7 +173,7 @@ async function startAnalysis(file, ext) {
     }
     // 启动器分析
     // 遍历 Zip 中的文件对象
-    for (let file of zip.files) {
+    for (let file of Object.values(zip.files)) {
       if (!file.dir) { // 不是文件夹，则进行分析
         if (
           file.name.toLowerCase().includes("pcl") || // PCL 启动器日志.txt
@@ -180,14 +181,12 @@ async function startAnalysis(file, ext) {
         ) {
           console.log("已确定启动器类型为：PCL")
           launcher = "PCL"
+          break
         }
-      }
-    }
-    for (let file of zip.files) {
-      if (!file.dir) { // 不是文件夹，则进行分析
         if (file.name.toLowerCase().includes("hmcl")) { // hmcl.log
           console.log("已确定启动器类型为：HMCL")
           launcher = "HMCL"
+          break
         }
       }
     }
@@ -195,7 +194,7 @@ async function startAnalysis(file, ext) {
     // 日志读取
     console.log("开始获取日志文件")
     var logText = ""
-    for (let file of zip.files) {
+    for (let file of Object.values(zip.files)) {
       if (!file.dir) { // 不是文件夹，则进行读取
         if (
           file.name == "latest.log" ||                 // latest.log
@@ -205,9 +204,9 @@ async function startAnalysis(file, ext) {
           file.name == "游戏崩溃前的输出.txt"            // 游戏崩溃前的输出.txt（仅 PCL）
         ) {
           logText += await file.async("string") + "\n"
-          console.log("已读取的文件：" + zip.files[key].name)
+          console.log("已读取的文件：" + file.name)
         } else {
-          console.log("未读取的文件：" + zip.files[key].name)
+          console.log("未读取的文件：" + file.name)
         }
       }
     }
@@ -614,7 +613,7 @@ onUnmounted(() => {
           @change="checkfiles"
           style="display: none" />
       </div>
-      <Transition name="analysis-result">
+      <TransitionExpand>
         <div v-if="analysisShowResult" class="analysis-result-main">
           <hr />
           <h4 class="analysis-result-title">分析结果:</h4>
@@ -623,7 +622,7 @@ onUnmounted(() => {
             {{ redirectMsg }}
           </button>
         </div>
-      </Transition>
+      </TransitionExpand>
     </div>
   </ClientOnly>
 </template>
@@ -664,7 +663,6 @@ p {
   margin: auto;
   width: 100%;
   height: 100%;
-  max-height: 8rem;
   overflow: hidden;
 }
 
