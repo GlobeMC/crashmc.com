@@ -6,8 +6,8 @@ const props = defineProps({
 
 const prefix = props.name || 'v'
 
-function sleep(ms){
-	return new Promise((re) => setTimeout(re, ms))
+function waitForAnimationFrame(ms){
+	return new Promise((re) => requestAnimationFrame(re))
 }
 
 async function onenter(elem){
@@ -28,9 +28,9 @@ async function onenter(elem){
 	elem.style.setProperty('--expanded-height', height)
 
 	elem.classList.add(prefix + '-enter-from')
-	await sleep(0)
+	await waitForAnimationFrame()
 	elem.classList.add(prefix + '-enter-active')
-	await sleep(0)
+	await waitForAnimationFrame()
 	elem.classList.remove(prefix + '-enter-from')
 	elem.classList.add(prefix + '-enter-to')
 }
@@ -48,9 +48,9 @@ async function onleave(elem){
 	elem.style.setProperty('--expanded-height', height)
 
 	elem.classList.add(prefix + '-leave-from')
-	await sleep(0)
+	await waitForAnimationFrame()
 	elem.classList.add(prefix + '-leave-active')
-	await sleep(0)
+	await waitForAnimationFrame()
 	elem.classList.remove(prefix + '-leave-from')
 	elem.classList.add(prefix + '-leave-to')
 }
