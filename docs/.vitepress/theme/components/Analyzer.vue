@@ -3,11 +3,12 @@ import JSZip from "jszip"
 import { useRouter } from "vitepress"
 import { ref, onBeforeMount, onUnmounted } from "vue"
 import axios from "axios"
+import { useCDN } from "../../cdn"
 
 //@global_define MCLA = undefined
-const GO_WASM_EXEC_URL = "https://kmcsr.github.io/mcla/wasm_exec.js"
-const MCLA_WASM_URL = "https://kmcsr.github.io/mcla/mcla.wasm"
-const MCLA_GH_DB_PREFIX = "https://raw.githubusercontent.com/kmcsr/mcla-db-dev/main"
+const GO_WASM_EXEC_URL = useCDN("https://kmcsr.github.io/mcla/wasm_exec.js")
+const MCLA_WASM_URL = useCDN("https://kmcsr.github.io/mcla/mcla.wasm")
+const MCLA_GH_DB_PREFIX = useCDN("https://raw.githubusercontent.com/kmcsr/mcla-db-dev/main")
 
 const router = useRouter()
 

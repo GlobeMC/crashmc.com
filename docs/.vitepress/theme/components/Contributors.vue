@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { useData } from "vitepress";
-import { computed } from "vue";
+import { useData } from "vitepress"
+import { computed } from "vue"
+import { useCDN } from "../../cdn"
 
 const defaultAuthor = "GlobeMC"
 const { frontmatter } = useData()
@@ -13,10 +14,10 @@ const contributors = computed(() => {
 })
 
 function getAvatarUrl(name: string) {
-  return `https://cdn.crashmc.com/https://github.com/${name}.png`
+  return useCDN(`https://github.com/${name}.png`)
 }
 function getGitHubLink(name: string) {
-  return `https://github.com/${name}`
+  return useCDN(`https://github.com/${name}`)
 }
 function isNotEmpty(arr: string | string[]) {
   return Array.isArray(arr) && arr.length
