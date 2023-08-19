@@ -16,9 +16,11 @@ const contributors = computed(() => {
 function getAvatarUrl(name: string) {
   return useCDN(`https://github.com/${name}.png`)
 }
+
 function getGitHubLink(name: string) {
-  return useCDN(`https://github.com/${name}`)
+  return `https://github.com/${name}`
 }
+
 function isNotEmpty(arr: string | string[]) {
   return Array.isArray(arr) && arr.length
 }
