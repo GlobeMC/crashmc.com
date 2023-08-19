@@ -641,10 +641,14 @@ p {
   color: var(--vp-custom-block-tip-text);
   background-color: var(--vp-custom-block-tip-bg);
   border-radius: 8px;
-  padding: 16px 16px 8px;
+  padding: 16px 16px 0;
   line-height: 24px;
   font-size: var(--vp-custom-block-font-size);
   display: block;
+}
+
+.analyzer-main>*:last-child {
+  padding-bottom: 8px;
 }
 
 .analysis-result-main {
