@@ -592,7 +592,7 @@ onUnmounted(() => {
         </h4>
         <button
           :disabled="isBtnDisabled"
-          class="file-uploader-btn"
+          class="button file-uploader-btn"
           data-umami-event="Analysis Button Click"
           @click="fileUploader.click()">
           {{ btnMsg }}
@@ -610,7 +610,7 @@ onUnmounted(() => {
           <hr />
           <h4 class="analysis-result-title">分析结果:</h4>
           <p class="analysis-result-msg">{{analysisResultMsg}}</p>
-          <button class="redirect-btn" @click="redirectBtnClick">
+          <button class="button" @click="redirectBtnClick">
             {{ redirectMsg }}
           </button>
         </div>
@@ -652,6 +652,7 @@ p {
   width: 100%;
   height: 100%;
   max-height: 8rem;
+  overflow: hidden;
 }
 
 .analysis-result-enter-active,
@@ -678,7 +679,7 @@ p {
   height: 100%;
 }
 
-.file-uploader-btn {
+.button {
   margin-top: 3px;
   height: 35px;
   width: 120px;
@@ -689,7 +690,7 @@ p {
   transition: all 0.3s;
 }
 
-.file-uploader-btn:hover {
+.button:hover {
   animation-direction: alternate;
   transform: scale(1.05);
   transition: all 0.3s;
