@@ -29,7 +29,6 @@
   "author": "GlobeMC / 河豚分析",
   "license": "GFDL",
   "dependencies": {
-    "axios": "^1.4.0",
     "directory-tree": "^3.5.1",
     "jszip": "^3.10.1"
   }
