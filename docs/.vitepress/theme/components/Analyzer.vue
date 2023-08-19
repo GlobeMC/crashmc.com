@@ -1,5 +1,6 @@
 <script setup>
 import JSZip from "jszip"
+import { useRouter } from "vitepress"
 import { ref, onBeforeMount, onUnmounted } from "vue"
 import axios from "axios"
 
@@ -7,6 +8,8 @@ import axios from "axios"
 const GO_WASM_EXEC_URL = "https://kmcsr.github.io/mcla/wasm_exec.js"
 const MCLA_WASM_URL = "https://kmcsr.github.io/mcla/mcla.wasm"
 const MCLA_GH_DB_PREFIX = "https://raw.githubusercontent.com/kmcsr/mcla-db-dev/main"
+
+const router = useRouter()
 
 // 元素引用
 const fileUploader = ref(null)
@@ -551,15 +554,13 @@ function finishAnalysis(status, msg) {
  * 重定向按钮。
  */
 function redirectBtnClick() {
-  if (
-    redirect_url == "https://github.com/GlobeMC/crashmc.com/issues/new/choose"
-  ) {
+  if (redirect_url.startsWith('/')) {
+    router.go(redirect_url)
+  } else if (typeof redirect_url === 'string') {
     window.open(redirect_url)
-  } else if (redirect_url === null || typeof redirect_url === 'undefined') {
+  } else {
     labelMsg.value = "无法重定向到解决方案页面"
     finishAnalysis("ErrOpenRstPage", redirect_url)
-  } else {
-    window.location.href = redirect_url
   }
 }
 
