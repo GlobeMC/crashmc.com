@@ -149,81 +149,76 @@ function checkfiles() {
  * @param {File} file 文件对象
  * @param {string} ext 文件后缀
  */
-function startAnalysis(file, ext) {
-  var reader = new FileReader(file)
-
+async function startAnalysis(file, ext) {
   if (ext != "zip") { // Log / Txt 文件处理
+    var logText
     try {
-      reader.readAsText(file)
-      reader.onload = (e) => {
-        var logMsg = e.target.result
-        logAnalysis(logMsg)
-      }
+      logText = await file.text()
     } catch {
       // 日志读取错误
       finishAnalysis("ReadLogErr")
+      return
     }
+    await logAnalysis(logText)
   } else {
+    var zip = new JSZip()
     try {
-      var jsZip = new JSZip()
       // 从本地或 URL 加载一个 Zip 文件
-      jsZip
-        .loadAsync(file)
-        .then(async (zip) => { // 由 jsZip 库传递 zip 文件
-          // 启动器分析
-          // 遍历 Zip 中的文件对象
-          for (let file of zip.files) {
-            if (!file.dir) { // 不是文件夹，则进行分析
-              if (
-                file.name.toLowerCase().includes("pcl") || // PCL 启动器日志.txt
-                file.name.includes("游戏崩溃前的输出.txt")
-              ) {
-                console.log("已确定启动器类型为：PCL")
-                launcher = "PCL"
-              }
-            }
-          }
-          for (let file of zip.files) {
-            if (!file.dir) { // 不是文件夹，则进行分析
-              if (file.name.toLowerCase().includes("hmcl")) { // hmcl.log
-                console.log("已确定启动器类型为：HMCL")
-                launcher = "HMCL"
-              }
-            }
-          }
-
-          // 日志读取
-          console.log("开始获取日志文件")
-          var logText = ""
-          for (let file of zip.files) {
-            if (!file.dir) { // 不是文件夹，则进行读取
-              if (
-                file.name == "latest.log" ||                 // latest.log
-                file.name == "debug.log" ||                  // debug.log
-                file.name.search(/crash-(.*).txt/) != -1 ||  // crash-***.txt
-                file.name == "minecraft.log" ||              // minecraft.log
-                file.name == "游戏崩溃前的输出.txt"            // 游戏崩溃前的输出.txt（仅 PCL）
-              ) {
-                logText += await file.async("string") + "\n"
-                console.log("已读取的文件：" + zip.files[key].name)
-              } else {
-                console.log("未读取的文件：" + zip.files[key].name)
-              }
-            }
-          }
-          if (logText === "") { // 啥都没读到
-            console.log("日志获取完成，没有获取到可用日志")
-            finishAnalysis("FetchLogErr", "(＃°Д°)")
-            throw "No logs avaliable"
-          }
-          // 读到日志了，贼棒
-          console.log("日志获取完成，长度为：" + logText.length + " 字符")
-          return logText
-        })
-        .then(logAnalysis)
+      await zip.loadAsync(file)
     } catch (error) {
+      console.log("Couldn't read the zip file:", error)
       finishAnalysis("UnzipErr", error)
+      return
     }
+    // 启动器分析
+    // 遍历 Zip 中的文件对象
+    for (let file of zip.files) {
+      if (!file.dir) { // 不是文件夹，则进行分析
+        if (
+          file.name.toLowerCase().includes("pcl") || // PCL 启动器日志.txt
+          file.name.includes("游戏崩溃前的输出.txt")
+        ) {
+          console.log("已确定启动器类型为：PCL")
+          launcher = "PCL"
+        }
+      }
+    }
+    for (let file of zip.files) {
+      if (!file.dir) { // 不是文件夹，则进行分析
+        if (file.name.toLowerCase().includes("hmcl")) { // hmcl.log
+          console.log("已确定启动器类型为：HMCL")
+          launcher = "HMCL"
+        }
+      }
+    }
+
+    // 日志读取
+    console.log("开始获取日志文件")
+    var logText = ""
+    for (let file of zip.files) {
+      if (!file.dir) { // 不是文件夹，则进行读取
+        if (
+          file.name == "latest.log" ||                 // latest.log
+          file.name == "debug.log" ||                  // debug.log
+          file.name.search(/crash-(.*).txt/) != -1 ||  // crash-***.txt
+          file.name == "minecraft.log" ||              // minecraft.log
+          file.name == "游戏崩溃前的输出.txt"            // 游戏崩溃前的输出.txt（仅 PCL）
+        ) {
+          logText += await file.async("string") + "\n"
+          console.log("已读取的文件：" + zip.files[key].name)
+        } else {
+          console.log("未读取的文件：" + zip.files[key].name)
+        }
+      }
+    }
+    if (logText === "") { // 啥都没读到
+      console.log("日志获取完成，没有获取到可用日志")
+      finishAnalysis("FetchLogErr", "(＃°Д°)")
+      throw "No logs avaliable"
+    }
+    // 读到日志了，贼棒
+    console.log("日志获取完成，长度为：" + logText.length + " 字符")
+    await logAnalysis(logText)
   }
 }
 
