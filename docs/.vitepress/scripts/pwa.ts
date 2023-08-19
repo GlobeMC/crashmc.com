@@ -77,7 +77,7 @@ export const pwa: Partial<VitePWAOptions> = {
         options: {
           cacheName: "github-images-cache",
           expiration: {
-            maxEntries: 20,
+            maxEntries: 10,
             maxAgeSeconds: 60 * 60 * 24 * 365, // <== 365 days
           },
           cacheableResponse: {
