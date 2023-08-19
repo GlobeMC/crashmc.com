@@ -1,6 +1,12 @@
 <script setup>
-import JSZip from "jszip";
-import { ref } from "vue";
+import JSZip from "jszip"
+import { ref, onBeforeMount, onUnmounted } from "vue"
+import axios from "axios"
+
+//@global_define MCLA = undefined
+const GO_WASM_EXEC_URL = "https://kmcsr.github.io/mcla/wasm_exec.js"
+const MCLA_WASM_URL = "https://kmcsr.github.io/mcla/mcla.wasm"
+const MCLA_GH_DB_PREFIX = "https://raw.githubusercontent.com/kmcsr/mcla-db-dev/main"
 
 // 元素引用
 const fileUploader = ref(null)
@@ -19,16 +25,33 @@ var redirect_url = null
 var increaseOpacTimer = null
 var increaseHeightTimer = null
 
-const CUR_URL = window.location.href // 当前网址
-const ROOT_URL = CUR_URL.substring( // 根网址
-  0,
-  CUR_URL.indexOf(window.location.pathname),
-)
+const SYSTEM_URL = "/client/system.html" // 系统问题
+const VANILLA_URL = "/client/vanilla.html" // 原版问题
+const MODS_URL = "/client/mods.html" // Mod 问题
+const MIXIN_URL = "/mixin.html" // Mod 问题
 
-const SYSTEM_URL = ROOT_URL + "/client/system.html" // 系统问题
-const VANILLA_URL = ROOT_URL + "/client/vanilla.html" // 原版问题
-const MODS_URL = ROOT_URL + "/client/mods.html" // Mod 问题
-const MIXIN_URL = ROOT_URL + "/mixin.html" // Mod 问题
+async function loadMCLA(){
+  await import(GO_WASM_EXEC_URL) // set variable `window.Go``
+  const go = new Go()
+  const res = await WebAssembly.instantiateStreaming(fetch(MCLA_WASM_URL), go.importObject)
+  go.run(res.instance)
+  // the global variable MCLA cannot be defined instantly, so we have to poll it
+  function waitMCLA(){
+    if(window.MCLA){
+      return
+    }
+    return new Promise((re) => {
+      setTimeout(re, 10)
+    }).then(waitMCLA)
+  }
+  await waitMCLA()
+}
+
+function unloadMCLA(){
+  if(window.MCLA && MCLA.release){
+    MCLA.release()
+  }
+}
 
 // 阻止浏览器默认拖拽行为
 function handleDragEnter(e) {
@@ -94,15 +117,6 @@ function clean() {
 }
 
 /**
- * 根据指定的 zip 文件与索引，读取文件的全部内容。
- * @param {zip} zip zip 文件。
- * @param {int} key 索引。
- */
-async function GetLog(zip, key) {
-    return await zip.files[key].async("string");
-}
-
-/**
  * 分析文件。可以分析返回 true，不能分析返回 false。
  */
 function checkfiles() {
@@ -151,23 +165,23 @@ function startAnalysis(file, ext) {
       // 从本地或 URL 加载一个 Zip 文件
       jsZip
         .loadAsync(file)
-        .then(function (zip) { // 由 jsZip 库传递 zip 文件
+        .then(async (zip) => { // 由 jsZip 库传递 zip 文件
           // 启动器分析
           // 遍历 Zip 中的文件对象
-          for (let key in zip.files) {
-            if (!zip.files[key].dir) { // 不是文件夹，则进行分析
+          for (let file of zip.files) {
+            if (!file.dir) { // 不是文件夹，则进行分析
               if (
-                zip.files[key].name.toLowerCase().includes("pcl") || // PCL 启动器日志.txt
-                zip.files[key].name.includes("游戏崩溃前的输出.txt")
+                file.name.toLowerCase().includes("pcl") || // PCL 启动器日志.txt
+                file.name.includes("游戏崩溃前的输出.txt")
               ) {
                 console.log("已确定启动器类型为：PCL")
                 launcher = "PCL"
               }
             }
           }
-          for (let key in zip.files) {
-            if (!zip.files[key].dir) { // 不是文件夹，则进行分析
-              if (zip.files[key].name.toLowerCase().includes("hmcl")) { // hmcl.log
+          for (let file of zip.files) {
+            if (!file.dir) { // 不是文件夹，则进行分析
+              if (file.name.toLowerCase().includes("hmcl")) { // hmcl.log
                 console.log("已确定启动器类型为：HMCL")
                 launcher = "HMCL"
               }
@@ -177,32 +191,32 @@ function startAnalysis(file, ext) {
           // 日志读取
           console.log("开始获取日志文件")
           var logText = ""
-          for (let key in zip.files) {
-            if (!zip.files[key].dir) { // 不是文件夹，则进行读取
+          for (let file of zip.files) {
+            if (!file.dir) { // 不是文件夹，则进行读取
               if (
-                zip.files[key].name == "latest.log" ||                 // latest.log
-                zip.files[key].name == "debug.log" ||                  // debug.log
-                zip.files[key].name.search(/crash-(.*).txt/) != -1 ||  // crash-***.txt
-                zip.files[key].name == "minecraft.log" ||              // minecraft.log
-                zip.files[key].name == "游戏崩溃前的输出.txt"           // 游戏崩溃前的输出.txt（仅 PCL）
-                ) {
-                    logText = logText + GetLog(zip, key) + "\n"
-                    console.log("已读取的文件：" + zip.files[key].name)
-              } else { console.log("未读取的文件：" + zip.files[key].name) }
+                file.name == "latest.log" ||                 // latest.log
+                file.name == "debug.log" ||                  // debug.log
+                file.name.search(/crash-(.*).txt/) != -1 ||  // crash-***.txt
+                file.name == "minecraft.log" ||              // minecraft.log
+                file.name == "游戏崩溃前的输出.txt"            // 游戏崩溃前的输出.txt（仅 PCL）
+              ) {
+                logText += await file.async("string") + "\n"
+                console.log("已读取的文件：" + zip.files[key].name)
+              } else {
+                console.log("未读取的文件：" + zip.files[key].name)
+              }
             }
           }
-          if (logText == "") { // 啥都没读到
+          if (logText === "") { // 啥都没读到
             console.log("日志获取完成，没有获取到可用日志")
             finishAnalysis("FetchLogErr", "(＃°Д°)")
-            return
-          } else { // 读到日志了，贼棒
-            console.log("日志获取完成，长度为：" + logText.length + " 字符")
-            return logText
+            throw "No logs avaliable"
           }
+          // 读到日志了，贼棒
+          console.log("日志获取完成，长度为：" + logText.length + " 字符")
+          return logText
         })
-        .then(function (content) {
-          logAnalysis(content)
-        })
+        .then(logAnalysis)
     } catch (error) {
       finishAnalysis("UnzipErr", error)
     }
@@ -213,7 +227,7 @@ function startAnalysis(file, ext) {
  * 分析日志，并展示分析结果。
  * @param {string} log Log 原文。
  */
-function logAnalysis(log) {
+async function logAnalysis(log) {
   console.log("开始分析日志")
   // 启动器判断 (最准)
   if (log.includes("PCL")) {
@@ -226,20 +240,28 @@ function logAnalysis(log) {
 
   // 错误判断
 
-  // 内存不足
-  if (
-    log.includes("java.lang.OutOfMemoryError") ||
-    log.includes("Could not reserve enough space")
-  ) {
-    showAnalysisResult(
-      "Success",
-      "Java 内存分配不足",
-      SYSTEM_URL + "#内存问题",
-      "内存不足",
-    )
-
+  var errors = await MCLA.analyzeLogErrors(log)
+  console.debug('MCLA.analyzeLogErrors result:', errors)
+  if(errors && errors.length > 0){
+    // TODO: show all parsed errors
+    let res = errors[errors.length - 1]
+    if(res.solutions.length > 0){
+      // TODO: show multiple matched errors
+      let solsMatch = res.solutions[0]
+      // TODO: show multiple solutions
+      let solIds = solsMatch.solutions
+      let solId = solIds[0]
+      const sol = (await axios.get(`${MCLA_GH_DB_PREFIX}/solutions/${solId}.json`)).data
+      showAnalysisResult(
+        "Success",
+        sol.description,
+        sol.link_to,
+      )
+      return
+    }
+  }
   // 32 位超过 1G
-  } else if (
+  if (
     log.includes("Could not reserve enough space for 1048576KB object heap")
   ) {
     showAnalysisResult(
@@ -275,30 +297,6 @@ function logAnalysis(log) {
       "Used_OpenJ9",
     )
 
-  // .DS_Store
-  }  else if (
-    log.includes(
-        "Caused by: net.minecraft.util.ResourceLocationException: Non [a-z0-9_.-] character in namespace of location: .DS_Store:") |
-    log.includes("net.minecraft.util.ResourceLocationException: Non [a-z0-9_.-] character in namespace of location: .DS_Store:")
-  ) {
-    showAnalysisResult(
-      "Success",
-      "存在 .DS_Store 文件导致报错",
-      SYSTEM_URL + "#mac-下存在-ds-store-文件导致报错",
-      "DS_Store",
-    )
-
-  // OpenGL 窗口问题
-  } else if (
-    log.search(/java.lang.IllegalStateException: GLFW error before init: [*]Cocoa: Failed to find service port for display/)  != -1
-  ) {
-    showAnalysisResult(
-      "Success",
-      "Mac 下初始化 OpenGL 窗口问题",
-      SYSTEM_URL + "#mac-下初始化-opengl-窗口问题",
-      "Mac_OpenGL_Init",
-    )
-
   // 页面文件太小
   } else if (
     log.includes("页面文件太小，无法完成操作。")
@@ -308,19 +306,6 @@ function logAnalysis(log) {
       "页面文件太小",
       SYSTEM_URL + "#页面文件问题",
       "页面文件太小",
-    )
-
-  // 存档损坏
-  } else if (
-    log.search(/Exception reading [*]\\level.dat/)  != -1 ||
-    log.includes("Caused by: java.util.zip.ZipException: invalid distance too far back") ||
-    log.includes("net.minecraft.util.crash.CrashException: Loading NBT data")
-  ) {
-    showAnalysisResult(
-      "Success",
-      "存档损坏",
-      VANILLA_URL + "#存档损坏",
-      "存档损坏",
     )
 
   // 资源包过大
@@ -343,33 +328,6 @@ function logAnalysis(log) {
       "文件校验失败",
       VANILLA_URL + "#文件校验失败",
       "文件校验失败",
-    )
-
-  // Mod 问题
-  // Java 版本不匹配
-  } else if (
-    log.includes("java.lang.UnsupportedClassVersionError") || 
-    log.includes("Unsupported class file major version") || 
-    log.includes("no such method: sun.misc.Unsafe.defineAnonymousClass")
-  ) {
-    showAnalysisResult(
-      "Success",
-      "Java 版本不匹配",
-      MODS_URL + "#java-版本不匹配",
-      "Java 版本不匹配",
-    )
-
-  // Mod 重复安装
-  } else if (
-    log.includes("DuplicateModsFoundException") || 
-    log.includes("Found a duplicate mod") || 
-    log.includes("ModResolutionException: Duplicate")
-  ) {
-    showAnalysisResult(
-      "Success",
-      "Mod 重复安装",
-      MODS_URL + "#mod-重复安装",
-      "Mod 重复安装",
     )
 
   // Mod 过多导致超出 ID 限制
@@ -395,28 +353,6 @@ function logAnalysis(log) {
       "解压了 Mod",
     )
 
-  // Mod 名称含有特殊字符
-  } else if (
-    log.includes("Invalid module name: '' is not a Java identifier")
-  ) {
-    showAnalysisResult(
-      "Success",
-      "Mod 名称含有特殊字符",
-      MODS_URL + "#mod-名称含有特殊字符",
-      "Mod 名称含有特殊字符",
-    )
-
-  // Mod 文件损坏
-  } else if (
-    log.includes("Caused by: java.util.zip.ZipException: zip END header not found")
-  ) {
-    showAnalysisResult(
-      "Success",
-      "Mod 文件损坏",
-      MODS_URL + "#mod-文件损坏",
-      "Mod 文件损坏",
-    )
-
   // 一些 Mod 需要访问国外网络
   } else if (
     log.includes("modpack-update-checker") || 
@@ -438,18 +374,6 @@ function logAnalysis(log) {
       "Forge Json 问题",
       MODS_URL + "#json-问题",
       "Forge Json 问题",
-    )
-
-  // Night Config 库问题
-  } else if (
-    log.includes("forge") && 
-    log.includes("Caused by: com.electronwill.nightconfig.core.io.ParsingException: Not enough data available")
-  ) {
-    showAnalysisResult(
-      "Success",
-      "Night Config 库问题",
-      MODS_URL + "#night-config-库的问题",
-      "Night Config 库问题",
     )
 
   // Forge 缺少前置
@@ -500,46 +424,6 @@ function logAnalysis(log) {
       "NeoForge 缺少前置 Mod",
     )
 
-  // Fabric Mod 版本不兼容
-  } else if (
-    log.includes("fabric") && 
-    log.includes("but only the wrong version is present")
-  ) {
-    showAnalysisResult(
-      "Success",
-      "Fabric Mod 版本不兼容",
-      MODS_URL + "#版本不兼容",
-      "Fabric Mod 版本不兼容",
-    )
-
-  // Fabric Mod 缺少前置
-  } else if (
-    log.includes("fabric") && 
-    log.includes("Unmet dependency listing:") && 
-    log.includes("requires") && 
-    log.includes("which is missing!") && 
-    log.includes("is incompatible with") == false
-  ) {
-    showAnalysisResult(
-      "Success",
-      "Fabric Mod 缺少前置",
-      MODS_URL + "#缺少前置-2",
-      "Fabric Mod 缺少前置",
-    )
-
-  // Fabric Mod 冲突
-  } else if (
-    log.includes("net.fabricmc.loader.impl.FormattedException: Mod resolution encountered an incompatible mod set!") && 
-    log.includes("that is compatible with") && 
-    log.includes("is incompatible with")
-  ) {
-    showAnalysisResult(
-      "Success",
-      "Fabric Mod 冲突",
-      MODS_URL + "#mod-冲突",
-      "Fabric Mod 冲突",
-    )
-
   // Quilt Mod 缺少前置
   } else if (
     log.includes("quilt") && 
@@ -550,51 +434,6 @@ function logAnalysis(log) {
       "Quilt Mod 缺少前置",
       MODS_URL + "#缺少前置-3",
       "Quilt Mod 缺少前置",
-    )
-
-  // LiteLoader 与 Forge 冲突
-  } else if (
-    log.includes("forge") && 
-    log.includes("liteloader") && 
-    log.includes("org.spongepowered.asm.service.ServiceInitialisationException: ModLauncher is not available") && 
-    log.includes("neoforge") == false
-  ) {
-    showAnalysisResult(
-      "Success",
-      "LiteLoader 与 Forge 冲突",
-      MODS_URL + "#与-forge-冲突",
-      "LiteLoader 与 Forge 冲突",
-    )
-
-  // OptiFine 无法加载世界
-  } else if (
-    log.includes("java.lang.NoSuchMethodError: net.minecraft.world.server.ChunkManager$ProxyTicketManager.shouldForceTicks(J)Z")
-  ) {
-    showAnalysisResult(
-      "Success",
-      "OptiFine 导致无法加载世界",
-      MODS_URL + "#无法加载世界",
-      "OptiFine 导致无法加载世界",
-    )
-
-  // Forge 与 OptiFine 兼容性问题导致的崩溃
-  } else if (
-    log.includes("java.lang.NoSuchMethodError: 'void net.minecraftforge.client.gui.overlay.ForgeGui.renderSelectedItemName(net.minecraft.client.gui.GuiGraphics, int)'") ||
-    log.includes("java.lang.NoSuchMethodError: 'java.lang.Class sun.misc.Unsafe.defineAnonymousClass(java.lang.Class, byte[], java.lang.Object[])'") || 
-    log.includes("java.lang.NoSuchMethodError: 'java.lang.String com.mojang.blaze3d.systems.RenderSystem.getBackendDescription()'") || 
-    log.includes("java.lang.NoSuchMethodError: 'net.minecraft.network.chat.FormattedText net.minecraft.client.gui.Font.ellipsize(net.minecraft.network.chat.FormattedText, int)'") || 
-    log.includes("java.lang.NoSuchMethodError: 'void net.minecraft.server.level.DistanceManager") || 
-    log.includes("java.lang.NoSuchMethodError: 'void net.minecraft.client.renderer.block.model.BakedQuad.<init>(int[], int, net.minecraft.core.Direction, net.minecraft.client.renderer.texture.TextureAtlasSprite, boolean, boolean)'") || 
-    log.includes("java.lang.NoSuchMethodError: 'void net.minecraft.client.renderer.texture.SpriteContents.<init>(net.minecraft.resources.ResourceLocation") || 
-    log.includes("java.lang.NoSuchMethodError: 'void net.minecraft.server.level.DistanceManager.addRegionTicket(net.minecraft.server.level.TicketType, net.minecraft.world.level.ChunkPos, int, java.lang.Object, boolean)'") || 
-    log.includes("java.lang.NoSuchMethodError: net.minecraft.launchwrapper.ITweaker.injectIntoClassLoader(Lnet/minecraft/launchwrapper/LaunchClassLoader;)V") || 
-    log.includes("TRANSFORMER/net.optifine/net.optifine.reflect.Reflector.<clinit>(Reflector.java")
-  ) {
-    showAnalysisResult(
-      "Success",
-      "Forge 与 OptiFine 兼容性问题导致的崩溃",
-      MODS_URL + "#forge-与-optifine-兼容性问题导致的崩溃",
-      "Forge 与 OptiFine 兼容性问题导致的崩溃",
     )
 
   // Mixin 注入失败
@@ -723,6 +562,15 @@ function redirectBtnClick() {
     window.location.href = redirect_url
   }
 }
+
+onBeforeMount(async () => {
+  await loadMCLA()
+})
+
+onUnmounted(() => {
+  unloadMCLA()
+})
+
 </script>
 
 <template>

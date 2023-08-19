@@ -85,6 +85,20 @@ export const pwa: Partial<VitePWAOptions> = {
           },
         },
       },
+      { // wait until the cdn 'Access-Control-Allow-Origin' header fixed
+        urlPattern: /^https:\/\/kmcsr\.github\.io\/mcla\/.*/i,
+        handler: "NetworkFirst",
+        options: {
+          cacheName: "mcla-cache",
+          expiration: {
+            maxEntries: 10,
+            maxAgeSeconds: 60 * 60 * 24 * 1, // <== 1 day
+          },
+          cacheableResponse: {
+            statuses: [0, 200],
+          },
+        },
+      },
     ],
   },
 }
