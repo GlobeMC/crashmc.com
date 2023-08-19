@@ -4,7 +4,7 @@ import { useRouter } from "vitepress"
 import { ref, onBeforeMount, onUnmounted } from "vue"
 import axios from "axios"
 import TransitionExpand from './TransitionExpand.vue'
-import { loadMCLA } from '../../analyzers/mcla.js'
+import { loadMCLA, MCLA_GH_DB_PREFIX } from '../../analyzers/mcla.js'
 
 const router = useRouter()
 

@@ -3,7 +3,7 @@ import { useCDN } from "../cdn"
 
 const GO_WASM_EXEC_URL = useCDN("https://kmcsr.github.io/mcla/wasm_exec.js")
 const MCLA_WASM_URL = useCDN("https://kmcsr.github.io/mcla/mcla.wasm")
-const MCLA_GH_DB_PREFIX = useCDN("https://raw.githubusercontent.com/kmcsr/mcla-db-dev/main")
+export const MCLA_GH_DB_PREFIX = useCDN("https://raw.githubusercontent.com/kmcsr/mcla-db-dev/main")
 
 export async function loadMCLA(){
   await import(GO_WASM_EXEC_URL /* @vite-ignore */) // set variable `window.Go``
