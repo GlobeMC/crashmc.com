@@ -162,7 +162,7 @@ export default withPwa(
       socialLinks: [{ icon: "github", link: "https://github.com/GlobeMC" }],
 
       editLink: {
-        pattern: "https://github.com/GlobeMC/crashmc.com/edit/main/docs/:path",
+        pattern: "https://github.com/GlobeMC/crashmc.com/edit/dev/docs/:path",
         text: "在 GitHub 上帮助我们完善这个页面",
       },
 
