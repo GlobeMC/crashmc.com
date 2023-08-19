@@ -4,27 +4,24 @@ import { useRouter } from "vitepress"
 import { ref, onBeforeMount, onUnmounted } from "vue"
 import axios from "axios"
 import TransitionExpand from './TransitionExpand.vue'
-import { useCDN } from "../../cdn"
-
-//@global_define MCLA = undefined
-const GO_WASM_EXEC_URL = useCDN("https://kmcsr.github.io/mcla/wasm_exec.js")
-const MCLA_WASM_URL = useCDN("https://kmcsr.github.io/mcla/mcla.wasm")
-const MCLA_GH_DB_PREFIX = useCDN("https://raw.githubusercontent.com/kmcsr/mcla-db-dev/main")
+import { loadMCLA } from '../../analyzers/mcla.js'
 
 const router = useRouter()
 
 // 元素引用
 const fileUploader = ref(null)
 
-// 变量初始化
+// 模版变量初始化
 const analyzerBackgroundColor = ref("")
-
 const analysisShowResult = ref(false)
 const isBtnDisabled = ref(false)
 const labelMsg = ref("未选择文件")
 const btnMsg = ref("开始上传")
 const analysisResultMsg = ref("")
 const redirectMsg = ref("导航到解决方案")
+
+// 公共变量
+var MCLA = null
 var launcher = "Unknown"
 var redirect_url = null
 var increaseOpacTimer = null
@@ -34,29 +31,6 @@ const SYSTEM_URL = "/client/system.html" // 系统问题
 const VANILLA_URL = "/client/vanilla.html" // 原版问题
 const MODS_URL = "/client/mods.html" // Mod 问题
 const MIXIN_URL = "/mixin.html" // Mod 问题
-
-async function loadMCLA(){
-  await import(GO_WASM_EXEC_URL /* @vite-ignore */) // set variable `window.Go``
-  const go = new Go()
-  const res = await WebAssembly.instantiateStreaming(fetch(MCLA_WASM_URL), go.importObject)
-  go.run(res.instance)
-  // the global variable MCLA cannot be defined instantly, so we have to poll it
-  function waitMCLA(){
-    if(window.MCLA){
-      return
-    }
-    return new Promise((re) => {
-      setTimeout(re, 10)
-    }).then(waitMCLA)
-  }
-  await waitMCLA()
-}
-
-function unloadMCLA(){
-  if(window.MCLA && MCLA.release){
-    MCLA.release()
-  }
-}
 
 // 阻止浏览器默认拖拽行为
 function handleDragEnter(e) {
@@ -572,11 +546,14 @@ function redirectBtnClick() {
 }
 
 onBeforeMount(async () => {
-  await loadMCLA()
+  MCLA = await loadMCLA()
 })
 
 onUnmounted(() => {
-  unloadMCLA()
+  if(MCLA && MCLA.release){
+    MCLA.release()
+    MCLA = null
+  }
 })
 
 </script>
