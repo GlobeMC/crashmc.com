@@ -613,7 +613,7 @@ onUnmounted(() => {
           @change="checkfiles"
           style="display: none" />
       </div>
-      <TransitionExpand>
+      <TransitionExpand name="analysis-result">
         <div v-if="analysisShowResult" class="analysis-result-main">
           <hr />
           <h4 class="analysis-result-title">分析结果:</h4>
@@ -648,14 +648,10 @@ p {
   color: var(--vp-custom-block-tip-text);
   background-color: var(--vp-custom-block-tip-bg);
   border-radius: 8px;
-  padding: 16px 16px 0;
+  padding: 16px 16px 8px;
   line-height: 24px;
   font-size: var(--vp-custom-block-font-size);
   display: block;
-}
-
-.analyzer-main>*:last-child {
-  padding-bottom: 8px;
 }
 
 .analysis-result-main {
@@ -663,17 +659,15 @@ p {
   margin: auto;
   width: 100%;
   height: 100%;
-  overflow: hidden;
 }
 
 .analysis-result-enter-active,
 .analysis-result-leave-active {
-  transition: all 0.6s;
+  transition: all 0.6s ease-in !important;
 }
 
 .analysis-result-enter-from,
 .analysis-result-leave-to {
-  max-height: 0 !important;
   opacity: 0;
 }
 
