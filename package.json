@@ -3,7 +3,8 @@
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs",
-    "docs:format": "prettier --write ."
+    "docs:format": "prettier --write .",
+    "docs:lint": "eslint --ignore-path .gitignore --ext .ts,.vue \"docs/.vitepress/**/*.{ts,vue}\""
   },
   "name": "mccrash-docs",
   "version": "0.0.0",
@@ -11,13 +12,19 @@
   "main": "index.js",
   "devDependencies": {
     "@giscus/vue": "^2.3.0",
+    "@typescript-eslint/eslint-plugin": "^6.4.0",
     "@vite-pwa/vitepress": "^0.2.0",
-    "prettier": "^3.0.1",
+    "eslint": "^8.47.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier-vue": "^4.2.0",
+    "eslint-plugin-vue": "^9.17.0",
+    "prettier": "^3.0.2",
     "tslib": "^2.6.1",
     "vite-plugin-pwa": "^0.16.4",
     "vitepress": "1.0.0-beta.7",
     "vitepress-plugin-comment-with-giscus": "^1.1.7",
     "vue": "^3.3.4",
+    "vue-eslint-parser": "^9.3.1",
     "workbox-window": "^7.0.0"
   },
   "keywords": [
@@ -29,6 +36,7 @@
   "license": "GFDL",
   "dependencies": {
     "directory-tree": "^3.5.1",
-    "jszip": "^3.10.1"
+    "jszip": "^3.10.1",
+    "typescript": "^5.1.6"
   }
 }
