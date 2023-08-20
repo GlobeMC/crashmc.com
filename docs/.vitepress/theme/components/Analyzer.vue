@@ -708,7 +708,7 @@ function finishAnalysis(status, msg) {
     case "FetchLogErr":
       labelMsg.value = "Zip 文件中不含有有效的 Log 文件"
       btnMsg.value = "重新上传"
-      isBtnDisabled = false
+      isBtnDisabled.value = false
       umami.track("Analysis Error", {
         Status: "No_Log_File_In_Zip",
         ErrMsg: msg,
@@ -718,7 +718,7 @@ function finishAnalysis(status, msg) {
     case "ReadLogErr":
       labelMsg.value = "Log 文件读取错误"
       btnMsg.value = "重新上传"
-      isBtnDisabled = false
+      isBtnDisabled.value = false
       umami.track("Analysis Error", {
         Status: "Cannot_Read_Log_File",
         ErrMsg: msg,
@@ -728,7 +728,7 @@ function finishAnalysis(status, msg) {
     case "UnzipErr":
       labelMsg.value = "日志文件解压错误"
       btnMsg.value = "重新上传"
-      isBtnDisabled = false
+      isBtnDisabled.value = false
       umami.track("Analysis Error", {
         Status: "Cannot_Unzip_Log_File",
         ErrMsg: msg,
