@@ -1,10 +1,10 @@
-<script setup>
+<script setup lang="ts">
 import JSZip from "jszip"
 import { useRouter } from "vitepress"
 import { ref, onBeforeMount, onUnmounted } from "vue"
 import axios from "axios"
 import TransitionExpandGroup from "./TransitionExpandGroup.vue"
-import { loadMCLA, MCLA_GH_DB_PREFIX } from "../../analyzers/mcla"
+import { type MCLAType, loadMCLA, MCLA_GH_DB_PREFIX } from "../../analyzers/mcla"
 
 const router = useRouter()
 
@@ -21,7 +21,7 @@ const analysisResultMsg = ref("")
 const redirectMsg = ref("导航到解决方案")
 
 // 公共变量
-var MCLA = null
+var MCLA: Promise<MCLAType> = null
 var launcher = "Unknown"
 var redirect_url = null
 var increaseOpacTimer = null
@@ -247,8 +247,20 @@ async function logAnalysis(log) {
     }
   }
 
-  // 32 位超过 1G
+  // 内存不足
   if (
+    log.includes("java.lang.OutOfMemoryError") ||
+    log.includes("Could not reserve enough space")
+  ) {
+    showAnalysisResult(
+      "Success",
+      "Java 内存分配不足",
+      SYSTEM_URL + "#内存问题",
+      "内存不足",
+    )
+
+    // 32 位超过 1G
+  } else if (
     log.includes("Could not reserve enough space for 1048576KB object heap")
   ) {
     showAnalysisResult(
@@ -284,6 +296,35 @@ async function logAnalysis(log) {
       "Used_OpenJ9",
     )
 
+    // .DS_Store
+  } else if (
+    log.includes(
+      "Caused by: net.minecraft.util.ResourceLocationException: Non [a-z0-9_.-] character in namespace of location: .DS_Store:",
+    ) |
+    log.includes(
+      "net.minecraft.util.ResourceLocationException: Non [a-z0-9_.-] character in namespace of location: .DS_Store:",
+    )
+  ) {
+    showAnalysisResult(
+      "Success",
+      "存在 .DS_Store 文件导致报错",
+      SYSTEM_URL + "#mac-下存在-ds-store-文件导致报错",
+      "DS_Store",
+    )
+
+    // OpenGL 窗口问题
+  } else if (
+    log.search(
+      /java.lang.IllegalStateException: GLFW error before init: [*]Cocoa: Failed to find service port for display/,
+    ) != -1
+  ) {
+    showAnalysisResult(
+      "Success",
+      "Mac 下初始化 OpenGL 窗口问题",
+      SYSTEM_URL + "#mac-下初始化-opengl-窗口问题",
+      "Mac_OpenGL_Init",
+    )
+
     // 页面文件太小
   } else if (log.includes("页面文件太小，无法完成操作。")) {
     showAnalysisResult(
@@ -291,6 +332,21 @@ async function logAnalysis(log) {
       "页面文件太小",
       SYSTEM_URL + "#页面文件问题",
       "页面文件太小",
+    )
+
+    // 存档损坏
+  } else if (
+    log.search(/Exception reading [*]\\level.dat/) != -1 ||
+    log.includes(
+      "Caused by: java.util.zip.ZipException: invalid distance too far back",
+    ) ||
+    log.includes("net.minecraft.util.crash.CrashException: Loading NBT data")
+  ) {
+    showAnalysisResult(
+      "Success",
+      "存档损坏",
+      VANILLA_URL + "#存档损坏",
+      "存档损坏",
     )
 
     // 资源包过大
@@ -313,6 +369,33 @@ async function logAnalysis(log) {
       "文件校验失败",
       VANILLA_URL + "#文件校验失败",
       "文件校验失败",
+    )
+
+    // Mod 问题
+    // Java 版本不匹配
+  } else if (
+    log.includes("java.lang.UnsupportedClassVersionError") ||
+    log.includes("Unsupported class file major version") ||
+    log.includes("no such method: sun.misc.Unsafe.defineAnonymousClass")
+  ) {
+    showAnalysisResult(
+      "Success",
+      "Java 版本不匹配",
+      MODS_URL + "#java-版本不匹配",
+      "Java 版本不匹配",
+    )
+
+    // Mod 重复安装
+  } else if (
+    log.includes("DuplicateModsFoundException") ||
+    log.includes("Found a duplicate mod") ||
+    log.includes("ModResolutionException: Duplicate")
+  ) {
+    showAnalysisResult(
+      "Success",
+      "Mod 重复安装",
+      MODS_URL + "#mod-重复安装",
+      "Mod 重复安装",
     )
 
     // Mod 过多导致超出 ID 限制
@@ -338,6 +421,28 @@ async function logAnalysis(log) {
       "解压了 Mod",
     )
 
+    // Mod 名称含有特殊字符
+  } else if (log.includes("Invalid module name: '' is not a Java identifier")) {
+    showAnalysisResult(
+      "Success",
+      "Mod 名称含有特殊字符",
+      MODS_URL + "#mod-名称含有特殊字符",
+      "Mod 名称含有特殊字符",
+    )
+
+    // Mod 文件损坏
+  } else if (
+    log.includes(
+      "Caused by: java.util.zip.ZipException: zip END header not found",
+    )
+  ) {
+    showAnalysisResult(
+      "Success",
+      "Mod 文件损坏",
+      MODS_URL + "#mod-文件损坏",
+      "Mod 文件损坏",
+    )
+
     // 一些 Mod 需要访问国外网络
   } else if (
     log.includes("modpack-update-checker") ||
@@ -361,6 +466,20 @@ async function logAnalysis(log) {
       "Forge Json 问题",
       MODS_URL + "#json-问题",
       "Forge Json 问题",
+    )
+
+    // Night Config 库问题
+  } else if (
+    log.includes("forge") &&
+    log.includes(
+      "Caused by: com.electronwill.nightconfig.core.io.ParsingException: Not enough data available",
+    )
+  ) {
+    showAnalysisResult(
+      "Success",
+      "Night Config 库问题",
+      MODS_URL + "#night-config-库的问题",
+      "Night Config 库问题",
     )
 
     // Forge 缺少前置
@@ -415,6 +534,48 @@ async function logAnalysis(log) {
       "NeoForge 缺少前置 Mod",
     )
 
+    // Fabric Mod 版本不兼容
+  } else if (
+    log.includes("fabric") &&
+    log.includes("but only the wrong version is present")
+  ) {
+    showAnalysisResult(
+      "Success",
+      "Fabric Mod 版本不兼容",
+      MODS_URL + "#版本不兼容",
+      "Fabric Mod 版本不兼容",
+    )
+
+    // Fabric Mod 缺少前置
+  } else if (
+    log.includes("fabric") &&
+    log.includes("Unmet dependency listing:") &&
+    log.includes("requires") &&
+    log.includes("which is missing!") &&
+    log.includes("is incompatible with") == false
+  ) {
+    showAnalysisResult(
+      "Success",
+      "Fabric Mod 缺少前置",
+      MODS_URL + "#缺少前置-2",
+      "Fabric Mod 缺少前置",
+    )
+
+    // Fabric Mod 冲突
+  } else if (
+    log.includes(
+      "net.fabricmc.loader.impl.FormattedException: Mod resolution encountered an incompatible mod set!",
+    ) &&
+    log.includes("that is compatible with") &&
+    log.includes("is incompatible with")
+  ) {
+    showAnalysisResult(
+      "Success",
+      "Fabric Mod 冲突",
+      MODS_URL + "#mod-冲突",
+      "Fabric Mod 冲突",
+    )
+
     // Quilt Mod 缺少前置
   } else if (log.includes("quilt") && log.includes("which is missing!")) {
     showAnalysisResult(
@@ -422,6 +583,75 @@ async function logAnalysis(log) {
       "Quilt Mod 缺少前置",
       MODS_URL + "#缺少前置-3",
       "Quilt Mod 缺少前置",
+    )
+
+    // LiteLoader 与 Forge 冲突
+  } else if (
+    log.includes("forge") &&
+    log.includes("liteloader") &&
+    log.includes(
+      "org.spongepowered.asm.service.ServiceInitialisationException: ModLauncher is not available",
+    ) &&
+    log.includes("neoforge") == false
+  ) {
+    showAnalysisResult(
+      "Success",
+      "LiteLoader 与 Forge 冲突",
+      MODS_URL + "#与-forge-冲突",
+      "LiteLoader 与 Forge 冲突",
+    )
+
+    // OptiFine 无法加载世界
+  } else if (
+    log.includes(
+      "java.lang.NoSuchMethodError: net.minecraft.world.server.ChunkManager$ProxyTicketManager.shouldForceTicks(J)Z",
+    )
+  ) {
+    showAnalysisResult(
+      "Success",
+      "OptiFine 导致无法加载世界",
+      MODS_URL + "#无法加载世界",
+      "OptiFine 导致无法加载世界",
+    )
+
+    // Forge 与 OptiFine 兼容性问题导致的崩溃
+  } else if (
+    log.includes(
+      "java.lang.NoSuchMethodError: 'void net.minecraftforge.client.gui.overlay.ForgeGui.renderSelectedItemName(net.minecraft.client.gui.GuiGraphics, int)'",
+    ) ||
+    log.includes(
+      "java.lang.NoSuchMethodError: 'java.lang.Class sun.misc.Unsafe.defineAnonymousClass(java.lang.Class, byte[], java.lang.Object[])'",
+    ) ||
+    log.includes(
+      "java.lang.NoSuchMethodError: 'java.lang.String com.mojang.blaze3d.systems.RenderSystem.getBackendDescription()'",
+    ) ||
+    log.includes(
+      "java.lang.NoSuchMethodError: 'net.minecraft.network.chat.FormattedText net.minecraft.client.gui.Font.ellipsize(net.minecraft.network.chat.FormattedText, int)'",
+    ) ||
+    log.includes(
+      "java.lang.NoSuchMethodError: 'void net.minecraft.server.level.DistanceManager",
+    ) ||
+    log.includes(
+      "java.lang.NoSuchMethodError: 'void net.minecraft.client.renderer.block.model.BakedQuad.<init>(int[], int, net.minecraft.core.Direction, net.minecraft.client.renderer.texture.TextureAtlasSprite, boolean, boolean)'",
+    ) ||
+    log.includes(
+      "java.lang.NoSuchMethodError: 'void net.minecraft.client.renderer.texture.SpriteContents.<init>(net.minecraft.resources.ResourceLocation",
+    ) ||
+    log.includes(
+      "java.lang.NoSuchMethodError: 'void net.minecraft.server.level.DistanceManager.addRegionTicket(net.minecraft.server.level.TicketType, net.minecraft.world.level.ChunkPos, int, java.lang.Object, boolean)'",
+    ) ||
+    log.includes(
+      "java.lang.NoSuchMethodError: net.minecraft.launchwrapper.ITweaker.injectIntoClassLoader(Lnet/minecraft/launchwrapper/LaunchClassLoader;)V",
+    ) ||
+    log.includes(
+      "TRANSFORMER/net.optifine/net.optifine.reflect.Reflector.<clinit>(Reflector.java",
+    )
+  ) {
+    showAnalysisResult(
+      "Success",
+      "Forge 与 OptiFine 兼容性问题导致的崩溃",
+      MODS_URL + "#forge-与-optifine-兼容性问题导致的崩溃",
+      "Forge 与 OptiFine 兼容性问题导致的崩溃",
     )
 
     // Mixin 注入失败

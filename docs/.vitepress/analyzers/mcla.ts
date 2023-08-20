@@ -68,7 +68,7 @@ interface MCLAType {
   analyzeLogErrors(log: readable): ErrorResult[]
 }
 
-export async function loadMCLA(): MCLAType {
+export async function loadMCLA(): Promise<MCLAType> {
   await import(GO_WASM_EXEC_URL /* @vite-ignore */) // set variable `window.Go``
   const go = new Go()
   var res
