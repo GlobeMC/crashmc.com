@@ -19,7 +19,6 @@ async function onenter(elem) {
   elem.style.height = "auto"
 
   const height = window.getComputedStyle(elem).height
-  console.debug("height:", height)
   elem.style.width = null
   elem.style.position = null
   elem.style.visibility = null
@@ -59,30 +58,31 @@ function onafter(elem) {
 <template>
   <TransitionGroup
     name="expand"
+    class="transition-expand-group"
     :moveClass="name || 'v'"
     :tag="tag || 'div'"
     @enter="onenter"
     @after-enter="onafter"
     @before-leave="onleave"
     @after-leave="onafter">
-    <slot />
+    <slot/>
   </TransitionGroup>
 </template>
 
-<style scoped>
-.expand-enter-active,
-.expand-leave-active {
+<style>
+.transition-expand-group>.expand-enter-active,
+.transition-expand-group>.expand-leave-active {
   transition: max-height 1s ease-in-out;
   overflow-y: hidden !important;
 }
 
-.expand-enter-from,
-.expand-leave-to {
+.transition-expand-group>.expand-enter-from,
+.transition-expand-group>.expand-leave-to {
   max-height: 0;
 }
 
-.expand-enter-to,
-.expand-leave-from {
+.transition-expand-group>.expand-enter-to,
+.transition-expand-group>.expand-leave-from {
   max-height: var(--expanded-height);
 }
 </style>

@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import JSZip from "jszip"
 import { useRouter } from "vitepress"
-import { ref, onBeforeMount, onUnmounted } from "vue"
+import { ref, watch, onBeforeMount, onUnmounted } from "vue"
 import axios from "axios"
+import AnalyzingIcon from "./icons/AnalyzingIcon.vue"
+import TransitionExpand from "./TransitionExpand.vue"
 import TransitionExpandGroup from "./TransitionExpandGroup.vue"
 import { type MCLAType, loadMCLA, MCLA_GH_DB_PREFIX } from "../../analyzers/mcla"
 
@@ -13,15 +15,32 @@ const fileUploader = ref(null)
 
 // 模版变量初始化
 const analyzerBackgroundColor = ref("")
+const analyzing = ref(false)
 const analysisShowResult = ref(false)
 const isBtnDisabled = ref(false)
 const labelMsg = ref("未选择文件")
 const btnMsg = ref("开始上传")
 const analysisResultMsg = ref("")
 const redirectMsg = ref("导航到解决方案")
+const showAnalyzingIcon = ref(false)
+watch(analyzing, (() => {
+  // we have to wait a second before trigger the analyzing icon to make better performance
+  var switchInterval = null
+  return async () => {
+    if(switchInterval){
+      await switchInterval
+      switchInterval = null
+    }
+    const value = analyzing.value
+    if(value){
+      switchInterval = new Promise((re) => setTimeout(re, 1000))
+    }
+    showAnalyzingIcon.value = value
+  }
+})())
 
 // 公共变量
-var MCLA: Promise<MCLAType> = null
+var MCLA: MCLAType = null
 var launcher = "Unknown"
 var redirect_url = null
 var increaseOpacTimer = null
@@ -125,6 +144,7 @@ function checkfiles() {
  * @param {string} ext 文件后缀
  */
 async function startAnalysis(file, ext) {
+  analyzing.value = true
   if (ext != "zip") {
     // Log / Txt 文件处理
     let logText
@@ -233,9 +253,9 @@ async function logAnalysis(log) {
   if (errors && errors.length > 0) {
     // TODO: show all parsed errors
     let res = errors[errors.length - 1]
-    if (res.solutions.length > 0) {
+    if (res.matched.length > 0) {
       // TODO: show multiple matched errors
-      let solsMatch = res.solutions[0]
+      let solsMatch = res.matched[0]
       // TODO: show multiple solutions
       let solIds = solsMatch.solutions
       let solId = solIds[0]
@@ -703,6 +723,7 @@ function showAnalysisResult(status, msg, result_url, status_msg) {
  * @param {string} msg 传递信息。
  */
 function finishAnalysis(status, msg) {
+  analyzing.value = false
   console.log("结束分析：(" + status + ") " + msg)
   switch (status) {
     case "FetchLogErr":
@@ -820,8 +841,14 @@ onUnmounted(() => {
           @change="checkfiles"
           style="display: none" />
       </div>
+      <TransitionExpand>
+        <div v-if="showAnalyzingIcon" class="minium-padding">
+          <hr />
+          <center><AnalyzingIcon size="3rem"/></center>
+        </div>
+      </TransitionExpand>
       <TransitionExpandGroup name="analysis-result">
-        <div v-if="analysisShowResult" class="analysis-result-main">
+        <div v-if="analysisShowResult" class="minium-padding analysis-result-main">
           <hr />
           <h4 class="analysis-result-title">分析结果:</h4>
           <p class="analysis-result-msg">{{ analysisResultMsg }}</p>
@@ -843,6 +870,15 @@ div {
 p {
   margin: 0;
   padding: 0;
+}
+
+.minium-padding {
+  /*
+   * Add a minimum padding here to avoid margin collapsing for fix the expand animation.
+   * See <https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_box_model/Mastering_margin_collapsing>
+   */
+  padding-top: 0.01px;
+  padding-bottom: 0.01px;
 }
 
 .analysis-result-title {
@@ -899,12 +935,11 @@ p {
   border-color: var(--vp-custom-block-tip-border);
   background-color: var(--vp-custom-block-tip-bg);
   border-radius: 8px;
-  transition: all 0.3s;
+  transition: transform 0.3s;
 }
 
 .button:hover {
   animation-direction: alternate;
   transform: scale(1.05);
-  transition: all 0.3s;
 }
 </style>
