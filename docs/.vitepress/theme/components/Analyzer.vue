@@ -3,8 +3,8 @@ import JSZip from "jszip"
 import { useRouter } from "vitepress"
 import { ref, onBeforeMount, onUnmounted } from "vue"
 import axios from "axios"
-import TransitionExpand from './TransitionExpand.vue'
-import { loadMCLA, MCLA_GH_DB_PREFIX } from '../../analyzers/mcla.js'
+import TransitionExpandGroup from "./TransitionExpandGroup.vue"
+import { loadMCLA, MCLA_GH_DB_PREFIX } from "../../analyzers/mcla"
 
 const router = useRouter()
 
@@ -33,17 +33,17 @@ const MODS_URL = "/client/mods.html" // Mod 问题
 const MIXIN_URL = "/mixin.html" // Mod 问题
 
 // 阻止浏览器默认拖拽行为
-function handleDragEnter(e) {
+function handleDragEnter() {
   analyzerBackgroundColor.value = "rgba(255,255,255,0.5)"
 }
 
 // 动画
-function handleDragOver(e) {
+function handleDragOver() {
   analyzerBackgroundColor.value = "rgba(255,255,255,0.5)"
 }
 
 // 动画
-function handleDragLeave(e) {
+function handleDragLeave() {
   analyzerBackgroundColor.value = "var(--vp-custom-block-tip-bg)"
 }
 
@@ -125,8 +125,9 @@ function checkfiles() {
  * @param {string} ext 文件后缀
  */
 async function startAnalysis(file, ext) {
-  if (ext != "zip") { // Log / Txt 文件处理
-    var logText
+  if (ext != "zip") {
+    // Log / Txt 文件处理
+    let logText
     try {
       logText = await file.text()
     } catch {
@@ -148,7 +149,8 @@ async function startAnalysis(file, ext) {
     // 启动器分析
     // 遍历 Zip 中的文件对象
     for (let file of Object.values(zip.files)) {
-      if (!file.dir) { // 不是文件夹，则进行分析
+      if (!file.dir) {
+        // 不是文件夹，则进行分析
         if (
           file.name.toLowerCase().includes("pcl") || // PCL 启动器日志.txt
           file.name.includes("游戏崩溃前的输出.txt")
@@ -157,7 +159,8 @@ async function startAnalysis(file, ext) {
           launcher = "PCL"
           break
         }
-        if (file.name.toLowerCase().includes("hmcl")) { // hmcl.log
+        if (file.name.toLowerCase().includes("hmcl")) {
+          // hmcl.log
           console.log("已确定启动器类型为：HMCL")
           launcher = "HMCL"
           break
@@ -169,22 +172,24 @@ async function startAnalysis(file, ext) {
     console.log("开始获取日志文件")
     var logText = ""
     for (let file of Object.values(zip.files)) {
-      if (!file.dir) { // 不是文件夹，则进行读取
+      if (!file.dir) {
+        // 不是文件夹，则进行读取
         if (
-          file.name == "latest.log" ||                 // latest.log
-          file.name == "debug.log" ||                  // debug.log
-          file.name.search(/crash-(.*).txt/) != -1 ||  // crash-***.txt
-          file.name == "minecraft.log" ||              // minecraft.log
-          file.name == "游戏崩溃前的输出.txt"            // 游戏崩溃前的输出.txt（仅 PCL）
+          file.name == "latest.log" || // latest.log
+          file.name == "debug.log" || // debug.log
+          file.name.search(/crash-(.*).txt/) != -1 || // crash-***.txt
+          file.name == "minecraft.log" || // minecraft.log
+          file.name == "游戏崩溃前的输出.txt" // 游戏崩溃前的输出.txt（仅 PCL）
         ) {
-          logText += await file.async("string") + "\n"
+          logText += (await file.async("string")) + "\n"
           console.log("已读取的文件：" + file.name)
         } else {
           console.log("未读取的文件：" + file.name)
         }
       }
     }
-    if (logText === "") { // 啥都没读到
+    if (logText === "") {
+      // 啥都没读到
       console.log("日志获取完成，没有获取到可用日志")
       finishAnalysis("FetchLogErr", "(＃°Д°)")
       throw "No logs avaliable"
@@ -215,8 +220,8 @@ async function logAnalysis(log) {
   var errors
   try {
     errors = await MCLA.analyzeLogErrors(log)
-  }catch(err){
-    console.error('MCLA error:', err)
+  } catch (err) {
+    console.error("MCLA error:", err)
     showAnalysisResult(
       "MCLA-Error",
       "MCLA 分析器意外退出，请点击下方按钮前往 GitHub 反馈。",
@@ -224,22 +229,20 @@ async function logAnalysis(log) {
     )
     return
   }
-  console.debug('MCLA.analyzeLogErrors result:', errors)
-  if(errors && errors.length > 0){
+  console.debug("MCLA.analyzeLogErrors result:", errors)
+  if (errors && errors.length > 0) {
     // TODO: show all parsed errors
     let res = errors[errors.length - 1]
-    if(res.solutions.length > 0){
+    if (res.solutions.length > 0) {
       // TODO: show multiple matched errors
       let solsMatch = res.solutions[0]
       // TODO: show multiple solutions
       let solIds = solsMatch.solutions
       let solId = solIds[0]
-      const sol = (await axios.get(`${MCLA_GH_DB_PREFIX}/solutions/${solId}.json`)).data
-      showAnalysisResult(
-        "Success",
-        sol.description,
-        sol.link_to,
-      )
+      const sol = (
+        await axios.get(`${MCLA_GH_DB_PREFIX}/solutions/${solId}.json`)
+      ).data
+      showAnalysisResult("Success", sol.description, sol.link_to)
       return
     }
   }
@@ -255,7 +258,7 @@ async function logAnalysis(log) {
       "32_Bit_Java_Memory",
     )
 
-  // 显卡驱动问题
+    // 显卡驱动问题
   } else if (
     log.includes("Couldn't set pixel format") |
     log.includes("Pixel format not accelerated") |
@@ -268,7 +271,7 @@ async function logAnalysis(log) {
       "GPU_DRIVER",
     )
 
-  // OpenJ9
+    // OpenJ9
   } else if (
     log.includes("Open J9 is not supported") |
     log.includes("OpenJ9 is incompatible") |
@@ -281,10 +284,8 @@ async function logAnalysis(log) {
       "Used_OpenJ9",
     )
 
-  // 页面文件太小
-  } else if (
-    log.includes("页面文件太小，无法完成操作。")
-  ) {
+    // 页面文件太小
+  } else if (log.includes("页面文件太小，无法完成操作。")) {
     showAnalysisResult(
       "Success",
       "页面文件太小",
@@ -292,10 +293,8 @@ async function logAnalysis(log) {
       "页面文件太小",
     )
 
-  // 资源包过大
-  } else if (
-    log.includes("Maybe try a lower resolution resourcepack?")
-  ) {
+    // 资源包过大
+  } else if (log.includes("Maybe try a lower resolution resourcepack?")) {
     showAnalysisResult(
       "Success",
       "资源包过大",
@@ -303,9 +302,11 @@ async function logAnalysis(log) {
       "资源包过大",
     )
 
-  // 文件校验失败
+    // 文件校验失败
   } else if (
-    log.includes("signer information does not match signer information of other classes in the same package")
+    log.includes(
+      "signer information does not match signer information of other classes in the same package",
+    )
   ) {
     showAnalysisResult(
       "Success",
@@ -314,10 +315,8 @@ async function logAnalysis(log) {
       "文件校验失败",
     )
 
-  // Mod 过多导致超出 ID 限制
-  } else if (
-    log.includes("maximum id range exceeded")
-  ) {
+    // Mod 过多导致超出 ID 限制
+  } else if (log.includes("maximum id range exceeded")) {
     showAnalysisResult(
       "Success",
       "Mod 过多导致超出 ID 限制",
@@ -325,9 +324,11 @@ async function logAnalysis(log) {
       "Mod 过多导致超出 ID 限制",
     )
 
-  // 解压了 Mod
+    // 解压了 Mod
   } else if (
-    log.includes("The directories below appear to be extracted jar files. Fix this before you continue.") || 
+    log.includes(
+      "The directories below appear to be extracted jar files. Fix this before you continue.",
+    ) ||
     log.includes("Extracted mod jars found, loading will NOT continue")
   ) {
     showAnalysisResult(
@@ -337,9 +338,9 @@ async function logAnalysis(log) {
       "解压了 Mod",
     )
 
-  // 一些 Mod 需要访问国外网络
+    // 一些 Mod 需要访问国外网络
   } else if (
-    log.includes("modpack-update-checker") || 
+    log.includes("modpack-update-checker") ||
     log.includes("commonality")
   ) {
     showAnalysisResult(
@@ -349,9 +350,11 @@ async function logAnalysis(log) {
       "一些 Mod 需要访问国外网络",
     )
 
-  // Forge Json 问题
+    // Forge Json 问题
   } else if (
-    log.includes("Found multiple arguments for option fml.forgeVersion, but you asked for only one")
+    log.includes(
+      "Found multiple arguments for option fml.forgeVersion, but you asked for only one",
+    )
   ) {
     showAnalysisResult(
       "Success",
@@ -360,10 +363,10 @@ async function logAnalysis(log) {
       "Forge Json 问题",
     )
 
-  // Forge 缺少前置
+    // Forge 缺少前置
   } else if (
-    log.includes("forge") && 
-    log.includes("Missing or unsupported mandatory dependencies:") && 
+    log.includes("forge") &&
+    log.includes("Missing or unsupported mandatory dependencies:") &&
     log.includes("neoforge") == false
   ) {
     var missingMod = new Array()
@@ -371,22 +374,26 @@ async function logAnalysis(log) {
     var spilted = log.split("\n")
     // 获取缺少的 Mod 信息
     for (let key in spilted) {
-        if (spilted[key].includes("Mod ID: ") |
+      if (
+        spilted[key].includes("Mod ID: ") |
         spilted[key].includes(", Requested by: ")
-        ) {
-            // 正则匹配单引号内内容
-            matches = spilted[key].match(/'([^']+)'/g)
-            missingMod.push(
-                matches[0].replace(/'/g, "") + " " + // Mod 名称，例如 'oculus'
-                matches[2].replace(/'/g, "").replace(/\$\{minecraft_version\}/g, "MinecraftVersion") // Mod 版本，例如 '[1.4,)'，之后可以把最低 / 最高版本提取出来解析一遍
-            )
-        }
+      ) {
+        // 正则匹配单引号内内容
+        matches = spilted[key].match(/'([^']+)'/g)
+        missingMod.push(
+          matches[0].replace(/'/g, "") +
+            " " + // Mod 名称，例如 'oculus'
+            matches[2]
+              .replace(/'/g, "")
+              .replace(/\$\{minecraft_version\}/g, "MinecraftVersion"), // Mod 版本，例如 '[1.4,)'，之后可以把最低 / 最高版本提取出来解析一遍
+        )
+      }
     }
     missingMod = Array.from(new Set(missingMod)) // 数组去重
     // 转为字符串
     var missingStr = ""
     for (let key in missingMod) {
-        missingStr = missingStr + "; " + missingMod[key]
+      missingStr = missingStr + "; " + missingMod[key]
     }
     missingStr = missingStr.substring(2) // 去除开头的逗号
     showAnalysisResult(
@@ -396,9 +403,9 @@ async function logAnalysis(log) {
       "Forge 缺少前置 Mod",
     )
 
-  // NeoForge 缺少前置
+    // NeoForge 缺少前置
   } else if (
-    log.includes("neoforge") && 
+    log.includes("neoforge") &&
     log.includes("Missing or unsupported mandatory dependencies:")
   ) {
     showAnalysisResult(
@@ -408,11 +415,8 @@ async function logAnalysis(log) {
       "NeoForge 缺少前置 Mod",
     )
 
-  // Quilt Mod 缺少前置
-  } else if (
-    log.includes("quilt") && 
-    log.includes("which is missing!")
-  ) {
+    // Quilt Mod 缺少前置
+  } else if (log.includes("quilt") && log.includes("which is missing!")) {
     showAnalysisResult(
       "Success",
       "Quilt Mod 缺少前置",
@@ -420,11 +424,8 @@ async function logAnalysis(log) {
       "Quilt Mod 缺少前置",
     )
 
-  // Mixin 注入失败
-  } else if (
-    log.includes("Mixin apply for mod") && 
-    log.includes("failed")
-  ) {
+    // Mixin 注入失败
+  } else if (log.includes("Mixin apply for mod") && log.includes("failed")) {
     showAnalysisResult(
       "Success",
       "Mixin 注入失败",
@@ -432,7 +433,7 @@ async function logAnalysis(log) {
       "Mixin 注入失败",
     )
 
-  // 以上都无
+    // 以上都无
   } else {
     console.log("日志分析结束，没有找到可能的原因")
     showAnalysisResult(
@@ -535,9 +536,9 @@ function finishAnalysis(status, msg) {
  * 重定向按钮。
  */
 function redirectBtnClick() {
-  if (redirect_url.startsWith('/')) {
+  if (redirect_url.startsWith("/")) {
     router.go(redirect_url)
-  } else if (typeof redirect_url === 'string') {
+  } else if (typeof redirect_url === "string") {
     window.open(redirect_url)
   } else {
     labelMsg.value = "无法重定向到解决方案页面"
@@ -550,19 +551,18 @@ onBeforeMount(async () => {
 })
 
 onUnmounted(() => {
-  if(MCLA && MCLA.release){
+  if (MCLA && MCLA.release) {
     MCLA.release()
     MCLA = null
   }
 })
-
 </script>
 
 <template>
   <ClientOnly>
     <div
       class="analyzer-main"
-      :style="{'background-color': analyzerBackgroundColor}"
+      :style="{ 'background-color': analyzerBackgroundColor }"
       @dragenter.prevent="handleDragEnter"
       @dragover.prevent="handleDragOver"
       @drop.prevent="handleDrop"
@@ -590,16 +590,16 @@ onUnmounted(() => {
           @change="checkfiles"
           style="display: none" />
       </div>
-      <TransitionExpand name="analysis-result">
+      <TransitionExpandGroup name="analysis-result">
         <div v-if="analysisShowResult" class="analysis-result-main">
           <hr />
           <h4 class="analysis-result-title">分析结果:</h4>
-          <p class="analysis-result-msg">{{analysisResultMsg}}</p>
+          <p class="analysis-result-msg">{{ analysisResultMsg }}</p>
           <button class="button" @click="redirectBtnClick">
             {{ redirectMsg }}
           </button>
         </div>
-      </TransitionExpand>
+      </TransitionExpandGroup>
     </div>
   </ClientOnly>
 </template>
@@ -677,5 +677,4 @@ p {
   transform: scale(1.05);
   transition: all 0.3s;
 }
-
 </style>

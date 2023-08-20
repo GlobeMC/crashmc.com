@@ -1,6 +1,7 @@
 <script setup>
 const props = defineProps({
   name: String,
+  tag: String,
 })
 
 const prefix = props.name || "v"
@@ -18,6 +19,7 @@ async function onenter(elem) {
   elem.style.height = "auto"
 
   const height = window.getComputedStyle(elem).height
+  console.debug("height:", height)
   elem.style.width = null
   elem.style.position = null
   elem.style.visibility = null
@@ -55,14 +57,16 @@ function onafter(elem) {
 </script>
 
 <template>
-  <Transition
+  <TransitionGroup
     name="expand"
+    :moveClass="name || 'v'"
+    :tag="tag || 'div'"
     @enter="onenter"
     @after-enter="onafter"
     @before-leave="onleave"
     @after-leave="onafter">
     <slot />
-  </Transition>
+  </TransitionGroup>
 </template>
 
 <style scoped>

@@ -137,5 +137,4 @@ onBeforeMount(async () => {
 .pwa-hint-leave-to {
   right: -100% !important;
 }
-
 </style>
