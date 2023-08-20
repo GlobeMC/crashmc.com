@@ -99,7 +99,7 @@ function clean() {
  * @param {int} key 索引。
  */
 async function GetLog(zip, key) {
-    return await zip.files[key].async("string");
+  return await zip.files[key].async("string");
 }
 
 /**
@@ -185,9 +185,9 @@ function startAnalysis(file, ext) {
                 zip.files[key].name.search(/crash-(.*).txt/) != -1 ||  // crash-***.txt
                 zip.files[key].name == "minecraft.log" ||              // minecraft.log
                 zip.files[key].name == "游戏崩溃前的输出.txt"           // 游戏崩溃前的输出.txt（仅 PCL）
-                ) {
-                    logText = logText + GetLog(zip, key) + "\n"
-                    console.log("已读取的文件：" + zip.files[key].name)
+              ) {
+                logText = logText + GetLog(zip, key) + "\n"
+                console.log("已读取的文件：" + zip.files[key].name)
               } else { console.log("未读取的文件：" + zip.files[key].name) }
             }
           }
@@ -238,7 +238,7 @@ function logAnalysis(log) {
       "内存不足",
     )
 
-  // 32 位超过 1G
+    // 32 位超过 1G
   } else if (
     log.includes("Could not reserve enough space for 1048576KB object heap")
   ) {
@@ -249,7 +249,7 @@ function logAnalysis(log) {
       "32_Bit_Java_Memory",
     )
 
-  // 显卡驱动问题
+    // 显卡驱动问题
   } else if (
     log.includes("Couldn't set pixel format") |
     log.includes("Pixel format not accelerated") |
@@ -262,7 +262,7 @@ function logAnalysis(log) {
       "GPU_DRIVER",
     )
 
-  // OpenJ9
+    // OpenJ9
   } else if (
     log.includes("Open J9 is not supported") |
     log.includes("OpenJ9 is incompatible") |
@@ -275,10 +275,10 @@ function logAnalysis(log) {
       "Used_OpenJ9",
     )
 
-  // .DS_Store
-  }  else if (
+    // .DS_Store
+  } else if (
     log.includes(
-        "Caused by: net.minecraft.util.ResourceLocationException: Non [a-z0-9_.-] character in namespace of location: .DS_Store:") |
+      "Caused by: net.minecraft.util.ResourceLocationException: Non [a-z0-9_.-] character in namespace of location: .DS_Store:") |
     log.includes("net.minecraft.util.ResourceLocationException: Non [a-z0-9_.-] character in namespace of location: .DS_Store:")
   ) {
     showAnalysisResult(
@@ -288,9 +288,9 @@ function logAnalysis(log) {
       "DS_Store",
     )
 
-  // OpenGL 窗口问题
+    // OpenGL 窗口问题
   } else if (
-    log.search(/java.lang.IllegalStateException: GLFW error before init: [*]Cocoa: Failed to find service port for display/)  != -1
+    log.search(/java.lang.IllegalStateException: GLFW error before init: [*]Cocoa: Failed to find service port for display/) != -1
   ) {
     showAnalysisResult(
       "Success",
@@ -299,7 +299,7 @@ function logAnalysis(log) {
       "Mac_OpenGL_Init",
     )
 
-  // 页面文件太小
+    // 页面文件太小
   } else if (
     log.includes("页面文件太小，无法完成操作。")
   ) {
@@ -310,9 +310,9 @@ function logAnalysis(log) {
       "页面文件太小",
     )
 
-  // 存档损坏
+    // 存档损坏
   } else if (
-    log.search(/Exception reading [*]\\level.dat/)  != -1 ||
+    log.search(/Exception reading [*]\\level.dat/) != -1 ||
     log.includes("Caused by: java.util.zip.ZipException: invalid distance too far back") ||
     log.includes("net.minecraft.util.crash.CrashException: Loading NBT data")
   ) {
@@ -323,7 +323,7 @@ function logAnalysis(log) {
       "存档损坏",
     )
 
-  // 资源包过大
+    // 资源包过大
   } else if (
     log.includes("Maybe try a lower resolution resourcepack?")
   ) {
@@ -334,7 +334,7 @@ function logAnalysis(log) {
       "资源包过大",
     )
 
-  // 文件校验失败
+    // 文件校验失败
   } else if (
     log.includes("signer information does not match signer information of other classes in the same package")
   ) {
@@ -345,11 +345,11 @@ function logAnalysis(log) {
       "文件校验失败",
     )
 
-  // Mod 问题
-  // Java 版本不匹配
+    // Mod 问题
+    // Java 版本不匹配
   } else if (
-    log.includes("java.lang.UnsupportedClassVersionError") || 
-    log.includes("Unsupported class file major version") || 
+    log.includes("java.lang.UnsupportedClassVersionError") ||
+    log.includes("Unsupported class file major version") ||
     log.includes("no such method: sun.misc.Unsafe.defineAnonymousClass")
   ) {
     showAnalysisResult(
@@ -359,10 +359,10 @@ function logAnalysis(log) {
       "Java 版本不匹配",
     )
 
-  // Mod 重复安装
+    // Mod 重复安装
   } else if (
-    log.includes("DuplicateModsFoundException") || 
-    log.includes("Found a duplicate mod") || 
+    log.includes("DuplicateModsFoundException") ||
+    log.includes("Found a duplicate mod") ||
     log.includes("ModResolutionException: Duplicate")
   ) {
     showAnalysisResult(
@@ -372,7 +372,7 @@ function logAnalysis(log) {
       "Mod 重复安装",
     )
 
-  // Mod 过多导致超出 ID 限制
+    // Mod 过多导致超出 ID 限制
   } else if (
     log.includes("maximum id range exceeded")
   ) {
@@ -383,9 +383,9 @@ function logAnalysis(log) {
       "Mod 过多导致超出 ID 限制",
     )
 
-  // 解压了 Mod
+    // 解压了 Mod
   } else if (
-    log.includes("The directories below appear to be extracted jar files. Fix this before you continue.") || 
+    log.includes("The directories below appear to be extracted jar files. Fix this before you continue.") ||
     log.includes("Extracted mod jars found, loading will NOT continue")
   ) {
     showAnalysisResult(
@@ -395,7 +395,7 @@ function logAnalysis(log) {
       "解压了 Mod",
     )
 
-  // Mod 名称含有特殊字符
+    // Mod 名称含有特殊字符
   } else if (
     log.includes("Invalid module name: '' is not a Java identifier")
   ) {
@@ -406,7 +406,7 @@ function logAnalysis(log) {
       "Mod 名称含有特殊字符",
     )
 
-  // Mod 文件损坏
+    // Mod 文件损坏
   } else if (
     log.includes("Caused by: java.util.zip.ZipException: zip END header not found")
   ) {
@@ -417,9 +417,9 @@ function logAnalysis(log) {
       "Mod 文件损坏",
     )
 
-  // 一些 Mod 需要访问国外网络
+    // 一些 Mod 需要访问国外网络
   } else if (
-    log.includes("modpack-update-checker") || 
+    log.includes("modpack-update-checker") ||
     log.includes("commonality")
   ) {
     showAnalysisResult(
@@ -429,7 +429,7 @@ function logAnalysis(log) {
       "一些 Mod 需要访问国外网络",
     )
 
-  // Forge Json 问题
+    // Forge Json 问题
   } else if (
     log.includes("Found multiple arguments for option fml.forgeVersion, but you asked for only one")
   ) {
@@ -440,9 +440,9 @@ function logAnalysis(log) {
       "Forge Json 问题",
     )
 
-  // Night Config 库问题
+    // Night Config 库问题
   } else if (
-    log.includes("forge") && 
+    log.includes("forge") &&
     log.includes("Caused by: com.electronwill.nightconfig.core.io.ParsingException: Not enough data available")
   ) {
     showAnalysisResult(
@@ -452,10 +452,10 @@ function logAnalysis(log) {
       "Night Config 库问题",
     )
 
-  // Forge 缺少前置
+    // Forge 缺少前置
   } else if (
-    log.includes("forge") && 
-    log.includes("Missing or unsupported mandatory dependencies:") && 
+    log.includes("forge") &&
+    log.includes("Missing or unsupported mandatory dependencies:") &&
     log.includes("neoforge") == false
   ) {
     var missingMod = new Array()
@@ -463,22 +463,22 @@ function logAnalysis(log) {
     var spilted = log.split("\n")
     // 获取缺少的 Mod 信息
     for (let key in spilted) {
-        if (spilted[key].includes("Mod ID: ") |
+      if (spilted[key].includes("Mod ID: ") |
         spilted[key].includes(", Requested by: ")
-        ) {
-            // 正则匹配单引号内内容
-            matches = spilted[key].match(/'([^']+)'/g)
-            missingMod.push(
-                matches[0].replace(/'/g, "") + " " + // Mod 名称，例如 'oculus'
-                matches[2].replace(/'/g, "").replace(/\$\{minecraft_version\}/g, "MinecraftVersion") // Mod 版本，例如 '[1.4,)'，之后可以把最低 / 最高版本提取出来解析一遍
-            )
-        }
+      ) {
+        // 正则匹配单引号内内容
+        matches = spilted[key].match(/'([^']+)'/g)
+        missingMod.push(
+          matches[0].replace(/'/g, "") + " " + // Mod 名称，例如 'oculus'
+          matches[2].replace(/'/g, "").replace(/\$\{minecraft_version\}/g, "MinecraftVersion") // Mod 版本，例如 '[1.4,)'，之后可以把最低 / 最高版本提取出来解析一遍
+        )
+      }
     }
     missingMod = Array.from(new Set(missingMod)) // 数组去重
     // 转为字符串
     var missingStr = ""
     for (let key in missingMod) {
-        missingStr = missingStr + "; " + missingMod[key]
+      missingStr = missingStr + "; " + missingMod[key]
     }
     missingStr = missingStr.substring(2) // 去除开头的逗号
     showAnalysisResult(
@@ -488,9 +488,9 @@ function logAnalysis(log) {
       "Forge 缺少前置 Mod",
     )
 
-  // NeoForge 缺少前置
+    // NeoForge 缺少前置
   } else if (
-    log.includes("neoforge") && 
+    log.includes("neoforge") &&
     log.includes("Missing or unsupported mandatory dependencies:")
   ) {
     showAnalysisResult(
@@ -500,9 +500,9 @@ function logAnalysis(log) {
       "NeoForge 缺少前置 Mod",
     )
 
-  // Fabric Mod 版本不兼容
+    // Fabric Mod 版本不兼容
   } else if (
-    log.includes("fabric") && 
+    log.includes("fabric") &&
     log.includes("but only the wrong version is present")
   ) {
     showAnalysisResult(
@@ -512,12 +512,12 @@ function logAnalysis(log) {
       "Fabric Mod 版本不兼容",
     )
 
-  // Fabric Mod 缺少前置
+    // Fabric Mod 缺少前置
   } else if (
-    log.includes("fabric") && 
-    log.includes("Unmet dependency listing:") && 
-    log.includes("requires") && 
-    log.includes("which is missing!") && 
+    log.includes("fabric") &&
+    log.includes("Unmet dependency listing:") &&
+    log.includes("requires") &&
+    log.includes("which is missing!") &&
     log.includes("is incompatible with") == false
   ) {
     showAnalysisResult(
@@ -527,10 +527,10 @@ function logAnalysis(log) {
       "Fabric Mod 缺少前置",
     )
 
-  // Fabric Mod 冲突
+    // Fabric Mod 冲突
   } else if (
-    log.includes("net.fabricmc.loader.impl.FormattedException: Mod resolution encountered an incompatible mod set!") && 
-    log.includes("that is compatible with") && 
+    log.includes("net.fabricmc.loader.impl.FormattedException: Mod resolution encountered an incompatible mod set!") &&
+    log.includes("that is compatible with") &&
     log.includes("is incompatible with")
   ) {
     showAnalysisResult(
@@ -540,9 +540,9 @@ function logAnalysis(log) {
       "Fabric Mod 冲突",
     )
 
-  // Quilt Mod 缺少前置
+    // Quilt Mod 缺少前置
   } else if (
-    log.includes("quilt") && 
+    log.includes("quilt") &&
     log.includes("which is missing!")
   ) {
     showAnalysisResult(
@@ -552,11 +552,11 @@ function logAnalysis(log) {
       "Quilt Mod 缺少前置",
     )
 
-  // LiteLoader 与 Forge 冲突
+    // LiteLoader 与 Forge 冲突
   } else if (
-    log.includes("forge") && 
-    log.includes("liteloader") && 
-    log.includes("org.spongepowered.asm.service.ServiceInitialisationException: ModLauncher is not available") && 
+    log.includes("forge") &&
+    log.includes("liteloader") &&
+    log.includes("org.spongepowered.asm.service.ServiceInitialisationException: ModLauncher is not available") &&
     log.includes("neoforge") == false
   ) {
     showAnalysisResult(
@@ -566,7 +566,7 @@ function logAnalysis(log) {
       "LiteLoader 与 Forge 冲突",
     )
 
-  // OptiFine 无法加载世界
+    // OptiFine 无法加载世界
   } else if (
     log.includes("java.lang.NoSuchMethodError: net.minecraft.world.server.ChunkManager$ProxyTicketManager.shouldForceTicks(J)Z")
   ) {
@@ -577,17 +577,17 @@ function logAnalysis(log) {
       "OptiFine 导致无法加载世界",
     )
 
-  // Forge 与 OptiFine 兼容性问题导致的崩溃
+    // Forge 与 OptiFine 兼容性问题导致的崩溃
   } else if (
     log.includes("java.lang.NoSuchMethodError: 'void net.minecraftforge.client.gui.overlay.ForgeGui.renderSelectedItemName(net.minecraft.client.gui.GuiGraphics, int)'") ||
-    log.includes("java.lang.NoSuchMethodError: 'java.lang.Class sun.misc.Unsafe.defineAnonymousClass(java.lang.Class, byte[], java.lang.Object[])'") || 
-    log.includes("java.lang.NoSuchMethodError: 'java.lang.String com.mojang.blaze3d.systems.RenderSystem.getBackendDescription()'") || 
-    log.includes("java.lang.NoSuchMethodError: 'net.minecraft.network.chat.FormattedText net.minecraft.client.gui.Font.ellipsize(net.minecraft.network.chat.FormattedText, int)'") || 
-    log.includes("java.lang.NoSuchMethodError: 'void net.minecraft.server.level.DistanceManager") || 
-    log.includes("java.lang.NoSuchMethodError: 'void net.minecraft.client.renderer.block.model.BakedQuad.<init>(int[], int, net.minecraft.core.Direction, net.minecraft.client.renderer.texture.TextureAtlasSprite, boolean, boolean)'") || 
-    log.includes("java.lang.NoSuchMethodError: 'void net.minecraft.client.renderer.texture.SpriteContents.<init>(net.minecraft.resources.ResourceLocation") || 
-    log.includes("java.lang.NoSuchMethodError: 'void net.minecraft.server.level.DistanceManager.addRegionTicket(net.minecraft.server.level.TicketType, net.minecraft.world.level.ChunkPos, int, java.lang.Object, boolean)'") || 
-    log.includes("java.lang.NoSuchMethodError: net.minecraft.launchwrapper.ITweaker.injectIntoClassLoader(Lnet/minecraft/launchwrapper/LaunchClassLoader;)V") || 
+    log.includes("java.lang.NoSuchMethodError: 'java.lang.Class sun.misc.Unsafe.defineAnonymousClass(java.lang.Class, byte[], java.lang.Object[])'") ||
+    log.includes("java.lang.NoSuchMethodError: 'java.lang.String com.mojang.blaze3d.systems.RenderSystem.getBackendDescription()'") ||
+    log.includes("java.lang.NoSuchMethodError: 'net.minecraft.network.chat.FormattedText net.minecraft.client.gui.Font.ellipsize(net.minecraft.network.chat.FormattedText, int)'") ||
+    log.includes("java.lang.NoSuchMethodError: 'void net.minecraft.server.level.DistanceManager") ||
+    log.includes("java.lang.NoSuchMethodError: 'void net.minecraft.client.renderer.block.model.BakedQuad.<init>(int[], int, net.minecraft.core.Direction, net.minecraft.client.renderer.texture.TextureAtlasSprite, boolean, boolean)'") ||
+    log.includes("java.lang.NoSuchMethodError: 'void net.minecraft.client.renderer.texture.SpriteContents.<init>(net.minecraft.resources.ResourceLocation") ||
+    log.includes("java.lang.NoSuchMethodError: 'void net.minecraft.server.level.DistanceManager.addRegionTicket(net.minecraft.server.level.TicketType, net.minecraft.world.level.ChunkPos, int, java.lang.Object, boolean)'") ||
+    log.includes("java.lang.NoSuchMethodError: net.minecraft.launchwrapper.ITweaker.injectIntoClassLoader(Lnet/minecraft/launchwrapper/LaunchClassLoader;)V") ||
     log.includes("TRANSFORMER/net.optifine/net.optifine.reflect.Reflector.<clinit>(Reflector.java")
   ) {
     showAnalysisResult(
@@ -597,9 +597,9 @@ function logAnalysis(log) {
       "Forge 与 OptiFine 兼容性问题导致的崩溃",
     )
 
-  // Mixin 注入失败
+    // Mixin 注入失败
   } else if (
-    log.includes("Mixin apply for mod") && 
+    log.includes("Mixin apply for mod") &&
     log.includes("failed")
   ) {
     showAnalysisResult(
@@ -609,7 +609,7 @@ function logAnalysis(log) {
       "Mixin 注入失败",
     )
 
-  // 以上都无
+    // 以上都无
   } else {
     console.log("日志分析结束，没有找到可能的原因")
     showAnalysisResult(
@@ -727,13 +727,8 @@ function redirectBtnClick() {
 
 <template>
   <ClientOnly>
-    <div
-      class="analyzer-main"
-      :style="{'background-color': analyzerBackgroundColor}"
-      @dragenter.prevent="handleDragEnter"
-      @dragover.prevent="handleDragOver"
-      @drop.prevent="handleDrop"
-      @dragleave.prevent="handleDragLeave">
+    <div class="analyzer-main" :style="{ 'background-color': analyzerBackgroundColor }" @dragenter.prevent="handleDragEnter"
+      @dragover.prevent="handleDragOver" @drop.prevent="handleDrop" @dragleave.prevent="handleDragLeave">
       <h4 style="text-align: center">
         请点击按钮上传导出的 .zip/.txt/.log 文件, 并尽量不要更改导出文件的名称。
       </h4>
@@ -742,26 +737,18 @@ function redirectBtnClick() {
         <h4 class="file-uploader-label" for="file-uploader" singleLine="false">
           {{ labelMsg }}
         </h4>
-        <button
-          :disabled="isBtnDisabled"
-          class="file-uploader-btn"
-          data-umami-event="Analysis Button Click"
+        <button :disabled="isBtnDisabled" class="file-uploader-btn" data-umami-event="Analysis Button Click"
           @click="fileUploader.click()">
           {{ btnMsg }}
         </button>
-        <input
-          ref="fileUploader"
-          type="file"
-          name="file_uploader"
-          id="file-uploader"
-          @change="checkfiles"
+        <input ref="fileUploader" type="file" name="file_uploader" id="file-uploader" @change="checkfiles"
           style="display: none" />
       </div>
       <Transition name="analysis-result">
         <div v-if="analysisShowResult" class="analysis-result-main">
           <hr />
           <h4 class="analysis-result-title">分析结果:</h4>
-          <p class="analysis-result-msg">{{analysisResultMsg}}</p>
+          <p class="analysis-result-msg">{{ analysisResultMsg }}</p>
           <button class="redirect-btn" @click="redirectBtnClick">
             {{ redirectMsg }}
           </button>
@@ -846,5 +833,4 @@ p {
   transform: scale(1.05);
   transition: all 0.3s;
 }
-
 </style>
