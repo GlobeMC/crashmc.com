@@ -1,12 +1,37 @@
 <script setup lang="ts">
 import JSZip from "jszip"
 import { useRouter } from "vitepress"
-import { ref, watch, onBeforeMount, onUnmounted } from "vue"
+import { type Ref, ref, watch, onBeforeMount, onUnmounted } from "vue"
 import axios from "axios"
 import AnalyzingIcon from "./icons/AnalyzingIcon.vue"
 import TransitionExpand from "./TransitionExpand.vue"
 import TransitionExpandGroup from "./TransitionExpandGroup.vue"
-import { type MCLAType, loadMCLA, MCLA_GH_DB_PREFIX } from "../../analyzers/mcla"
+import { type MCLAType, type JavaError, loadMCLA, MCLA_GH_DB_PREFIX } from "../../analyzers/mcla"
+
+interface Solution {
+  tags?: string[]
+  description?: string
+  link_to?: string
+}
+
+interface SolutionOk {
+  ok: boolean
+  /* if ok */
+  res?: Solution
+  /* else */
+  id?: number // solution id
+  error?: string
+}
+
+interface SolutionMatch {
+  match: number
+  solutions: SolutionOk[]
+}
+
+interface AnalysisResult {
+  error: JavaError
+  matched: SolutionMatch[]
+}
 
 const router = useRouter()
 
@@ -17,10 +42,12 @@ const fileUploader = ref(null)
 const analyzerBackgroundColor = ref("")
 const analyzing = ref(false)
 const analysisShowResult = ref(false)
+const analysisResults: Ref<AnalysisResult[]> = ref(null)
 const isBtnDisabled = ref(false)
 const labelMsg = ref("未选择文件")
 const btnMsg = ref("开始上传")
 const analysisResultMsg = ref("")
+const redirectUrl = ref(null)
 const redirectMsg = ref("导航到解决方案")
 const showAnalyzingIcon = ref(false)
 watch(analyzing, (() => {
@@ -42,7 +69,6 @@ watch(analyzing, (() => {
 // 公共变量
 var MCLA: MCLAType = null
 var launcher = "Unknown"
-var redirect_url = null
 var increaseOpacTimer = null
 var increaseHeightTimer = null
 
@@ -107,9 +133,10 @@ function handleFiles(files) {
 function clean() {
   console.log("重新初始化")
   analysisShowResult.value = false
+  analysisResults.value = []
   analysisResultMsg.value = "分析器歇逼了"
   redirectMsg.value = "导航到解决方案"
-  redirect_url = null
+  redirectUrl.value = null
   clearInterval(increaseOpacTimer)
   clearInterval(increaseHeightTimer)
 }
@@ -237,9 +264,10 @@ async function logAnalysis(log) {
 
   // 错误判断
 
-  var errors
+  var results: ErrorResult[]
   try {
-    errors = await MCLA.analyzeLogErrors(log)
+    // TODO: async generator
+    results = await MCLA.analyzeLogErrors(log)
   } catch (err) {
     console.error("MCLA error:", err)
     showAnalysisResult(
@@ -249,20 +277,36 @@ async function logAnalysis(log) {
     )
     return
   }
-  console.debug("MCLA.analyzeLogErrors result:", errors)
-  if (errors && errors.length > 0) {
-    // TODO: show all parsed errors
-    let res = errors[errors.length - 1]
-    if (res.matched.length > 0) {
-      // TODO: show multiple matched errors
-      let solsMatch = res.matched[0]
-      // TODO: show multiple solutions
-      let solIds = solsMatch.solutions
-      let solId = solIds[0]
-      const sol = (
-        await axios.get(`${MCLA_GH_DB_PREFIX}/solutions/${solId}.json`)
-      ).data
-      showAnalysisResult("Success", sol.description, sol.link_to)
+  if (results && results.length > 0) {
+    analysisResults.value = await Promise.all(results
+      .filter((res) => res.matched && res.matched.length > 0)
+      .map(async (res) => {
+        let matched = await Promise.all(res.matched
+          .sort((a, b) => b.match - a.match) // b.match > a.match
+          .map(async (solMatch) => {
+            let { match, solutions: solIds } = solMatch
+            let solutions = await Promise.all(solIds
+              .map((id) => axios.get(`${MCLA_GH_DB_PREFIX}/solutions/${id}.json`)
+                .then((res) => ({ ok: true, res: res.data }))
+                .catch((err) => ({ ok: false, id: id, error: String(err) })))
+            )
+            return {
+              match: match,
+              solutions: solutions
+            }
+          }))
+        return {
+          error: res.error,
+          matched: matched
+        }
+      })
+    )
+    console.debug('MCLA analysisResults:', analysisResults.value)
+    if(analysisResults.value.length > 0){
+      finishAnalysis(
+        "Success",
+        "Multiple reasons"
+      )
       return
     }
   }
@@ -705,7 +749,7 @@ async function logAnalysis(log) {
 function showAnalysisResult(status, msg, result_url, status_msg) {
   console.log("展示分析结果：(" + status + ") " + msg)
   // 信息更改
-  redirect_url = result_url
+  redirectUrl.value = result_url
   analysisResultMsg.value = msg
   analysisShowResult.value = true
 
@@ -735,7 +779,6 @@ function finishAnalysis(status, msg) {
         ErrMsg: msg,
       })
       break
-
     case "ReadLogErr":
       labelMsg.value = "Log 文件读取错误"
       btnMsg.value = "重新上传"
@@ -745,7 +788,6 @@ function finishAnalysis(status, msg) {
         ErrMsg: msg,
       })
       break
-
     case "UnzipErr":
       labelMsg.value = "日志文件解压错误"
       btnMsg.value = "重新上传"
@@ -755,18 +797,12 @@ function finishAnalysis(status, msg) {
         ErrMsg: msg,
       })
       break
-    case "ErrOpenRstPage":
-      umami.track("Analysis Error", {
-        Status: "Cannot_Redirect_To_Resolution",
-        Launcher: launcher,
-      })
-      break
     case "Unrecord":
       umami.track("Unrecord Crash", {
         Status: "Unrecord_Crash",
         Launcher: launcher,
       })
-      redirectMsg.value = "提交反馈"
+      break
     case "Success":
       umami.track("Analysis Finish", {
         Status: "Analysis_Success",
@@ -783,17 +819,23 @@ function finishAnalysis(status, msg) {
   }
 }
 
-/**
- * 重定向按钮。
- */
-function redirectBtnClick() {
-  if (redirect_url.startsWith("/")) {
-    router.go(redirect_url)
-  } else if (typeof redirect_url === "string") {
-    window.open(redirect_url)
+function redirectTo(url) {
+  if (!url) {
+    return
+  }
+  if (typeof url === "string") {
+    if (url.startsWith("/")) {
+      router.go(url)
+    } else {
+      window.open(url)
+    }
   } else {
     labelMsg.value = "无法重定向到解决方案页面"
-    finishAnalysis("ErrOpenRstPage", redirect_url)
+    umami.track("Analysis Error", {
+      Status: "Cannot_Redirect_To_Resolution",
+      Launcher: launcher,
+      Target: url,
+    })
   }
 }
 
@@ -842,17 +884,31 @@ onUnmounted(() => {
           style="display: none" />
       </div>
       <TransitionExpand>
-        <div v-if="showAnalyzingIcon" class="minium-padding">
+        <div v-if="showAnalyzingIcon" class="flex">
           <hr />
-          <center><AnalyzingIcon size="3rem"/></center>
+          <center>
+            <AnalyzingIcon size="3rem"/>
+          </center>
         </div>
       </TransitionExpand>
-      <TransitionExpandGroup name="analysis-result">
-        <div v-if="analysisShowResult" class="minium-padding analysis-result-main">
+      <TransitionExpandGroup name="analysis-result" class="analysis-result-box">
+        <div
+          v-if="analysisResults && analysisResults.length > 0"
+          v-for="(result, i) in analysisResults"
+          :key="i">
+          <hr />
+          <h4>{{result.error.class}}</h4>
+          <div class="result-matches"
+            v-for="match in result.matched">
+            <hr style="margin: 8px 0" />
+            <span class="result-match-percent">匹配度: {{match.match * 100}}%</span>
+          </div>
+        </div>
+        <div v-else-if="analysisShowResult" class="analysis-result-main">
           <hr />
           <h4 class="analysis-result-title">分析结果:</h4>
           <p class="analysis-result-msg">{{ analysisResultMsg }}</p>
-          <button class="button" @click="redirectBtnClick">
+          <button class="button" @click="redirectTo(redirectUrl)">
             {{ redirectMsg }}
           </button>
         </div>
@@ -872,17 +928,14 @@ p {
   padding: 0;
 }
 
-.minium-padding {
-  /*
-   * Add a minimum padding here to avoid margin collapsing for fix the expand animation.
-   * See <https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_box_model/Mastering_margin_collapsing>
-   */
-  padding-top: 0.01px;
-  padding-bottom: 0.01px;
+.flex,
+.analysis-result-box>* {
+  display: flex;
+  flex-direction: column;
 }
 
-.analysis-result-title {
-  margin-top: 10px;
+.flex>hr {
+  width: 100%;
 }
 
 .analyzer-main {
@@ -898,7 +951,7 @@ p {
 }
 
 .analysis-result-main {
-  text-align: center;
+  align-items: center;
   margin: auto;
   width: 100%;
   height: 100%;
