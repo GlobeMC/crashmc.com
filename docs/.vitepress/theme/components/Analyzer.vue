@@ -142,6 +142,18 @@ function clean() {
 }
 
 /**
+<<<<<<< HEAD
+=======
+ * 根据指定的 zip 文件与索引，读取文件的全部内容。
+ * @param {zip} zip zip 文件。
+ * @param {int} key 索引。
+ */
+async function GetLog(zip, key) {
+  return await zip.files[key].async("string")
+}
+
+/**
+>>>>>>> 72cf77694e86ee041e912625d9a45132db5e29a9
  * 分析文件。可以分析返回 true，不能分析返回 false。
  */
 function checkfiles() {
