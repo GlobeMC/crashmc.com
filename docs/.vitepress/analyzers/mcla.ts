@@ -51,8 +51,14 @@ interface CrashReport {
   others: Map<string, DetailsItem>
 }
 
-interface SolutionPossibility {
+interface ErrorDesc {
+  error: string
+  message: string
   solutions: number[]
+}
+
+interface SolutionPossibility {
+  error_desc: ErrorDesc
   match: number
 }
 
