@@ -4,14 +4,15 @@ import { useRouter } from "vitepress"
 import { type Ref, ref, watch, onBeforeMount, onUnmounted } from "vue"
 import axios from "axios"
 import AnalyzingIcon from "./icons/AnalyzingIcon.vue"
+import OpenTabIcon from "./icons/OpenTabIcon.vue"
 import TransitionExpand from "./TransitionExpand.vue"
 import TransitionExpandGroup from "./TransitionExpandGroup.vue"
 import { type MCLAType, type JavaError, loadMCLA, MCLA_GH_DB_PREFIX } from "../../analyzers/mcla"
 
 interface Solution {
-  tags?: string[]
-  description?: string
-  link_to?: string
+  tags: string[]
+  description: string
+  link_to: string
 }
 
 interface SolutionOk {
@@ -23,9 +24,15 @@ interface SolutionOk {
   error?: string
 }
 
+interface ErrDesc {
+  error: string
+  message: string
+  solutions: SolutionOk[]
+}
+
 interface SolutionMatch {
   match: number
-  solutions: SolutionOk[]
+  desc: ErrDesc
 }
 
 interface AnalysisResult {
@@ -296,15 +303,19 @@ async function logAnalysis(log) {
         let matched = await Promise.all(res.matched
           .sort((a, b) => b.match - a.match) // b.match > a.match
           .map(async (solMatch) => {
-            let { match, solutions: solIds } = solMatch
-            let solutions = await Promise.all(solIds
+            let { match, error_desc } = solMatch
+            let solutions = await Promise.all(error_desc.solutions
               .map((id) => axios.get(`${MCLA_GH_DB_PREFIX}/solutions/${id}.json`)
                 .then((res) => ({ ok: true, res: res.data }))
                 .catch((err) => ({ ok: false, id: id, error: String(err) })))
             )
             return {
               match: match,
-              solutions: solutions
+              desc: {
+                error: error_desc.error,
+                message: error_desc.message,
+                solutions: solutions,
+              }
             }
           }))
         return {
@@ -315,8 +326,10 @@ async function logAnalysis(log) {
     )
     console.debug('MCLA analysisResults:', analysisResults.value)
     if(analysisResults.value.length > 0){
-      finishAnalysis(
+      showAnalysisResult(
         "Success",
+        "MCLA 分析完成, 但您不应该在页面上看到本消息 -.-",
+        "https://github.com/kmcsr/mcla",
         "Multiple reasons"
       )
       return
@@ -831,12 +844,12 @@ function finishAnalysis(status, msg) {
   }
 }
 
-function redirectTo(url) {
+function redirectTo(url, newTab) {
   if (!url) {
     return
   }
   if (typeof url === "string") {
-    if (url.startsWith("/")) {
+    if (!newTab && url.startsWith("/")) {
       router.go(url)
     } else {
       window.open(url)
@@ -907,13 +920,45 @@ onUnmounted(() => {
         <div
           v-if="analysisResults && analysisResults.length > 0"
           v-for="(result, i) in analysisResults"
-          :key="i">
-          <hr />
-          <h4>{{result.error.class}}</h4>
+          :key="i"
+          class="analysis-result-item">
+          <h4>错误信息 {{i + 1}}</h4>
+          <code class="result-parsed-error">
+            {{result.error.class}}: {{result.error.message}}
+          </code>
           <div class="result-matches"
             v-for="match in result.matched">
             <hr style="margin: 8px 0" />
-            <span class="result-match-percent">匹配度: {{match.match * 100}}%</span>
+            <h5 class="result-matched-error-title">
+              <span :title="match.desc.error">{{match.desc.error}}</span>
+              <span
+                class="result-match-percent"
+                :style="match.match > 0.8 ?{ 'background-color': '#8ef9fc61' } :{}">
+                匹配度: {{match.match * 100}}%
+              </span>
+            </h5>
+            <div v-for="(sol, j) in match.desc.solutions">
+              <div v-if="sol.ok">
+                <details open>
+                  <summary>
+                    <h5>{{j + 1}}. 问题描述 & 解决方案</h5>
+                  </summary>
+                  <div>
+                    <b>描述: </b>
+                    <span>{{sol.res.description}}</span>
+                  </div>
+                  <div>
+                    <b>解决方案: </b>
+                    <a @click.prevent="redirectTo(sol.res.link_to, true)">
+                      打开文档 <OpenTabIcon/>
+                    </a>
+                  </div>
+                </details>
+              </div>
+              <div v-else>
+                加载错误: ID={{sol.id}}; {{sol.error}}
+              </div>
+            </div>
           </div>
         </div>
         <div v-else-if="analysisShowResult" class="analysis-result-main">
@@ -938,6 +983,20 @@ div {
 p {
   margin: 0;
   padding: 0;
+}
+
+summary>h1, summary>h2, summary>h3, summary>h4, summary>h5, summary>h6 {
+  display: inline-block;
+  user-select: none;
+  cursor: default;
+}
+
+details>*:not(summary) {
+  padding-left: 12px;
+}
+
+a {
+  cursor: pointer;
 }
 
 .flex,
@@ -1007,4 +1066,40 @@ p {
   animation-direction: alternate;
   transform: scale(1.05);
 }
+
+.analysis-result-item {
+  margin: 16px 0;
+  padding: 8px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 5px;
+}
+
+.analysis-result-item>h4 {
+  text-align: center;
+}
+
+.result-parsed-error {
+  margin-top: 0.5rem;
+  white-space-collapse: preserve;
+  text-wrap: nowrap;
+  overflow: auto;
+}
+
+.result-matched-error-title>span {
+  display: inline-block;
+  max-width: 100%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+}
+
+.result-match-percent {
+  float: right;
+  height: 24px;
+  padding: 0 10px;
+  border-radius: 12px;
+  font-weight: 300;
+  font-size: 12px;
+}
+
 </style>
