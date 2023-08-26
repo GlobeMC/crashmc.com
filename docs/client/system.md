@@ -199,3 +199,13 @@ class io.github.reserveword.imblocker.IMBlocker$RegistryEvents
 ```
 
 解决方案：删除 `IMBlocker` 模组（此模组仅适用于 Windows）
+
+### 在游戏版本为 1.20.x 中游戏路径包含非 ASCII 字符
+
+```
+[LWJGL] Failed to load a library. Possible solutions:
+	a) Add the directory that contains the shared library to -Djava.library.path or -Dorg.lwjgl.librarypath.
+	b) Add the JAR that contains the shared library to the classpath.
+```
+
+解决方案：将游戏路径中的非 ASCII 字符去掉
