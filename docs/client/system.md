@@ -197,7 +197,7 @@ java.lang.IllegalStateException: GLFW error before init: [0x10008]Cocoa: Failed 
 	b) Add the JAR that contains the shared library to the classpath.
 ```
 
-解决方案：将游戏路径中的非 ASCII 字符去掉，在在<LauncherBadge type="hmcl" text="HMCL" />启动器中还需要前往 `游戏特定设置` -> `高级设置` -> `本地库路径` ，将 `本地库路径` 改成 `预设` 。
+解决方案：将游戏路径中的非 ASCII 字符去掉，在<LauncherBadge type="hmcl" text="HMCL" />启动器中还需要前往 `游戏特定设置` -> `高级设置` -> `本地库路径` ，将 `本地库路径` 改成 `预设` 。
 
 ## Linux 问题
 
