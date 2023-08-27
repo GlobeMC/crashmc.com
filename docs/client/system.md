@@ -189,6 +189,16 @@ java.lang.IllegalStateException: GLFW error before init: [0x10008]Cocoa: Failed 
 
 解决方案<Badge type="warning" text="实验性" />：先开一个浏览器全屏，然后启动游戏，在还没弹出窗口的时候迅速切回浏览器，等差不多游戏窗口出来了之后再切回去。
 
+### 在游戏版本为 1.20.x 中游戏路径包含非 ASCII 字符
+
+```
+[LWJGL] Failed to load a library. Possible solutions:
+	a) Add the directory that contains the shared library to -Djava.library.path or -Dorg.lwjgl.librarypath.
+	b) Add the JAR that contains the shared library to the classpath.
+```
+
+解决方案：将游戏路径中的非 ASCII 字符去掉，在在<LauncherBadge type="hmcl" text="HMCL" />启动器中还需要前往 `游戏特定设置` -> `高级设置` -> `本地库路径` ，将 `本地库路径` 改成 `预设` 。
+
 ## Linux 问题
 
 ### 不兼容 Linux 的 Mod
@@ -199,3 +209,13 @@ class io.github.reserveword.imblocker.IMBlocker$RegistryEvents
 ```
 
 解决方案：删除 `IMBlocker` 模组（此模组仅适用于 Windows）
+
+### 在游戏版本为 1.20.x 中游戏路径包含非 ASCII 字符
+
+```
+[LWJGL] Failed to load a library. Possible solutions:
+	a) Add the directory that contains the shared library to -Djava.library.path or -Dorg.lwjgl.librarypath.
+	b) Add the JAR that contains the shared library to the classpath.
+```
+
+解决方案：将游戏路径中的非 ASCII 字符去掉。
