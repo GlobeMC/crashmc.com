@@ -5,6 +5,12 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@gera2ld/tarjs':
+    specifier: ^0.2.2
+    version: 0.2.2
+  '@types/umami':
+    specifier: ^0.1.2
+    version: 0.1.2
   axios:
     specifier: ^1.4.0
     version: 1.4.0
@@ -1345,7 +1351,6 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       regenerator-runtime: 0.14.0
-    dev: true
 
   /@babel/template@7.22.5:
     resolution: {integrity: sha512-X7yV7eiwAxdj9k94NEylvbVHLiVG1nvzCV2EAowhxLTwODV1jl9UzZ48leOC0sH7OnuHrIkllaBgneUykIcZaw==}
@@ -1658,6 +1663,12 @@ packages:
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: true
 
+  /@gera2ld/tarjs@0.2.2:
+    resolution: {integrity: sha512-cs2ZTL5u9bZDzoVuKavtH43ZaZGf5FVV2Xmf1IS1Mt3UY3yQ4mi8zg16aVQgajV9YmqHlFm0vco5wgle3u2AUg==}
+    dependencies:
+      '@babel/runtime': 7.22.10
+    dev: false
+
   /@giscus/vue@2.3.0(vue@3.3.4):
     resolution: {integrity: sha512-ZZ1ZRqRwoHEfYpepSozU4HKjvCQ/4PjVt6P391/c0F4ly1i57OUup2h6Pd+l7dUnh9j7fbqUp6CfFk5+99S3Jw==}
     peerDependencies:
@@ -1843,6 +1854,10 @@ packages:
   /@types/trusted-types@2.0.3:
     resolution: {integrity: sha512-NfQ4gyz38SL8sDNrSixxU2Os1a5xcdFxipAFxYEuLUlvU2uDwS4NUpsImcf1//SlWItCVMMLiylsxbmNMToV/g==}
     dev: true
+
+  /@types/umami@0.1.2:
+    resolution: {integrity: sha512-SDixKojpy1Ryh9Q6BsqIilezh6yxdIa4fUSY30NqQM8xEgnETrFzfWZSaov37Rv4+yEkfiuObgyfkB7f+jrkmQ==}
+    dev: false
 
   /@types/web-bluetooth@0.0.17:
     resolution: {integrity: sha512-4p9vcSmxAayx72yn70joFoL44c9MO/0+iVEBIQXe3v2h2SiAsEIo/G5v6ObFWvNKRFjbrVadNf9LqEEZeQPzdA==}
@@ -3778,7 +3793,6 @@ packages:
 
   /regenerator-runtime@0.14.0:
     resolution: {integrity: sha512-srw17NI0TUWHuGa5CFGGmhfNIeja30WMBfbslPNhf6JrqQlLN5gcrvig1oqPxiVaXb0oW0XRKtH6Nngs5lKCIA==}
-    dev: true
 
   /regenerator-transform@0.15.2:
     resolution: {integrity: sha512-hfMp2BoF0qOk3uc5V20ALGDS2ddjQaLrdl7xrGXvAIow7qeWRM2VA2HuCHkUKk9slq3VwEwLNK3DFBqDfPGYtg==}

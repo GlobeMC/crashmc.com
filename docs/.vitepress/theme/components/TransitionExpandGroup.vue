@@ -1,10 +1,16 @@
 <script setup>
 const props = defineProps({
-  name: String,
-  tag: String,
+  name: {
+    type: String,
+    default: "v",
+  },
+  tag: {
+    type: String,
+    default: "div",
+  },
 })
 
-const prefix = props.name || "v"
+const prefix = props.name
 
 function waitForAnimationFrame() {
   return new Promise((re) => requestAnimationFrame(re))
@@ -59,8 +65,8 @@ function onafter(elem) {
   <TransitionGroup
     name="expand"
     class="transition-expand-group"
-    :moveClass="name || 'v'"
-    :tag="tag || 'div'"
+    :moveClass="name"
+    :tag="tag"
     @enter="onenter"
     @after-enter="onafter"
     @before-leave="onleave"

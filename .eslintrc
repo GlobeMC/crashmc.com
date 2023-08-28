@@ -17,8 +17,10 @@
   ],
   "rules": {
     "no-var": "off",
+    "no-fallthrough": "off",
+    "vue/multi-word-component-names": "off",
+    "vue/attribute-hyphenation": "off",
     "prettier-vue/prettier": ["error"],
-    "vue/multi-word-component-names": "off"
   },
   "env": {
     "browser": true

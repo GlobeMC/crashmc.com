@@ -1,9 +1,12 @@
 <script setup>
 const props = defineProps({
-  name: String,
+  name: {
+    type: String,
+    default: "v",
+  },
 })
 
-const prefix = props.name || "v"
+const prefix = props.name
 
 function waitForAnimationFrame() {
   return new Promise((re) => requestAnimationFrame(re))

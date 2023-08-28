@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import JSZip from "jszip"
 import pako from "pako"
+import { TarReader } from "@gera2ld/tarjs"
 import { useRouter } from "vitepress"
 import { type Ref, ref, watch, onBeforeMount, onUnmounted } from "vue"
 import axios from "axios"
+import { umami } from "@types/umami"
 import AnalyzingIcon from "./icons/AnalyzingIcon.vue"
 import OpenTabIcon from "./icons/OpenTabIcon.vue"
 import TransitionExpand from "./TransitionExpand.vue"
@@ -200,16 +202,31 @@ async function readLogs(
     case "gzip":
     case "z":
     case "zlib":
-      return readLogs(pako.inflate(file), filebase)
+      return await readLogs(pako.inflate(file), filebase)
     case "tgz": // as same as tar.gz
       file = pako.inflate(file)
     case "tar": {
-      console.error(
-        "Couldn't read the tar file:",
-        "Tar file is not supported yet",
-      )
-      finishAnalysis("UnzipErr", "Tar file is not supported yet")
-      return null
+      let files
+      try {
+        files = await new TarReader().readFile(file)
+      } catch (error) {
+        console.error("Couldn't read the tar file:", error)
+        finishAnalysis("UnzipErr", String(error))
+        return null
+      }
+
+      let logText = ""
+      for (let f of files) {
+        let data = new Uint8Array(file.buffer, f.headerOffset + 512, f.size)
+        let log = await readLogs(data, f.name)
+        if (log) {
+          console.debug("已读取的文件:", f.name)
+          logText += log + "\n"
+        } else {
+          console.debug("未读取的文件:", f.name)
+        }
+      }
+      return logText
     }
     case "zip": {
       let zip = new JSZip()
@@ -228,7 +245,7 @@ async function readLogs(
       for (let f of Object.values(zip.files)) {
         if (!f.dir) {
           // 不是文件夹，则进行读取
-          let log = readLogs(await f.async("uint8array"), f.name)
+          let log = await readLogs(await f.async("uint8array"), f.name)
           if (log) {
             console.debug("已读取的文件:", f.name)
             logText += log + "\n"
@@ -295,7 +312,7 @@ async function logAnalysis(log) {
 
   // 错误判断
 
-  var results: ErrorResult[]
+  var results: AnalysisResult[]
   try {
     // TODO: async generator
     results = await MCLA.analyzeLogErrors(log)
@@ -609,7 +626,7 @@ async function logAnalysis(log) {
         spilted[key].includes(", Requested by: ")
       ) {
         // 正则匹配单引号内内容
-        matches = spilted[key].match(/'([^']+)'/g)
+        let matches = spilted[key].match(/'([^']+)'/g)
         missingMod.push(
           matches[0].replace(/'/g, "") +
             " " + // Mod 名称，例如 'oculus'

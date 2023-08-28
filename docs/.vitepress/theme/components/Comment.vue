@@ -2,10 +2,10 @@
   <ClientOnly>
     <div class="comments">
       <component
-        v-if="showComment"
-        src="https://giscus.app/client.js"
         :is="'script'"
+        v-if="showComment"
         :key="title"
+        src="https://giscus.app/client.js"
         :data-repo="giscusConfig.repo"
         :data-repo-id="giscusConfig.repoId"
         :data-category="giscusConfig.category"

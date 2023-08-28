@@ -1,6 +1,9 @@
 <script setup>
 defineProps({
-  size: [String, Number],
+  size: {
+    type: [String, Number],
+    default: "1rem",
+  },
 })
 </script>
 <template>
@@ -21,23 +24,23 @@ defineProps({
       width="50"
       height="50">
       <animateTransform
+        id="strokeBox"
         attributeName="transform"
         dur="0.5s"
         from="0 50 50"
         to="180 50 50"
         type="rotate"
-        id="strokeBox"
         attributeType="XML"
         begin="rectBox.end"></animateTransform>
     </rect>
     <rect x="27" y="27" fill="currentColor" width="46" height="50">
       <animate
+        id="rectBox"
         attributeName="height"
         dur="1.3s"
         attributeType="XML"
         from="50"
         to="0"
-        id="rectBox"
         fill="freeze"
         begin="0s;strokeBox.end"></animate>
     </rect>
