@@ -16,9 +16,9 @@
     "prettier"
   ],
   "rules": {
-    "no-var": 0,
+    "no-var": "off",
     "prettier-vue/prettier": ["error"],
-    "vue/multi-word-component-names": "off", 
+    "vue/multi-word-component-names": "off"
   },
   "env": {
     "browser": true

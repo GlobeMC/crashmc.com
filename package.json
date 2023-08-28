@@ -36,8 +36,10 @@
   "author": "GlobeMC / 河豚分析",
   "license": "GFDL",
   "dependencies": {
+    "@types/gzip-js": "^0.3.3",
     "axios": "^1.4.0",
     "directory-tree": "^3.5.1",
+    "gzip-js": "^0.3.2",
     "jszip": "^3.10.1",
     "typescript": "^5.1.6"
   }

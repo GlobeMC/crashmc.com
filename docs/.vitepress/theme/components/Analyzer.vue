@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import JSZip from "jszip"
+import gzip from "gzip-js"
 import { useRouter } from "vitepress"
 import { type Ref, ref, watch, onBeforeMount, onUnmounted } from "vue"
 import axios from "axios"
@@ -7,7 +8,12 @@ import AnalyzingIcon from "./icons/AnalyzingIcon.vue"
 import OpenTabIcon from "./icons/OpenTabIcon.vue"
 import TransitionExpand from "./TransitionExpand.vue"
 import TransitionExpandGroup from "./TransitionExpandGroup.vue"
-import { type MCLAType, type JavaError, loadMCLA, MCLA_GH_DB_PREFIX } from "../../analyzers/mcla"
+import {
+  type MCLAType,
+  type JavaError,
+  loadMCLA,
+  MCLA_GH_DB_PREFIX,
+} from "../../analyzers/mcla"
 
 interface Solution {
   tags: string[]
@@ -41,6 +47,7 @@ interface AnalysisResult {
 }
 
 const router = useRouter()
+const utf8Decoder = new TextDecoder("utf-8")
 
 // 元素引用
 const fileUploader = ref(null)
@@ -57,21 +64,24 @@ const analysisResultMsg = ref("")
 const redirectUrl = ref(null)
 const redirectMsg = ref("导航到解决方案")
 const showAnalyzingIcon = ref(false)
-watch(analyzing, (() => {
-  // we have to wait a second before trigger the analyzing icon to make better performance
-  var switchInterval = null
-  return async () => {
-    if(switchInterval){
-      await switchInterval
-      switchInterval = null
+watch(
+  analyzing,
+  (() => {
+    // we have to wait a second before trigger the analyzing icon to make better performance
+    var switchInterval = null
+    return async () => {
+      if (switchInterval) {
+        await switchInterval
+        switchInterval = null
+      }
+      const value = analyzing.value
+      if (value) {
+        switchInterval = new Promise((re) => setTimeout(re, 1000))
+      }
+      showAnalyzingIcon.value = value
     }
-    const value = analyzing.value
-    if(value){
-      switchInterval = new Promise((re) => setTimeout(re, 1000))
-    }
-    showAnalyzingIcon.value = value
-  }
-})())
+  })(),
+)
 
 // 公共变量
 var MCLA: MCLAType = null
@@ -149,38 +159,82 @@ function clean() {
 }
 
 /**
-<<<<<<< HEAD
-=======
- * 根据指定的 zip 文件与索引，读取文件的全部内容。
- * @param {zip} zip zip 文件。
- * @param {int} key 索引。
- */
-async function GetLog(zip, key) {
-  return await zip.files[key].async("string")
-}
-
-/**
->>>>>>> 72cf77694e86ee041e912625d9a45132db5e29a9
  * 分析文件。可以分析返回 true，不能分析返回 false。
  */
-function checkfiles() {
+function checkfiles(): boolean {
   clean()
   launcher = "Unknown"
   var fup = fileUploader.value
-  var filePath = fup.value
-  var ext = filePath.substring(filePath.lastIndexOf(".") + 1).toLowerCase()
-  if (["zip", "log", "txt"].includes(ext)) {
-    console.log("分析文件：" + ext)
-    btnMsg.value = "正在分析"
-    isBtnDisabled.value = true
-    var file = fileUploader.value.files[0]
-    labelMsg.value = file.name
-    startAnalysis(file, ext)
-    return true
-  } else {
-    labelMsg.value = "请上传 .zip/.txt/.log 文件!"
-    fup.focus()
-    return false
+  console.log("分析文件：" + fup.value)
+  btnMsg.value = "正在分析"
+  isBtnDisabled.value = true
+  var file = fileUploader.value.files[0]
+  labelMsg.value = file.name
+  return startAnalysis(file)
+}
+
+async function readLogs(
+  file: Uint8Array,
+  filename: string,
+): string | undefined {
+  filename = filename.toLowerCase()
+  if (
+    filename.includes("pcl") || // PCL 启动器日志.txt
+    filename.includes("游戏崩溃前的输出.txt")
+  ) {
+    console.log("已确定启动器类型为：PCL")
+    launcher = "PCL"
+  } else if (filename.includes("hmcl")) {
+    // hmcl.log
+    console.log("已确定启动器类型为：HMCL")
+    launcher = "HMCL"
+  }
+  let i = filename.lastIndexOf(".")
+  const ext = filename.substring(i + 1)
+  const filebase = filename.substring(0, i)
+  switch (ext) {
+    case "gz":
+      return readLogs(new Uint8Array(gzip.unzip(file)), filebase)
+    case "zip": {
+      let zip = new JSZip()
+      try {
+        // 从本地或 URL 加载一个 Zip 文件
+        await zip.loadAsync(file)
+      } catch (error) {
+        console.error("Couldn't read the zip file:", error)
+        finishAnalysis("UnzipErr", error)
+        return null
+      }
+
+      // 日志读取
+      console.log("开始获取日志文件")
+      let logText = ""
+      for (let f of Object.values(zip.files)) {
+        if (!f.dir) {
+          // 不是文件夹，则进行读取
+          let log = readLogs(await f.async("uint8array"), f.name)
+          if (log) {
+            console.debug("已读取的文件:", f.name)
+            logText += log + "\n"
+          } else {
+            console.debug("未读取的文件:", f.name)
+          }
+        }
+      }
+      return logText
+    }
+    case "log":
+    case "txt":
+      // Log / Txt 文件处理
+      try {
+        return utf8Decoder.decode(file)
+      } catch (err) {
+        // 日志读取错误
+        finishAnalysis("ReadLogErr", String(err))
+        return null
+      }
+    default:
+      return ""
   }
 }
 
@@ -189,81 +243,20 @@ function checkfiles() {
  * @param {File} file 文件对象
  * @param {string} ext 文件后缀
  */
-async function startAnalysis(file, ext) {
+async function startAnalysis(file) {
   analyzing.value = true
-  if (ext != "zip") {
-    // Log / Txt 文件处理
-    let logText
-    try {
-      logText = await file.text()
-    } catch {
-      // 日志读取错误
-      finishAnalysis("ReadLogErr")
-      return
-    }
-    await logAnalysis(logText)
-  } else {
-    var zip = new JSZip()
-    try {
-      // 从本地或 URL 加载一个 Zip 文件
-      await zip.loadAsync(file)
-    } catch (error) {
-      console.log("Couldn't read the zip file:", error)
-      finishAnalysis("UnzipErr", error)
-      return
-    }
-    // 启动器分析
-    // 遍历 Zip 中的文件对象
-    for (let file of Object.values(zip.files)) {
-      if (!file.dir) {
-        // 不是文件夹，则进行分析
-        if (
-          file.name.toLowerCase().includes("pcl") || // PCL 启动器日志.txt
-          file.name.includes("游戏崩溃前的输出.txt")
-        ) {
-          console.log("已确定启动器类型为：PCL")
-          launcher = "PCL"
-          break
-        }
-        if (file.name.toLowerCase().includes("hmcl")) {
-          // hmcl.log
-          console.log("已确定启动器类型为：HMCL")
-          launcher = "HMCL"
-          break
-        }
-      }
-    }
-
-    // 日志读取
-    console.log("开始获取日志文件")
-    var logText = ""
-    for (let file of Object.values(zip.files)) {
-      if (!file.dir) {
-        // 不是文件夹，则进行读取
-        if (
-          file.name == "latest.log" || // latest.log
-          file.name == "debug.log" || // debug.log
-          file.name.search(/crash-(.*).txt/) != -1 || // crash-***.txt
-          file.name == "minecraft.log" || // minecraft.log
-          file.name == "游戏崩溃前的输出.txt" // 游戏崩溃前的输出.txt（仅 PCL）
-        ) {
-          logText += (await file.async("string")) + "\n"
-          console.log("已读取的文件：" + file.name)
-        } else {
-          console.log("未读取的文件：" + file.name)
-        }
-      }
-    }
-    if (logText === "") {
-      // 啥都没读到
-      console.log("日志获取完成，没有获取到可用日志")
-      finishAnalysis("FetchLogErr", "(＃°Д°)")
-      throw "No logs avaliable"
-    }
-    // 读到日志了，贼棒
-    console.log("日志获取完成，长度为：" + logText.length + " 字符")
-    await logAnalysis(logText)
+  const logText = await readLogs(
+    new Uint8Array(await file.arrayBuffer()),
+    file.name,
+  )
+  if (!logText) {
+    console.log("日志获取完成，没有获取到可用日志")
+    finishAnalysis("FetchLogErr", "(＃°Д°)")
+    return
   }
+  // 读到日志了，贼棒
+  console.log("日志获取完成，长度为：" + logText.length + " 字符")
+  await logAnalysis(logText)
 }
 
 /**
@@ -297,40 +290,50 @@ async function logAnalysis(log) {
     return
   }
   if (results && results.length > 0) {
-    analysisResults.value = await Promise.all(results
-      .filter((res) => res.matched && res.matched.length > 0)
-      .map(async (res) => {
-        let matched = await Promise.all(res.matched
-          .sort((a, b) => b.match - a.match) // b.match > a.match
-          .map(async (solMatch) => {
-            let { match, error_desc } = solMatch
-            let solutions = await Promise.all(error_desc.solutions
-              .map((id) => axios.get(`${MCLA_GH_DB_PREFIX}/solutions/${id}.json`)
-                .then((res) => ({ ok: true, res: res.data }))
-                .catch((err) => ({ ok: false, id: id, error: String(err) })))
-            )
-            return {
-              match: match,
-              desc: {
-                error: error_desc.error,
-                message: error_desc.message,
-                solutions: solutions,
-              }
-            }
-          }))
-        return {
-          error: res.error,
-          matched: matched
-        }
-      })
+    analysisResults.value = await Promise.all(
+      results
+        .filter((res) => res.matched && res.matched.length > 0)
+        .map(async (res) => {
+          let matched = await Promise.all(
+            res.matched
+              .sort((a, b) => b.match - a.match) // b.match > a.match
+              .map(async (solMatch) => {
+                let { match, error_desc } = solMatch
+                let solutions = await Promise.all(
+                  error_desc.solutions.map((id) =>
+                    axios
+                      .get(`${MCLA_GH_DB_PREFIX}/solutions/${id}.json`)
+                      .then((res) => ({ ok: true, res: res.data }))
+                      .catch((err) => ({
+                        ok: false,
+                        id: id,
+                        error: String(err),
+                      })),
+                  ),
+                )
+                return {
+                  match: match,
+                  desc: {
+                    error: error_desc.error,
+                    message: error_desc.message,
+                    solutions: solutions,
+                  },
+                }
+              }),
+          )
+          return {
+            error: res.error,
+            matched: matched,
+          }
+        }),
     )
-    console.debug('MCLA analysisResults:', analysisResults.value)
-    if(analysisResults.value.length > 0){
+    console.debug("MCLA analysisResults:", analysisResults.value)
+    if (analysisResults.value.length > 0) {
       showAnalysisResult(
         "Success",
         "MCLA 分析完成, 但您不应该在页面上看到本消息 -.-",
         "https://github.com/kmcsr/mcla",
-        "Multiple reasons"
+        "Multiple reasons",
       )
       return
     }
@@ -577,7 +580,7 @@ async function logAnalysis(log) {
     log.includes("Missing or unsupported mandatory dependencies:") &&
     log.includes("neoforge") == false
   ) {
-    var missingMod = new Array()
+    var missingMod = []
     // 按行分割日志
     var spilted = log.split("\n")
     // 获取缺少的 Mod 信息
@@ -796,11 +799,11 @@ function finishAnalysis(status, msg) {
   console.log("结束分析：(" + status + ") " + msg)
   switch (status) {
     case "FetchLogErr":
-      labelMsg.value = "Zip 文件中不含有有效的 Log 文件"
+      labelMsg.value = "未读取到支持的日志格式, 请尝试直接上传 .log / .txt 文件"
       btnMsg.value = "重新上传"
       isBtnDisabled.value = false
       umami.track("Analysis Error", {
-        Status: "No_Log_File_In_Zip",
+        Status: "Unsupport_Log_File_Ext",
         ErrMsg: msg,
       })
       break
@@ -901,66 +904,69 @@ onUnmounted(() => {
           {{ btnMsg }}
         </button>
         <input
-          ref="fileUploader"
-          type="file"
-          name="file_uploader"
           id="file-uploader"
-          @change="checkfiles"
-          style="display: none" />
+          ref="fileUploader"
+          name="file_uploader"
+          type="file"
+          style="display: none"
+          @change="checkfiles" />
       </div>
       <TransitionExpand>
         <div v-if="showAnalyzingIcon" class="flex">
           <hr />
           <center>
-            <AnalyzingIcon size="3rem"/>
+            <AnalyzingIcon size="3rem" />
           </center>
         </div>
       </TransitionExpand>
       <TransitionExpandGroup name="analysis-result" class="analysis-result-box">
-        <div
-          v-if="analysisResults && analysisResults.length > 0"
-          v-for="(result, i) in analysisResults"
-          :key="i"
-          class="analysis-result-item">
-          <h4>错误信息 {{i + 1}}</h4>
-          <code class="result-parsed-error">
-            {{result.error.class}}: {{result.error.message}}
-          </code>
-          <div class="result-matches"
-            v-for="match in result.matched">
-            <hr style="margin: 8px 0" />
-            <h5 class="result-matched-error-title">
-              <span :title="match.desc.error">{{match.desc.error}}</span>
-              <span
-                class="result-match-percent"
-                :style="match.match > 0.8 ?{ 'background-color': '#8ef9fc61' } :{}">
-                匹配度: {{match.match * 100}}%
-              </span>
-            </h5>
-            <div v-for="(sol, j) in match.desc.solutions">
-              <div v-if="sol.ok">
-                <details open>
-                  <summary>
-                    <h5>{{j + 1}}. 问题描述 & 解决方案</h5>
-                  </summary>
-                  <div>
-                    <b>描述: </b>
-                    <span>{{sol.res.description}}</span>
-                  </div>
-                  <div>
-                    <b>解决方案: </b>
-                    <a @click.prevent="redirectTo(sol.res.link_to, true)">
-                      打开文档 <OpenTabIcon/>
-                    </a>
-                  </div>
-                </details>
-              </div>
-              <div v-else>
-                加载错误: ID={{sol.id}}; {{sol.error}}
+        <template v-if="analysisResults && analysisResults.length > 0">
+          <div
+            v-for="(result, i) in analysisResults"
+            :key="i"
+            class="analysis-result-item">
+            <h4>错误信息 {{ i + 1 }}</h4>
+            <code class="result-parsed-error">
+              {{ result.error.class }}: {{ result.error.message }}
+            </code>
+            <div
+              v-for="(match, j) in result.matched"
+              :key="j"
+              class="result-matches">
+              <hr style="margin: 8px 0" />
+              <h5 class="result-matched-error-title">
+                <span :title="match.desc.error">{{ match.desc.error }}</span>
+                <span
+                  class="result-match-percent"
+                  :style="
+                    match.match > 0.8 ? { 'background-color': '#8ef9fc61' } : {}
+                  ">
+                  匹配度: {{ match.match * 100 }}%
+                </span>
+              </h5>
+              <div v-for="(sol, n) in match.desc.solutions" :key="n">
+                <div v-if="sol.ok">
+                  <details open>
+                    <summary>
+                      <h5>{{ n + 1 }}. 问题描述 & 解决方案</h5>
+                    </summary>
+                    <div>
+                      <b>描述: </b>
+                      <span>{{ sol.res.description }}</span>
+                    </div>
+                    <div>
+                      <b>解决方案: </b>
+                      <a @click.prevent="redirectTo(sol.res.link_to, true)">
+                        打开文档 <OpenTabIcon />
+                      </a>
+                    </div>
+                  </details>
+                </div>
+                <div v-else>加载错误: ID={{ sol.id }}; {{ sol.error }}</div>
               </div>
             </div>
           </div>
-        </div>
+        </template>
         <div v-else-if="analysisShowResult" class="analysis-result-main">
           <hr />
           <h4 class="analysis-result-title">分析结果:</h4>
@@ -985,13 +991,18 @@ p {
   padding: 0;
 }
 
-summary>h1, summary>h2, summary>h3, summary>h4, summary>h5, summary>h6 {
+summary > h1,
+summary > h2,
+summary > h3,
+summary > h4,
+summary > h5,
+summary > h6 {
   display: inline-block;
   user-select: none;
   cursor: default;
 }
 
-details>*:not(summary) {
+details > *:not(summary) {
   padding-left: 12px;
 }
 
@@ -1000,12 +1011,12 @@ a {
 }
 
 .flex,
-.analysis-result-box>* {
+.analysis-result-box > * {
   display: flex;
   flex-direction: column;
 }
 
-.flex>hr {
+.flex > hr {
   width: 100%;
 }
 
@@ -1074,7 +1085,7 @@ a {
   border-radius: 5px;
 }
 
-.analysis-result-item>h4 {
+.analysis-result-item > h4 {
   text-align: center;
 }
 
@@ -1085,7 +1096,7 @@ a {
   overflow: auto;
 }
 
-.result-matched-error-title>span {
+.result-matched-error-title > span {
   display: inline-block;
   max-width: 100%;
   white-space: nowrap;
@@ -1101,5 +1112,4 @@ a {
   font-weight: 300;
   font-size: 12px;
 }
-
 </style>

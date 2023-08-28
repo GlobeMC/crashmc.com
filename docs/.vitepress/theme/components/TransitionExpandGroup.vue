@@ -65,24 +65,24 @@ function onafter(elem) {
     @after-enter="onafter"
     @before-leave="onleave"
     @after-leave="onafter">
-    <slot/>
+    <slot />
   </TransitionGroup>
 </template>
 
 <style>
-.transition-expand-group>.expand-enter-active,
-.transition-expand-group>.expand-leave-active {
+.transition-expand-group > .expand-enter-active,
+.transition-expand-group > .expand-leave-active {
   transition: max-height 1s ease-in-out;
   overflow-y: hidden !important;
 }
 
-.transition-expand-group>.expand-enter-from,
-.transition-expand-group>.expand-leave-to {
+.transition-expand-group > .expand-enter-from,
+.transition-expand-group > .expand-leave-to {
   max-height: 0;
 }
 
-.transition-expand-group>.expand-enter-to,
-.transition-expand-group>.expand-leave-from {
+.transition-expand-group > .expand-enter-to,
+.transition-expand-group > .expand-leave-from {
   max-height: var(--expanded-height);
 }
 </style>
