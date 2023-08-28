@@ -90,13 +90,12 @@ export async function loadMCLA(): Promise<MCLAType> {
   }
   go.run(res.instance)
   // the global variable MCLA cannot be defined instantly, so we have to poll it
-  function waitMCLA(): void {
+  function waitMCLA(): Promise<void> {
     if (window.MCLA) {
       return
     }
-    return new Promise((re) => {
-      setTimeout(re, 10)
-    }).then(waitMCLA)
+    return new Promise((re) => setTimeout(re, 10)) // sleep 10ms
+      .then(waitMCLA)
   }
   await waitMCLA()
   return window.MCLA

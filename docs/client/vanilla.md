@@ -127,9 +127,9 @@ Java 路径 <LauncherBadge type="hmcl" text="HMCL" />：点击左边的 `实例�
 :::
 
 ```bat
-netsh winsock reset
-netsh winsock reset catalog
-netsh int ipv4 reset reset.log
+netsh winsock reset 
+netsh winsock reset catalog 
+netsh int ipv4 reset reset.log 
 netsh int ipv6 reset reset.log
 ```
 

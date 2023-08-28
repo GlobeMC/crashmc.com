@@ -25,8 +25,8 @@ java.lang.UnsupportedClassVersionError: net/fabricmc/loader/impl/launch/knot/Kno
 Unsupported class file major version
 ```
 
-| 关键词                                                 | 解决方案                                                                                                                                                                                                                                                                                                                             |
-| ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 关键词                                                 | 解决方案                                |
+| ------------------------------------------------------ | --------------------------------------- |
 | `no such method: sun.misc.Unsafe.defineAnonymousClass` | Java 版本过高，降低 Java 版本至 [Java 8u312](https://ghproxy.com/https://github.com/bell-sw/Liberica/releases/download/8u312%2B7/bellsoft-jre8u312+7-windows-amd64-full.msi) 或者 [Java 11.0.13](https://ghproxy.com/https://github.com/bell-sw/Liberica/releases/download/11.0.13%2B8/bellsoft-jre11.0.13+8-windows-amd64-full.msi) |
 
 附 Java 版本查询列表
