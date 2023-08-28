@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "outDir": "out",
+    "sourceMap": true,
+    "target": "es6"
+  },
+  "include": ["docs/.vitepress/**/*.ts", "docs/.vitepress/**/*.vue"],
+  "exclude": ["**/*.spec.ts", "**/*.spec.vue"]
+}
