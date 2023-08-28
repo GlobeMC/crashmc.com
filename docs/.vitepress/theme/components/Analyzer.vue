@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import JSZip from "jszip"
-import gzip from "gzip-js"
+import pako from "pako"
 import { useRouter } from "vitepress"
 import { type Ref, ref, watch, onBeforeMount, onUnmounted } from "vue"
 import axios from "axios"
@@ -162,13 +162,16 @@ function clean() {
  * 分析文件。可以分析返回 true，不能分析返回 false。
  */
 function checkfiles(): boolean {
+  const fup = fileUploader.value
+  if(fup.files.length === 0){
+    return
+  }
   clean()
   launcher = "Unknown"
-  var fup = fileUploader.value
   console.log("分析文件：" + fup.value)
   btnMsg.value = "正在分析"
   isBtnDisabled.value = true
-  var file = fileUploader.value.files[0]
+  var file = fup.files[0]
   labelMsg.value = file.name
   return startAnalysis(file)
 }
@@ -192,9 +195,21 @@ async function readLogs(
   let i = filename.lastIndexOf(".")
   const ext = filename.substring(i + 1)
   const filebase = filename.substring(0, i)
+  const magicPrefix = Array.from(file.subarray(0, 10))
+  console.log('magicPrefix:', magicPrefix.map(n => n.toString(16)).join(' '))
   switch (ext) {
     case "gz":
-      return readLogs(new Uint8Array(gzip.unzip(file)), filebase)
+    case "gzip":
+    case "z":
+    case "zlib":
+      return readLogs(pako.inflate(file), filebase)
+    case "tgz": // as same as tar.gz
+      file = pako.inflate(file)
+    case "tar": {
+      console.error("Couldn't read the tar file:", "Tar file is not supported yet")
+      finishAnalysis("UnzipErr", "Tar file is not supported yet")
+      return null
+    }
     case "zip": {
       let zip = new JSZip()
       try {
@@ -249,6 +264,9 @@ async function startAnalysis(file) {
     new Uint8Array(await file.arrayBuffer()),
     file.name,
   )
+  if(logText === null){
+    return
+  }
   if (!logText) {
     console.log("日志获取完成，没有获取到可用日志")
     finishAnalysis("FetchLogErr", "(＃°Д°)")
