@@ -35,7 +35,7 @@ Caused by: java.util.zip.ZipException: invalid distance too far back
 net.minecraft.util.crash.CrashException: Loading NBT data
 ```
 
-解决方法：
+解决方案：
 
 尝试打开存档目录，然后删除 `level.dat`，并将 `level.dat_old` 重命名为 `level.dat`。
 
@@ -92,3 +92,75 @@ signer information does not match signer information of other classes in the sam
 ```
 message='GL_OUT_OF_MEMORY error generated. Failed to allocate memory for buffer data.'
 ```
+
+## 防火墙 / 防病毒安全软件 / 网络环境问题
+
+关键词：
+
+```
+java.lang.IllegalStateException: failed to create a child event loop
+```
+
+解决方案：请逐个尝试以下方案。
+
+1. 如您安装了 Avast，尝试重新安装并重启 Avast。
+2. 如您安装了 McAfee（及其衍生产品）或 Outpost Security，尝试卸载该软件并再次重新启动游戏。
+3. 如您没有防病毒安全软件，尝试在 Microsoft Defender 中的 “防火墙和网络保护” 中关闭 “专用网络保护”。
+4. 关闭您的加速器或 VPN。
+5. 前往 Oracle 官网下载最新版 Java，并将该 Java 设置为游戏 Java。
+
+:::details 常见的第三方启动器设置版本 Java 功能位置
+
+Java 虚拟机 <LauncherBadge type="bakaxl" text="BakaXL" />：`核心列表` -> `点击核心` -> `高级核心管理` -> `Java 虚拟机与内存` -> `为此核心启用单独的 Java 虚拟机设定` 设置为 `开`
+
+Java 路径 <LauncherBadge type="hmcl" text="HMCL" />：点击左边的 `实例名称` -> `Java 路径`
+
+游戏 Java <LauncherBadge type="pcl" text="PCL2" />：`版本设置` -> `设置` -> `游戏 Java`
+:::
+
+6. 更新显卡驱动程序。
+7. 如您正在使用 NVIDIA，请在 NVIDIA 控制面板的 “管理 3D 设置” 中对 Minecraft 恢复默认设置。
+8. 对于 Windows 操作系统，使用 Win+S 打开搜索框，搜索 “cmd”，点击搜索结果中右侧 “以管理员身份运行” 选项以使用管理员身份打开 cmd.exe，**依次**输入以下命令后重启计算机：
+
+::: warning 警告
+以下命令将重置您的 WINSOCK、IPv4、IPv6 网络。
+:::
+
+```bat
+netsh winsock reset 
+netsh winsock reset catalog 
+netsh int ipv4 reset reset.log 
+netsh int ipv6 reset reset.log
+```
+
+如以上方案仍无法解决崩溃问题，请尝试以下的**临时解决方案**：
+
+::: warning 警告
+请注意，以下解决方案均是临时的，无法彻底解决崩溃问题，多次使用后可能导致存档加载困难甚至进一步导致存档损坏，请结合自身情况适当进行采用。
+:::
+
+方法一：
+
+1. 关闭所有游戏实例。
+2. 打开版本所在的 Minecraft 游戏文件夹，删除以下名称的文件夹（如未找到则无需操作）：assets、bin、libraries、versions、webcache、config、defaultconfigs、usercache.json、usernamecache.json。
+
+:::details 常见的第三方启动器打开当前游戏文件夹位置
+
+<LauncherBadge type="bakaxl" text="BakaXL" />：切换至下方页面 -> `本体设置` -> `游戏目录` -> `可读写的 Minecraft 实例目录` -> 当前版本所在的游戏文件夹右侧的定位按钮
+
+<LauncherBadge type="pcl" text="PCL2" />：`版本选择` -> 鼠标悬浮于当前处在的游戏文件夹上方 -> 左边栏右侧出现的齿轮按钮 -> `打开`
+:::
+
+3. 重新下载并安装 Minecraft。
+4. 关闭所有 Minecraft 启动器。
+5. 重新启动游戏。
+
+通常，在进行上述操作后，游戏会成功启动一至两次，而后问题会再次出现。
+
+方法二：
+
+::: warning 警告
+请注意，重复此办法打开存档数次后，存档将愈加难以成功进入。
+:::
+
+进入游戏后，重复尝试进入存档，通常会有很大概率在第二次成功打开存档。

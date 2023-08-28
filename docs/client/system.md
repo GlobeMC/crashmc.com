@@ -8,7 +8,7 @@
 
 ### OpenGL 错误（聊天栏中出现）
 
-| 错误码 | 可能原因                               | 解决方法                                                                             |
+| 错误码 | 可能原因                               | 解决方案                                                                             |
 | ------ | -------------------------------------- | ------------------------------------------------------------------------------------ |
 | 1280   | OptiFine / Mods 冲突 / OpenGL 版本错误 | 更换 OptiFine 版本、检查 Mods 冲突或尝试更新显卡驱动                                 |
 | 1281   | Mods / 图像设置 / 显卡驱动 / 光影      | 尝试更新显卡驱动或检查 Mods 问题(如检查后无问题，则暂时无解)                         |
@@ -22,7 +22,7 @@
 
 解释：因为你的显卡配置或显卡驱动存在问题，游戏无法正常运行。
 
-解决方法：检查显卡驱动是否为最新；如果有独立显卡的请使用独立显卡运行游戏，而非核显。
+解决方案：检查显卡驱动是否为最新；如果有独立显卡的请使用独立显卡运行游戏，而非核显。
 
 驱动下载：[Intel](https://www.intel.cn/content/www/cn/zh/search.html#sort=relevancy&f:@tabfilter=[Downloads]&f:@stm_10385_zh=[%E6%98%BE%E5%8D%A1]) | [AMD](https://www.amd.com/zh-hans/support) | [Nvidia](https://www.nvidia.cn/geforce/drivers/)
 
@@ -107,7 +107,7 @@ OpenJ9 is incompatible
 
 解释：由于使用了 32 位 Java 且分配了 1G 以上内存，导致游戏无法正常启动。
 
-解决方法：
+解决方案：
 :::warning 注意
 此方法仅适用于 64 位系统。
 :::
@@ -156,7 +156,7 @@ Caused by: net.minecraft.util.ResourceLocationException: Non [a-z0-9_.-] charact
 net.minecraft.util.ResourceLocationException: Non [a-z0-9_.-] character in namespace of location: .DS_Store:
 ```
 
-解决方法：删除 `.DS_Store` 文件
+解决方案：删除 `.DS_Store` 文件
 
 :::details 解决步骤
 由于 `.DS_Store` 文件是 macOS 的隐藏文件， 只能通过执行指令进行删除
@@ -179,7 +179,7 @@ Exception caught during firing event: Unable to load library 'imm32':
 class io.github.reserveword.imblocker.IMBlocker$RegistryEvents
 ```
 
-解决方法：删除 `IMBlocker` 模组（此模组仅适用于 Windows）
+解决方案：删除 `IMBlocker` 模组（此模组仅适用于 Windows）
 
 ### macOS 下初始化 OpenGL 窗口问题
 
@@ -187,7 +187,7 @@ class io.github.reserveword.imblocker.IMBlocker$RegistryEvents
 java.lang.IllegalStateException: GLFW error before init: [0x10008]Cocoa: Failed to find service port for display
 ```
 
-解决方法<Badge type="warning" text="实验性" />：先开一个浏览器全屏，然后启动游戏，在还没弹出窗口的时候迅速切回浏览器，等差不多游戏窗口出来了之后再切回去。
+解决方案<Badge type="warning" text="实验性" />：先开一个浏览器全屏，然后启动游戏，在还没弹出窗口的时候迅速切回浏览器，等差不多游戏窗口出来了之后再切回去。
 
 ## Linux 问题
 
@@ -198,4 +198,4 @@ Exception caught during firing event: Unable to load library 'imm32':
 class io.github.reserveword.imblocker.IMBlocker$RegistryEvents
 ```
 
-解决方法：删除 `IMBlocker` 模组（此模组仅适用于 Windows）
+解决方案：删除 `IMBlocker` 模组（此模组仅适用于 Windows）

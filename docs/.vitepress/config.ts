@@ -3,9 +3,10 @@ import process from "node:process"
 import { defineConfig } from "vitepress"
 import { pwa } from "./scripts/pwa"
 
-const COMMIT_ID = process.env.CF_PAGES_COMMIT_SHA || process.env.COMMIT_REF || "local"
+const COMMIT_ID =
+  process.env.CF_PAGES_COMMIT_SHA || process.env.COMMIT_REF || "local"
 const commitRef = COMMIT_ID?.slice(0, 8)
-const environment = process.env.NODE_ENV
+const environment = process.env.DEPLOYMENT_STATUS || process.env.NODE_ENV
 
 export default withPwa(
   defineConfig({
@@ -125,6 +126,7 @@ export default withPwa(
               text: "客户端崩溃",
               items: [
                 { text: "客户端介绍", link: "/client/" },
+                { text: "通用问题", link: "/client/shared" },
                 { text: "系统问题", link: "/client/system" },
                 { text: "原版问题", link: "/client/vanilla" },
                 { text: "Mod 问题", link: "/client/mods" },
@@ -160,7 +162,7 @@ export default withPwa(
       socialLinks: [{ icon: "github", link: "https://github.com/GlobeMC" }],
 
       editLink: {
-        pattern: "https://github.com/GlobeMC/crashmc.com/edit/main/docs/:path",
+        pattern: "https://github.com/GlobeMC/crashmc.com/edit/dev/docs/:path",
         text: "在 GitHub 上帮助我们完善这个页面",
       },
 

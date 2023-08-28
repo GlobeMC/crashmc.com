@@ -1,23 +1,25 @@
 <template>
-  <div class="comments">
-    <component
-      v-if="showComment"
-      src="https://giscus.app/client.js"
-      :is="'script'"
-      :key="title"
-      :data-repo="giscusConfig.repo"
-      :data-repo-id="giscusConfig.repoId"
-      :data-category="giscusConfig.category"
-      :data-category-id="giscusConfig.categoryId"
-      :data-mapping="giscusConfig.mapping"
-      :data-strict="giscusConfig.strict"
-      :data-reactions-enabled="giscusConfig.reactionsEnabled"
-      :data-emit-metadata="giscusConfig.emitMetadata"
-      :data-input-position="giscusConfig.inputPosition"
-      :data-lang="giscusConfig.lang"
-      :data-theme="giscusConfig.theme"
-      :data-loading="giscusConfig.loading" />
-  </div>
+  <ClientOnly>
+    <div class="comments">
+      <component
+        v-if="showComment"
+        src="https://giscus.app/client.js"
+        :is="'script'"
+        :key="title"
+        :data-repo="giscusConfig.repo"
+        :data-repo-id="giscusConfig.repoId"
+        :data-category="giscusConfig.category"
+        :data-category-id="giscusConfig.categoryId"
+        :data-mapping="giscusConfig.mapping"
+        :data-strict="giscusConfig.strict"
+        :data-reactions-enabled="giscusConfig.reactionsEnabled"
+        :data-emit-metadata="giscusConfig.emitMetadata"
+        :data-input-position="giscusConfig.inputPosition"
+        :data-lang="giscusConfig.lang"
+        :data-theme="giscusConfig.theme"
+        :data-loading="giscusConfig.loading" />
+    </div>
+  </ClientOnly>
 </template>
 <script lang="ts" setup>
 import { useData, useRoute } from "vitepress"
