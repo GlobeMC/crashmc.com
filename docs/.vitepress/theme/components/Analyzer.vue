@@ -163,7 +163,7 @@ function clean() {
  */
 function checkfiles(): boolean {
   const fup = fileUploader.value
-  if(fup.files.length === 0){
+  if (fup.files.length === 0) {
     return
   }
   clean()
@@ -195,8 +195,6 @@ async function readLogs(
   let i = filename.lastIndexOf(".")
   const ext = filename.substring(i + 1)
   const filebase = filename.substring(0, i)
-  const magicPrefix = Array.from(file.subarray(0, 10))
-  console.log('magicPrefix:', magicPrefix.map(n => n.toString(16)).join(' '))
   switch (ext) {
     case "gz":
     case "gzip":
@@ -206,7 +204,10 @@ async function readLogs(
     case "tgz": // as same as tar.gz
       file = pako.inflate(file)
     case "tar": {
-      console.error("Couldn't read the tar file:", "Tar file is not supported yet")
+      console.error(
+        "Couldn't read the tar file:",
+        "Tar file is not supported yet",
+      )
       finishAnalysis("UnzipErr", "Tar file is not supported yet")
       return null
     }
@@ -264,7 +265,7 @@ async function startAnalysis(file) {
     new Uint8Array(await file.arrayBuffer()),
     file.name,
   )
-  if(logText === null){
+  if (logText === null) {
     return
   }
   if (!logText) {
