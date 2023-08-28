@@ -1088,6 +1088,10 @@ a {
   height: 100%;
 }
 
+.analysis-result-main > hr {
+  width: 100%;
+}
+
 .analysis-result-enter-active,
 .analysis-result-leave-active {
   transition: all 0.6s ease-in !important;
