@@ -393,7 +393,7 @@ which is missing!
 
 在一般情况下，点击显示 `缺少前置库` 的 Mod 后，会打开该 Mod 的详情界面，在界面中会提示您该 Mod 所需要的前置。
 
-![Liteloader-mod-01](https://cdn.crashmc.com/https://raw.githubusercontent.com/bingxin666/crashmc_pic/main/client/mods/liteloader-mod-02.png "提示缺少的前置库")
+![Liteloader-mod-01](https://cdn.crashmc.com/https://raw.githubusercontent.com/GlobeMC/CrashMC_Pics/main/client/mods/liteloader-mod-02.png "提示缺少的前置库")
 
 解决方案：
 
@@ -437,7 +437,19 @@ java.lang.NoSuchMethodError: net.minecraft.world.server.ChunkManager$ProxyTicket
 
 解释：使用的 Forge 版本过高 / 过低 或 OptiFine 并未兼容该版本的 Forge，导致游戏崩溃。
 
-解决方案：前往 [OptiFine 官网](https://optifine.net/downloads) ，按照提示安装对应的 Forge 版本。
+解决方案：
+
+:::tip
+
+最近有很多因为 1.20.1 OptiFine_HD_U_I5 + Forge 47.1.43/47.1.44 导致的崩溃。
+
+你可以先尝试将 OptiFine 版本升级至 HD_U_I6_pre6 版本，若不行再尝试下面的方案。
+
+:::
+
+前往 [OptiFine 官网](https://optifine.net/downloads) ，按照提示安装对应的 Forge 版本。
+
+![示例](https://cdn.crashmc.com/https://raw.githubusercontent.com/GlobeMC/CrashMC_Pics/main/client/mods/optifine-mod.png)
 
 提示：
 
