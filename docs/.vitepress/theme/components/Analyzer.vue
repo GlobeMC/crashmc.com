@@ -204,7 +204,7 @@ async function readLogs(
     case "zlib":
       try {
         return await readLogs(pako.inflate(file), filebase)
-      } catch(error) {
+      } catch (error) {
         console.error(`Couldn't decompress file with ext ${ext}:`, error)
         finishAnalysis("UnzipErr", String(error))
         return null
@@ -223,7 +223,10 @@ async function readLogs(
 
       let logText = ""
       for (let f of files) {
-        if(f.name.startsWith("._") || f.name.toLowerCase().startsWith("paxheader/")){
+        if (
+          f.name.startsWith("._") ||
+          f.name.toLowerCase().startsWith("paxheader/")
+        ) {
           console.debug("未读取的文件:", f.name)
           continue
         }
