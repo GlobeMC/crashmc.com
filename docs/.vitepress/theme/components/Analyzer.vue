@@ -5,7 +5,7 @@ import { TarReader } from "@gera2ld/tarjs"
 import { useRouter } from "vitepress"
 import { type Ref, ref, watch, onBeforeMount, onUnmounted } from "vue"
 import axios from "axios"
-import { umami } from "@types/umami"
+import { type umami } from "@types/umami"
 import AnalyzingIcon from "./icons/AnalyzingIcon.vue"
 import OpenTabIcon from "./icons/OpenTabIcon.vue"
 import TransitionExpand from "./TransitionExpand.vue"
@@ -181,7 +181,7 @@ function checkfiles(): boolean {
 async function readLogs(
   file: Uint8Array,
   filename: string,
-): string | undefined {
+): Promise<string | undefined> {
   filename = filename.toLowerCase()
   if (
     filename.includes("pcl") || // PCL 启动器日志.txt
@@ -202,7 +202,13 @@ async function readLogs(
     case "gzip":
     case "z":
     case "zlib":
-      return await readLogs(pako.inflate(file), filebase)
+      try {
+        return await readLogs(pako.inflate(file), filebase)
+      } catch(error) {
+        console.error(`Couldn't decompress file with ext ${ext}:`, error)
+        finishAnalysis("UnzipErr", String(error))
+        return null
+      }
     case "tgz": // as same as tar.gz
       file = pako.inflate(file)
     case "tar": {
@@ -217,6 +223,10 @@ async function readLogs(
 
       let logText = ""
       for (let f of files) {
+        if(f.name.startsWith("._") || f.name.toLowerCase().startsWith("paxheader/")){
+          console.debug("未读取的文件:", f.name)
+          continue
+        }
         let data = new Uint8Array(file.buffer, f.headerOffset + 512, f.size)
         let log = await readLogs(data, f.name)
         if (log) {
