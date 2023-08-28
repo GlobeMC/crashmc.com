@@ -115,35 +115,17 @@ function handleDragLeave() {
 function handleDrop(e) {
   const files = e.dataTransfer.files // 获取拖拽过来的文件
   // 处理文件
-  handleFiles(files)
+  handleDropFiles(files)
 }
 
 /**
  * 拖拽文件处理。
  * @param {File} files 拖拽的文件。
  */
-function handleFiles(files) {
+function handleDropFiles(files) {
   console.log("文件拖拽：" + files)
   analyzerBackgroundColor.value = "var(--vp-custom-block-tip-bg)"
-  clean() // 重新初始化
-  if (files.length != 1) {
-    labelMsg.value = "仅能上传一个文件"
-  } else {
-    launcher = "Unknown"
-    var file = files[0]
-    var filePath = files[0].name
-    var ext = filePath.substring(filePath.lastIndexOf(".") + 1).toLowerCase()
-    if (ext == "zip" || ext == "log" || ext == "txt") {
-      btnMsg.value = "正在分析"
-      isBtnDisabled.value = true
-      labelMsg.value = file.name
-      startAnalysis(file, ext)
-      return true
-    } else {
-      labelMsg.value = "请上传 .zip/.txt/.log 文件!"
-      return false
-    }
-  }
+  analyzeFiles(files)
 }
 
 /**
@@ -160,20 +142,27 @@ function clean() {
   clearInterval(increaseHeightTimer)
 }
 
+function checkFiles(): Promise<boolean> {
+  const fup = fileUploader.value
+  if (fup.files.length === 0) {
+    return false
+  }
+  return analyzeFiles(fup.files)
+}
+
 /**
  * 分析文件。可以分析返回 true，不能分析返回 false。
  */
-function checkfiles(): boolean {
-  const fup = fileUploader.value
-  if (fup.files.length === 0) {
-    return
-  }
+function analyzeFiles(files): Promise<boolean> {
   clean()
   launcher = "Unknown"
-  console.log("分析文件：" + fup.value)
+  if (files.length != 1) {
+    labelMsg.value = "仅能上传一个文件"
+    return false
+  }
   btnMsg.value = "正在分析"
   isBtnDisabled.value = true
-  var file = fup.files[0]
+  var file = files[0]
   labelMsg.value = file.name
   return startAnalysis(file)
 }
@@ -289,23 +278,24 @@ async function readLogs(
  * @param {File} file 文件对象
  * @param {string} ext 文件后缀
  */
-async function startAnalysis(file) {
+async function startAnalysis(file): Promise<boolean> {
   analyzing.value = true
   const logText = await readLogs(
     new Uint8Array(await file.arrayBuffer()),
     file.name,
   )
-  if (logText === null) {
-    return
+  if (logText === null) { // if there are any errors
+    return false
   }
   if (!logText) {
     console.log("日志获取完成，没有获取到可用日志")
     finishAnalysis("FetchLogErr", "(＃°Д°)")
-    return
+    return false
   }
   // 读到日志了，贼棒
   console.log("日志获取完成，长度为：" + logText.length + " 字符")
   await logAnalysis(logText)
+  return true
 }
 
 /**
@@ -959,7 +949,7 @@ onUnmounted(() => {
           name="file_uploader"
           type="file"
           style="display: none"
-          @change="checkfiles" />
+          @change="checkFiles" />
       </div>
       <TransitionExpand>
         <div v-if="showAnalyzingIcon" class="flex">
