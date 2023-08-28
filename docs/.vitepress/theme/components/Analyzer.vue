@@ -875,6 +875,7 @@ function finishAnalysis(status, msg) {
       })
       break
     case "Unrecord":
+      redirectMsg.value = "提交反馈"
       umami.track("Unrecord Crash", {
         Status: "Unrecord_Crash",
         Launcher: launcher,
