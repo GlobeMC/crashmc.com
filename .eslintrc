@@ -1,0 +1,26 @@
+{
+  "parser": "vue-eslint-parser",
+  "parserOptions": {
+    "parser": "@typescript-eslint/parser",
+    "project": "./tsconfig.json",
+    "sourceType": "module",
+    "extraFileExtensions": [".vue"]
+  },
+  "plugins": ["@typescript-eslint", "eslint-plugin-prettier-vue"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:vue/vue3-recommended",
+    "plugin:prettier-vue/recommended",
+    "prettier"
+  ],
+  "rules": {
+    "no-var": 0,
+    "prettier-vue/prettier": ["error"],
+    "vue/multi-word-component-names": "off", 
+  },
+  "env": {
+    "browser": true
+  }
+}
