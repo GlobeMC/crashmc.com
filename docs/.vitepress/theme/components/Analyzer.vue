@@ -236,6 +236,12 @@ async function readLogs(
         // 从本地或 URL 加载一个 Zip 文件
         await zip.loadAsync(file)
       } catch (error) {
+        if (error instanceof Error) {
+          if (error.message === "Encrypted zip are not supported") {
+            finishAnalysis("EncryptedZipFile", error)
+            return null
+          }
+        }
         console.error("Couldn't read the zip file:", error)
         finishAnalysis("UnzipErr", error)
         return null
@@ -866,6 +872,20 @@ function finishAnalysis(status, msg) {
       umami.track("Analysis Error", {
         Status: "Cannot_Unzip_Log_File",
         ErrMsg: msg,
+      })
+      break
+    case "EncryptedZipFile":
+      labelMsg.value = "不支持加密 zip 文件"
+      btnMsg.value = "重新上传"
+      umami.track("Analysis Error", {
+        Status: "Cannot_Load_Encrypted_Log_File",
+        ErrMsg: msg,
+      })
+      break
+    case "ErrOpenRstPage":
+      umami.track("Analysis Error", {
+        Status: "Cannot_Redirect_To_Resolution",
+        Launcher: launcher,
       })
       break
     case "Unrecord":
