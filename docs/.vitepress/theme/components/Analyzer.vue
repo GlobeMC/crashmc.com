@@ -214,6 +214,9 @@ function startAnalysis(file, ext) {
         .then(function (content) {
           logAnalysis(content)
         })
+        .catch((reason) => {
+          finishAnalysis("EncryptedZipFile", reason)
+        })
     } catch (error) {
       finishAnalysis("UnzipErr", error)
     }
@@ -491,10 +494,10 @@ function logAnalysis(log) {
         matches = spilted[key].match(/'([^']+)'/g)
         missingMod.push(
           matches[0].replace(/'/g, "") +
-            " " + // Mod 名称，例如 'oculus'
-            matches[2]
-              .replace(/'/g, "")
-              .replace(/\$\{minecraft_version\}/g, "MinecraftVersion"), // Mod 版本，例如 '[1.4,)'，之后可以把最低 / 最高版本提取出来解析一遍
+          " " + // Mod 名称，例如 'oculus'
+          matches[2]
+            .replace(/'/g, "")
+            .replace(/\$\{minecraft_version\}/g, "MinecraftVersion"), // Mod 版本，例如 '[1.4,)'，之后可以把最低 / 最高版本提取出来解析一遍
         )
       }
     }
@@ -724,6 +727,16 @@ function finishAnalysis(status, msg) {
         ErrMsg: msg,
       })
       break
+
+    case "EncryptedZipFile":
+      labelMsg.value = "不支持加密 zip 文件"
+      btnMsg.value = "重新上传"
+      umami.track("Analysis Error", {
+        Status: "Cannot_Load_Encrypted_Log_File",
+        ErrMsg: msg,
+      })
+      break
+
     case "ErrOpenRstPage":
       umami.track("Analysis Error", {
         Status: "Cannot_Redirect_To_Resolution",
@@ -771,12 +784,8 @@ function redirectBtnClick() {
 
 <template>
   <ClientOnly>
-    <div
-      class="analyzer-main"
-      :style="{ 'background-color': analyzerBackgroundColor }"
-      @dragenter.prevent="handleDragEnter"
-      @dragover.prevent="handleDragOver"
-      @drop.prevent="handleDrop"
+    <div class="analyzer-main" :style="{ 'background-color': analyzerBackgroundColor }"
+      @dragenter.prevent="handleDragEnter" @dragover.prevent="handleDragOver" @drop.prevent="handleDrop"
       @dragleave.prevent="handleDragLeave">
       <h4 style="text-align: center">
         请点击按钮上传导出的 .zip/.txt/.log 文件, 并尽量不要更改导出文件的名称。
@@ -786,19 +795,11 @@ function redirectBtnClick() {
         <h4 class="file-uploader-label" for="file-uploader" singleLine="false">
           {{ labelMsg }}
         </h4>
-        <button
-          :disabled="isBtnDisabled"
-          class="file-uploader-btn"
-          data-umami-event="Analysis Button Click"
+        <button :disabled="isBtnDisabled" class="file-uploader-btn" data-umami-event="Analysis Button Click"
           @click="fileUploader.click()">
           {{ btnMsg }}
         </button>
-        <input
-          ref="fileUploader"
-          type="file"
-          name="file_uploader"
-          id="file-uploader"
-          @change="checkfiles"
+        <input ref="fileUploader" type="file" name="file_uploader" id="file-uploader" @change="checkfiles"
           style="display: none" />
       </div>
       <Transition name="analysis-result">
