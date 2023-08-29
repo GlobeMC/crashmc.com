@@ -284,7 +284,8 @@ async function startAnalysis(file): Promise<boolean> {
     new Uint8Array(await file.arrayBuffer()),
     file.name,
   )
-  if (logText === null) { // if there are any errors
+  if (logText === null) {
+    // if there are any errors
     return false
   }
   if (!logText) {
@@ -315,10 +316,9 @@ async function logAnalysis(log) {
 
   // 错误判断
 
-  var results: AnalysisResult[]
+  var resultIter: AsyncIterator<AnalysisResult>
   try {
-    // TODO: async generator
-    results = await MCLA.analyzeLogErrors(log)
+    resultIter = await MCLA.analyzeLogErrorsIter(log)
   } catch (err) {
     console.error("MCLA error:", err)
     showAnalysisResult(
@@ -328,54 +328,58 @@ async function logAnalysis(log) {
     )
     return
   }
-  if (results && results.length > 0) {
-    analysisResults.value = await Promise.all(
-      results
-        .filter((res) => res.matched && res.matched.length > 0)
-        .map(async (res) => {
-          let matched = await Promise.all(
-            res.matched
-              .sort((a, b) => b.match - a.match) // b.match > a.match
-              .map(async (solMatch) => {
-                let { match, error_desc } = solMatch
-                let solutions = await Promise.all(
-                  error_desc.solutions.map((id) =>
-                    axios
-                      .get(`${MCLA_GH_DB_PREFIX}/solutions/${id}.json`)
-                      .then((res) => ({ ok: true, res: res.data }))
-                      .catch((err) => ({
-                        ok: false,
-                        id: id,
-                        error: String(err),
-                      })),
-                  ),
-                )
-                return {
-                  match: match,
-                  desc: {
-                    error: error_desc.error,
-                    message: error_desc.message,
-                    solutions: solutions,
-                  },
-                }
-              }),
-          )
-          return {
-            error: res.error,
-            matched: matched,
-          }
-        }),
-    )
-    console.debug("MCLA analysisResults:", analysisResults.value)
-    if (analysisResults.value.length > 0) {
-      showAnalysisResult(
-        "Success",
-        "MCLA 分析完成, 但您不应该在页面上看到本消息 -.-",
-        "https://github.com/kmcsr/mcla",
-        "Multiple reasons",
-      )
-      return
+  var promises: Promise[] = []
+  var value: AnalysisResult
+  while (!({ value } = await resultIter.next()).done) {
+    const result = value
+    if (!result.matched || result.matched.length === 0) {
+      continue
     }
+    promises.push(
+      Promise.all(
+        result.matched
+          .sort((a, b) => b.match - a.match) // b.match > a.match
+          .map(async (solMatch) => {
+            let { match, error_desc } = solMatch
+            let solutions = await Promise.all(
+              error_desc.solutions.map((id) =>
+                axios
+                  .get(`${MCLA_GH_DB_PREFIX}/solutions/${id}.json`)
+                  .then((res) => ({ ok: true, res: res.data }))
+                  .catch((err) => ({
+                    ok: false,
+                    id: id,
+                    error: String(err),
+                  })),
+              ),
+            )
+            return {
+              match: match,
+              desc: {
+                error: error_desc.error,
+                message: error_desc.message,
+                solutions: solutions,
+              },
+            }
+          }),
+      ).then((matched) =>
+        analysisResults.value.push({
+          error: result.error,
+          matched: matched,
+        }),
+      ),
+    )
+  }
+  await Promise.all(promises)
+  console.debug("MCLA analysisResults:", analysisResults.value)
+  if (analysisResults.value.length > 0) {
+    showAnalysisResult(
+      "Success",
+      "MCLA 分析完成, 但您不应该在页面上看到本消息 -.-",
+      "https://github.com/kmcsr/mcla",
+      "Multiple reasons",
+    )
+    return
   }
 
   // 内存不足

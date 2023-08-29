@@ -67,11 +67,16 @@ interface ErrorResult {
   matched: SolutionPossibility[]
 }
 
+interface AsyncIterator<T> {
+  next(): Promise<{ done: boolean; value: T }>
+}
+
 interface MCLAType {
   version: string
-  parseCrashReport(log: readable): CrashReport
-  parseLogErrors(log: readable): JavaError[]
-  analyzeLogErrors(log: readable): ErrorResult[]
+  parseCrashReport(log: readable): Promise<CrashReport>
+  parseLogErrors(log: readable): Promise<JavaError[]>
+  analyzeLogErrors(log: readable): Promise<ErrorResult[]>
+  analyzeLogErrorsIter(log: readable): Promise<AsyncIterator<ErrorResult>>
 }
 
 export async function loadMCLA(): Promise<MCLAType> {
