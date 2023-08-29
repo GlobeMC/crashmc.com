@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useData } from "vitepress";
-import { computed } from "vue";
+import { useData } from "vitepress"
+import { computed } from "vue"
 
 const defaultAuthor = "GlobeMC"
 const { frontmatter } = useData()
