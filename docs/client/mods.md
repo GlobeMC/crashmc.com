@@ -221,6 +221,23 @@ Missing or unsupported mandatory dependencies:
 Missing or unsupported mandatory dependencies:
 ```
 
+### 其它原因
+
+解释：有时，Forge 会直接给出错误原因，只需删除出错的 Mod 即可。
+
+解决方案：删除出错的 Mod，例如以下示例中需要删除 Flywheel。
+
+```
+	Failure message: Flywheel (flywheel) has failed to load correctly
+		java.lang.reflect.InvocationTargetException: null
+```
+
+关键词：
+
+```
+Failure message: 
+```
+
 ## NeoForge
 
 ### 缺少前置
