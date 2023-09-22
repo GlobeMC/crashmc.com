@@ -831,7 +831,6 @@ function showAnalysisResult(status, msg, result_url, status_msg) {
   analysisShowResult.value = true
 
   // 消息更改
-  isBtnDisabled.value = false
   btnMsg.value = "重新上传"
 
   // 结束分析
@@ -845,12 +844,12 @@ function showAnalysisResult(status, msg, result_url, status_msg) {
  */
 function finishAnalysis(status, msg) {
   analyzing.value = false
+  isBtnDisabled.value = false
   console.log("结束分析：(" + status + ") " + msg)
   switch (status) {
     case "FetchLogErr":
       labelMsg.value = "未读取到支持的日志格式, 请尝试直接上传 .log / .txt 文件"
       btnMsg.value = "重新上传"
-      isBtnDisabled.value = false
       umami.track("Analysis Error", {
         Status: "Unsupport_Log_File_Ext",
         ErrMsg: msg,
@@ -859,7 +858,6 @@ function finishAnalysis(status, msg) {
     case "ReadLogErr":
       labelMsg.value = "Log 文件读取错误"
       btnMsg.value = "重新上传"
-      isBtnDisabled.value = false
       umami.track("Analysis Error", {
         Status: "Cannot_Read_Log_File",
         ErrMsg: msg,
@@ -868,7 +866,6 @@ function finishAnalysis(status, msg) {
     case "UnzipErr":
       labelMsg.value = "日志文件解压错误"
       btnMsg.value = "重新上传"
-      isBtnDisabled.value = false
       umami.track("Analysis Error", {
         Status: "Cannot_Unzip_Log_File",
         ErrMsg: msg,
