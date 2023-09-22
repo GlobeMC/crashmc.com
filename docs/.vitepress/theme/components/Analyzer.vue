@@ -15,10 +15,10 @@ import {
   type MCLAAPI,
   type JavaError,
   type Solution,
+  type AsyncIterator,
   loadMCLA,
   MCLA_GH_DB_PREFIX,
 } from "../../analyzers/mcla"
-
 
 // 类型&接口定义
 interface SolutionOk {
@@ -55,18 +55,19 @@ class MemFile {
   readonly path: string
   text?: string // only present when it's a vaild text file
 
-  constructor(data: Uint8Array, path: string){
+  constructor(data: Uint8Array, path: string) {
     this.data = data
     this.path = path
   }
 
   get name(): string {
     let path = this.path
-    if(path.endsWith('/')){ // remove '/' suffix
+    if (path.endsWith("/")) {
+      // remove '/' suffix
       path = path.substring(0, path.length - 1)
     }
-    let i = path.lastIndexOf('/')
-    if(i >= 0){
+    let i = path.lastIndexOf("/")
+    if (i >= 0) {
       return path.substring(i + 1)
     }
     return path
@@ -76,7 +77,7 @@ class MemFile {
 class AnalysisError {
   readonly type: string
   readonly reason: any
-  constructor(type: string, reason: any){
+  constructor(type: string, reason: any) {
     this.type = type
     this.reason = reason
   }
@@ -87,8 +88,8 @@ class AnalysisError {
 
   toString(): string {
     let s = this.type
-    if(this.reason){
-      s += ': ' + this.message
+    if (this.reason) {
+      s += ": " + this.message
     }
     return s
   }
@@ -202,9 +203,10 @@ function analyzeFiles(files: FileList): Promise<boolean> {
   }
   btnMsg.value = "正在分析"
   isBtnDisabled.value = true
-  if(files.length === 1){
+  if (files.length === 1) {
     labelMsg.value = files[0].name
-  }else{ // files.length > 1
+  } else {
+    // files.length > 1
     labelMsg.value = `${files[0].name} 等 ${files.length} 个文件`
   }
   return startAnalysis(Array.from(files))
@@ -218,7 +220,7 @@ const fallbackAnalysisDoneErr = new _fallbackAnalysisDoneErr()
  * @param {File[]} files 文件对象列表
  */
 async function startAnalysis(files: File[]): Promise<boolean> {
-  if(analyzing.value){
+  if (analyzing.value) {
     console.error("日志已经正在分析了?")
     return
   }
@@ -226,32 +228,42 @@ async function startAnalysis(files: File[]): Promise<boolean> {
   console.log("开始分析日志")
   var analyzed = false
   try {
-    await Promise.all(files.map((file) =>
-      file.arrayBuffer()
-        .then((buf) => readFiles(new MemFile(new Uint8Array(buf), file.name)))
-        .then((files: MemFile[]) => Promise.all(files.map((file) => {
-          analyzed = true
-          if(MCLA){
-            return mclAnalysis(file).catch((err) => {
-              console.error("MCLA error:", err)
-              throw new AnalysisError("MCLA-Error", err)
-            })
-          }else{
-            console.debug("MCLA is not loaded")
-          }
-          if(analysisResults.value.length === 0 && logAnalysis(file.text)){
-            throw fallbackAnalysisDoneErr
-          }
-        })))
-    ))
-  }catch(err){
-    if(err === fallbackAnalysisDoneErr){
+    await Promise.all(
+      files.map((file) =>
+        file
+          .arrayBuffer()
+          .then((buf) => readFiles(new MemFile(new Uint8Array(buf), file.name)))
+          .then((files: MemFile[]) =>
+            Promise.all(
+              files.map((file) => {
+                analyzed = true
+                if (MCLA) {
+                  return mclAnalysis(file).catch((err) => {
+                    console.error("MCLA error:", err)
+                    throw new AnalysisError("MCLA-Error", err)
+                  })
+                } else {
+                  console.debug("MCLA is not loaded")
+                }
+                if (
+                  analysisResults.value.length === 0 &&
+                  logAnalysis(file.text)
+                ) {
+                  throw fallbackAnalysisDoneErr
+                }
+              }),
+            ),
+          ),
+      ),
+    )
+  } catch (err) {
+    if (err === fallbackAnalysisDoneErr) {
       return true
     }
-    if(err instanceof AnalysisError){
+    if (err instanceof AnalysisError) {
       finishAnalysis(err.type, err.message)
-    }else{
-      console.error('Unexpected analysis error:', err)
+    } else {
+      console.error("Unexpected analysis error:", err)
       finishAnalysis("UnexpectedError", String(err))
     }
     return false
@@ -285,7 +297,10 @@ async function startAnalysis(files: File[]): Promise<boolean> {
  * 读取文件, 并递归解压压缩文件
  * @param {MemFile} file 文件对象
  */
-async function readFiles(file: MemFile, filename: string | undefined): Promise<MemFile[]> {
+async function readFiles(
+  file: MemFile,
+  filename: string | undefined,
+): Promise<MemFile[]> {
   var data = file.data
   filename = (filename || file.name).toLowerCase()
   let i = filename.lastIndexOf(".")
@@ -319,18 +334,23 @@ async function readFiles(file: MemFile, filename: string | undefined): Promise<M
         throw new AnalysisError("UnzipErr", error)
       }
 
-      var res: MemFile[] = []
-      await Promise.all(files
-        .filter((f) => 
-          !f.name.startsWith("._") &&
-          !f.name.toLowerCase().startsWith("paxheader/"))
-        .map((f) =>
-          readFiles(new MemFile(
-            new Uint8Array(data.buffer, f.headerOffset + 512, f.size),
-            file.path + '/' + f.name,
-          ), f.name)
-          .then((fls) => res.push(...fls))
-        )
+      let res: MemFile[] = []
+      await Promise.all(
+        files
+          .filter(
+            (f) =>
+              !f.name.startsWith("._") &&
+              !f.name.toLowerCase().startsWith("paxheader/"),
+          )
+          .map((f) =>
+            readFiles(
+              new MemFile(
+                new Uint8Array(data.buffer, f.headerOffset + 512, f.size),
+                file.path + "/" + f.name,
+              ),
+              f.name,
+            ).then((fls) => res.push(...fls)),
+          ),
       )
       return res
     }
@@ -349,13 +369,18 @@ async function readFiles(file: MemFile, filename: string | undefined): Promise<M
         throw new AnalysisError("UnzipErr", error)
       }
 
-      var res: MemFile[] = []
-      await Promise.all(Object.values(zip.files)
-        .filter((f) => !f.dir)
-        .map((f) => f.async("uint8array")
-          .then((buf) => readFiles(new MemFile(buf, file.path + '/' + f.name), f.name))
-          .then((fls) => res.push(...fls))
-        )
+      let res: MemFile[] = []
+      await Promise.all(
+        Object.values(zip.files)
+          .filter((f) => !f.dir)
+          .map((f) =>
+            f
+              .async("uint8array")
+              .then((buf) =>
+                readFiles(new MemFile(buf, file.path + "/" + f.name), f.name),
+              )
+              .then((fls) => res.push(...fls)),
+          ),
       )
       return res
     }
@@ -937,7 +962,8 @@ function finishAnalysis(status: string, msg: string) {
       })
       break
     case "MCLA-Error":
-      analysisResultMsg = "MCLA 分析器意外退出，请点击下方按钮前往 GitHub 反馈。"
+      analysisResultMsg.value =
+        "MCLA 分析器意外退出，请点击下方按钮前往 GitHub 反馈。"
       redirectUrl.value = "https://github.com/kmcsr/mcla/issues/new"
       redirectMsg.value = "提交反馈"
       umami.track("Analysis Error", {
@@ -1004,7 +1030,7 @@ onUnmounted(() => {
       <UploadIcon
         class="icon-upload"
         :disabled="isBtnDisabled"
-        @click="fileUploader.click()"/>
+        @click="fileUploader.click()" />
       <div class="file-uploader-container">
         <h4 class="file-uploader-label" for="file-uploader" singleLine="false">
           {{ labelMsg }}
@@ -1179,7 +1205,7 @@ svg {
   width: 20%;
 }
 
-.icon-upload:not([disabled=true]) {
+.icon-upload:not([disabled="true"]) {
   cursor: pointer;
 }
 
