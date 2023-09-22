@@ -122,7 +122,7 @@ async function loadMCLA(): Promise<MCLAAPI> {
   } else {
     res = await fetch(MCLA_WASM_URL)
       .then((res) => res.arrayBuffer())
-      .then((bts) => window.WebAssembly.instantiate(bts, go.importObject))
+      .then((bts) => WebAssembly.instantiate(bts, go.importObject))
   }
   go.run(res.instance)
   // the global variable MCLA cannot be defined instantly, so we have to poll it
