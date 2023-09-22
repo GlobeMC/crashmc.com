@@ -168,7 +168,7 @@ function handleDrop(e) {
  * @param {File} files 拖拽的文件。
  */
 function handleDropFiles(files: FileList) {
-  console.debug("文件拖拽：" + files)
+  console.debug("文件拖拽:", files)
   analyzerBackgroundColor.value = "var(--vp-custom-block-tip-bg)"
   analyzeFiles(files)
 }
