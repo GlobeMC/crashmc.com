@@ -36,8 +36,12 @@
   "author": "GlobeMC / 河豚分析",
   "license": "GFDL",
   "dependencies": {
+    "@gera2ld/tarjs": "^0.2.2",
+    "@types/umami": "^0.1.2",
+    "axios": "^1.4.0",
     "directory-tree": "^3.5.1",
     "jszip": "^3.10.1",
+    "pako": "^2.1.0",
     "typescript": "^5.1.6"
   }
 }
