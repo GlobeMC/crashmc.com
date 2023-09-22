@@ -1,7 +1,9 @@
 import { useCDN } from "../cdn"
 
-const GO_WASM_EXEC_URL = useCDN("https://kmcsr.github.io/mcla/wasm_exec.js")
-const MCLA_WASM_URL = useCDN("https://kmcsr.github.io/mcla/mcla.wasm")
+export const VERSION = "0.4.4"
+const RESOURCES_BASE = "https://kmcsr.github.io/mcla"
+const GO_WASM_EXEC_URL = useCDN(`${RESOURCES_BASE}/v${VERSION}/wasm_exec.js`)
+const MCLA_WASM_URL = useCDN(`${RESOURCES_BASE}/v${VERSION}/mcla.wasm`)
 export const MCLA_GH_DB_PREFIX = useCDN(
   "https://raw.githubusercontent.com/kmcsr/mcla-db-dev/main",
 )
@@ -24,7 +26,9 @@ interface JavaError {
   class: string
   message: string
   stacktrace: Stacktrace
-  caused_by: JavaError
+  causedBy: JavaError
+  // extra infos
+  lineNo: number
 }
 
 type ReportDetails = Map<string, string[]>
@@ -47,7 +51,7 @@ interface CrashReport {
   description: string
   error: JavaError
   head: HeadThread
-  affected_level: AffectedLevel
+  affectedLevel: AffectedLevel
   others: Map<string, DetailsItem>
 }
 
@@ -58,7 +62,7 @@ interface ErrorDesc {
 }
 
 interface SolutionPossibility {
-  error_desc: ErrorDesc
+  errorDesc: ErrorDesc
   match: number
 }
 
@@ -71,7 +75,13 @@ interface AsyncIterator<T> {
   next(): Promise<{ done: boolean; value: T }>
 }
 
-interface MCLAType {
+interface Solution {
+  tags: string[]
+  description: string
+  link_to: string
+}
+
+interface MCLAAPI {
   version: string
   parseCrashReport(log: readable): Promise<CrashReport>
   parseLogErrors(log: readable): Promise<JavaError[]>
@@ -79,19 +89,21 @@ interface MCLAType {
   analyzeLogErrorsIter(log: readable): Promise<AsyncIterator<ErrorResult>>
 }
 
-export async function loadMCLA(): Promise<MCLAType> {
-  await import(GO_WASM_EXEC_URL /* @vite-ignore */) // set variable `window.Go``
-  const go = new Go()
+export async function loadMCLA(): Promise<MCLAAPI> {
+  await import(GO_WASM_EXEC_URL /* @vite-ignore */) // set variable `window.Go`
+  const go = new window.Go()
   var res
   if (WebAssembly.instantiateStreaming) {
+    console.log('loading')
     res = await WebAssembly.instantiateStreaming(
       fetch(MCLA_WASM_URL),
       go.importObject,
     )
   } else {
+    console.log('loading2')
     res = await fetch(MCLA_WASM_URL)
       .then((res) => res.arrayBuffer())
-      .then((bts) => WebAssembly.instantiate(bts, go.importObject))
+      .then((bts) => window.WebAssembly.instantiate(bts, go.importObject))
   }
   go.run(res.instance)
   // the global variable MCLA cannot be defined instantly, so we have to poll it
