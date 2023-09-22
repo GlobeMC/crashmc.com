@@ -94,13 +94,11 @@ export async function loadMCLA(): Promise<MCLAAPI> {
   const go = new window.Go()
   var res
   if (WebAssembly.instantiateStreaming) {
-    console.log('loading')
     res = await WebAssembly.instantiateStreaming(
       fetch(MCLA_WASM_URL),
       go.importObject,
     )
   } else {
-    console.log('loading2')
     res = await fetch(MCLA_WASM_URL)
       .then((res) => res.arrayBuffer())
       .then((bts) => window.WebAssembly.instantiate(bts, go.importObject))
