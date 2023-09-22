@@ -8,21 +8,19 @@ import axios from "axios"
 import { type umami } from "@types/umami"
 import AnalyzingIcon from "./icons/AnalyzingIcon.vue"
 import OpenTabIcon from "./icons/OpenTabIcon.vue"
+import UploadIcon from "./icons/UploadIcon.vue"
 import TransitionExpand from "./TransitionExpand.vue"
 import TransitionExpandGroup from "./TransitionExpandGroup.vue"
 import {
-  type MCLAType,
+  type MCLAAPI,
   type JavaError,
+  type Solution,
   loadMCLA,
   MCLA_GH_DB_PREFIX,
 } from "../../analyzers/mcla"
 
-interface Solution {
-  tags: string[]
-  description: string
-  link_to: string
-}
 
+// 类型&接口定义
 interface SolutionOk {
   ok: boolean
   /* if ok */
@@ -44,10 +42,59 @@ interface SolutionMatch {
 }
 
 interface AnalysisResult {
+  filepath: string
   error: JavaError
   matched: SolutionMatch[]
 }
 
+/**
+ * In memory file struct
+ */
+class MemFile {
+  readonly data: Uint8Array
+  readonly path: string
+  text?: string // only present when it's a vaild text file
+
+  constructor(data: Uint8Array, path: string){
+    this.data = data
+    this.path = path
+  }
+
+  get name(): string {
+    let path = this.path
+    if(path.endsWith('/')){ // remove '/' suffix
+      path = path.substring(0, path.length - 1)
+    }
+    let i = path.lastIndexOf('/')
+    if(i >= 0){
+      return path.substring(i + 1)
+    }
+    return path
+  }
+}
+
+class AnalysisError {
+  readonly type: string
+  readonly reason: any
+  constructor(type: string, reason: any){
+    this.type = type
+    this.reason = reason
+  }
+
+  get message(): string {
+    return String(this.reason)
+  }
+
+  toString(): string {
+    let s = this.type
+    if(this.reason){
+      s += ': ' + this.message
+    }
+    return s
+  }
+}
+
+// 常量
 const router = useRouter()
 const utf8Decoder = new TextDecoder("utf-8")
 
@@ -86,10 +133,8 @@ watch(
 )
 
 // 公共变量
-var MCLA: MCLAType = null
+var MCLA: MCLAAPI = null
 var launcher = "Unknown"
-var increaseOpacTimer = null
-var increaseHeightTimer = null
 
 const SYSTEM_URL = "/client/system.html" // 系统问题
 const VANILLA_URL = "/client/vanilla.html" // 原版问题
@@ -122,8 +167,8 @@ function handleDrop(e) {
  * 拖拽文件处理。
  * @param {File} files 拖拽的文件。
  */
-function handleDropFiles(files) {
-  console.log("文件拖拽：" + files)
+function handleDropFiles(files: FileList) {
+  console.debug("文件拖拽：" + files)
   analyzerBackgroundColor.value = "var(--vp-custom-block-tip-bg)"
   analyzeFiles(files)
 }
@@ -138,51 +183,111 @@ function clean() {
   analysisResultMsg.value = "分析器歇逼了"
   redirectMsg.value = "导航到解决方案"
   redirectUrl.value = null
-  clearInterval(increaseOpacTimer)
-  clearInterval(increaseHeightTimer)
 }
 
 function checkFiles(): Promise<boolean> {
   const fup = fileUploader.value
-  if (fup.files.length === 0) {
-    return false
-  }
   return analyzeFiles(fup.files)
 }
 
 /**
  * 分析文件。可以分析返回 true，不能分析返回 false。
  */
-function analyzeFiles(files): Promise<boolean> {
+function analyzeFiles(files: FileList): Promise<boolean> {
   clean()
   launcher = "Unknown"
-  if (files.length != 1) {
-    labelMsg.value = "仅能上传一个文件"
+  if (files.length <= 0) {
+    labelMsg.value = "请上传至少一个文件"
     return false
   }
   btnMsg.value = "正在分析"
   isBtnDisabled.value = true
-  var file = files[0]
-  labelMsg.value = file.name
-  return startAnalysis(file)
+  if(files.length === 1){
+    labelMsg.value = files[0].name
+  }else{ // files.length > 1
+    labelMsg.value = `${files[0].name} 等 ${files.length} 个文件`
+  }
+  return startAnalysis(Array.from(files))
 }
 
-async function readLogs(
-  file: Uint8Array,
-  filename: string,
-): Promise<string | undefined> {
-  filename = filename.toLowerCase()
-  if (
-    filename.includes("pcl") || // PCL 启动器日志.txt
-    filename.includes("游戏崩溃前的输出.txt")
-  ) {
-    console.log("已确定启动器类型为：PCL")
-    launcher = "PCL"
-  } else if (filename.includes("hmcl")) {
-    // hmcl.log
-    console.log("已确定启动器类型为：HMCL")
-    launcher = "HMCL"
+class _fallbackAnalysisDoneErr {}
+const fallbackAnalysisDoneErr = new _fallbackAnalysisDoneErr()
+
+/**
+ * 开始分析文件
+ * @param {File[]} files 文件对象列表
+ */
+async function startAnalysis(files: File[]): Promise<boolean> {
+  if(analyzing.value){
+    console.error("日志已经正在分析了?")
+    return
   }
+  analyzing.value = true
+  console.log("开始分析日志")
+  var analyzed = false
+  try {
+    await Promise.all(files.map((file) =>
+      file.arrayBuffer()
+        .then((buf) => readFiles(new MemFile(new Uint8Array(buf), file.name)))
+        .then((files: MemFile[]) => Promise.all(files.map((file) => {
+          analyzed = true
+          if(MCLA){
+            return mclAnalysis(file).catch((err) => {
+              console.error("MCLA error:", err)
+              throw new AnalysisError("MCLA-Error", err)
+            })
+          }else{
+            console.debug("MCLA is not loaded")
+          }
+          if(analysisResults.value.length === 0 && logAnalysis(file.text)){
+            throw fallbackAnalysisDoneErr
+          }
+        })))
+    ))
+  }catch(err){
+    if(err === fallbackAnalysisDoneErr){
+      return true
+    }
+    if(err instanceof AnalysisError){
+      finishAnalysis(err.type, err.message)
+    }else{
+      console.error('Unexpected analysis error:', err)
+      finishAnalysis("UnexpectedError", String(err))
+    }
+    return false
+  }
+  if (!analyzed) {
+    console.warn("日志获取完成，没有获取到可用日志")
+    finishAnalysis("EmptyLogErr", "(＃°Д°)")
+    return false
+  }
+  console.debug("MCLA analysisResults:", analysisResults.value)
+  if (analysisResults.value.length > 0) {
+    showAnalysisResult(
+      "Success",
+      "MCLA 分析完成, 但您不应该在页面上看到本消息 -.-",
+      "https://github.com/kmcsr/mcla",
+      "Multiple reasons",
+    )
+    return true
+  }
+  console.log("日志分析结束，没有找到可能的原因")
+  showAnalysisResult(
+    "Unrecord",
+    "本工具还未收录您所遇到的错误，请点击下方按钮前往 GitHub 反馈。",
+    "https://github.com/GlobeMC/crashmc.com/issues/new/choose",
+    "Unrecord",
+  )
+  return false
+}
+
+/**
+ * 读取文件, 并递归解压压缩文件
+ * @param {MemFile} file 文件对象
+ */
+async function readFiles(file: MemFile, filename: string | undefined): Promise<MemFile[]> {
+  var data = file.data
+  filename = (filename || file.name).toLowerCase()
   let i = filename.lastIndexOf(".")
   const ext = filename.substring(i + 1)
   const filebase = filename.substring(0, i)
@@ -192,148 +297,88 @@ async function readLogs(
     case "z":
     case "zlib":
       try {
-        return await readLogs(pako.inflate(file), filebase)
+        data = pako.inflate(data)
       } catch (error) {
         console.error(`Couldn't decompress file with ext ${ext}:`, error)
-        finishAnalysis("UnzipErr", String(error))
-        return null
+        throw new AnalysisError("UnzipErr", error)
       }
+      return readFiles(new MemFile(data, file.path), filebase)
     case "tgz": // as same as tar.gz
-      file = pako.inflate(file)
+      try {
+        data = pako.inflate(data)
+      } catch (error) {
+        console.error(`Couldn't decompress file with ext ${ext}:`, error)
+        throw new AnalysisError("UnzipErr", error)
+      }
     case "tar": {
       let files
       try {
-        files = await new TarReader().readFile(file)
+        files = await new TarReader().readFile(data)
       } catch (error) {
         console.error("Couldn't read the tar file:", error)
-        finishAnalysis("UnzipErr", String(error))
-        return null
+        throw new AnalysisError("UnzipErr", error)
       }
 
-      let logText = ""
-      for (let f of files) {
-        if (
-          f.name.startsWith("._") ||
-          f.name.toLowerCase().startsWith("paxheader/")
-        ) {
-          console.debug("未读取的文件:", f.name)
-          continue
-        }
-        let data = new Uint8Array(file.buffer, f.headerOffset + 512, f.size)
-        let log = await readLogs(data, f.name)
-        if (log) {
-          console.debug("已读取的文件:", f.name)
-          logText += log + "\n"
-        } else {
-          console.debug("未读取的文件:", f.name)
-        }
-      }
-      return logText
+      var res: MemFile[] = []
+      await Promise.all(files
+        .filter((f) => 
+          !f.name.startsWith("._") &&
+          !f.name.toLowerCase().startsWith("paxheader/"))
+        .map((f) =>
+          readFiles(new MemFile(
+            new Uint8Array(data.buffer, f.headerOffset + 512, f.size),
+            file.path + '/' + f.name,
+          ), f.name)
+          .then((fls) => res.push(...fls))
+        )
+      )
+      return res
     }
     case "zip": {
       let zip = new JSZip()
       try {
         // 从本地或 URL 加载一个 Zip 文件
-        await zip.loadAsync(file)
+        await zip.loadAsync(data)
       } catch (error) {
         if (error instanceof Error) {
           if (error.message === "Encrypted zip are not supported") {
-            finishAnalysis("EncryptedZipFile", error)
-            return null
+            throw new AnalysisError("EncryptedZipFile", error)
           }
         }
         console.error("Couldn't read the zip file:", error)
-        finishAnalysis("UnzipErr", error)
-        return null
+        throw new AnalysisError("UnzipErr", error)
       }
 
-      // 日志读取
-      console.log("开始获取日志文件")
-      let logText = ""
-      for (let f of Object.values(zip.files)) {
-        if (!f.dir) {
-          // 不是文件夹，则进行读取
-          let log = await readLogs(await f.async("uint8array"), f.name)
-          if (log) {
-            console.debug("已读取的文件:", f.name)
-            logText += log + "\n"
-          } else {
-            console.debug("未读取的文件:", f.name)
-          }
-        }
-      }
-      return logText
+      var res: MemFile[] = []
+      await Promise.all(Object.values(zip.files)
+        .filter((f) => !f.dir)
+        .map((f) => f.async("uint8array")
+          .then((buf) => readFiles(new MemFile(buf, file.path + '/' + f.name), f.name))
+          .then((fls) => res.push(...fls))
+        )
+      )
+      return res
     }
     case "log":
     case "txt":
       // Log / Txt 文件处理
       try {
-        return utf8Decoder.decode(file)
+        file.text = utf8Decoder.decode(data)
       } catch (err) {
         // 日志读取错误
-        finishAnalysis("ReadLogErr", String(err))
-        return null
+        throw new AnalysisError("ReadLogErr", err)
       }
+      return [file]
     default:
-      return ""
+      return []
   }
 }
 
-/**
- * 开始分析文件
- * @param {File} file 文件对象
- * @param {string} ext 文件后缀
- */
-async function startAnalysis(file): Promise<boolean> {
-  analyzing.value = true
-  const logText = await readLogs(
-    new Uint8Array(await file.arrayBuffer()),
-    file.name,
-  )
-  if (logText === null) {
-    // if there are any errors
-    return false
-  }
-  if (!logText) {
-    console.log("日志获取完成，没有获取到可用日志")
-    finishAnalysis("FetchLogErr", "(＃°Д°)")
-    return false
-  }
-  // 读到日志了，贼棒
-  console.log("日志获取完成，长度为：" + logText.length + " 字符")
-  await logAnalysis(logText)
-  return true
-}
-
-/**
- * 分析日志，并展示分析结果。
- * @param {string} log Log 原文。
- */
-async function logAnalysis(log) {
-  console.log("开始分析日志")
-  // 启动器判断 (最准)
-  if (log.includes("PCL")) {
-    launcher = "PCL"
-  } else if (log.includes("HMCL")) {
-    launcher = "HMCL"
-  } else if (log.includes("BakaXL")) {
-    launcher = "BakaXL"
-  }
-
-  // 错误判断
-
+// MCLA错误分析
+async function mclAnalysis(file: MemFile): Promise<void> {
+  const filepath = file.path
   var resultIter: AsyncIterator<AnalysisResult>
-  try {
-    resultIter = await MCLA.analyzeLogErrorsIter(log)
-  } catch (err) {
-    console.error("MCLA error:", err)
-    showAnalysisResult(
-      "MCLA-Error",
-      "MCLA 分析器意外退出，请点击下方按钮前往 GitHub 反馈。",
-      "https://github.com/kmcsr/mcla/issues/new",
-    )
-    return
-  }
+  resultIter = await MCLA.analyzeLogErrorsIter(file.text)
   var promises: Promise[] = []
   var value: AnalysisResult
   while (!({ value } = await resultIter.next()).done) {
@@ -344,11 +389,11 @@ async function logAnalysis(log) {
     promises.push(
       Promise.all(
         result.matched
-          .sort((a, b) => b.match - a.match) // b.match > a.match
+          .sort((a, b) => b.match - a.match) // x.match 降序排序
           .map(async (solMatch) => {
-            let { match, error_desc } = solMatch
-            let solutions = await Promise.all(
-              error_desc.solutions.map((id) =>
+            const { match, errorDesc } = solMatch
+            const solutions = await Promise.all(
+              errorDesc.solutions.map((id) =>
                 axios
                   .get(`${MCLA_GH_DB_PREFIX}/solutions/${id}.json`)
                   .then((res) => ({ ok: true, res: res.data }))
@@ -362,31 +407,39 @@ async function logAnalysis(log) {
             return {
               match: match,
               desc: {
-                error: error_desc.error,
-                message: error_desc.message,
+                error: errorDesc.error,
+                message: errorDesc.message,
                 solutions: solutions,
               },
             }
           }),
       ).then((matched) =>
         analysisResults.value.push({
+          filepath: filepath,
           error: result.error,
           matched: matched,
         }),
       ),
     )
   }
-  await Promise.all(promises)
-  console.debug("MCLA analysisResults:", analysisResults.value)
-  if (analysisResults.value.length > 0) {
-    showAnalysisResult(
-      "Success",
-      "MCLA 分析完成, 但您不应该在页面上看到本消息 -.-",
-      "https://github.com/kmcsr/mcla",
-      "Multiple reasons",
-    )
-    return
+  return Promise.all(promises)
+}
+
+/**
+ * 分析日志，并展示分析结果。
+ * @param {string} log Log 原文。
+ */
+async function logAnalysis(log: string): Promise<boolean> {
+  // 启动器判断 (最准)
+  if (log.includes("PCL")) {
+    launcher = "PCL"
+  } else if (log.includes("HMCL")) {
+    launcher = "HMCL"
+  } else if (log.includes("BakaXL")) {
+    launcher = "BakaXL"
   }
+
+  // 错误判断
 
   // 内存不足
   if (
@@ -806,14 +859,9 @@ async function logAnalysis(log) {
 
     // 以上都无
   } else {
-    console.log("日志分析结束，没有找到可能的原因")
-    showAnalysisResult(
-      "Unrecord",
-      "本工具还未收录您所遇到的错误，请点击下方按钮前往 GitHub 反馈。",
-      "https://github.com/GlobeMC/crashmc.com/issues/new/choose",
-      "Unrecord",
-    )
+    return false
   }
+  return true
 }
 
 /**
@@ -830,9 +878,6 @@ function showAnalysisResult(status, msg, result_url, status_msg) {
   analysisResultMsg.value = msg
   analysisShowResult.value = true
 
-  // 消息更改
-  btnMsg.value = "重新上传"
-
   // 结束分析
   finishAnalysis(status, status_msg)
 }
@@ -842,14 +887,15 @@ function showAnalysisResult(status, msg, result_url, status_msg) {
  * @param {string} status 分析状态。
  * @param {string} msg 传递信息。
  */
-function finishAnalysis(status, msg) {
+function finishAnalysis(status: string, msg: string) {
+  // 消息更改
+  btnMsg.value = "重新上传"
   analyzing.value = false
   isBtnDisabled.value = false
-  console.log("结束分析：(" + status + ") " + msg)
+  console.log("结束分析：(" + status + ") ", msg)
   switch (status) {
-    case "FetchLogErr":
+    case "EmptyLogErr":
       labelMsg.value = "未读取到支持的日志格式, 请尝试直接上传 .log / .txt 文件"
-      btnMsg.value = "重新上传"
       umami.track("Analysis Error", {
         Status: "Unsupport_Log_File_Ext",
         ErrMsg: msg,
@@ -857,7 +903,6 @@ function finishAnalysis(status, msg) {
       break
     case "ReadLogErr":
       labelMsg.value = "Log 文件读取错误"
-      btnMsg.value = "重新上传"
       umami.track("Analysis Error", {
         Status: "Cannot_Read_Log_File",
         ErrMsg: msg,
@@ -865,7 +910,6 @@ function finishAnalysis(status, msg) {
       break
     case "UnzipErr":
       labelMsg.value = "日志文件解压错误"
-      btnMsg.value = "重新上传"
       umami.track("Analysis Error", {
         Status: "Cannot_Unzip_Log_File",
         ErrMsg: msg,
@@ -873,16 +917,9 @@ function finishAnalysis(status, msg) {
       break
     case "EncryptedZipFile":
       labelMsg.value = "不支持加密 zip 文件"
-      btnMsg.value = "重新上传"
       umami.track("Analysis Error", {
         Status: "Cannot_Load_Encrypted_Log_File",
         ErrMsg: msg,
-      })
-      break
-    case "ErrOpenRstPage":
-      umami.track("Analysis Error", {
-        Status: "Cannot_Redirect_To_Resolution",
-        Launcher: launcher,
       })
       break
     case "Unrecord":
@@ -899,7 +936,19 @@ function finishAnalysis(status, msg) {
         CrashReason: msg,
       })
       break
+    case "MCLA-Error":
+      analysisResultMsg = "MCLA 分析器意外退出，请点击下方按钮前往 GitHub 反馈。"
+      redirectUrl.value = "https://github.com/kmcsr/mcla/issues/new"
+      redirectMsg.value = "提交反馈"
+      umami.track("Analysis Error", {
+        Status: "MCLA_Error",
+        Launcher: launcher,
+        CrashReason: msg,
+      })
+      break
+    case "UnexpectedError":
     default:
+      labelMsg.value = "未知错误"
       umami.track("Analysis Error", {
         Status: "Unknown_Error",
         Launcher: launcher,
@@ -952,7 +1001,10 @@ onUnmounted(() => {
       <h4 style="text-align: center">
         请点击按钮上传导出的 .zip/.txt/.log 文件, 并尽量不要更改导出文件的名称。
       </h4>
-      <img class="icon-upload" src="../../../src/logo-upload.svg" />
+      <UploadIcon
+        class="icon-upload"
+        :disabled="isBtnDisabled"
+        @click="fileUploader.click()"/>
       <div class="file-uploader-container">
         <h4 class="file-uploader-label" for="file-uploader" singleLine="false">
           {{ labelMsg }}
@@ -969,7 +1021,9 @@ onUnmounted(() => {
           ref="fileUploader"
           name="file_uploader"
           type="file"
+          multiple
           style="display: none"
+          :disabled="isBtnDisabled"
           @change="checkFiles" />
       </div>
       <TransitionExpand>
@@ -987,6 +1041,7 @@ onUnmounted(() => {
             :key="i"
             class="analysis-result-item">
             <h4>错误信息 {{ i + 1 }}</h4>
+            <span>{{ result.filepath }}:{{ result.error.lineNo }}</span>
             <code class="result-parsed-error">
               {{ result.error.class }}: {{ result.error.message }}
             </code>
@@ -1007,9 +1062,9 @@ onUnmounted(() => {
               </h5>
               <div v-for="(sol, n) in match.desc.solutions" :key="n">
                 <div v-if="sol.ok">
-                  <details open>
+                  <details :open="false">
                     <summary>
-                      <h5>{{ n + 1 }}. 问题描述 & 解决方案</h5>
+                      <h5>{{ n + 1 }}. {{ sol.res.description }}</h5>
                     </summary>
                     <div>
                       <b>描述: </b>
@@ -1071,6 +1126,10 @@ a {
   cursor: pointer;
 }
 
+svg {
+  user-select: none;
+}
+
 .flex,
 .analysis-result-box > * {
   display: flex;
@@ -1118,6 +1177,10 @@ a {
   margin: auto;
   height: 20%;
   width: 20%;
+}
+
+.icon-upload:not([disabled=true]) {
+  cursor: pointer;
 }
 
 .file-uploader-container {
