@@ -1,10 +1,31 @@
 import { useCDN } from "../cdn"
 
-export const VERSION = "0.4.4"
+export {
+  VERSION,
+  MCLA_GH_DB_PREFIX,
+  readable,
+  StackInfo,
+  Stacktrace,
+  JavaError,
+  ReportDetails,
+  HeadThread,
+  AffectedLevel,
+  DetailsItem,
+  CrashReport,
+  ErrorDesc,
+  SolutionPossibility,
+  ErrorResult,
+  AsyncIterator,
+  Solution,
+  MCLAAPI,
+  loadMCLA,
+}
+
+const VERSION = "0.4.4"
 const RESOURCES_BASE = "https://kmcsr.github.io/mcla"
 const GO_WASM_EXEC_URL = useCDN(`${RESOURCES_BASE}/v${VERSION}/wasm_exec.js`)
 const MCLA_WASM_URL = useCDN(`${RESOURCES_BASE}/v${VERSION}/mcla.wasm`)
-export const MCLA_GH_DB_PREFIX = useCDN(
+const MCLA_GH_DB_PREFIX = useCDN(
   "https://raw.githubusercontent.com/kmcsr/mcla-db-dev/main",
 )
 
@@ -89,7 +110,7 @@ interface MCLAAPI {
   analyzeLogErrorsIter(log: readable): Promise<AsyncIterator<ErrorResult>>
 }
 
-export async function loadMCLA(): Promise<MCLAAPI> {
+async function loadMCLA(): Promise<MCLAAPI> {
   await import(GO_WASM_EXEC_URL /* @vite-ignore */) // set variable `window.Go`
   const go = new window.Go()
   var res
