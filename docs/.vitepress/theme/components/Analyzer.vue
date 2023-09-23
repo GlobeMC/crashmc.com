@@ -1004,7 +1004,11 @@ function redirectTo(url, newTab) {
 }
 
 onBeforeMount(async () => {
-  MCLA = await loadMCLA()
+  try {
+    MCLA = await loadMCLA()
+  } catch (err) {
+    console.error("Couldn't load MCLA:", err)
+  }
 })
 
 onUnmounted(() => {
