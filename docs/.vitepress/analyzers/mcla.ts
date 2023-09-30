@@ -116,11 +116,18 @@ class MCLAWorker implements MCLAAPI {
   private readonly worker: Worker
   private _version: string
   private pendings: Map<number, (res: any) => void>
+  private readonly registry: FinalizationRegistry<number>
 
   constructor(worker: Worker) {
     this.worker = worker
     worker.onmessage = (event) => this.onmsg(event)
     this.pendings = new Map()
+    this.registry = new FinalizationRegistry((ptr: number) => {
+      this.worker.postMessage({
+        type: "releaseObj",
+        ptr: ptr,
+      })
+    })
   }
 
   get version(): string {
@@ -180,7 +187,7 @@ class MCLAWorker implements MCLAAPI {
           return obj
         }
         if (res.__worker_function) {
-          return async (...args): Promise<any> => {
+          let fn = async (...args): Promise<any> => {
             return (
               await this.ask({
                 type: "callObj",
@@ -189,6 +196,8 @@ class MCLAWorker implements MCLAAPI {
               })
             ).res
           }
+          this.registry.register(fn, res.ptr)
+          return fn
         }
         let obj = new Object()
         for (let k of Reflect.ownKeys(res)) {

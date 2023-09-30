@@ -115,5 +115,9 @@ this.onmessage = async (event) => {
       })
       break
     }
+    case "releaseObj": {
+      releaseObj(data.ptr)
+      break
+    }
   }
 }
