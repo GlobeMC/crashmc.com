@@ -115,7 +115,7 @@ interface MCLAAPI {
 class MCLAWorker implements MCLAAPI {
   private readonly worker: Worker
   private _version: string
-  private pendings: Map<number, (res: Object) => void>
+  private pendings: Map<number, (res: any) => void>
 
   constructor(worker: Worker) {
     this.worker = worker
@@ -127,7 +127,7 @@ class MCLAWorker implements MCLAAPI {
     return this._version
   }
 
-  private ask(data: Object): Promise<Object> {
+  private ask(data: any): Promise<any> {
     var i = 0
     while (this.pendings.has(i)) {
       i++
@@ -180,7 +180,7 @@ class MCLAWorker implements MCLAAPI {
           return obj
         }
         if (res.__worker_function) {
-          return async (...args): Promise => {
+          return async (...args): Promise<any> => {
             return (
               await this.ask({
                 type: "callObj",
@@ -199,7 +199,7 @@ class MCLAWorker implements MCLAAPI {
     throw new Error("Unexpected type of res: " + typeof res)
   }
 
-  private async call(name: string, ...args): Promise {
+  private async call(name: string, ...args): Promise<any> {
     return this.unwrapObj(
       (
         await this.ask({
@@ -246,6 +246,14 @@ async function loadMCLAWorker(): Promise<MCLAAPI> {
   )
 }
 
+interface containsGoCls {
+  Go: any
+}
+
+interface containsMCLAIns {
+  MCLA: MCLAAPI
+}
+
 async function loadMCLA(): Promise<MCLAAPI> {
   if (window.Worker) {
     return loadMCLAWorker()
@@ -253,7 +261,7 @@ async function loadMCLA(): Promise<MCLAAPI> {
 
   await import(GO_WASM_EXEC_URL /* @vite-ignore */) // set variable `window.Go`
 
-  const go = new window.Go()
+  const go = new (window as any as containsGoCls).Go()
   var res
   if (WebAssembly.instantiateStreaming) {
     res = await WebAssembly.instantiateStreaming(
@@ -268,12 +276,12 @@ async function loadMCLA(): Promise<MCLAAPI> {
   go.run(res.instance)
   // the global variable MCLA cannot be defined instantly, so we have to poll it
   function waitMCLA(): Promise<void> {
-    if (window.MCLA) {
+    if ((window as any as containsMCLAIns).MCLA) {
       return
     }
     return new Promise((re) => setTimeout(re, 10)) // sleep 10ms
       .then(waitMCLA)
   }
   await waitMCLA()
-  return window.MCLA
+  return (window as any as containsMCLAIns).MCLA
 }

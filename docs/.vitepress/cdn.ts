@@ -3,7 +3,7 @@
 // default disabled when developing
 var enabled: boolean = process.env.NODE_ENV !== "development"
 
-export function isCDNEnabled(): bool {
+export function isCDNEnabled(): boolean {
   return enabled
 }
 
