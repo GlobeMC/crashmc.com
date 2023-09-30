@@ -414,9 +414,9 @@ async function mclAnalysis(file: MemFile): Promise<void> {
     promises.push(
       Promise.all(
         result.matched
+          .filter(({ match }) => match >= 0.5) // >= 50%
           .sort((a, b) => b.match - a.match) // x.match 降序排序
-          .map(async (solMatch) => {
-            const { match, errorDesc } = solMatch
+          .map(async ({ match, errorDesc }) => {
             const solutions = await Promise.all(
               errorDesc.solutions.map((id) =>
                 axios
