@@ -21,8 +21,8 @@ export {
   loadMCLA,
 }
 
-// const VERSION = "v0.4.13"
-const VERSION = "dev"
+const VERSION = "v0.4.14"
+// const VERSION = "dev"
 const RESOURCES_BASE = "https://globemc.github.io/mcla"
 const GO_WASM_EXEC_URL = useCDN(`${RESOURCES_BASE}/${VERSION}/wasm_exec.js`)
 const MCLA_WASM_URL = useCDN(`${RESOURCES_BASE}/${VERSION}/mcla.wasm`)
