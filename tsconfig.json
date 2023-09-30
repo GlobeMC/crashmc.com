@@ -5,11 +5,7 @@
     "sourceMap": true,
     "target": "es6",
     "allowSyntheticDefaultImports": true,
-    "lib": [
-      "es6",
-      "dom",
-      "webworker"
-    ]
+    "lib": ["es6", "dom", "webworker"]
   },
   "include": ["docs/.vitepress/**/*.ts", "docs/.vitepress/**/*.vue"],
   "exclude": ["**/*.spec.ts", "**/*.spec.vue"]
