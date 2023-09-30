@@ -251,7 +251,7 @@ interface containsGoCls {
 }
 
 interface containsMCLAIns {
-  MCLA: MCLAAPI
+  MCLA: MCLAAPI | undefined
 }
 
 async function loadMCLA(): Promise<MCLAAPI> {
