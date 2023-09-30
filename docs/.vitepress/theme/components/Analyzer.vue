@@ -416,8 +416,8 @@ async function mclAnalysis(file: MemFile): Promise<void> {
         result.matched
           .filter(({ match }) => match >= 0.5) // >= 50%
           .sort((a, b) => b.match - a.match) // x.match 降序排序
-          .map(async ({ match, errorDesc }) => {
-            const solutions = await Promise.all(
+          .map(({ match, errorDesc }) => {
+            return Promise.all(
               errorDesc.solutions.map((id) =>
                 axios
                   .get(`${MCLA_GH_DB_PREFIX}/solutions/${id}.json`)
@@ -428,26 +428,28 @@ async function mclAnalysis(file: MemFile): Promise<void> {
                     error: String(err),
                   })),
               ),
-            )
-            return {
+            ).then((solutions) => ({
               match: match,
               desc: {
                 error: errorDesc.error,
                 message: errorDesc.message,
                 solutions: solutions,
               },
-            }
+            }))
           }),
-      ).then((matched) =>
-        analysisResults.value.push({
-          filepath: filepath,
-          error: result.error,
-          matched: matched,
-        }),
+      ).then(
+        (matched) =>
+          matched.length &&
+          analysisResults.value.push({
+            filepath: filepath,
+            error: result.error,
+            matched: matched,
+          }),
       ),
     )
   }
-  return Promise.all(promises)
+  await Promise.all(promises)
+  return
 }
 
 /**

@@ -1,8 +1,9 @@
 // this file makes the cdn link configurable, then we can disable or switch it easily
 
-var enabled: boolean = true
+// default disabled when developing
+var enabled: boolean = process.env.NODE_ENV !== "development"
 
-export function isCDNEnabled(): bool {
+export function isCDNEnabled(): boolean {
   return enabled
 }
 
