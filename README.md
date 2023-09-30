@@ -55,4 +55,3 @@
 - [23355607](https://github.com/2623684696)：域名管理
 - [龙腾猫跃 / PCL2](https://github.com/Hex-Dragon/PCL2)：提供了部分日志分析规则
 - 各位志愿者：提供了很多日志分析经验，没有你们河豚分析不会成立
-- [Cloudflare](https://www.cloudflare.com)：提供免费的 Cloudflare Pro 计划支持
