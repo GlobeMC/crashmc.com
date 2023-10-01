@@ -28,7 +28,10 @@ jobs:
         run: yarn docs:tsc
 
       - name: 🔧 Check Code Format
-        run: yarn docs:lint
+        run: |
+          yarn docs:lint && exit 0
+          echo "请执行 `pnpm run docs:format` 以格式化代码"
+          exit 1
 
       - name: 🌌 Build VitePress Docs
         run: yarn docs:build

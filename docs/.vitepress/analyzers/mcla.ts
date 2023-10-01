@@ -159,9 +159,9 @@ class MCLAWorker implements MCLAAPI {
     const re = this.pendings.get(data._id)
     if (re) {
       this.pendings.delete(data._id)
-      if(data._error){
+      if (data._error) {
         re[1](data._error)
-      }else {
+      } else {
         re[0](data)
       }
     }
