@@ -125,7 +125,7 @@ class MCLAWorker implements MCLAAPI {
     worker.onmessage = (event) => this.onmsg(event)
     worker.onerror = (event) => {
       console.error("Error in MCLA Worker:", event)
-      for(let [_, reject] of this.pendings.values()){
+      for (let [_, reject] of this.pendings.values()) {
         reject("Error inside MCLAWorker")
       }
       this.pendings.clear()
@@ -278,9 +278,9 @@ interface containsMCLAIns {
 
 async function loadMCLA(): Promise<MCLAAPI> {
   if (window.Worker) {
-    try{
+    try {
       return loadMCLAWorker()
-    }catch(e){
+    } catch (e) {
       // if cannot load by worker, try load inside the window
     }
   }
