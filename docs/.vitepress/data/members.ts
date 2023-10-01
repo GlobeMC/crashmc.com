@@ -55,7 +55,7 @@ const members = [
   },
   {
     avatar: "https://cdn.crashmc.com/https://github.com/Seayay.png",
-    name: "思源千年",
+    name: "思遥方",
     title: "文档贡献者",
     links: [{ icon: "github", link: "https://github.com/Seayay" }],
   },
