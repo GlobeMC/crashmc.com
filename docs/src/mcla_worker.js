@@ -1,4 +1,4 @@
-function openDB(name, version, onupgrade){
+function openDB(name, version, onupgrade) {
   return new Promise((resolve, reject) => {
     const res = indexedDB.open(name, version)
     res.onerror = (event) => {
@@ -13,7 +13,7 @@ function openDB(name, version, onupgrade){
   })
 }
 
-function wrapDBReq(req){
+function wrapDBReq(req) {
   return new Promise((resolve, reject) => {
     req.onerror = reject
     req.onsuccess = resolve
@@ -21,56 +21,55 @@ function wrapDBReq(req){
 }
 
 class DBStorage {
-  constructor(db){
+  constructor(db) {
     this._db = db
     this._transaction = null
   }
 
-  _newTrans(){
+  _newTrans() {
     let transaction = this._db.transaction(["localStorage"], "readwrite")
-    transaction.oncomplete = () => {
-    }
-    transaction.onabort = () => {
-    }
+    transaction.oncomplete = () => {}
+    transaction.onabort = () => {}
     transaction.onerror = (event) => {
-      console.error('Transaction on error:', event)
+      console.error("Transaction on error:", event)
     }
     return transaction
   }
 
-  _getStore(){
+  _getStore() {
     return this._newTrans().objectStore("localStorage")
   }
 
-  _getIndex(){
+  _getIndex() {
     return this._getStore().index("k")
   }
 
-  async getItem(key){
+  async getItem(key) {
     const res = (await wrapDBReq(this._getIndex().get(key))).target.result
-    if(res){
+    if (res) {
       return res.v
     }
     return undefined
   }
 
-  async setItem(key, value){
+  async setItem(key, value) {
     await wrapDBReq(this._getStore().put({ k: key, v: value }))
     return
   }
 
-  async removeItem(key){
+  async removeItem(key) {
     await wrapDBReq(this._getStore().delete(key))
     return
   }
 }
 
 async function setup(wasm_url) {
-  globalThis.localStorage = new DBStorage(await openDB("mcla-worker-localStorage", 1, (db) => {
-    const localStore = db.createObjectStore("localStorage", { keyPath: "k" })
-    localStore.createIndex("k", "k", { unique: true })
-  }))
-
+  globalThis.localStorage = new DBStorage(
+    await openDB("mcla-worker-localStorage", 1, (db) => {
+      const localStore = db.createObjectStore("localStorage", { keyPath: "k" })
+      localStore.createIndex("k", "k", { unique: true })
+    }),
+  )
 
   const go = new Go()
   var res
@@ -194,8 +193,8 @@ this.onmessage = async (event) => {
         break
       }
     }
-  }catch(err){
-    if(typeof data._id !== 'undefined'){
+  } catch (err) {
+    if (typeof data._id !== "undefined") {
       this.postMessage({
         _id: data._id,
         _error: String(err),

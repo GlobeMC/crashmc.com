@@ -122,10 +122,9 @@ class MCLAWorker implements MCLAAPI {
 
   constructor(worker: Worker) {
     this.worker = worker
-    console.log('worker:', worker)
     worker.onmessage = (event) => this.onmsg(event)
     worker.onerror = (event) => {
-      console.error('Error in MCLA Worker:', event)
+      console.error("Error in MCLA Worker:", event)
     }
     this.pendings = new Map()
     this.registry = new FinalizationRegistry((ptr: number) => {
