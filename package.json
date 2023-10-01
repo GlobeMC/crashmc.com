@@ -40,6 +40,7 @@
   "dependencies": {
     "@gera2ld/tarjs": "^0.2.2",
     "@types/umami": "^0.1.2",
+    "@typescript-eslint/parser": "^6.7.3",
     "axios": "^1.4.0",
     "directory-tree": "^3.5.1",
     "jszip": "^3.10.1",
