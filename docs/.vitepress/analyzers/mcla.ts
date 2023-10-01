@@ -183,19 +183,19 @@ class MCLAWorker implements MCLAAPI {
       case "string":
       case "undefined":
         return res
-      case "object":
+      case "object": {
         if (res === null) {
           return res
         }
         if (res instanceof Array) {
-          let obj = new Array(res.length)
+          const obj = new Array(res.length)
           for (let i = 0; i < res.length; i++) {
             obj[i] = this.unwrapObj(res[i])
           }
           return obj
         }
         if (res.__worker_function) {
-          let fn = async (...args): Promise<any> => {
+          const fn = async (...args): Promise<any> => {
             return (
               await this.ask({
                 type: "callObj",
@@ -207,11 +207,12 @@ class MCLAWorker implements MCLAAPI {
           this.registry.register(fn, res.ptr)
           return fn
         }
-        let obj = new Object()
-        for (let k of Reflect.ownKeys(res)) {
+        const obj = new Object()
+        for (const k of Reflect.ownKeys(res)) {
           obj[k] = this.unwrapObj(res[k])
         }
         return obj
+      }
     }
     throw new Error("Unexpected type of res: " + typeof res)
   }
