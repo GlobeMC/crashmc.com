@@ -15,12 +15,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Checkout To Pull Request
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          gh pr checkout ${{ github.event.pull_request.number }}
-
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2
         with:
@@ -30,20 +24,14 @@ jobs:
       - name: 📦 Install Dependencies
         run: yarn
 
-      - name: 🧐 Check Code
+      - name: 🧐 Check Code Types
         run: yarn docs:tsc
+
+      - name: 🔧 Check Code Format
+        run: |
+          yarn docs:lint && exit 0
+          echo "请执行 `pnpm run docs:format` 以格式化代码"
+          exit 1
 
       - name: 🌌 Build VitePress Docs
         run: yarn docs:build
-
-      - name: 🔧 Format Code
-        run: yarn docs:format
-
-      - name: Push Formatted Code
-        run: |
-          git config user.name github-actions
-          git config user.email github-actions[bot]@users.noreply.github.com
-          git config push.default upstream
-          git add .
-          git commit -m "🔧 Formatted Code" || exit 0
-          git push || echo "Warn: cannot push the formatted code"
