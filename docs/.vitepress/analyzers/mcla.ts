@@ -125,6 +125,10 @@ class MCLAWorker implements MCLAAPI {
     worker.onmessage = (event) => this.onmsg(event)
     worker.onerror = (event) => {
       console.error("Error in MCLA Worker:", event)
+      for(let [_, reject] of this.pendings.values()){
+        reject("Error inside MCLAWorker")
+      }
+      this.pendings.clear()
     }
     this.pendings = new Map()
     this.registry = new FinalizationRegistry((ptr: number) => {
@@ -258,7 +262,7 @@ class MCLAWorker implements MCLAAPI {
 
 async function loadMCLAWorker(): Promise<MCLAAPI> {
   return MCLAWorker.createFromWorker(
-    new Worker("/src/mcla_worker.js", {
+    new Worker("/scripts/mcla_worker.js", {
       type: "classic",
     }),
   )
@@ -274,7 +278,11 @@ interface containsMCLAIns {
 
 async function loadMCLA(): Promise<MCLAAPI> {
   if (window.Worker) {
-    return loadMCLAWorker()
+    try{
+      return loadMCLAWorker()
+    }catch(e){
+      // if cannot load by worker, try load inside the window
+    }
   }
 
   await import(GO_WASM_EXEC_URL /* @vite-ignore */) // set variable `window.Go`
