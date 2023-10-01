@@ -125,7 +125,7 @@ class MCLAWorker implements MCLAAPI {
     worker.onmessage = (event) => this.onmsg(event)
     worker.onerror = (event) => {
       console.error("Error in MCLA Worker:", event)
-      for (let [_, reject] of this.pendings.values()) {
+      for (const [, reject] of this.pendings.values()) {
         reject("Error inside MCLAWorker")
       }
       this.pendings.clear()
