@@ -155,42 +155,51 @@ function wrapRes(res) {
 
 this.onmessage = async (event) => {
   const { data } = event
-  switch (data.type) {
-    case "setup":
-      await this.importScripts(data.wasm_exec /* @vite-ignore */) // set variable `this.Go`
-      await setup(data.wasm_url)
-      this.postMessage({
-        _id: data._id,
-        version: MCLA.version,
-      })
-      break
-    case "call": {
-      let fn = MCLA[data.name]
-      if (typeof fn !== "function") {
-        throw `MCLA.${data.name} is not a function`
+  try {
+    switch (data.type) {
+      case "setup":
+        await this.importScripts(data.wasm_exec /* @vite-ignore */) // set variable `this.Go`
+        await setup(data.wasm_url)
+        this.postMessage({
+          _id: data._id,
+          version: MCLA.version,
+        })
+        break
+      case "call": {
+        let fn = MCLA[data.name]
+        if (typeof fn !== "function") {
+          throw `MCLA.${data.name} is not a function`
+        }
+        let res = await fn(...data.args)
+        this.postMessage({
+          _id: data._id,
+          res: wrapRes(res),
+        })
+        break
       }
-      let res = await fn(...data.args)
-      this.postMessage({
-        _id: data._id,
-        res: wrapRes(res),
-      })
-      break
-    }
-    case "callObj": {
-      let fn = objectsMap[data.ptr]
-      if (typeof fn !== "function") {
-        throw `Object [${data.ptr}] is not a function`
+      case "callObj": {
+        let fn = objectsMap[data.ptr]
+        if (typeof fn !== "function") {
+          throw `Object [${data.ptr}] is not a function`
+        }
+        let res = await fn(...data.args)
+        this.postMessage({
+          _id: data._id,
+          res: wrapRes(res),
+        })
+        break
       }
-      let res = await fn(...data.args)
+      case "releaseObj": {
+        releaseObj(data.ptr)
+        break
+      }
+    }
+  }catch(err){
+    if(typeof data._id !== 'undefined'){
       this.postMessage({
         _id: data._id,
-        res: wrapRes(res),
+        _error: String(err),
       })
-      break
-    }
-    case "releaseObj": {
-      releaseObj(data.ptr)
-      break
     }
   }
 }

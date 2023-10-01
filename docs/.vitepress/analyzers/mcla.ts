@@ -21,7 +21,7 @@ export {
   loadMCLA,
 }
 
-const VERSION = "v0.4.15"
+const VERSION = "v0.4.18"
 // const VERSION = "dev"
 const RESOURCES_BASE = "https://globemc.github.io/mcla"
 const GO_WASM_EXEC_URL = useCDN(`${RESOURCES_BASE}/${VERSION}/wasm_exec.js`)
@@ -112,15 +112,21 @@ interface MCLAAPI {
   analyzeLogErrorsIter(log: readable): Promise<AsyncIterator<ErrorResult>>
 }
 
+type promiseSolver = (res: any) => void
+
 class MCLAWorker implements MCLAAPI {
   private readonly worker: Worker
   private _version: string
-  private pendings: Map<number, (res: any) => void>
+  private pendings: Map<number, promiseSolver[]>
   private readonly registry: FinalizationRegistry<number>
 
   constructor(worker: Worker) {
     this.worker = worker
+    console.log('worker:', worker)
     worker.onmessage = (event) => this.onmsg(event)
+    worker.onerror = (event) => {
+      console.error('Error in MCLA Worker:', event)
+    }
     this.pendings = new Map()
     this.registry = new FinalizationRegistry((ptr: number) => {
       this.worker.postMessage({
@@ -140,7 +146,7 @@ class MCLAWorker implements MCLAAPI {
       i++
     }
     const p = new Promise((resolve, reject) => {
-      this.pendings.set(i, resolve)
+      this.pendings.set(i, [resolve, reject])
     })
     this.worker.postMessage({
       ...data,
@@ -150,12 +156,15 @@ class MCLAWorker implements MCLAAPI {
   }
 
   private onmsg(event) {
-    console.log("onmsg:", event)
     const { data } = event
     const re = this.pendings.get(data._id)
     if (re) {
       this.pendings.delete(data._id)
-      re(data)
+      if(data._error){
+        re[1](data._error)
+      }else{
+        re[0](data)
+      }
     }
   }
 
