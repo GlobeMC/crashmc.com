@@ -107,7 +107,7 @@ java.lang.IllegalStateException: failed to create a child event loop
 2. 如您安装了 McAfee（及其衍生产品）或 Outpost Security，尝试卸载该软件并再次重新启动游戏。
 3. 如您没有防病毒安全软件，尝试在 Microsoft Defender 中的 “防火墙和网络保护” 中关闭 “专用网络保护”。
 4. 关闭您的加速器或 VPN。
-5. 前往 Oracle 官网下载最新版 Java，并将该 Java 设置为游戏 Java。
+5. 前往 Bellsoft 官网下载最新版 Java，并将该 Java 设置为游戏 Java。
 
 :::details 常见的第三方启动器设置版本 Java 功能位置
 
