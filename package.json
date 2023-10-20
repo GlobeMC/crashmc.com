@@ -3,8 +3,8 @@
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs",
-    "docs:format": "prettier --write .",
-    "docs:eslint": "eslint --ignore-path .gitignore --ext .ts,.vue \"docs/.vitepress/**/*.{ts,vue}\" --fix",
+    "docs:format": "eslint --ignore-path .gitignore --ext .ts,.vue \"docs/.vitepress/**/*.{ts,vue}\" --fix",
+    "docs:eslint": "eslint --ignore-path .gitignore --ext .ts,.vue \"docs/.vitepress/**/*.{ts,vue}\"",
     "docs:zhlint": "zhlint docs/**/*.md --fix",
     "docs:tsc": "tsc --noEmit --module es2022 --skipDefaultLibCheck",
     "prepare": "husky install"

@@ -9,7 +9,7 @@
 解释：有些时候，一些 Mod 会要求特殊的 Java 版本。此时使用不正确的 Java 版本将无法启动游戏。
 
 :::warning 注意
-除非你匹配到了下方示例中的关键词，否则，我们始终建议保持启动器的 **自动决定 Java** 功能为开启状态。
+除非你匹配到了下方示例中的关键词，否则，我们始终建议保持启动器的**自动决定 Java** 功能为开启状态。
 :::
 
 解决方案：根据 Log 引导，使用正确的 Java 版本启动游戏。检查括号内的 `class file version` 后跟随的数字，然后在 Java 版本列表里查找对应的 Java 大版本。
@@ -54,20 +54,20 @@ Unsupported class file major version
 
 解释：由于低版本 Forge 和高版本 Java 不兼容，导致了游戏崩溃。
 
-解决方案：卸载当前 Java 8 ，然后前往其他地方获取版本号在 `8u51-8u312` 之间的 Java 8。
+解决方案：卸载当前 Java 8，然后前往其他地方获取版本号在 `8u51-8u312` 之间的 Java 8。
 
 :::details 常见的第三方启动器获取 Java 方法
-在<LauncherBadge type="bakaxl" text="BakaXL" />启动器设置中获取 Java：前往 `本体设置` -> `Java 虚拟机与内存` ，点击获取对应的 Java 版本。
+在<LauncherBadge type="bakaxl" text="BakaXL" />启动器设置中获取 Java：前往 `本体设置` -> `Java 虚拟机与内存`，点击获取对应的 Java 版本。
 
-在<LauncherBadge type="pcl" text="PCL2" />启动器中获取 Java：卸载当前 Java 后重启启动器，直接点击启动游戏，启动器提示自动补全 Java 时，点击 `自动下载` 。
+在<LauncherBadge type="pcl" text="PCL2" />启动器中获取 Java：卸载当前 Java 后重启启动器，直接点击启动游戏，启动器提示自动补全 Java 时，点击 `自动下载`。
 
 在<LauncherBadge type="hmcl" text="HMCL" />启动器中获取 Java：卸载当前 Java 后重启启动器，按照启动器引导下载 Java。
 :::
 
 :::details 其他 Java 获取方法
-从官网下载并手动安装 Java: [Java 8](https://cdn.crashmc.com/https://github.com/bell-sw/Liberica/releases/download/8u312%2B7/bellsoft-jre8u312+7-windows-amd64-full.msi) | [JDK 17+](https://cdn.crashmc.com/https://github.com/bell-sw/Liberica/releases/download/17.0.1%2B12/bellsoft-jdk17.0.1+12-windows-amd64.msi)
+从官网下载并手动安装 Java：[Java 8](https://cdn.crashmc.com/https://github.com/bell-sw/Liberica/releases/download/8u312%2B7/bellsoft-jre8u312+7-windows-amd64-full.msi) | [JDK 17+](https://cdn.crashmc.com/https://github.com/bell-sw/Liberica/releases/download/17.0.1%2B12/bellsoft-jdk17.0.1+12-windows-amd64.msi)
 
-获取 (Java 9+) 且已存档的 JDK 包: <https://bell-sw.com/pages/downloads/#downloads>
+获取 (Java 9+) 且已存档的 JDK 包：<https://bell-sw.com/pages/downloads/#downloads>
 :::
 
 ## Mod 重复安装
@@ -100,7 +100,7 @@ maximum id range exceeded
 
 解释：因为 Mod 文件被解压，导致游戏崩溃。
 
-解决方案：删除 `mods` 文件夹中已被解压的 Mod ，然后重新获取被删除的 Mod。
+解决方案：删除 `mods` 文件夹中已被解压的 Mod，然后重新获取被删除的 Mod。
 
 关键词：
 
@@ -147,9 +147,9 @@ Caused by: java.util.zip.ZipException: zip END header not found
 
 解决方案：
 
-1.尝试禁用这些 Mod；
+1。尝试禁用这些 Mod；
 
-2.使用加速器或 VPN。
+2。使用加速器或 VPN。
 
 ## Forge
 
@@ -173,7 +173,7 @@ Found multiple arguments for option fml.forgeVersion, but you asked for only one
 
 解释：Night Config 库的一些常见问题导致的，会导致无法读取配置文件。有关详细信息，可访问[此处](https://github.com/Fuzss/nightconfigfixes#readme)查看。
 
-解决方案：请尝试下载并安装该 Mod：`Night Config Fixes`。[MC百科](https://www.mcmod.cn/class/9007.html) | [CurseForge](https://www.curseforge.com/minecraft/mc-mods/night-config-fixes)
+解决方案：请尝试下载并安装该 Mod：`Night Config Fixes`。[MC 百科](https://www.mcmod.cn/class/9007.html) | [CurseForge](https://www.curseforge.com/minecraft/mc-mods/night-config-fixes)
 
 关键词：
 
@@ -191,9 +191,9 @@ Caused by: com.electronwill.nightconfig.core.io.ParsingException: Not enough dat
 
 找到 `Mod ID` 字样，然后根据后面提示的 Mod 信息查找对应 Mod 并下载安装。
 
-如果一个 Mod 要求特定版本的另一个 Mod ，那么你应当寻找符合要求的 Mod 版本。
+如果一个 Mod 要求特定版本的另一个 Mod，那么你应当寻找符合要求的 Mod 版本。
 
-相关英文提示： any -> 任何 ； version(s) -> 版本 ； require(s) -> 要求，需要 ； of -> 的（介词）
+相关英文提示：any -> 任何；version(s) -> 版本；require(s) -> 要求，需要；of -> 的 (介词)
 
 ```
 // 在示例中，您应该安装 Boatload Mod 的前置 Mod：Blueprint 高于 5.4.0 的版本。
@@ -201,9 +201,9 @@ Missing or unsupported mandatory dependencies:
         Mod ID: 'blueprint', Requested by: 'boatload', Expected range: '[5.4.0,)', Actual version: '[MISSING]'
 ```
 
-您也可以通过 [MC百科](https://www.mcmod.cn/)、[Modrinth](https://modrinth.com/mods)、[CurseForge](https://www.curseforge.com/minecraft/mc-mods) 等网站搜索 Mod 所需的前置 Mod。
+您也可以通过 [MC 百科](https://www.mcmod.cn/)、[Modrinth](https://modrinth.com/mods)、[CurseForge](https://www.curseforge.com/minecraft/mc-mods) 等网站搜索 Mod 所需的前置 Mod。
 
-> Modrinth 和 CurseForge 目前为止未提供中文界面，有困难的用户建议使用 MC百科 进行查询。
+> Modrinth 和 CurseForge 目前为止未提供中文界面，有困难的用户建议使用 MC 百科进行查询。
 
 2. 删除需要前置的 Mod
 
@@ -250,9 +250,9 @@ Failure message:
 
 找到 `Mod ID` 字样，然后根据后面提示的 Mod 信息查找对应 Mod 并下载安装。
 
-如果一个 Mod 要求特定版本的另一个 Mod ，那么你应当寻找符合要求的 Mod 版本。
+如果一个 Mod 要求特定版本的另一个 Mod，那么你应当寻找符合要求的 Mod 版本。
 
-相关英文提示： any -> 任何 ； version(s) -> 版本 ； require(s) -> 要求，需要 ； of -> 的（介词）
+相关英文提示：any -> 任何；version(s) -> 版本；require(s) -> 要求，需要；of -> 的 (介词)
 
 ```
 // 在示例中，您应该安装 Boatload Mod 的前置 Mod：Blueprint 高于 5.4.0 的版本。
@@ -260,9 +260,9 @@ Missing or unsupported mandatory dependencies:
         Mod ID: 'blueprint', Requested by: 'boatload', Expected range: '[5.4.0,)', Actual version: '[MISSING]'
 ```
 
-您也可以通过 [MC百科](https://www.mcmod.cn/)、[Modrinth](https://modrinth.com/mods)、[CurseForge](https://www.curseforge.com/minecraft/mc-mods) 等网站搜索 Mod 所需的前置 Mod。
+您也可以通过 [MC 百科](https://www.mcmod.cn/)、[Modrinth](https://modrinth.com/mods)、[CurseForge](https://www.curseforge.com/minecraft/mc-mods) 等网站搜索 Mod 所需的前置 Mod。
 
-> Modrinth 和 CurseForge 目前为止未提供中文界面，有困难的用户建议使用 MC百科 进行查询。
+> Modrinth 和 CurseForge 目前为止未提供中文界面，有困难的用户建议使用 MC 百科进行查询。
 
 2. 删除需要前置的 Mod
 
@@ -302,9 +302,9 @@ Missing or unsupported mandatory dependencies:
 
 在 `Unmet dependency listing` 中找到 `requires` 字样，然后根据后面提示的 Mod 信息查找对应 Mod 并下载安装。
 
-如果一个 Mod 要求特定版本的另一个 Mod ，那么你应当寻找符合要求的 Mod 版本。
+如果一个 Mod 要求特定版本的另一个 Mod，那么你应当寻找符合要求的 Mod 版本。
 
-相关英文提示： any -> 任何 ； version(s) -> 版本 ； require(s) -> 要求，需要 ； of -> 的（介词）
+相关英文提示：any -> 任何；version(s) -> 版本；require(s) -> 要求，需要；of -> 的 (介词)
 
 ```
 // 在示例中，您应该安装 Zoomify Mod 的前置 Mod：Fabric API。
@@ -314,7 +314,7 @@ Unmet dependency listing:
 
 您也可以通过 [MC 百科](https://www.mcmod.cn/)、[Modrinth](https://modrinth.com/mods)、[CurseForge](https://www.curseforge.com/minecraft/mc-mods) 等网站搜索 Mod 所需的前置 Mod。
 
-> Modrinth 和 CurseForge 目前为止未提供中文界面，有困难的用户建议使用 MC 百科 进行查询。
+> Modrinth 和 CurseForge 目前为止未提供中文界面，有困难的用户建议使用 MC 百科进行查询。
 
 2. 删除需要前置的 Mod
 
@@ -370,9 +370,9 @@ that is compatible with
 
 在 `Unmet dependency listing` 中找到 `requires` 字样，然后根据后面提示的 Mod 信息查找对应 Mod 并下载安装。
 
-如果一个 Mod 要求特定版本的另一个 Mod ，那么你应当寻找符合要求的 Mod 版本。在 Quilt 中，括号中的前面一串数字代表最低版本，后面一串数字代表最高版本。
+如果一个 Mod 要求特定版本的另一个 Mod，那么你应当寻找符合要求的 Mod 版本。在 Quilt 中，括号中的前面一串数字代表最低版本，后面一串数字代表最高版本。
 
-相关英文提示： any -> 任何 ； version(s) -> 版本 ； require(s) -> 要求，需要 ； of -> 的（介词）
+相关英文提示：any -> 任何；version(s) -> 版本；require(s) -> 要求，需要；of -> 的 (介词)
 
 ```
 // 在示例中，您应该安装 Sodium Extra Mod 的前置 Mod：Sodium。
@@ -381,7 +381,7 @@ Sodium Extra requires version [0.4.10, ∞) of sodium, which is missing!
 
 您也可以通过 [MC 百科](https://www.mcmod.cn/)、[Modrinth](https://modrinth.com/mods)、[CurseForge](https://www.curseforge.com/minecraft/mc-mods) 等网站搜索 Mod 所需的前置 Mod。
 
-> Modrinth 和 CurseForge 目前为止未提供中文界面，有困难的用户建议使用 MC 百科 进行查询。
+> Modrinth 和 CurseForge 目前为止未提供中文界面，有困难的用户建议使用 MC 百科进行查询。
 
 2. 删除需要前置的 Mod
 
@@ -418,7 +418,7 @@ which is missing!
 
 您可以通过 [MC 百科](https://www.mcmod.cn/)、[Modrinth](https://modrinth.com/mods)、[CurseForge](https://www.curseforge.com/minecraft/mc-mods) 等网站搜索 Mod 所需的前置 Mod。
 
-> Modrinth 和 CurseForge 目前为止未提供中文界面，有困难的用户建议使用 MC 百科 进行查询。
+> Modrinth 和 CurseForge 目前为止未提供中文界面，有困难的用户建议使用 MC 百科进行查询。
 
 2. 删除需要前置的 Mod
 
@@ -428,7 +428,7 @@ which is missing!
 
 解释：由于 LiteLoader 与 Forge 冲突，游戏崩溃了。
 
-解决方案：卸载 LiteLoader（重新安装没有 LiteLoader 的实例，然后迁移数据）。
+解决方案：卸载 LiteLoader (重新安装没有 LiteLoader 的实例，然后迁移数据)。
 
 关键词：
 
@@ -452,7 +452,7 @@ java.lang.NoSuchMethodError: net.minecraft.world.server.ChunkManager$ProxyTicket
 
 #### Forge 与 OptiFine 兼容性问题导致的崩溃
 
-解释：使用的 Forge 版本过高 / 过低 或 OptiFine 并未兼容该版本的 Forge，导致游戏崩溃。
+解释：使用的 Forge 版本过高 / 过低或 OptiFine 并未兼容该版本的 Forge，导致游戏崩溃。
 
 解决方案：
 
@@ -464,7 +464,7 @@ java.lang.NoSuchMethodError: net.minecraft.world.server.ChunkManager$ProxyTicket
 
 :::
 
-前往 [OptiFine 官网](https://optifine.net/downloads) ，按照提示安装对应的 Forge 版本。
+前往 [OptiFine 官网](https://optifine.net/downloads)，按照提示安装对应的 Forge 版本。
 
 ![示例](https://cdn.crashmc.com/https://raw.githubusercontent.com/GlobeMC/CrashMC_Pics/main/client/mods/optifine-mod.png)
 
@@ -474,7 +474,7 @@ java.lang.NoSuchMethodError: net.minecraft.world.server.ChunkManager$ProxyTicket
 
 - 若显示 `Forge N/A` 则代表该版本的 OptiFine 不兼容任何 Forge 版本。
 
-你可以在日志中逐个匹配下面的关键词，以确定是否是该原因导致崩溃（关键词仅供参考）。
+你可以在日志中逐个匹配下面的关键词，以确定是否是该原因导致崩溃 (关键词仅供参考)。
 
 ```
 java.lang.NoSuchMethodError: 'void net.minecraftforge.client.gui.overlay.ForgeGui.renderSelectedItemName(net.minecraft.client.gui.GuiGraphics, int)'
@@ -497,12 +497,3 @@ java.lang.NoSuchMethodError: net.minecraft.launchwrapper.ITweaker.injectIntoClas
 
 TRANSFORMER/net.optifine/net.optifine.reflect.Reflector.<clinit>(Reflector.java
 ```
-
-
-
-
-
-
-
-
-

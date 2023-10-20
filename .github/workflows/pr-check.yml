@@ -29,7 +29,7 @@ jobs:
 
       - name: 🔧 Check Code Format
         run: |
-          yarn docs:lint && exit 0
+          yarn docs:eslint && exit 0
           echo 'Error: 请执行 `pnpm run docs:format` 以格式化代码' 1>&2
           exit 1
 
