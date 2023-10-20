@@ -159,7 +159,7 @@ TO BE COLLECTED
 
 解决方案：将游戏路径中的非 ASCII 字符去掉
 
-### macOS 下存在。DS_Store 文件导致报错
+### macOS 下存在 `.DS_Store` 文件导致报错
 
 ```
 Caused by: net.minecraft.util.ResourceLocationException: Non [a-z0-9_.-] character in namespace of location: .DS_Store:
