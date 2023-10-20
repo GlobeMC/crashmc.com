@@ -181,15 +181,15 @@ Found multiple arguments for option fml.forgeVersion, but you asked for only one
 Caused by: com.electronwill.nightconfig.core.io.ParsingException: Not enough data available
 ```
 
-### weaponlib 问题
+### MW 问题
 
-解释：有时，`weaponlib` Mod 与其它 Mod 会出现一些特殊问题。
+解释：有时，`MW` Mod 与其它 Mod 会出现一些特殊问题。
 
 解决方案：在 `配置文件夹` 里找到 `forge.cfg`，用记事本打开，把里面的 `allowEmissiveItems` 后面从 `true` 改成 `false`，保存，启动游戏即可。
 
   :::details 配置文件夹在哪里？
-  > 开启版本隔离：`.minecraft\versions\\[版本名]\config`
-  > 未开启版本隔离：`.minecraft\config`
+  > 开启版本隔离：`.minecraft/versions/[版本名]/config`
+  > 未开启版本隔离：`.minecraft/config`
   :::
 
 关键词：
