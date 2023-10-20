@@ -181,6 +181,25 @@ Found multiple arguments for option fml.forgeVersion, but you asked for only one
 Caused by: com.electronwill.nightconfig.core.io.ParsingException: Not enough data available
 ```
 
+### Vic's Modern Warfare Mod 问题
+
+解释：有时，`Vic's Modern Warfare`（维克的现代战争）Mod 与其它 Mod 会出现一些特殊问题。
+
+Mod 链接：[MC百科](https://www.mcmod.cn/class/595.html) [CurseForge](https://www.curseforge.com/minecraft/mc-mods/vics-modern-warfare-mod)
+
+解决方案：在 `配置文件夹` 里找到 `forge.cfg`，用记事本打开，把里面的 `allowEmissiveItems` 后面从 `true` 改成 `false`，保存，启动游戏即可。
+
+  :::details 配置文件夹在哪里？
+  > 开启版本隔离：`.minecraft/versions/[版本名]/config`
+  > 未开启版本隔离：`.minecraft/config`
+  :::
+
+关键词：
+
+```
+java.lang.IllegalStateException: Not Building!
+```
+
 ### 缺少前置
 
 解释：有 Mod 依赖其他 Mod 运行，但未安装依赖的 Mod。
