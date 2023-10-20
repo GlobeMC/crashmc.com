@@ -181,9 +181,9 @@ Found multiple arguments for option fml.forgeVersion, but you asked for only one
 Caused by: com.electronwill.nightconfig.core.io.ParsingException: Not enough data available
 ```
 
-### MW 问题
+### Vic's Modern Warfare Mod 问题
 
-解释：有时，`MW` Mod 与其它 Mod 会出现一些特殊问题。
+解释：有时，`Vic's Modern Warfare`（维克的现代战争）Mod 与其它 Mod 会出现一些特殊问题。
 
 解决方案：在 `配置文件夹` 里找到 `forge.cfg`，用记事本打开，把里面的 `allowEmissiveItems` 后面从 `true` 改成 `false`，保存，启动游戏即可。
 
