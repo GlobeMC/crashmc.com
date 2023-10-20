@@ -1,6 +1,5 @@
 {
-  "preset": "markdown",
+  "preset": "default",
   "rules": {
-    " unifiedPunctuation": "traditonal"
   }
 }

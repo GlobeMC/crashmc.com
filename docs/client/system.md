@@ -6,7 +6,7 @@
 
 这些问题在各种系统中都会出现，因此放在最前面。
 
-### OpenGL 错误（聊天栏中出现）
+### OpenGL 错误 (聊天栏中出现)
 
 | 错误码 | 可能原因                               | 解决方案                                                                             |
 | ------ | -------------------------------------- | ------------------------------------------------------------------------------------ |
@@ -44,9 +44,9 @@ The driver does not appear to support OpenGL
 
 解决方案：检查游戏分配的内存大小；尽可能关闭系统内运行的其他程序，然后再次启动游戏。
 
-内存清理 <LauncherBadge type="bakaxl" text="BakaXL" /> ：前往 `本体设置` -> `Java 虚拟机与内存` ，确保 `自动设置内存` 设置为开，然后展开 `内存高级设置` ，点击 `强制释放内存` （可多次点击），然后再次启动游戏。
+内存清理 <LauncherBadge type="bakaxl" text="BakaXL" /> ：前往 `本体设置` -> `Java 虚拟机与内存`，确保 `自动设置内存` 设置为开，然后展开 `内存高级设置`，点击 `强制释放内存` (可多次点击)，然后再次启动游戏。
 
-内存优化 <LauncherBadge type="pcl" text="PCL2" /> ：前往 `设置` -> `游戏` -> `游戏内存` ，确保内存配置选项为 `自动配置` 。然后前往 `更多 - 百宝箱` ，点击 `内存优化` ，然后按照提示给予启动器管理员权限，等待内存优化完成后再次启动游戏。
+内存优化 <LauncherBadge type="pcl" text="PCL2" /> ：前往 `设置` -> `游戏` -> `游戏内存`，确保内存配置选项为 `自动配置`。然后前往 `更多 - 百宝箱`，点击 `内存优化`，然后按照提示给予启动器管理员权限，等待内存优化完成后再次启动游戏。
 
 关键词：
 
@@ -63,7 +63,7 @@ Could not reserve enough space
 
 在 Windows 系统中，右键 `此电脑` -> `属性` -> `高级系统设置` -> `性能设置` -> `高级` -> `更改虚拟内存` -> 勾选 `自动管理所有驱动器分页文件大小`
 
-关键词（仅供参考）：
+关键词 (仅供参考)：
 
 ```
 页面文件太小，无法完成操作。
@@ -71,7 +71,7 @@ Could not reserve enough space
 
 ### Java 问题
 
-请在排查错误之前先打开启动器的 **自动决定 Java** 功能，然后再尝试启动游戏复现问题。在通常情况下，你不应该关闭这个功能。
+请在排查错误之前先打开启动器的**自动决定 Java** 功能，然后再尝试启动游戏复现问题。在通常情况下，你不应该关闭这个功能。
 
 以下为几个常见的因为 Java 的**非版本问题**导致的错误。
 
@@ -79,20 +79,20 @@ Could not reserve enough space
 
 解释：游戏因为使用 OpenJ9 而崩溃了。
 
-解决方案：卸载当前 Java ，然后前往其他地方获取一个非 OpenJ9 的 Java。
+解决方案：卸载当前 Java，然后前往其他地方获取一个非 OpenJ9 的 Java。
 
 :::details 常见的第三方启动器获取 Java 方法
-在<LauncherBadge type="bakaxl" text="BakaXL" />启动器设置中获取 Java：前往 `本体设置` -> `Java 虚拟机与内存` ，点击获取对应的 Java 版本。
+在<LauncherBadge type="bakaxl" text="BakaXL" />启动器设置中获取 Java：前往 `本体设置` -> `Java 虚拟机与内存`，点击获取对应的 Java 版本。
 
-在<LauncherBadge type="pcl" text="PCL2" />启动器中获取 Java：卸载当前 Java 后重启启动器，直接点击启动游戏，启动器提示自动补全 Java 时，点击 `自动下载` 。
+在<LauncherBadge type="pcl" text="PCL2" />启动器中获取 Java：卸载当前 Java 后重启启动器，直接点击启动游戏，启动器提示自动补全 Java 时，点击 `自动下载`。
 
 在<LauncherBadge type="hmcl" text="HMCL" />启动器中获取 Java：卸载当前 Java 后重启启动器，按照启动器引导下载 Java。
 :::
 
 :::details 其他 Java 获取方法
-从官网下载并手动安装 Java: [Java 8](https://cdn.crashmc.com/https://github.com/bell-sw/Liberica/releases/download/8u312%2B7/bellsoft-jre8u312+7-windows-amd64-full.msi) | [JDK 17+](https://cdn.crashmc.com/https://github.com/bell-sw/Liberica/releases/download/17.0.1%2B12/bellsoft-jdk17.0.1+12-windows-amd64.msi)
+从官网下载并手动安装 Java：[Java 8](https://cdn.crashmc.com/https://github.com/bell-sw/Liberica/releases/download/8u312%2B7/bellsoft-jre8u312+7-windows-amd64-full.msi) | [JDK 17+](https://cdn.crashmc.com/https://github.com/bell-sw/Liberica/releases/download/17.0.1%2B12/bellsoft-jdk17.0.1+12-windows-amd64.msi)
 
-获取 (Java 9+) 且已存档的 JDK 包: <https://bell-sw.com/pages/downloads/#downloads)>
+获取 (Java 9+) 且已存档的 JDK 包：<https://bell-sw.com/pages/downloads/#downloads)>
 :::
 
 关键词：
@@ -111,31 +111,31 @@ OpenJ9 is incompatible
 :::warning 注意
 此方法仅适用于 64 位系统。
 :::
-1. 卸载当前 Java ，然后去其他地方重新获取 64 位的 Java。
+1。卸载当前 Java，然后去其他地方重新获取 64 位的 Java。
 
 :::details 常见的第三方启动器获取 Java 方法
-在<LauncherBadge type="bakaxl" text="BakaXL" />启动器设置中获取 Java：前往 `本体设置` -> `Java 虚拟机与内存` ，点击获取对应的 Java 版本。
+在<LauncherBadge type="bakaxl" text="BakaXL" />启动器设置中获取 Java：前往 `本体设置` -> `Java 虚拟机与内存`，点击获取对应的 Java 版本。
 
-在<LauncherBadge type="pcl" text="PCL2" />启动器中获取 Java：卸载当前 Java 后重启启动器，直接点击启动游戏，启动器提示自动补全 Java 时，点击 `自动下载` 。
+在<LauncherBadge type="pcl" text="PCL2" />启动器中获取 Java：卸载当前 Java 后重启启动器，直接点击启动游戏，启动器提示自动补全 Java 时，点击 `自动下载`。
 
 在<LauncherBadge type="hmcl" text="HMCL" />启动器中获取 Java：卸载当前 Java 后重启启动器，按照启动器引导下载 Java。
 :::
 
 :::details 其他 Java 获取方法
-从官网下载并手动安装 Java: [Java 8](https://cdn.crashmc.com/https://github.com/bell-sw/Liberica/releases/download/8u312%2B7/bellsoft-jre8u312+7-windows-amd64-full.msi | [JDK 17+](https://cdn.crashmc.com/https://github.com/bell-sw/Liberica/releases/download/17.0.1%2B12/bellsoft-jdk17.0.1+12-windows-amd64.msi)
+从官网下载并手动安装 Java：[Java 8](https://cdn.crashmc.com/https://github.com/bell-sw/Liberica/releases/download/8u312%2B7/bellsoft-jre8u312+7-windows-amd64-full.msi | [JDK 17+](https://cdn.crashmc.com/https://github.com/bell-sw/Liberica/releases/download/17.0.1%2B12/bellsoft-jdk17.0.1+12-windows-amd64.msi)
 
-获取 (Java 9+) 且已存档的 JDK 包: <https://bell-sw.com/pages/downloads/#downloads>
+获取 (Java 9+) 且已存档的 JDK 包：<https://bell-sw.com/pages/downloads/#downloads>
 :::
 
 :::warning 注意
 不推荐使用此方法，可能会导致游戏卡顿，但 32 位系统只能这么做。
 :::
-2. 在启动器的内存设置中调整游戏内存分配至小于等于 1G （1G = 1024M）。
+2。在启动器的内存设置中调整游戏内存分配至小于等于 1G (1G = 1024M)。
 
 :::warning 注意
 需要一定技术基础，适用于 32 位系统，但为 64 位处理器。
 :::
-3.自行重装系统为 64 位。你可以使用微软官方提供的重装工具，抑或是使用 `EasyRC 一键重装` 等无捆绑一键重装工具。
+3。自行重装系统为 64 位。你可以使用微软官方提供的重装工具，抑或是使用 `EasyRC 一键重装` 等无捆绑一键重装工具。
 
 关键词：
 
@@ -159,7 +159,7 @@ TO BE COLLECTED
 
 解决方案：将游戏路径中的非 ASCII 字符去掉
 
-### macOS 下存在 .DS_Store 文件导致报错
+### macOS 下存在 `.DS_Store` 文件导致报错
 
 ```
 Caused by: net.minecraft.util.ResourceLocationException: Non [a-z0-9_.-] character in namespace of location: .DS_Store:
@@ -169,14 +169,14 @@ net.minecraft.util.ResourceLocationException: Non [a-z0-9_.-] character in names
 解决方案：删除 `.DS_Store` 文件
 
 :::details 解决步骤
-由于 `.DS_Store` 文件是 macOS 的隐藏文件， 只能通过执行指令进行删除
+由于 `.DS_Store` 文件是 macOS 的隐藏文件，只能通过执行指令进行删除
 
-1. 进入搜索栏，搜索 `终端` 或 `Terminal`， 并打开该软件
+1. 进入搜索栏，搜索 `终端` 或 `Terminal`，并打开该软件
 2. (可选) 使用 `cd <游戏路径>` 指令进入游戏目录
-   - 注 1: 官启的 `<游戏路径>` 为 `"~/Library/Application Support/minecraft/"`
-   - 注 2: 其他第三方启动器的 `<游戏路径>` 一般是与启动器文件同级的 `.minecraft` 文件夹
-   - **注 3: `.DS_Store` 用于保存文件移动记录 _(可见并不是非常重要)_ 。但若不在游戏目录下执行本操作， 将无法撤回任何文件移动操作， 并且 `find` 指令耗时也会很长**
-3. 执行如下指令:
+   - 注 1：官启的 `<游戏路径>` 为 `"~/Library/Application Support/minecraft/"`
+   - 注 2：其他第三方启动器的 `<游戏路径>` 一般是与启动器文件同级的 `.minecraft` 文件夹
+   - **注 3：`.DS_Store` 用于保存文件移动记录 _(可见并不是非常重要)_。但若不在游戏目录下执行本操作，将无法撤回任何文件移动操作，并且 `find` 指令耗时也会很长**
+3. 执行如下指令：
    ```sh
    rm $(find . -name .DS_Store 2>/dev/null)
    ```
@@ -189,7 +189,7 @@ Exception caught during firing event: Unable to load library 'imm32':
 class io.github.reserveword.imblocker.IMBlocker$RegistryEvents
 ```
 
-解决方案：删除 `IMBlocker` 模组（此模组仅适用于 Windows）
+解决方案：删除 `IMBlocker` 模组 (此模组仅适用于 Windows)
 
 ### macOS 下初始化 OpenGL 窗口问题
 
@@ -208,7 +208,7 @@ Exception caught during firing event: Unable to load library 'imm32':
 class io.github.reserveword.imblocker.IMBlocker$RegistryEvents
 ```
 
-解决方案：删除 `IMBlocker` 模组（此模组仅适用于 Windows）
+解决方案：删除 `IMBlocker` 模组 (此模组仅适用于 Windows)
 
 ### 在游戏版本为 1.20.x 中游戏路径包含非 ASCII 字符
 
@@ -219,12 +219,3 @@ class io.github.reserveword.imblocker.IMBlocker$RegistryEvents
 ```
 
 解决方案：将游戏路径中的非 ASCII 字符去掉
-
-
-
-
-
-
-
-
-

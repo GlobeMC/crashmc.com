@@ -2,7 +2,7 @@
 
 ## 未同意 EULA
 
-解释：没有同意[《最终用户许可协议》（EULA）](https://www.minecraft.net/zh-hans/eula)。
+解释：没有同意[《最终用户许可协议》(EULA)](https://www.minecraft.net/zh-hans/eula)。
 
 解决方案：将服务端所在目录下的 `eula.txt` 中的 `eula=false` 更改为 `eula=true`，然后重启服务器。
 
@@ -23,12 +23,3 @@ You need to agree to the EULA in order to run the server. Go to eula.txt for mor
 ```
 Perhaps a server is already running on that port?
 ```
-
-
-
-
-
-
-
-
-

@@ -1,9 +1,7 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-echo "running docs:eslint"
-pnpm run docs:eslint
-echo "running docs:zhling"
+echo "running docs:eslint --fix"
+pnpm run docs:eslint --fix
+echo "running docs:zhlint"
 pnpm run docs:zhlint
-echo "running docs:format"
-pnpm run docs:format
