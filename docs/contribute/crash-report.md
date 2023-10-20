@@ -9,3 +9,12 @@ contributors: [bingling-sama]
 :::info 注意
 在提交崩溃报告时，您首先要在 [GitHub](https://github.com) 网站注册一个帐号，以便我们对问题的后续跟踪。
 :::
+
+
+
+
+
+
+
+
+

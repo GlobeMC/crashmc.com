@@ -1,0 +1,6 @@
+{
+  "preset": "markdown",
+  "rules": {
+    " unifiedPunctuation": "traditonal"
+  }
+}

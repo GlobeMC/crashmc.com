@@ -4,8 +4,10 @@
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs",
     "docs:format": "prettier --write .",
-    "docs:lint": "eslint --ignore-path .gitignore --ext .ts,.vue \"docs/.vitepress/**/*.{ts,vue}\"",
-    "docs:tsc": "tsc --noEmit --module es2022 --skipDefaultLibCheck"
+    "docs:eslint": "eslint --ignore-path .gitignore --ext .ts,.vue \"docs/.vitepress/**/*.{ts,vue}\" --fix",
+    "docs:zhlint": "zhlint docs/**/*.md --fix",
+    "docs:tsc": "tsc --noEmit --module es2022 --skipDefaultLibCheck",
+    "prepare": "husky install"
   },
   "name": "mccrash-docs",
   "version": "0.0.0",
@@ -21,6 +23,7 @@
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier-vue": "^4.2.0",
     "eslint-plugin-vue": "^9.17.0",
+    "husky": "^8.0.3",
     "prettier": "^3.0.2",
     "sass": "^1.68.0",
     "tslib": "^2.6.1",
@@ -28,7 +31,8 @@
     "vitepress": "1.0.0-rc.20",
     "vue": "^3.3.4",
     "vue-eslint-parser": "^9.3.1",
-    "workbox-window": "^7.0.0"
+    "workbox-window": "^7.0.0",
+    "zhlint": "^0.7.1"
   },
   "keywords": [
     "Minecraft",
