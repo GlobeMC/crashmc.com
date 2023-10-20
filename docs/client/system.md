@@ -90,9 +90,9 @@ Could not reserve enough space
 :::
 
 :::details 其他 Java 获取方法
-从官网下载并手动安装 Java: [Java 8](https://www.java.com/zh-CN/download/) | [JDK 17+](https://www.oracle.com/java/technologies/downloads/)
+从官网下载并手动安装 Java: [Java 8](https://cdn.crashmc.com/https://github.com/bell-sw/Liberica/releases/download/8u312%2B7/bellsoft-jre8u312+7-windows-amd64-full.msi) | [JDK 17+](https://cdn.crashmc.com/https://github.com/bell-sw/Liberica/releases/download/17.0.1%2B12/bellsoft-jdk17.0.1+12-windows-amd64.msi)
 
-获取 (Java 9+) 且已存档的 JDK 包: <https://jdk.java.net/archive/>
+获取 (Java 9+) 且已存档的 JDK 包: <https://bell-sw.com/pages/downloads/#downloads)>
 :::
 
 关键词：
@@ -122,9 +122,9 @@ OpenJ9 is incompatible
 :::
 
 :::details 其他 Java 获取方法
-从官网下载并手动安装 Java: [Java 8](https://www.java.com/zh-CN/download/) | [JDK 17+](https://www.oracle.com/java/technologies/downloads/)
+从官网下载并手动安装 Java: [Java 8](https://cdn.crashmc.com/https://github.com/bell-sw/Liberica/releases/download/8u312%2B7/bellsoft-jre8u312+7-windows-amd64-full.msi | [JDK 17+](https://cdn.crashmc.com/https://github.com/bell-sw/Liberica/releases/download/17.0.1%2B12/bellsoft-jdk17.0.1+12-windows-amd64.msi)
 
-获取 (Java 9+) 且已存档的 JDK 包: <https://jdk.java.net/archive/>
+获取 (Java 9+) 且已存档的 JDK 包: <https://bell-sw.com/pages/downloads/#downloads>
 :::
 
 :::warning 注意
@@ -219,3 +219,12 @@ class io.github.reserveword.imblocker.IMBlocker$RegistryEvents
 ```
 
 解决方案：将游戏路径中的非 ASCII 字符去掉
+
+
+
+
+
+
+
+
+

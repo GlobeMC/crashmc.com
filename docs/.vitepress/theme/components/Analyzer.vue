@@ -1,48 +1,159 @@
-<script setup>
+<script setup lang="ts">
 import JSZip from "jszip"
-import { ref } from "vue"
+import pako from "pako"
+import { TarReader } from "@gera2ld/tarjs"
+import { useRouter } from "vitepress"
+import { type Ref, ref, watch, onBeforeMount, onUnmounted } from "vue"
+import axios from "axios"
+import { type umami } from "@types/umami"
+import AnalyzingIcon from "./icons/AnalyzingIcon.vue"
+import OpenTabIcon from "./icons/OpenTabIcon.vue"
+import UploadIcon from "./icons/UploadIcon.vue"
+import TransitionExpand from "./TransitionExpand.vue"
+import TransitionExpandGroup from "./TransitionExpandGroup.vue"
+import {
+  type MCLAAPI,
+  type JavaError,
+  type Solution,
+  type AsyncIterator,
+  loadMCLA,
+  MCLA_GH_DB_PREFIX,
+} from "../../analyzers/mcla"
+
+// 类型&接口定义
+interface SolutionOk {
+  ok: boolean
+  /* if ok */
+  res?: Solution
+  /* else */
+  id?: number // solution id
+  error?: string
+}
+
+interface ErrDesc {
+  error: string
+  message: string
+  solutions: SolutionOk[]
+}
+
+interface SolutionMatch {
+  match: number
+  desc: ErrDesc
+}
+
+interface AnalysisResult {
+  filepath: string
+  error: JavaError
+  matched: SolutionMatch[]
+}
+
+/**
+ * In memory file struct
+ */
+class MemFile {
+  readonly data: Uint8Array
+  readonly path: string
+  text?: string // only present when it's a vaild text file
+
+  constructor(data: Uint8Array, path: string) {
+    this.data = data
+    this.path = path
+  }
+
+  get name(): string {
+    let path = this.path
+    if (path.endsWith("/")) {
+      // remove '/' suffix
+      path = path.substring(0, path.length - 1)
+    }
+    let i = path.lastIndexOf("/")
+    if (i >= 0) {
+      return path.substring(i + 1)
+    }
+    return path
+  }
+}
+
+class AnalysisError {
+  readonly type: string
+  readonly reason: any
+  constructor(type: string, reason: any) {
+    this.type = type
+    this.reason = reason
+  }
+
+  get message(): string {
+    return String(this.reason)
+  }
+
+  toString(): string {
+    let s = this.type
+    if (this.reason) {
+      s += ": " + this.message
+    }
+    return s
+  }
+}
+
+// 常量
+const router = useRouter()
+const utf8Decoder = new TextDecoder("utf-8")
 
 // 元素引用
 const fileUploader = ref(null)
 
-// 变量初始化
+// 模版变量初始化
 const analyzerBackgroundColor = ref("")
-
+const analyzing = ref(false)
 const analysisShowResult = ref(false)
+const analysisResults: Ref<AnalysisResult[]> = ref(null)
 const isBtnDisabled = ref(false)
 const labelMsg = ref("未选择文件")
 const btnMsg = ref("开始上传")
 const analysisResultMsg = ref("")
+const redirectUrl = ref(null)
 const redirectMsg = ref("导航到解决方案")
-var launcher = "Unknown"
-var redirect_url = null
-var increaseOpacTimer = null
-var increaseHeightTimer = null
-
-const CUR_URL = window.location.href // 当前网址
-const ROOT_URL = CUR_URL.substring(
-  // 根网址
-  0,
-  CUR_URL.indexOf(window.location.pathname),
+const showAnalyzingIcon = ref(false)
+watch(
+  analyzing,
+  (() => {
+    // we have to wait a second before trigger the analyzing icon to make better performance
+    var switchInterval = null
+    return async () => {
+      if (switchInterval) {
+        await switchInterval
+        switchInterval = null
+      }
+      const value = analyzing.value
+      if (value) {
+        switchInterval = new Promise((re) => setTimeout(re, 1000))
+      }
+      showAnalyzingIcon.value = value
+    }
+  })(),
 )
 
-const SYSTEM_URL = ROOT_URL + "/client/system.html" // 系统问题
-const VANILLA_URL = ROOT_URL + "/client/vanilla.html" // 原版问题
-const MODS_URL = ROOT_URL + "/client/mods.html" // Mod 问题
-const MIXIN_URL = ROOT_URL + "/mixin.html" // Mod 问题
+// 公共变量
+var MCLA: MCLAAPI = null
+var launcher = "Unknown"
+
+const SYSTEM_URL = "/client/system.html" // 系统问题
+const VANILLA_URL = "/client/vanilla.html" // 原版问题
+const MODS_URL = "/client/mods.html" // Mod 问题
+const MIXIN_URL = "/mixin.html" // Mod 问题
 
 // 阻止浏览器默认拖拽行为
-function handleDragEnter(e) {
+function handleDragEnter() {
   analyzerBackgroundColor.value = "rgba(255,255,255,0.5)"
 }
 
 // 动画
-function handleDragOver(e) {
+function handleDragOver() {
   analyzerBackgroundColor.value = "rgba(255,255,255,0.5)"
 }
 
 // 动画
-function handleDragLeave(e) {
+function handleDragLeave() {
   analyzerBackgroundColor.value = "var(--vp-custom-block-tip-bg)"
 }
 
@@ -50,35 +161,17 @@ function handleDragLeave(e) {
 function handleDrop(e) {
   const files = e.dataTransfer.files // 获取拖拽过来的文件
   // 处理文件
-  handleFiles(files)
+  handleDropFiles(files)
 }
 
 /**
  * 拖拽文件处理。
  * @param {File} files 拖拽的文件。
  */
-function handleFiles(files) {
-  console.log("文件拖拽：" + files)
+function handleDropFiles(files: FileList) {
+  console.debug("文件拖拽:", files)
   analyzerBackgroundColor.value = "var(--vp-custom-block-tip-bg)"
-  clean() // 重新初始化
-  if (files.length != 1) {
-    labelMsg.value = "仅能上传一个文件"
-  } else {
-    launcher = "Unknown"
-    var file = files[0]
-    var filePath = files[0].name
-    var ext = filePath.substring(filePath.lastIndexOf(".") + 1).toLowerCase()
-    if (ext == "zip" || ext == "log" || ext == "txt") {
-      btnMsg.value = "正在分析"
-      isBtnDisabled.value = true
-      labelMsg.value = file.name
-      startAnalysis(file, ext)
-      return true
-    } else {
-      labelMsg.value = "请上传 .zip/.txt/.log 文件!"
-      return false
-    }
-  }
+  analyzeFiles(files)
 }
 
 /**
@@ -87,148 +180,283 @@ function handleFiles(files) {
 function clean() {
   console.log("重新初始化")
   analysisShowResult.value = false
+  analysisResults.value = []
   analysisResultMsg.value = "分析器歇逼了"
   redirectMsg.value = "导航到解决方案"
-  redirect_url = null
-  clearInterval(increaseOpacTimer)
-  clearInterval(increaseHeightTimer)
+  redirectUrl.value = null
 }
 
-/**
- * 根据指定的 zip 文件与索引，读取文件的全部内容。
- * @param {zip} zip zip 文件。
- * @param {int} key 索引。
- */
-async function GetLog(zip, key) {
-  return await zip.files[key].async("string")
+function checkFiles(): Promise<boolean> {
+  const fup = fileUploader.value
+  return analyzeFiles(fup.files)
 }
 
 /**
  * 分析文件。可以分析返回 true，不能分析返回 false。
  */
-function checkfiles() {
+function analyzeFiles(files: FileList): Promise<boolean> {
   clean()
   launcher = "Unknown"
-  var fup = fileUploader.value
-  var filePath = fup.value
-  var ext = filePath.substring(filePath.lastIndexOf(".") + 1).toLowerCase()
-  if (["zip", "log", "txt"].includes(ext)) {
-    console.log("分析文件：" + ext)
-    btnMsg.value = "正在分析"
-    isBtnDisabled.value = true
-    var file = fileUploader.value.files[0]
-    labelMsg.value = file.name
-    startAnalysis(file, ext)
-    return true
-  } else {
-    labelMsg.value = "请上传 .zip/.txt/.log 文件!"
-    fup.focus()
+  if (files.length <= 0) {
+    labelMsg.value = "请上传至少一个文件"
     return false
   }
+  btnMsg.value = "正在分析"
+  isBtnDisabled.value = true
+  if (files.length === 1) {
+    labelMsg.value = files[0].name
+  } else {
+    // files.length > 1
+    labelMsg.value = `${files[0].name} 等 ${files.length} 个文件`
+  }
+  return startAnalysis(Array.from(files))
 }
+
+class _fallbackAnalysisDoneErr {}
+const fallbackAnalysisDoneErr = new _fallbackAnalysisDoneErr()
 
 /**
  * 开始分析文件
- * @param {File} file 文件对象
- * @param {string} ext 文件后缀
+ * @param {File[]} files 文件对象列表
  */
-function startAnalysis(file, ext) {
-  var reader = new FileReader(file)
-
-  if (ext != "zip") {
-    // Log / Txt 文件处理
-    try {
-      reader.readAsText(file)
-      reader.onload = (e) => {
-        var logMsg = e.target.result
-        logAnalysis(logMsg)
-      }
-    } catch {
-      // 日志读取错误
-      finishAnalysis("ReadLogErr")
-    }
-  } else {
-    try {
-      var jsZip = new JSZip()
-      // 从本地或 URL 加载一个 Zip 文件
-      jsZip
-        .loadAsync(file)
-        .then(function (zip) {
-          // 由 jsZip 库传递 zip 文件
-          // 启动器分析
-          // 遍历 Zip 中的文件对象
-          for (let key in zip.files) {
-            if (!zip.files[key].dir) {
-              // 不是文件夹，则进行分析
-              if (
-                zip.files[key].name.toLowerCase().includes("pcl") || // PCL 启动器日志.txt
-                zip.files[key].name.includes("游戏崩溃前的输出.txt")
-              ) {
-                console.log("已确定启动器类型为：PCL")
-                launcher = "PCL"
-              }
-            }
-          }
-          for (let key in zip.files) {
-            if (!zip.files[key].dir) {
-              // 不是文件夹，则进行分析
-              if (zip.files[key].name.toLowerCase().includes("hmcl")) {
-                // hmcl.log
-                console.log("已确定启动器类型为：HMCL")
-                launcher = "HMCL"
-              }
-            }
-          }
-
-          // 日志读取
-          console.log("开始获取日志文件")
-          var logText = ""
-          for (let key in zip.files) {
-            if (!zip.files[key].dir) {
-              // 不是文件夹，则进行读取
-              if (
-                zip.files[key].name == "latest.log" || // latest.log
-                zip.files[key].name == "debug.log" || // debug.log
-                zip.files[key].name.search(/crash-(.*).txt/) != -1 || // crash-***.txt
-                zip.files[key].name == "minecraft.log" || // minecraft.log
-                zip.files[key].name == "游戏崩溃前的输出.txt" // 游戏崩溃前的输出.txt（仅 PCL）
-              ) {
-                logText = logText + GetLog(zip, key) + "\n"
-                console.log("已读取的文件：" + zip.files[key].name)
-              } else {
-                console.log("未读取的文件：" + zip.files[key].name)
-              }
-            }
-          }
-          if (logText == "") {
-            // 啥都没读到
-            console.log("日志获取完成，没有获取到可用日志")
-            finishAnalysis("FetchLogErr", "(＃°Д°)")
-            return
-          } else {
-            // 读到日志了，贼棒
-            console.log("日志获取完成，长度为：" + logText.length + " 字符")
-            return logText
-          }
-        })
-        .then(function (content) {
-          logAnalysis(content)
-        })
-        .catch((reason) => {
-          finishAnalysis("EncryptedZipFile", reason)
-        })
-    } catch (error) {
-      finishAnalysis("UnzipErr", error)
-    }
+async function startAnalysis(files: File[]): Promise<boolean> {
+  if (analyzing.value) {
+    console.error("日志已经正在分析了?")
+    return
   }
+  analyzing.value = true
+  console.log("开始分析日志")
+  var analyzed = false
+  try {
+    await Promise.all(
+      files.map((file) =>
+        file
+          .arrayBuffer()
+          .then((buf) => readFiles(new MemFile(new Uint8Array(buf), file.name)))
+          .then((files: MemFile[]) =>
+            Promise.all(
+              files.map((file) => {
+                analyzed = true
+                if (MCLA) {
+                  return mclAnalysis(file).catch((err) => {
+                    console.error("MCLA error:", err)
+                    throw new AnalysisError("MCLA-Error", err)
+                  })
+                } else {
+                  console.debug("MCLA is not loaded")
+                }
+                if (
+                  analysisResults.value.length === 0 &&
+                  logAnalysis(file.text)
+                ) {
+                  throw fallbackAnalysisDoneErr
+                }
+              }),
+            ),
+          ),
+      ),
+    )
+  } catch (err) {
+    if (err === fallbackAnalysisDoneErr) {
+      return true
+    }
+    if (err instanceof AnalysisError) {
+      finishAnalysis(err.type, err.message)
+    } else {
+      console.error("Unexpected analysis error:", err)
+      finishAnalysis("UnexpectedError", String(err))
+    }
+    return false
+  }
+  if (!analyzed) {
+    console.warn("日志获取完成，没有获取到可用日志")
+    finishAnalysis("EmptyLogErr", "(＃°Д°)")
+    return false
+  }
+  console.debug("MCLA analysisResults:", analysisResults.value)
+  if (analysisResults.value.length > 0) {
+    showAnalysisResult(
+      "Success",
+      "MCLA 分析完成, 但您不应该在页面上看到本消息 -.-",
+      "https://github.com/kmcsr/mcla",
+      "Multiple reasons",
+    )
+    return true
+  }
+  console.log("日志分析结束，没有找到可能的原因")
+  showAnalysisResult(
+    "Unrecord",
+    "本工具还未收录您所遇到的错误，请点击下方按钮前往 GitHub 反馈。",
+    "https://github.com/GlobeMC/crashmc.com/issues/new/choose",
+    "Unrecord",
+  )
+  return false
+}
+
+/**
+ * 读取文件, 并递归解压压缩文件
+ * @param {MemFile} file 文件对象
+ */
+async function readFiles(
+  file: MemFile,
+  filename: string | undefined,
+): Promise<MemFile[]> {
+  var data = file.data
+  filename = (filename || file.name).toLowerCase()
+  let i = filename.lastIndexOf(".")
+  const ext = filename.substring(i + 1)
+  const filebase = filename.substring(0, i)
+  switch (ext) {
+    case "gz":
+    case "gzip":
+    case "z":
+    case "zlib":
+      try {
+        data = pako.inflate(data)
+      } catch (error) {
+        console.error(`Couldn't decompress file with ext ${ext}:`, error)
+        throw new AnalysisError("UnzipErr", error)
+      }
+      return readFiles(new MemFile(data, file.path), filebase)
+    case "tgz": // as same as tar.gz
+      try {
+        data = pako.inflate(data)
+      } catch (error) {
+        console.error(`Couldn't decompress file with ext ${ext}:`, error)
+        throw new AnalysisError("UnzipErr", error)
+      }
+    case "tar": {
+      let files
+      try {
+        files = await new TarReader().readFile(data)
+      } catch (error) {
+        console.error("Couldn't read the tar file:", error)
+        throw new AnalysisError("UnzipErr", error)
+      }
+
+      let res: MemFile[] = []
+      await Promise.all(
+        files
+          .filter(
+            (f) =>
+              !f.name.startsWith("._") &&
+              !f.name.toLowerCase().startsWith("paxheader/"),
+          )
+          .map((f) =>
+            readFiles(
+              new MemFile(
+                new Uint8Array(data.buffer, f.headerOffset + 512, f.size),
+                file.path + "/" + f.name,
+              ),
+              f.name,
+            ).then((fls) => res.push(...fls)),
+          ),
+      )
+      return res
+    }
+    case "zip": {
+      let zip = new JSZip()
+      try {
+        // 从本地或 URL 加载一个 Zip 文件
+        await zip.loadAsync(data)
+      } catch (error) {
+        if (error instanceof Error) {
+          if (error.message === "Encrypted zip are not supported") {
+            throw new AnalysisError("EncryptedZipFile", error)
+          }
+        }
+        console.error("Couldn't read the zip file:", error)
+        throw new AnalysisError("UnzipErr", error)
+      }
+
+      let res: MemFile[] = []
+      await Promise.all(
+        Object.values(zip.files)
+          .filter((f) => !f.dir)
+          .map((f) =>
+            f
+              .async("uint8array")
+              .then((buf) =>
+                readFiles(new MemFile(buf, file.path + "/" + f.name), f.name),
+              )
+              .then((fls) => res.push(...fls)),
+          ),
+      )
+      return res
+    }
+    case "log":
+    case "txt":
+      // Log / Txt 文件处理
+      try {
+        file.text = utf8Decoder.decode(data)
+      } catch (err) {
+        // 日志读取错误
+        throw new AnalysisError("ReadLogErr", err)
+      }
+      return [file]
+    default:
+      return []
+  }
+}
+
+// MCLA错误分析
+async function mclAnalysis(file: MemFile): Promise<void> {
+  const filepath = file.path
+  var resultIter: AsyncIterator<AnalysisResult>
+  resultIter = await MCLA.analyzeLogErrorsIter(file.text)
+  var promises: Promise[] = []
+  var value: AnalysisResult
+  while (!({ value } = await resultIter.next()).done) {
+    const result = value
+    if (!result.matched || result.matched.length === 0) {
+      continue
+    }
+    promises.push(
+      Promise.all(
+        result.matched
+          .filter(({ match }) => match >= 0.5) // >= 50%
+          .sort((a, b) => b.match - a.match) // x.match 降序排序
+          .map(({ match, errorDesc }) => {
+            return Promise.all(
+              errorDesc.solutions.map((id) =>
+                axios
+                  .get(`${MCLA_GH_DB_PREFIX}/solutions/${id}.json`)
+                  .then((res) => ({ ok: true, res: res.data }))
+                  .catch((err) => ({
+                    ok: false,
+                    id: id,
+                    error: String(err),
+                  })),
+              ),
+            ).then((solutions) => ({
+              match: match,
+              desc: {
+                error: errorDesc.error,
+                message: errorDesc.message,
+                solutions: solutions,
+              },
+            }))
+          }),
+      ).then(
+        (matched) =>
+          matched.length &&
+          analysisResults.value.push({
+            filepath: filepath,
+            error: result.error,
+            matched: matched,
+          }),
+      ),
+    )
+  }
+  await Promise.all(promises)
+  return
 }
 
 /**
  * 分析日志，并展示分析结果。
  * @param {string} log Log 原文。
  */
-function logAnalysis(log) {
-  console.log("开始分析日志")
+async function logAnalysis(log: string): Promise<boolean> {
   // 启动器判断 (最准)
   if (log.includes("PCL")) {
     launcher = "PCL"
@@ -481,7 +709,7 @@ function logAnalysis(log) {
     log.includes("Missing or unsupported mandatory dependencies:") &&
     log.includes("neoforge") == false
   ) {
-    var missingMod = new Array()
+    var missingMod = []
     // 按行分割日志
     var spilted = log.split("\n")
     // 获取缺少的 Mod 信息
@@ -491,13 +719,13 @@ function logAnalysis(log) {
         spilted[key].includes(", Requested by: ")
       ) {
         // 正则匹配单引号内内容
-        matches = spilted[key].match(/'([^']+)'/g)
+        let matches = spilted[key].match(/'([^']+)'/g)
         missingMod.push(
           matches[0].replace(/'/g, "") +
-          " " + // Mod 名称，例如 'oculus'
-          matches[2]
-            .replace(/'/g, "")
-            .replace(/\$\{minecraft_version\}/g, "MinecraftVersion"), // Mod 版本，例如 '[1.4,)'，之后可以把最低 / 最高版本提取出来解析一遍
+            " " + // Mod 名称，例如 'oculus'
+            matches[2]
+              .replace(/'/g, "")
+              .replace(/\$\{minecraft_version\}/g, "MinecraftVersion"), // Mod 版本，例如 '[1.4,)'，之后可以把最低 / 最高版本提取出来解析一遍
         )
       }
     }
@@ -658,14 +886,9 @@ function logAnalysis(log) {
 
     // 以上都无
   } else {
-    console.log("日志分析结束，没有找到可能的原因")
-    showAnalysisResult(
-      "Unrecord",
-      "本工具还未收录您所遇到的错误，请点击下方按钮前往 GitHub 反馈。",
-      "https://github.com/GlobeMC/crashmc.com/issues/new/choose",
-      "Unrecord",
-    )
+    return false
   }
+  return true
 }
 
 /**
@@ -678,13 +901,9 @@ function logAnalysis(log) {
 function showAnalysisResult(status, msg, result_url, status_msg) {
   console.log("展示分析结果：(" + status + ") " + msg)
   // 信息更改
-  redirect_url = result_url
+  redirectUrl.value = result_url
   analysisResultMsg.value = msg
   analysisShowResult.value = true
-
-  // 消息更改
-  isBtnDisabled.value = false
-  btnMsg.value = "重新上传"
 
   // 结束分析
   finishAnalysis(status, status_msg)
@@ -695,60 +914,48 @@ function showAnalysisResult(status, msg, result_url, status_msg) {
  * @param {string} status 分析状态。
  * @param {string} msg 传递信息。
  */
-function finishAnalysis(status, msg) {
-  console.log("结束分析：(" + status + ") " + msg)
+function finishAnalysis(status: string, msg: string) {
+  // 消息更改
+  btnMsg.value = "重新上传"
+  analyzing.value = false
+  isBtnDisabled.value = false
+  console.log("结束分析：(" + status + ") ", msg)
   switch (status) {
-    case "FetchLogErr":
-      labelMsg.value = "Zip 文件中不含有有效的 Log 文件"
-      btnMsg.value = "重新上传"
-      isBtnDisabled = false
+    case "EmptyLogErr":
+      labelMsg.value = "未读取到支持的日志格式, 请尝试直接上传 .log / .txt 文件"
       umami.track("Analysis Error", {
-        Status: "No_Log_File_In_Zip",
+        Status: "Unsupport_Log_File_Ext",
         ErrMsg: msg,
       })
       break
-
     case "ReadLogErr":
       labelMsg.value = "Log 文件读取错误"
-      btnMsg.value = "重新上传"
-      isBtnDisabled = false
       umami.track("Analysis Error", {
         Status: "Cannot_Read_Log_File",
         ErrMsg: msg,
       })
       break
-
     case "UnzipErr":
       labelMsg.value = "日志文件解压错误"
-      btnMsg.value = "重新上传"
-      isBtnDisabled = false
       umami.track("Analysis Error", {
         Status: "Cannot_Unzip_Log_File",
         ErrMsg: msg,
       })
       break
-
     case "EncryptedZipFile":
       labelMsg.value = "不支持加密 zip 文件"
-      btnMsg.value = "重新上传"
       umami.track("Analysis Error", {
         Status: "Cannot_Load_Encrypted_Log_File",
         ErrMsg: msg,
       })
       break
-
-    case "ErrOpenRstPage":
-      umami.track("Analysis Error", {
-        Status: "Cannot_Redirect_To_Resolution",
-        Launcher: launcher,
-      })
-      break
     case "Unrecord":
+      redirectMsg.value = "提交反馈"
       umami.track("Unrecord Crash", {
         Status: "Unrecord_Crash",
         Launcher: launcher,
       })
-      redirectMsg.value = "提交反馈"
+      break
     case "Success":
       umami.track("Analysis Finish", {
         Status: "Analysis_Success",
@@ -756,7 +963,20 @@ function finishAnalysis(status, msg) {
         CrashReason: msg,
       })
       break
+    case "MCLA-Error":
+      analysisResultMsg.value =
+        "MCLA 分析器意外退出，请点击下方按钮前往 GitHub 反馈。"
+      redirectUrl.value = "https://github.com/kmcsr/mcla/issues/new"
+      redirectMsg.value = "提交反馈"
+      umami.track("Analysis Error", {
+        Status: "MCLA_Error",
+        Launcher: launcher,
+        CrashReason: msg,
+      })
+      break
+    case "UnexpectedError":
     default:
+      labelMsg.value = "未知错误"
       umami.track("Analysis Error", {
         Status: "Unknown_Error",
         Launcher: launcher,
@@ -765,53 +985,145 @@ function finishAnalysis(status, msg) {
   }
 }
 
-/**
- * 重定向按钮。
- */
-function redirectBtnClick() {
-  if (
-    redirect_url == "https://github.com/GlobeMC/crashmc.com/issues/new/choose"
-  ) {
-    window.open(redirect_url)
-  } else if (redirect_url === null || typeof redirect_url === "undefined") {
-    labelMsg.value = "无法重定向到解决方案页面"
-    finishAnalysis("ErrOpenRstPage", redirect_url)
+function redirectTo(url, newTab) {
+  if (!url) {
+    return
+  }
+  if (typeof url === "string") {
+    if (!newTab && url.startsWith("/")) {
+      router.go(url)
+    } else {
+      window.open(url)
+    }
   } else {
-    window.location.href = redirect_url
+    labelMsg.value = "无法重定向到解决方案页面"
+    umami.track("Analysis Error", {
+      Status: "Cannot_Redirect_To_Resolution",
+      Launcher: launcher,
+      Target: url,
+    })
   }
 }
+
+onBeforeMount(async () => {
+  try {
+    MCLA = await loadMCLA()
+  } catch (err) {
+    console.error("Couldn't load MCLA:", err)
+  }
+})
+
+onUnmounted(() => {
+  if (MCLA && MCLA.release) {
+    MCLA.release()
+    MCLA = null
+  }
+})
 </script>
 
 <template>
   <ClientOnly>
-    <div class="analyzer-main" :style="{ 'background-color': analyzerBackgroundColor }"
-      @dragenter.prevent="handleDragEnter" @dragover.prevent="handleDragOver" @drop.prevent="handleDrop"
+    <div
+      class="analyzer-main"
+      :style="{ 'background-color': analyzerBackgroundColor }"
+      @dragenter.prevent="handleDragEnter"
+      @dragover.prevent="handleDragOver"
+      @drop.prevent="handleDrop"
       @dragleave.prevent="handleDragLeave">
       <h4 style="text-align: center">
         请点击按钮上传导出的 .zip/.txt/.log 文件, 并尽量不要更改导出文件的名称。
       </h4>
-      <img class="icon-upload" src="../../../src/logo-upload.svg" />
+      <UploadIcon
+        class="icon-upload"
+        :disabled="isBtnDisabled"
+        @click="fileUploader.click()" />
       <div class="file-uploader-container">
         <h4 class="file-uploader-label" for="file-uploader" singleLine="false">
           {{ labelMsg }}
         </h4>
-        <button :disabled="isBtnDisabled" class="file-uploader-btn" data-umami-event="Analysis Button Click"
+        <button
+          :disabled="isBtnDisabled"
+          class="button file-uploader-btn"
+          data-umami-event="Analysis Button Click"
           @click="fileUploader.click()">
           {{ btnMsg }}
         </button>
-        <input ref="fileUploader" type="file" name="file_uploader" id="file-uploader" @change="checkfiles"
-          style="display: none" />
+        <input
+          id="file-uploader"
+          ref="fileUploader"
+          name="file_uploader"
+          type="file"
+          multiple
+          style="display: none"
+          :disabled="isBtnDisabled"
+          @change="checkFiles" />
       </div>
-      <Transition name="analysis-result">
-        <div v-if="analysisShowResult" class="analysis-result-main">
+      <TransitionExpand>
+        <div v-if="showAnalyzingIcon" class="flex">
+          <hr />
+          <center>
+            <AnalyzingIcon size="3rem" />
+          </center>
+        </div>
+      </TransitionExpand>
+      <TransitionExpandGroup name="analysis-result" class="analysis-result-box">
+        <template v-if="analysisResults && analysisResults.length > 0">
+          <div
+            v-for="(result, i) in analysisResults"
+            :key="i"
+            class="analysis-result-item">
+            <h4>错误信息 {{ i + 1 }}</h4>
+            <span>{{ result.filepath }}:{{ result.error.lineNo }}</span>
+            <code class="result-parsed-error">
+              {{ result.error.class }}: {{ result.error.message }}
+            </code>
+            <div
+              v-for="(match, j) in result.matched"
+              :key="j"
+              class="result-matches">
+              <hr style="margin: 8px 0" />
+              <h5 class="result-matched-error-title">
+                <span :title="match.desc.error">{{ match.desc.error }}</span>
+                <span
+                  class="result-match-percent"
+                  :style="
+                    match.match > 0.8 ? { 'background-color': '#8ef9fc61' } : {}
+                  ">
+                  匹配度: {{ match.match * 100 }}%
+                </span>
+              </h5>
+              <div v-for="(sol, n) in match.desc.solutions" :key="n">
+                <div v-if="sol.ok">
+                  <details :open="false">
+                    <summary>
+                      <h5>{{ n + 1 }}. {{ sol.res.description }}</h5>
+                    </summary>
+                    <div>
+                      <b>描述: </b>
+                      <span>{{ sol.res.description }}</span>
+                    </div>
+                    <div>
+                      <b>解决方案: </b>
+                      <a @click.prevent="redirectTo(sol.res.link_to, true)">
+                        打开文档 <OpenTabIcon />
+                      </a>
+                    </div>
+                  </details>
+                </div>
+                <div v-else>加载错误: ID={{ sol.id }}; {{ sol.error }}</div>
+              </div>
+            </div>
+          </div>
+        </template>
+        <div v-else-if="analysisShowResult" class="analysis-result-main">
           <hr />
           <h4 class="analysis-result-title">分析结果:</h4>
           <p class="analysis-result-msg">{{ analysisResultMsg }}</p>
-          <button class="redirect-btn" @click="redirectBtnClick">
+          <button class="button" @click="redirectTo(redirectUrl)">
             {{ redirectMsg }}
           </button>
         </div>
-      </Transition>
+      </TransitionExpandGroup>
     </div>
   </ClientOnly>
 </template>
@@ -827,8 +1139,37 @@ p {
   padding: 0;
 }
 
-.analysis-result-title {
-  margin-top: 10px;
+summary > h1,
+summary > h2,
+summary > h3,
+summary > h4,
+summary > h5,
+summary > h6 {
+  display: inline-block;
+  user-select: none;
+  cursor: default;
+}
+
+details > *:not(summary) {
+  padding-left: 12px;
+}
+
+a {
+  cursor: pointer;
+}
+
+svg {
+  user-select: none;
+}
+
+.flex,
+.analysis-result-box > * {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex > hr {
+  width: 100%;
 }
 
 .analyzer-main {
@@ -844,21 +1185,23 @@ p {
 }
 
 .analysis-result-main {
-  text-align: center;
+  align-items: center;
   margin: auto;
   width: 100%;
   height: 100%;
-  max-height: 8rem;
+}
+
+.analysis-result-main > hr {
+  width: 100%;
 }
 
 .analysis-result-enter-active,
 .analysis-result-leave-active {
-  transition: all 0.6s;
+  transition: all 0.6s ease-in !important;
 }
 
 .analysis-result-enter-from,
 .analysis-result-leave-to {
-  max-height: 0 !important;
   opacity: 0;
 }
 
@@ -868,6 +1211,10 @@ p {
   width: 20%;
 }
 
+.icon-upload:not([disabled="true"]) {
+  cursor: pointer;
+}
+
 .file-uploader-container {
   text-align: center;
   margin: auto;
@@ -875,7 +1222,7 @@ p {
   height: 100%;
 }
 
-.file-uploader-btn {
+.button {
   margin-top: 3px;
   height: 35px;
   width: 120px;
@@ -883,12 +1230,46 @@ p {
   border-color: var(--vp-custom-block-tip-border);
   background-color: var(--vp-custom-block-tip-bg);
   border-radius: 8px;
-  transition: all 0.3s;
+  transition: transform 0.3s;
 }
 
-.file-uploader-btn:hover {
+.button:hover {
   animation-direction: alternate;
   transform: scale(1.05);
-  transition: all 0.3s;
+}
+
+.analysis-result-item {
+  margin: 16px 0;
+  padding: 8px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 5px;
+}
+
+.analysis-result-item > h4 {
+  text-align: center;
+}
+
+.result-parsed-error {
+  margin-top: 0.5rem;
+  white-space-collapse: preserve;
+  text-wrap: nowrap;
+  overflow: auto;
+}
+
+.result-matched-error-title > span {
+  display: inline-block;
+  max-width: 100%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+}
+
+.result-match-percent {
+  float: right;
+  height: 24px;
+  padding: 0 10px;
+  border-radius: 12px;
+  font-weight: 300;
+  font-size: 12px;
 }
 </style>

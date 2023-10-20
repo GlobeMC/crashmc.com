@@ -17,3 +17,12 @@
 一般而言，最新的日志文件在 `logs\latest.log`，而崩溃报告在 `crash-reports` 目录下。
 
 得到日志文件后，就可以根据后续的文档处理崩溃了。您也可以使用[崩溃分析工具](https://crashmc.com/analyzer.html)，将日志文件打包成 zip 并上传尝试分析。祝您成功解决问题！
+
+
+
+
+
+
+
+
+

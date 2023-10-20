@@ -4,8 +4,17 @@ import Contributors from "./components/Contributors.vue"
 import LauncherBadge from "./components/LauncherBadge.vue"
 import ReloadPrompt from "./components/ReloadPrompt.vue"
 import giscusTalk from "vitepress-plugin-comment-with-giscus"
+import vitepressNprogress from "@andatoshiki/vitepress-plugin-nprogress"
+import "@andatoshiki/vitepress-plugin-nprogress/lib/css/index.css"
+import "viewerjs/dist/viewer.min.css"
+import imageViewer from "vitepress-plugin-image-viewer"
+import vImageViewer from "vitepress-plugin-image-viewer/lib/vImageViewer.vue"
 import { useData, useRoute } from "vitepress"
+import codeblocksFold from "vitepress-plugin-codeblocks-fold" // import method
+import "vitepress-plugin-codeblocks-fold/style/index.scss" // import style
 import "./style.css"
+import vitepressBackToTop from "vitepress-plugin-back-to-top"
+import "vitepress-plugin-back-to-top/dist/style.css"
 
 export default {
   ...Theme,
@@ -18,11 +27,20 @@ export default {
   },
   enhanceApp(ctx) {
     ctx.app.component("LauncherBadge", LauncherBadge)
+    vitepressNprogress(ctx)
+    ctx.app.component("vImageViewer", vImageViewer)
+    vitepressBackToTop({
+      // default
+      threshold: 300,
+    })
   },
   setup() {
     // Get frontmatter and route
     const { frontmatter } = useData()
     const route = useRoute()
+    // Using
+    imageViewer(route)
+    codeblocksFold({ route, frontmatter }, true, 400)
 
     // Obtain configuration from: https://giscus.app/
     giscusTalk(

@@ -1,9 +1,12 @@
 {
   "compilerOptions": {
     "moduleResolution": "node",
+    "target": "es6",
     "outDir": "out",
     "sourceMap": true,
-    "target": "es6"
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
+    "lib": ["es6", "dom", "webworker"]
   },
   "include": ["docs/.vitepress/**/*.ts", "docs/.vitepress/**/*.vue"],
   "exclude": ["**/*.spec.ts", "**/*.spec.vue"]

@@ -27,7 +27,7 @@ Unsupported class file major version
 
 | 关键词                                                 | 解决方案                                |
 | ------------------------------------------------------ | --------------------------------------- |
-| `no such method: sun.misc.Unsafe.defineAnonymousClass` | Java 版本过高，降低 Java 版本至 [Java 8u312](https://ghproxy.com/https://github.com/bell-sw/Liberica/releases/download/8u312%2B7/bellsoft-jre8u312+7-windows-amd64-full.msi) 或者 [Java 11.0.13](https://ghproxy.com/https://github.com/bell-sw/Liberica/releases/download/11.0.13%2B8/bellsoft-jre11.0.13+8-windows-amd64-full.msi) |
+| `no such method: sun.misc.Unsafe.defineAnonymousClass` | Java 版本过高，降低 Java 版本至 [Java 8u312](https://cdn.crashmc.com/https://github.com/bell-sw/Liberica/releases/download/8u312%2B7/bellsoft-jre8u312+7-windows-amd64-full.msi) 或者 [Java 11.0.13](https://cdn.crashmc.com/https://github.com/bell-sw/Liberica/releases/download/11.0.13%2B8/bellsoft-jre11.0.13+8-windows-amd64-full.msi) |
 
 附 Java 版本查询列表
 
@@ -65,9 +65,9 @@ Unsupported class file major version
 :::
 
 :::details 其他 Java 获取方法
-从官网下载并手动安装 Java: [Java 8](https://www.java.com/zh-CN/download/) | [JDK 17+](https://www.oracle.com/java/technologies/downloads/)
+从官网下载并手动安装 Java: [Java 8](https://cdn.crashmc.com/https://github.com/bell-sw/Liberica/releases/download/8u312%2B7/bellsoft-jre8u312+7-windows-amd64-full.msi) | [JDK 17+](https://cdn.crashmc.com/https://github.com/bell-sw/Liberica/releases/download/17.0.1%2B12/bellsoft-jdk17.0.1+12-windows-amd64.msi)
 
-获取 (Java 9+) 且已存档的 JDK 包: <https://jdk.java.net/archive/>
+获取 (Java 9+) 且已存档的 JDK 包: <https://bell-sw.com/pages/downloads/#downloads>
 :::
 
 ## Mod 重复安装
@@ -497,3 +497,12 @@ java.lang.NoSuchMethodError: net.minecraft.launchwrapper.ITweaker.injectIntoClas
 
 TRANSFORMER/net.optifine/net.optifine.reflect.Reflector.<clinit>(Reflector.java
 ```
+
+
+
+
+
+
+
+
+
