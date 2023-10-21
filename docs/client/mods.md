@@ -173,7 +173,7 @@ Found multiple arguments for option fml.forgeVersion, but you asked for only one
 
 解释：Night Config 库的一些常见问题导致的，会导致无法读取配置文件。有关详细信息，可访问[此处](https://github.com/Fuzss/nightconfigfixes#readme)查看。
 
-解决方案：请尝试下载并安装该 Mod：`Night Config Fixes`。[MC 百科](https://www.mcmod.cn/class/9007.html) | [CurseForge](https://www.curseforge.com/minecraft/mc-mods/night-config-fixes)
+解决方案：请尝试下载并安装该 Mod：`Night Config Fixes`。[`MC百科`](https://www.mcmod.cn/class/9007.html) | [`CurseForge`](https://www.curseforge.com/minecraft/mc-mods/night-config-fixes)
 
 关键词：
 
@@ -183,13 +183,13 @@ Caused by: com.electronwill.nightconfig.core.io.ParsingException: Not enough dat
 
 ### Vic's Modern Warfare Mod 问题
 
-解释：有时，`Vic's Modern Warfare`（维克的现代战争）Mod 与其它 Mod 会出现一些特殊问题。
+解释：有时，`Vic's Modern Warfare` (维克的现代战争) Mod 与其它 Mod 会出现一些特殊问题。
 
-Mod 链接：[MC百科](https://www.mcmod.cn/class/595.html) [CurseForge](https://www.curseforge.com/minecraft/mc-mods/vics-modern-warfare-mod)
+Mod 链接：[`MC百科`](https://www.mcmod.cn/class/595.html) [`CurseForge`](https://www.curseforge.com/minecraft/mc-mods/vics-modern-warfare-mod)
 
 解决方案：在 `配置文件夹` 里找到 `forge.cfg`，用记事本打开，把里面的 `allowEmissiveItems` 后面从 `true` 改成 `false`，保存，启动游戏即可。
 
-  :::details 配置文件夹在哪里？
+:::details 配置文件夹在哪里？
   > 开启版本隔离：`.minecraft/versions/[版本名]/config`
   > 未开启版本隔离：`.minecraft/config`
   :::
@@ -220,9 +220,9 @@ Missing or unsupported mandatory dependencies:
         Mod ID: 'blueprint', Requested by: 'boatload', Expected range: '[5.4.0,)', Actual version: '[MISSING]'
 ```
 
-您也可以通过 [MC 百科](https://www.mcmod.cn/)、[Modrinth](https://modrinth.com/mods)、[CurseForge](https://www.curseforge.com/minecraft/mc-mods) 等网站搜索 Mod 所需的前置 Mod。
+您也可以通过 [`MC百科`](https://www.mcmod.cn/)、[`Modrinth`](https://modrinth.com/mods)、[`CurseForge`](https://www.curseforge.com/minecraft/mc-mods) 等网站搜索 Mod 所需的前置 Mod。
 
-> Modrinth 和 CurseForge 目前为止未提供中文界面，有困难的用户建议使用 MC 百科进行查询。
+> `Modrinth` 和 `CurseForge` 目前为止未提供中文界面，有困难的用户建议使用 `MC百科` 进行查询。
 
 2. 删除需要前置的 Mod
 
@@ -279,9 +279,9 @@ Missing or unsupported mandatory dependencies:
         Mod ID: 'blueprint', Requested by: 'boatload', Expected range: '[5.4.0,)', Actual version: '[MISSING]'
 ```
 
-您也可以通过 [MC 百科](https://www.mcmod.cn/)、[Modrinth](https://modrinth.com/mods)、[CurseForge](https://www.curseforge.com/minecraft/mc-mods) 等网站搜索 Mod 所需的前置 Mod。
+您也可以通过 [`MC百科`](https://www.mcmod.cn/)、[`Modrinth`](https://modrinth.com/mods)、[`CurseForge`](https://www.curseforge.com/minecraft/mc-mods) 等网站搜索 Mod 所需的前置 Mod。
 
-> Modrinth 和 CurseForge 目前为止未提供中文界面，有困难的用户建议使用 MC 百科进行查询。
+> `Modrinth` 和 `CurseForge` 目前为止未提供中文界面，有困难的用户建议使用 `MC百科` 进行查询。
 
 2. 删除需要前置的 Mod
 
@@ -331,9 +331,9 @@ Unmet dependency listing:
 	 - Mod 'Zoomify' (zoomify) 2.11.0 requires any version of fabric-api, which is missing!
 ```
 
-您也可以通过 [MC 百科](https://www.mcmod.cn/)、[Modrinth](https://modrinth.com/mods)、[CurseForge](https://www.curseforge.com/minecraft/mc-mods) 等网站搜索 Mod 所需的前置 Mod。
+您也可以通过 [`MC百科`](https://www.mcmod.cn/)、[`Modrinth`](https://modrinth.com/mods)、[`CurseForge`](https://www.curseforge.com/minecraft/mc-mods) 等网站搜索 Mod 所需的前置 Mod。
 
-> Modrinth 和 CurseForge 目前为止未提供中文界面，有困难的用户建议使用 MC 百科进行查询。
+> `Modrinth` 和 `CurseForge` 目前为止未提供中文界面，有困难的用户建议使用 `MC百科` 进行查询。
 
 2. 删除需要前置的 Mod
 
@@ -398,9 +398,9 @@ that is compatible with
 Sodium Extra requires version [0.4.10, ∞) of sodium, which is missing!
 ```
 
-您也可以通过 [MC 百科](https://www.mcmod.cn/)、[Modrinth](https://modrinth.com/mods)、[CurseForge](https://www.curseforge.com/minecraft/mc-mods) 等网站搜索 Mod 所需的前置 Mod。
+您也可以通过 [`MC百科`](https://www.mcmod.cn/)、[`Modrinth`](https://modrinth.com/mods)、[`CurseForge`](https://www.curseforge.com/minecraft/mc-mods) 等网站搜索 Mod 所需的前置 Mod。
 
-> Modrinth 和 CurseForge 目前为止未提供中文界面，有困难的用户建议使用 MC 百科进行查询。
+> `Modrinth` 和 `CurseForge` 目前为止未提供中文界面，有困难的用户建议使用 `MC百科` 进行查询。
 
 2. 删除需要前置的 Mod
 
@@ -435,9 +435,9 @@ which is missing!
 
 1. 安装依赖 Mod
 
-您可以通过 [MC 百科](https://www.mcmod.cn/)、[Modrinth](https://modrinth.com/mods)、[CurseForge](https://www.curseforge.com/minecraft/mc-mods) 等网站搜索 Mod 所需的前置 Mod。
+您可以通过 [`MC百科`](https://www.mcmod.cn/)、[`Modrinth`](https://modrinth.com/mods)、[`CurseForge`](https://www.curseforge.com/minecraft/mc-mods) 等网站搜索 Mod 所需的前置 Mod。
 
-> Modrinth 和 CurseForge 目前为止未提供中文界面，有困难的用户建议使用 MC 百科进行查询。
+> `Modrinth` 和 `CurseForge` 目前为止未提供中文界面，有困难的用户建议使用 `MC百科` 进行查询。
 
 2. 删除需要前置的 Mod
 
