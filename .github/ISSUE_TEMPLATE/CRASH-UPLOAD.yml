@@ -36,14 +36,6 @@ body:
       render: bash
     validations:
       required: true
-  - type: markdown
-    id: log-files
-    attributes:
-      value: |
-        ### 日志文件
-        如果日志太长无法提交，请将日志文件拖放到这里 (不要在这里粘贴日志)
-    validations:
-      required: false
   - type: dropdown
     id: os
     attributes:
