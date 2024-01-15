@@ -5,7 +5,7 @@ import { TarReader } from "@gera2ld/tarjs"
 import { useRouter } from "vitepress"
 import { type Ref, ref, watch, onBeforeMount, onUnmounted } from "vue"
 import axios from "axios"
-import { type umami } from "@types/umami"
+import umami from "@types/umami"
 import AnalyzingIcon from "./icons/AnalyzingIcon.vue"
 import OpenTabIcon from "./icons/OpenTabIcon.vue"
 import UploadIcon from "./icons/UploadIcon.vue"
@@ -16,6 +16,7 @@ import {
   type JavaError,
   type Solution,
   type AsyncIterator,
+  type ErrorResult,
   loadMCLA,
   MCLA_GH_DB_PREFIX,
 } from "../../analyzers/mcla"
@@ -42,7 +43,7 @@ interface SolutionMatch {
 }
 
 interface AnalysisResult {
-  filepath: string
+  file: string
   error: JavaError
   matched: SolutionMatch[]
 }
@@ -194,7 +195,7 @@ function checkFiles(): Promise<boolean> {
 /**
  * 分析文件。可以分析返回 true，不能分析返回 false。
  */
-function analyzeFiles(files: FileList): Promise<boolean> {
+async function analyzeFiles(files: FileList): Promise<boolean> {
   clean()
   launcher = "Unknown"
   if (files.length <= 0) {
@@ -297,10 +298,7 @@ async function startAnalysis(files: File[]): Promise<boolean> {
  * 读取文件, 并递归解压压缩文件
  * @param {MemFile} file 文件对象
  */
-async function readFiles(
-  file: MemFile,
-  filename: string | undefined,
-): Promise<MemFile[]> {
+async function readFiles(file: MemFile, filename?: string): Promise<MemFile[]> {
   var data = file.data
   filename = (filename || file.name).toLowerCase()
   let i = filename.lastIndexOf(".")
@@ -402,10 +400,11 @@ async function readFiles(
 // MCLA错误分析
 async function mclAnalysis(file: MemFile): Promise<void> {
   const filepath = file.path
-  var resultIter: AsyncIterator<AnalysisResult>
+  var resultIter: AsyncIterator<ErrorResult>
   resultIter = await MCLA.analyzeLogErrorsIter(file.text)
-  var promises: Promise[] = []
-  var value: AnalysisResult
+  var promises: Promise<any>[] = []
+  var value: ErrorResult
+  // for(let value of resultIter){
   while (!({ value } = await resultIter.next()).done) {
     const result = value
     if (!result.matched || result.matched.length === 0) {
@@ -441,7 +440,7 @@ async function mclAnalysis(file: MemFile): Promise<void> {
         (matched) =>
           matched.length &&
           analysisResults.value.push({
-            filepath: filepath,
+            file: filepath,
             error: result.error,
             matched: matched,
           }),
@@ -493,8 +492,8 @@ async function logAnalysis(log: string): Promise<boolean> {
 
     // 显卡驱动问题
   } else if (
-    log.includes("Couldn't set pixel format") |
-    log.includes("Pixel format not accelerated") |
+    log.includes("Couldn't set pixel format") ||
+    log.includes("Pixel format not accelerated") ||
     log.includes("The driver does not appear to support OpenGL")
   ) {
     showAnalysisResult(
@@ -506,8 +505,8 @@ async function logAnalysis(log: string): Promise<boolean> {
 
     // OpenJ9
   } else if (
-    log.includes("Open J9 is not supported") |
-    log.includes("OpenJ9 is incompatible") |
+    log.includes("Open J9 is not supported") ||
+    log.includes("OpenJ9 is incompatible") ||
     log.includes(".J9VMInternals.")
   ) {
     showAnalysisResult(
@@ -521,7 +520,7 @@ async function logAnalysis(log: string): Promise<boolean> {
   } else if (
     log.includes(
       "Caused by: net.minecraft.util.ResourceLocationException: Non [a-z0-9_.-] character in namespace of location: .DS_Store:",
-    ) |
+    ) ||
     log.includes(
       "net.minecraft.util.ResourceLocationException: Non [a-z0-9_.-] character in namespace of location: .DS_Store:",
     )
@@ -715,7 +714,7 @@ async function logAnalysis(log: string): Promise<boolean> {
     // 获取缺少的 Mod 信息
     for (let key in spilted) {
       if (
-        spilted[key].includes("Mod ID: ") |
+        spilted[key].includes("Mod ID: ") ||
         spilted[key].includes(", Requested by: ")
       ) {
         // 正则匹配单引号内内容
@@ -985,7 +984,7 @@ function finishAnalysis(status: string, msg: string) {
   }
 }
 
-function redirectTo(url, newTab) {
+function redirectTo(url?: string, newTab?: boolean) {
   if (!url) {
     return
   }
@@ -1073,7 +1072,7 @@ onUnmounted(() => {
             :key="i"
             class="analysis-result-item">
             <h4>错误信息 {{ i + 1 }}</h4>
-            <span>{{ result.filepath }}:{{ result.error.lineNo }}</span>
+            <span>{{ result.file }}:{{ result.error.lineNo }}</span>
             <code class="result-parsed-error">
               {{ result.error.class }}: {{ result.error.message }}
             </code>

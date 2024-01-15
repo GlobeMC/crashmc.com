@@ -91,6 +91,7 @@ interface SolutionPossibility {
 interface ErrorResult {
   error: JavaError
   matched: SolutionPossibility[]
+  file?: string
 }
 
 interface AsyncIterator<T> {

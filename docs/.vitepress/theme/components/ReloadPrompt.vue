@@ -1,4 +1,5 @@
 <script setup lang="ts">
+/// <reference types="vite-plugin-pwa/client" /> // for import("virtual:pwa-register")
 import { onBeforeMount, ref } from "vue"
 
 const offlineReady = ref(false)

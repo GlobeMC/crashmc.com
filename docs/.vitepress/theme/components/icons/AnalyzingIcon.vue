@@ -1,10 +1,12 @@
-<script setup>
-defineProps({
-  size: {
-    type: [String, Number],
-    default: "1rem",
+<script setup lang="ts">
+withDefaults(
+  defineProps<{
+    size: string | number
+  }>(),
+  {
+    size: "1rem",
   },
-})
+)
 </script>
 <template>
   <svg
