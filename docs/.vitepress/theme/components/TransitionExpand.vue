@@ -1,10 +1,12 @@
-<script setup>
-const props = defineProps({
-  name: {
-    type: String,
-    default: "v",
+<script setup lang="ts">
+const props = withDefaults(
+  defineProps<{
+    name: string
+  }>(),
+  {
+    name: "v",
   },
-})
+)
 
 const prefix = props.name
 
