@@ -15,13 +15,12 @@ export {
   ErrorDesc,
   SolutionPossibility,
   ErrorResult,
-  AsyncIterator,
   Solution,
   MCLAAPI,
   loadMCLA,
 }
 
-const VERSION = "v0.4.21"
+const VERSION = "v0.4.22"
 // const VERSION = "dev"
 const RESOURCES_BASE = "https://globemc.github.io/mcla"
 const GO_WASM_EXEC_URL = useCDN(`${RESOURCES_BASE}/${VERSION}/wasm_exec.js`)
@@ -94,10 +93,6 @@ interface ErrorResult {
   file?: string
 }
 
-interface AsyncIterator<T> {
-  next(): Promise<{ done: boolean; value: T }>
-}
-
 interface Solution {
   tags: string[]
   description: string
@@ -110,7 +105,7 @@ interface MCLAAPI {
   parseCrashReport(log: readable): Promise<CrashReport>
   parseLogErrors(log: readable): Promise<JavaError[]>
   analyzeLogErrors(log: readable): Promise<ErrorResult[]>
-  analyzeLogErrorsIter(log: readable): Promise<AsyncIterator<ErrorResult>>
+  analyzeLogErrorsIter(log: readable): Promise<AsyncIterable<ErrorResult>>
 }
 
 type promiseSolver = (res: any) => void
@@ -250,8 +245,10 @@ class MCLAWorker implements MCLAAPI {
     return this.call("analyzeLogErrors", log)
   }
 
-  analyzeLogErrorsIter(log: readable): Promise<AsyncIterator<ErrorResult>> {
-    return this.call("analyzeLogErrorsIter", log)
+  async analyzeLogErrorsIter(log: readable): Promise<AsyncIterable<ErrorResult>> {
+    const iterator = await this.call("analyzeLogErrorsIter", log)
+    iterator[Symbol.asyncIterator] = () => iterator
+    return iterator
   }
 
   static async createFromWorker(worker: Worker): Promise<MCLAWorker> {

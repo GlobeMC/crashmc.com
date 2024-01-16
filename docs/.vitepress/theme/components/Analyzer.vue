@@ -14,8 +14,6 @@ import {
   type MCLAAPI,
   type JavaError,
   type Solution,
-  type AsyncIterator,
-  type ErrorResult,
   loadMCLA,
   MCLA_GH_DB_PREFIX,
 } from "../../analyzers/mcla"
@@ -221,7 +219,7 @@ const fallbackAnalysisDoneErr = new _fallbackAnalysisDoneErr()
  */
 async function startAnalysis(files: File[]): Promise<boolean> {
   if (analyzing.value) {
-    console.error("日志已经正在分析了?")
+    console.error("日志已经开始分析了?")
     return
   }
   analyzing.value = true
@@ -399,13 +397,9 @@ async function readFiles(file: MemFile, filename?: string): Promise<MemFile[]> {
 // MCLA错误分析
 async function mclAnalysis(file: MemFile): Promise<void> {
   const filepath = file.path
-  var resultIter: AsyncIterator<ErrorResult>
-  resultIter = await MCLA.analyzeLogErrorsIter(file.text)
+  const resultIter = await MCLA.analyzeLogErrorsIter(file.text)
   var promises: Promise<any>[] = []
-  var value: ErrorResult
-  // for(let value of resultIter){
-  while (!({ value } = await resultIter.next()).done) {
-    const result = value
+  for await (const result of resultIter){
     if (!result.matched || result.matched.length === 0) {
       continue
     }
@@ -962,6 +956,7 @@ function finishAnalysis(status: string, msg: string) {
       })
       break
     case "MCLA-Error":
+      analysisShowResult.value = true
       analysisResultMsg.value =
         "MCLA 分析器意外退出，请点击下方按钮前往 GitHub 反馈。"
       redirectUrl.value = "https://github.com/kmcsr/mcla/issues/new"
