@@ -399,7 +399,7 @@ async function mclAnalysis(file: MemFile): Promise<void> {
   const filepath = file.path
   const resultIter = await MCLA.analyzeLogErrorsIter(file.text)
   var promises: Promise<any>[] = []
-  for await (const result of resultIter){
+  for await (const result of resultIter) {
     if (!result.matched || result.matched.length === 0) {
       continue
     }

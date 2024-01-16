@@ -245,7 +245,9 @@ class MCLAWorker implements MCLAAPI {
     return this.call("analyzeLogErrors", log)
   }
 
-  async analyzeLogErrorsIter(log: readable): Promise<AsyncIterable<ErrorResult>> {
+  async analyzeLogErrorsIter(
+    log: readable,
+  ): Promise<AsyncIterable<ErrorResult>> {
     const iterator = await this.call("analyzeLogErrorsIter", log)
     iterator[Symbol.asyncIterator] = () => iterator
     return iterator
