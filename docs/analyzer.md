@@ -1,5 +1,5 @@
 ---
-contributors: [HRxiaohu]
+contributors: [HRxiaohu, zyxkad]
 ---
 
 <script setup>
