@@ -44,10 +44,12 @@
   "license": "GFDL",
   "dependencies": {
     "@gera2ld/tarjs": "^0.2.2",
+    "@types/js-cookie": "^3.0.6",
     "@types/umami": "^0.1.2",
     "@typescript-eslint/parser": "^6.7.3",
     "axios": "^1.4.0",
     "directory-tree": "^3.5.1",
+    "js-cookie": "^3.0.5",
     "jszip": "^3.10.1",
     "pako": "^2.1.0",
     "typescript": "^5.1.6",

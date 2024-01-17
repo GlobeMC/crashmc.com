@@ -40,9 +40,10 @@ interface SolutionMatch {
 }
 
 interface AnalysisResult {
-  file: string
+  filepath: string
   error: JavaError
   matched: SolutionMatch[]
+  viewlink: string
 }
 
 /**
@@ -52,6 +53,7 @@ class MemFile {
   readonly data: Uint8Array
   readonly path: string
   text?: string // only present when it's a vaild text file
+  private blobURL?: string
 
   constructor(data: Uint8Array, path: string) {
     this.data = data
@@ -69,6 +71,19 @@ class MemFile {
       return path.substring(i + 1)
     }
     return path
+  }
+
+  getBlobURL(): string {
+    if (!this.blobURL) {
+      if (!this.text) {
+        throw new Error("Cannot create blob for non-text file")
+      }
+      const blob = new Blob([this.text], {
+        type: "text/plain",
+      })
+      this.blobURL = URL.createObjectURL(blob)
+    }
+    return this.blobURL
   }
 }
 
@@ -243,11 +258,12 @@ async function startAnalysis(files: File[]): Promise<boolean> {
                 } else {
                   console.debug("MCLA is not loaded")
                 }
-                if (
-                  analysisResults.value.length === 0 &&
-                  logAnalysis(file.text)
-                ) {
-                  throw fallbackAnalysisDoneErr
+                if (analysisResults.value.length === 0) {
+                  return logAnalysis(file.text).then((ok) => {
+                    if (ok) {
+                      throw fallbackAnalysisDoneErr
+                    }
+                  })
                 }
               }),
             ),
@@ -433,9 +449,12 @@ async function mclAnalysis(file: MemFile): Promise<void> {
         (matched) =>
           matched.length &&
           analysisResults.value.push({
-            file: filepath,
+            filepath: filepath,
             error: result.error,
             matched: matched,
+            viewlink: `/log-viewer.html?type=blob&link=${escape(
+              file.getBlobURL(),
+            )}&name=${escape(filepath)}#L${result.error.lineNo}`,
           }),
       ),
     )
@@ -901,6 +920,16 @@ function showAnalysisResult(status, msg, result_url, status_msg) {
   finishAnalysis(status, status_msg)
 }
 
+function umamiTrack(...args) {
+  if (window.umami) {
+    try {
+      umami.track(...args)
+    } catch (err) {
+      console.error("umami error:", err)
+    }
+  }
+}
+
 /**
  * 结束分析。
  * @param {string} status 分析状态。
@@ -915,41 +944,41 @@ function finishAnalysis(status: string, msg: string) {
   switch (status) {
     case "EmptyLogErr":
       labelMsg.value = "未读取到支持的日志格式, 请尝试直接上传 .log / .txt 文件"
-      umami.track("Analysis Error", {
+      umamiTrack("Analysis Error", {
         Status: "Unsupport_Log_File_Ext",
         ErrMsg: msg,
       })
       break
     case "ReadLogErr":
       labelMsg.value = "Log 文件读取错误"
-      umami.track("Analysis Error", {
+      umamiTrack("Analysis Error", {
         Status: "Cannot_Read_Log_File",
         ErrMsg: msg,
       })
       break
     case "UnzipErr":
       labelMsg.value = "日志文件解压错误"
-      umami.track("Analysis Error", {
+      umamiTrack("Analysis Error", {
         Status: "Cannot_Unzip_Log_File",
         ErrMsg: msg,
       })
       break
     case "EncryptedZipFile":
       labelMsg.value = "不支持加密 zip 文件"
-      umami.track("Analysis Error", {
+      umamiTrack("Analysis Error", {
         Status: "Cannot_Load_Encrypted_Log_File",
         ErrMsg: msg,
       })
       break
     case "Unrecord":
       redirectMsg.value = "提交反馈"
-      umami.track("Unrecord Crash", {
+      umamiTrack("Unrecord Crash", {
         Status: "Unrecord_Crash",
         Launcher: launcher,
       })
       break
     case "Success":
-      umami.track("Analysis Finish", {
+      umamiTrack("Analysis Finish", {
         Status: "Analysis_Success",
         Launcher: launcher,
         CrashReason: msg,
@@ -961,7 +990,7 @@ function finishAnalysis(status: string, msg: string) {
         "MCLA 分析器意外退出，请点击下方按钮前往 GitHub 反馈。"
       redirectUrl.value = "https://github.com/kmcsr/mcla/issues/new"
       redirectMsg.value = "提交反馈"
-      umami.track("Analysis Error", {
+      umamiTrack("Analysis Error", {
         Status: "MCLA_Error",
         Launcher: launcher,
         CrashReason: msg,
@@ -970,7 +999,7 @@ function finishAnalysis(status: string, msg: string) {
     case "UnexpectedError":
     default:
       labelMsg.value = "未知错误"
-      umami.track("Analysis Error", {
+      umamiTrack("Analysis Error", {
         Status: "Unknown_Error",
         Launcher: launcher,
       })
@@ -990,7 +1019,7 @@ function redirectTo(url?: string, newTab?: boolean) {
     }
   } else {
     labelMsg.value = "无法重定向到解决方案页面"
-    umami.track("Analysis Error", {
+    umamiTrack("Analysis Error", {
       Status: "Cannot_Redirect_To_Resolution",
       Launcher: launcher,
       Target: url,
@@ -1066,7 +1095,9 @@ onUnmounted(() => {
             :key="i"
             class="analysis-result-item">
             <h4>错误信息 {{ i + 1 }}</h4>
-            <span>{{ result.file }}:{{ result.error.lineNo }}</span>
+            <a :href="result.viewlink" target="_blank">
+              {{ result.filepath }}:{{ result.error.lineNo }}
+            </a>
             <code class="result-parsed-error">
               {{ result.error.class }}: {{ result.error.message }}
             </code>
@@ -1244,9 +1275,11 @@ svg {
 
 .result-parsed-error {
   margin-top: 0.5rem;
+  color: var(--vp-c-text-1);
   white-space-collapse: preserve;
-  text-wrap: nowrap;
-  overflow: auto;
+  text-wrap: pre-wrap;
+  overflow: hidden;
+  overflow-wrap: anywhere;
 }
 
 .result-matched-error-title > span {
