@@ -44,6 +44,29 @@ class DBStorage {
     return this._getStore().index("k")
   }
 
+  _openCursor() {
+    return this._getStore().openCursor()
+  }
+
+  keys() {
+    return new Promise((resolve, reject) => {
+      const keys = []
+      const request = this._openCursor()
+      request.onerror = reject
+      request.onsuccess = function(event) {
+        const cursor = event.target.result
+        if (cursor) {
+          const key = cursor.primaryKey
+          console.debug(key, cursor.value)
+          keys.push(key)
+          cursor.continue()
+        } else {
+          resolve(keys)
+        }
+      };
+    })
+  }
+
   async getItem(key) {
     const res = (await wrapDBReq(this._getIndex().get(key))).target.result
     if (res) {
