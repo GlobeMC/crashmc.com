@@ -33,6 +33,15 @@ net.fabricmc.loader.impl.FormattedException: java.lang.RuntimeException: Could n
 Failed to load class net.coderbot.iris.Iris
 ```
 
+### 在服务端运行仅客户端模组
+
+解决方案：移除报错的 Mod。
+
+关键词：
+```
+java.lang.NoClassDefFoundError: net/minecraft/client/
+```
+
 ## NeoForge
 
 待补充
