@@ -1,7 +1,11 @@
 <script setup lang="ts">
 import { ref, onMounted, nextTick } from "vue"
 import axios from "axios"
-import { getAuthToken, expireAuthToken, redirectToAuth } from "../../auth/github"
+import {
+  getAuthToken,
+  expireAuthToken,
+  redirectToAuth,
+} from "../../auth/github"
 // import { useCDN } from "../../cdn"
 
 const loading = ref(true)
