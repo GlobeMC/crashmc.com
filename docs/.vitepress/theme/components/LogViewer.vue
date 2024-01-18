@@ -86,14 +86,14 @@ async function onShare(): Promise<void> {
 
 onMounted(async () => {
   loading.value = true
-  const location = new URL(window.location.toString())
+  const query = new URLSearchParams(window.location.search)
 
-  const linkTyp = location.searchParams.get("type")
-  const link = location.searchParams.get("link")
-  const name = location.searchParams.get("name")
+  const linkTyp = query.get("type")
+  const link = query.get("link")
+  const name = query.get("name")
   const lineNo =
-    (location.hash.startsWith("#L") &&
-      Number.parseInt(location.hash.substring(2))) ||
+    (window.location.hash.startsWith("#L") &&
+      Number.parseInt(window.location.hash.substring(2))) ||
     null
 
   var log: string
