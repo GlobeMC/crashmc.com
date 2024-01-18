@@ -1,7 +1,11 @@
 <script setup lang="ts">
 import { ref, onMounted, nextTick } from "vue"
 import axios from "axios"
-import { getAuthToken, redirectToAuth } from "../../auth/github"
+import {
+  getAuthToken,
+  expireAuthToken,
+  redirectToAuth,
+} from "../../auth/github"
 // import { useCDN } from "../../cdn"
 
 const loading = ref(true)
@@ -65,6 +69,7 @@ async function onShare(): Promise<void> {
     },
   )
   if (resp.status === 401) {
+    expireAuthToken()
     console.log("Token expired, relog")
     const redirectBack = `/log-viewer.html?type=share-blob&link=${escape(
       linkUrl.value,
@@ -86,14 +91,14 @@ async function onShare(): Promise<void> {
 
 onMounted(async () => {
   loading.value = true
-  const location = new URL(window.location.toString())
+  const query = new URLSearchParams(window.location.search)
 
-  const linkTyp = location.searchParams.get("type")
-  const link = location.searchParams.get("link")
-  const name = location.searchParams.get("name")
+  const linkTyp = query.get("type")
+  const link = query.get("link")
+  const name = query.get("name")
   const lineNo =
-    (location.hash.startsWith("#L") &&
-      Number.parseInt(location.hash.substring(2))) ||
+    (window.location.hash.startsWith("#L") &&
+      Number.parseInt(window.location.hash.substring(2))) ||
     null
 
   var log: string

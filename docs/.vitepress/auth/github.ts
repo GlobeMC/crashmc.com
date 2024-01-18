@@ -1,17 +1,14 @@
 import axios from "axios"
 import cookies from "js-cookie"
 
-export { getAuthToken, redirectToAuth, onAuthDone }
+export { getAuthToken, expireAuthToken, redirectToAuth, onAuthDone }
 
-const GITHUB_CLIID = "dc5a44e3614c1250afa9"
-
-const GITHUB_AUTH_URL = "https://github.com/login/oauth/authorize"
-const GITHUB_AUTH_TOKEN_URL = "https://api.crashmc.com/api/v1/gh_access_token/"
+const AUTH_URL = "https://api.crashmc.com/api/oauth/github/"
 const GH_OAUTH_STATE_NAME = "_github_oauth_state"
 const GH_OAUTH_TOKEN_NAME = "_github_oauth_token"
 
 interface StateI {
-  randstr: string
+  stateId: string
   redirect: string
 }
 
@@ -19,14 +16,18 @@ function getAuthToken(): string | undefined {
   return cookies.get(GH_OAUTH_TOKEN_NAME)
 }
 
+function expireAuthToken() {
+  cookies.remove(GH_OAUTH_TOKEN_NAME)
+}
+
 function redirectToAuth(afterAuth: string | URL, scope?: string) {
-  const randstr = btoa(
+  const stateId = btoa(
     String.fromCodePoint(...crypto.getRandomValues(new Uint8Array(63))),
   )
   cookies.set(
     GH_OAUTH_STATE_NAME,
     JSON.stringify({
-      randstr: randstr,
+      stateId: stateId,
       redirect: afterAuth.toString(),
     } as StateI),
     {
@@ -35,12 +36,11 @@ function redirectToAuth(afterAuth: string | URL, scope?: string) {
       sameSite: "strict",
     },
   )
-  const authURL = new URL(GITHUB_AUTH_URL)
-  authURL.searchParams.set("client_id", GITHUB_CLIID)
-  authURL.searchParams.set("state", randstr)
+  const authURL = new URL(AUTH_URL)
+  authURL.searchParams.set("state", stateId)
   authURL.searchParams.set(
     "redirect_uri",
-    new URL("/_auth_redirect.html", window.location.toString()).toString(),
+    window.location.origin + "/_auth_redirect.html",
   )
   if (scope) {
     authURL.searchParams.set("scope", scope)
@@ -49,10 +49,11 @@ function redirectToAuth(afterAuth: string | URL, scope?: string) {
 }
 
 async function onAuthDone(): Promise<string | null> {
-  const location = new URL(window.location.toString())
-  const code = location.searchParams.get("code")
-  const randstr = location.searchParams.get("state")
-  if (!code || !randstr) {
+  const query = new URLSearchParams(window.location.search)
+  const code = query.get("code")
+  const stateId = query.get("state")
+  if (!code || !stateId) {
+    console.debug("URL Param 'code' or 'state' did not filled")
     return null
   }
   var state: StateI
@@ -62,21 +63,21 @@ async function onAuthDone(): Promise<string | null> {
     console.debug("Could not parse cookie", GH_OAUTH_STATE_NAME, err)
     return null
   }
-  if (state.randstr !== randstr) {
-    console.debug("Auth random state string not same, probably XSS attack")
+  console.debug("state:", state)
+  if (state.stateId !== stateId) {
+    console.error("Auth random state string not same, probably XSS attack")
     return null
   }
   var token: string
   try {
-    const resp = await axios.post<string>(
-      GITHUB_AUTH_TOKEN_URL,
-      "code=" + escape(code),
-    )
+    const resp = await axios.post<string>(AUTH_URL, "code=" + escape(code), {
+      withCredentials: true,
+    })
     const data = new URLSearchParams(resp.data)
     token = data.get("access_token")
   } catch (err) {
     console.error("auth failed:", err)
-    return
+    return null
   }
   cookies.set(GH_OAUTH_TOKEN_NAME, token, {
     secure: true,
