@@ -45,7 +45,7 @@ export default {
 
     // Obtain configuration from: https://giscus.app/
     giscusTalk(
-      {
+      { // @ts-expect-error TS2353 // wait for https://github.com/T-miracle/vitepress-plugin-comment-with-giscus/pull/10
         repo: "GlobeMC/crashmc.com",
         repoId: "R_kgDOKBR8xw",
         category: "Giscus",
