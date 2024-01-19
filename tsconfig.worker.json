@@ -1,0 +1,29 @@
+{
+  "include": ["docs/.vitepress/workers/*"],
+  "compilerOptions": {
+    "composite": true,
+
+    "lib": [
+      "es2020",
+      "webworker",
+    ],
+
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+
+    "noImplicitThis": true,
+    "strict": true,
+
+    // See <https://devblogs.microsoft.com/typescript/announcing-typescript-4-5-beta/#preserve-value-imports>
+    "preserveValueImports": true,
+    // Enforce using `import type` instead of `import` for types
+    "importsNotUsedAsValues": "error",
+
+    "target": "ESNext",
+
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+  }
+}

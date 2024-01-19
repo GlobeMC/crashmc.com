@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const props = withDefaults(
   defineProps<{
-    name: string
+    name?: string
   }>(),
   {
     name: "v",
@@ -14,7 +14,9 @@ function waitForAnimationFrame() {
   return new Promise((re) => requestAnimationFrame(re))
 }
 
-async function onenter(elem) {
+async function onenter(ele: Element) {
+  const elem = ele as HTMLElement
+
   elem.style.maxHeight = "unset"
   const width = window.getComputedStyle(elem).width
   elem.style.width = width
@@ -23,11 +25,11 @@ async function onenter(elem) {
   elem.style.height = "auto"
 
   const height = window.getComputedStyle(elem).height
-  elem.style.width = null
-  elem.style.position = null
-  elem.style.visibility = null
-  elem.style.height = null
-  elem.style.maxHeight = null
+  elem.style.removeProperty("width")
+  elem.style.removeProperty("position")
+  elem.style.removeProperty("visibility")
+  elem.style.removeProperty("height")
+  elem.style.removeProperty("maxHeight")
   elem.style.setProperty("--expanded-height", height)
 
   elem.classList.add(prefix + "-enter-from")
@@ -38,7 +40,9 @@ async function onenter(elem) {
   elem.classList.add(prefix + "-enter-to")
 }
 
-async function onleave(elem) {
+async function onleave(ele: Element) {
+  const elem = ele as HTMLElement
+
   const height = window.getComputedStyle(elem).height
   elem.style.setProperty("--expanded-height", height)
 
@@ -50,7 +54,9 @@ async function onleave(elem) {
   elem.classList.add(prefix + "-leave-to")
 }
 
-function onafter(elem) {
+function onafter(ele: Element) {
+  const elem = ele as HTMLElement
+
   elem.classList.remove(prefix + "-enter-active")
   elem.classList.remove(prefix + "-enter-to")
   elem.classList.remove(prefix + "-leave-active")

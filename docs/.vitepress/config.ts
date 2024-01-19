@@ -1,6 +1,6 @@
-import { withPwa } from "@vite-pwa/vitepress"
 import process from "node:process"
 import { defineConfig } from "vitepress"
+import { withPwa } from "@vite-pwa/vitepress"
 import { pwa } from "./scripts/pwa"
 
 const COMMIT_ID = process.env.CF_PAGES_COMMIT_SHA || "local"
@@ -188,6 +188,6 @@ export default withPwa(
       ],
     ],
 
-    pwa,
+    pwa: pwa,
   }),
 )

@@ -6,7 +6,7 @@ const REDIRECT_TIMEOUT_SEC = 3
 
 const loading = ref(true)
 const failed = ref(false)
-const redirectTarget = ref(null)
+const redirectTarget = ref("")
 const redirectLeft = ref(REDIRECT_TIMEOUT_SEC)
 
 function startRedirectInterval(): void {

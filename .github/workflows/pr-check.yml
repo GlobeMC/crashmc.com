@@ -1,4 +1,4 @@
-name: GitHub CI Check for PR
+name: GitHub Pages for PR
 
 on: [pull_request]
 

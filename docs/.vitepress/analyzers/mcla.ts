@@ -1,3 +1,4 @@
+import type { Ref } from "vue"
 import { useCDN } from "../cdn"
 
 export {
@@ -112,9 +113,10 @@ type promiseSolver = (res: any) => void
 
 class MCLAWorker implements MCLAAPI {
   private readonly worker: Worker
-  private _version: string
+  private _version?: string
   private pendings: Map<number, promiseSolver[]>
   private readonly registry: FinalizationRegistry<number>
+  private loadProgressWatcher?: (percent: number) => void
 
   constructor(worker: Worker) {
     this.worker = worker
@@ -136,7 +138,7 @@ class MCLAWorker implements MCLAAPI {
   }
 
   get version(): string {
-    return this._version
+    return this._version || ""
   }
 
   private ask(data: any): Promise<any> {
@@ -149,20 +151,30 @@ class MCLAWorker implements MCLAAPI {
     })
     this.worker.postMessage({
       ...data,
-      _id: i,
+      __id: i,
     })
     return p
   }
 
-  private onmsg(event) {
+  private onmsg(event: MessageEvent) {
     const { data } = event
-    const re = this.pendings.get(data._id)
-    if (re) {
-      this.pendings.delete(data._id)
-      if (data._error) {
-        re[1](data._error)
-      } else {
-        re[0](data)
+    switch (data.type) {
+      case "reply": {
+        const re = this.pendings.get(data.id)
+        if (re) {
+          this.pendings.delete(data.id)
+          if (data.error) {
+            re[1](data.error)
+          } else {
+            re[0](data)
+          }
+        }
+        break
+      }
+      case "load-progress": {
+        if (this.loadProgressWatcher) {
+          this.loadProgressWatcher(data.percent as number)
+        }
       }
     }
   }
@@ -195,7 +207,7 @@ class MCLAWorker implements MCLAAPI {
           return obj
         }
         if (res.__worker_function) {
-          const fn = async (...args): Promise<any> => {
+          const fn = async (...args: any[]): Promise<any> => {
             return (
               await this.ask({
                 type: "callObj",
@@ -207,7 +219,7 @@ class MCLAWorker implements MCLAAPI {
           this.registry.register(fn, res.ptr)
           return fn
         }
-        const obj = new Object()
+        const obj: { [key: string | symbol]: any } = {}
         for (const k of Reflect.ownKeys(res)) {
           obj[k] = this.unwrapObj(res[k])
         }
@@ -217,7 +229,7 @@ class MCLAWorker implements MCLAAPI {
     throw new Error("Unexpected type of res: " + typeof res)
   }
 
-  private async call(name: string, ...args): Promise<any> {
+  private async call(name: string, ...args: any[]): Promise<any> {
     return this.unwrapObj(
       (
         await this.ask({
@@ -231,6 +243,12 @@ class MCLAWorker implements MCLAAPI {
 
   release() {
     this.call("release")
+  }
+
+  private watchLoadProgress(loadProgress: Ref<number>): void {
+    this.loadProgressWatcher = (percent: number) => {
+      loadProgress.value = percent
+    }
   }
 
   parseCrashReport(log: readable): Promise<CrashReport> {
@@ -253,19 +271,28 @@ class MCLAWorker implements MCLAAPI {
     return iterator
   }
 
-  static async createFromWorker(worker: Worker): Promise<MCLAWorker> {
+  static async createFromWorker(
+    worker: Worker,
+    loadProgress?: Ref<number>,
+  ): Promise<MCLAWorker> {
     const w = new MCLAWorker(worker)
+    console.log("Loading MCLA in worker ...")
+    if (loadProgress) {
+      w.watchLoadProgress(loadProgress)
+    }
     await w.init()
     return w
   }
 }
 
-async function loadMCLAWorker(): Promise<MCLAAPI> {
-  return MCLAWorker.createFromWorker(
-    new Worker("/scripts/mcla_worker.js", {
+async function loadMCLAWorker(loadProgress?: Ref<number>): Promise<MCLAAPI> {
+  const worker = MCLAWorker.createFromWorker(
+    new Worker(new URL("../workers/mcla.worker.ts", import.meta.url), {
       type: "classic",
     }),
+    loadProgress,
   )
+  return worker
 }
 
 interface containsGoCls {
@@ -276,14 +303,16 @@ interface containsMCLAIns {
   MCLA: MCLAAPI | undefined
 }
 
-async function loadMCLA(): Promise<MCLAAPI> {
+async function loadMCLA(loadProgress?: Ref<number>): Promise<MCLAAPI> {
   if (window.Worker) {
     try {
-      return loadMCLAWorker()
+      return loadMCLAWorker(loadProgress)
     } catch (e) {
       // if cannot load by worker, try load inside the window
     }
   }
+
+  console.log("Loading MCLA ...")
 
   await import(GO_WASM_EXEC_URL /* @vite-ignore */) // set variable `window.Go`
 
@@ -301,13 +330,11 @@ async function loadMCLA(): Promise<MCLAAPI> {
   }
   go.run(res.instance)
   // the global variable MCLA cannot be defined instantly, so we have to poll it
-  function waitMCLA(): Promise<void> {
-    if ((window as any as containsMCLAIns).MCLA) {
-      return
-    }
-    return new Promise((re) => setTimeout(re, 10)) // sleep 10ms
-      .then(waitMCLA)
+  const waitMCLA = (): MCLAAPI | Promise<MCLAAPI> => {
+    return (
+      (window as any as containsMCLAIns).MCLA ||
+      new Promise((re) => setTimeout(re, 10)).then(waitMCLA)
+    )
   }
-  await waitMCLA()
-  return (window as any as containsMCLAIns).MCLA
+  return await waitMCLA()
 }
