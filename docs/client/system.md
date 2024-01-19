@@ -145,7 +145,19 @@ Could not reserve enough space for 1048576KB object heap
 
 ## Windows 问题
 
-TO BE COLLECTED
+### UTF-8编码问题
+
+解决方案：
+
+1.检查游戏路径中是否包含中文，如果有，删除掉即可。
+
+2.在`系统-区域设置-使用UTF-8提供全球语言支持`。如果选项没有启用，那么启用并重启电脑；如果已经启用，那么关闭并重启电脑。
+
+关键词：
+
+```
+java.lang.ClassNotFoundException: net.fabricmc.loader.impl.launch.knot.KnotClient
+```
 
 ## macOS 问题
 
