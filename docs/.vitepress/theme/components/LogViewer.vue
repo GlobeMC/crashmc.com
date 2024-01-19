@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, nextTick } from "vue"
+import { type Ref, ref, onMounted, nextTick } from "vue"
 import axios from "axios"
 import {
   getAuthToken,
@@ -9,14 +9,14 @@ import {
 // import { useCDN } from "../../cdn"
 
 const loading = ref(true)
-const errorStr = ref(null)
+const errorStr = ref("")
 const linkType = ref("")
 const linkUrl = ref("")
 const filename = ref("")
-const logStr = ref(null)
-const lines = ref(null)
-const lineRefs = ref([])
-const focusingLine = ref(null)
+const logStr = ref("")
+const lines: Ref<string[]> = ref([])
+const lineRefs: Ref<HTMLElement[]> = ref([])
+const focusingLine: Ref<number | null> = ref(null)
 const logLineWrap = ref(false)
 
 function focusLine(lineNo: number, smooth?: boolean) {
@@ -31,8 +31,11 @@ function focusLine(lineNo: number, smooth?: boolean) {
   }
 }
 
-function setTargetLine(line) {
-  window.history.pushState(null, null, `#L${line}`)
+function setTargetLine(line: number) {
+  const newHash = `#L${line}`
+  if (window.location.hash !== newHash) {
+    window.history.pushState(null, document.title, newHash)
+  }
   focusLine(line, true)
 }
 
@@ -50,7 +53,7 @@ async function onShare(): Promise<void> {
     redirectToAuth(redirectBack, "gist")
     return
   }
-  const files = {}
+  const files: { [name: string]: { content: string } } = {}
   files[filename.value] = {
     content: log,
   }
@@ -104,6 +107,15 @@ onMounted(async () => {
   var log: string
 
   try {
+    if (!link) {
+      errorStr.value = `Must give URL param "link"`
+      return
+    }
+    if (!name) {
+      errorStr.value = `Must give URL param "name"`
+      return
+    }
+
     switch (linkTyp) {
       case "share-blob":
       case "blob": {
@@ -151,7 +163,7 @@ onMounted(async () => {
   filename.value = name
   logStr.value = log
   if (linkTyp === "share-blob") {
-    errorStr.value = "分享中"
+    errorStr.value = "分享中, 请稍后 ..."
     onShare()
     return
   }
@@ -175,6 +187,11 @@ onMounted(async () => {
       <div class="head-opers">
         <div><input v-model="logLineWrap" type="checkbox" />自动换行</div>
         <button v-if="linkType === 'blob'" @click="onShare">分享</button>
+        <a
+          v-if="linkType === 'gist'"
+          :href="`https://gist.github.com/${linkUrl}`">
+          Gist 链接
+        </a>
       </div>
     </div>
     <table>

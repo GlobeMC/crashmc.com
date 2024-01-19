@@ -1,3 +1,4 @@
+import type { EnhanceAppContext } from "vitepress"
 import Theme from "vitepress/theme"
 import { h } from "vue"
 import Contributors from "./components/Contributors.vue"
@@ -17,7 +18,7 @@ import vitepressBackToTop from "vitepress-plugin-back-to-top"
 import "vitepress-plugin-back-to-top/dist/style.css"
 
 export default {
-  ...Theme,
+  extends: Theme,
   Layout: () => {
     return h(Theme.Layout, null, {
       // https://vitepress.dev/guide/extending-default-theme#layout-slots
@@ -25,7 +26,7 @@ export default {
       "layout-bottom": () => h(ReloadPrompt),
     })
   },
-  enhanceApp(ctx) {
+  enhanceApp(ctx: EnhanceAppContext) {
     ctx.app.component("LauncherBadge", LauncherBadge)
     vitepressNprogress(ctx)
     ctx.app.component("vImageViewer", vImageViewer)
@@ -34,7 +35,7 @@ export default {
       threshold: 300,
     })
   },
-  setup() {
+  setup(): void {
     // Get frontmatter and route
     const { frontmatter } = useData()
     const route = useRoute()
@@ -45,6 +46,7 @@ export default {
     // Obtain configuration from: https://giscus.app/
     giscusTalk(
       {
+        // @ts-expect-error TS2353 // wait for https://github.com/T-miracle/vitepress-plugin-comment-with-giscus/pull/10
         repo: "GlobeMC/crashmc.com",
         repoId: "R_kgDOKBR8xw",
         category: "Giscus",

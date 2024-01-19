@@ -58,7 +58,7 @@ async function onAuthDone(): Promise<string | null> {
   }
   var state: StateI
   try {
-    state = JSON.parse(cookies.get(GH_OAUTH_STATE_NAME))
+    state = JSON.parse(cookies.get(GH_OAUTH_STATE_NAME) as string)
   } catch (err) {
     console.debug("Could not parse cookie", GH_OAUTH_STATE_NAME, err)
     return null
@@ -74,7 +74,7 @@ async function onAuthDone(): Promise<string | null> {
       withCredentials: true,
     })
     const data = new URLSearchParams(resp.data)
-    token = data.get("access_token")
+    token = data.get("access_token") as string
   } catch (err) {
     console.error("auth failed:", err)
     return null

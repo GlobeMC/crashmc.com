@@ -6,7 +6,7 @@
     "docs:format": "eslint --ignore-path .gitignore --ext .ts,.vue \"docs/.vitepress/**/*.{ts,vue}\" --fix",
     "docs:eslint": "eslint --ignore-path .gitignore --ext .ts,.vue \"docs/.vitepress/**/*.{ts,vue}\"",
     "docs:zhlint": "zhlint 'docs/**/*.md' --fix",
-    "docs:tsc": "vue-tsc --noEmit --module es2022",
+    "docs:tsc": "vue-tsc --noEmit",
     "prepare": "husky install"
   },
   "name": "mccrash-docs",
@@ -17,8 +17,10 @@
   "devDependencies": {
     "@andatoshiki/vitepress-plugin-nprogress": "^0.0.1",
     "@giscus/vue": "^2.4.0",
+    "@types/pako": "^2.0.3",
     "@typescript-eslint/eslint-plugin": "^6.19.0",
     "@vite-pwa/vitepress": "^0.2.3",
+    "@vue/tsconfig": "^0.5.1",
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier-vue": "^4.2.0",

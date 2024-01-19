@@ -19,14 +19,18 @@ import {
 } from "../../analyzers/mcla"
 
 // 类型&接口定义
-interface SolutionOk {
-  ok: boolean
-  /* if ok */
-  res?: Solution
-  /* else */
-  id?: number // solution id
-  error?: string
+interface SolutionOkSuccess {
+  ok: true
+  res: Solution
 }
+
+interface SolutionOkFailed {
+  ok: false
+  id: number // solution id
+  error: string
+}
+
+type SolutionOk = SolutionOkSuccess | SolutionOkFailed
 
 interface ErrDesc {
   error: string
@@ -113,25 +117,26 @@ const router = useRouter()
 const utf8Decoder = new TextDecoder("utf-8")
 
 // 元素引用
-const fileUploader = ref(null)
+const fileUploader = ref()
 
 // 模版变量初始化
+const mclaLoadingProcess = ref(0)
 const analyzerBackgroundColor = ref("")
 const analyzing = ref(false)
 const analysisShowResult = ref(false)
-const analysisResults: Ref<AnalysisResult[]> = ref(null)
+const analysisResults: Ref<AnalysisResult[]> = ref([])
 const isBtnDisabled = ref(false)
 const labelMsg = ref("未选择文件")
 const btnMsg = ref("开始上传")
 const analysisResultMsg = ref("")
-const redirectUrl = ref(null)
+const redirectUrl: Ref<string | null> = ref(null)
 const redirectMsg = ref("导航到解决方案")
 const showAnalyzingIcon = ref(false)
 watch(
   analyzing,
   (() => {
     // we have to wait a second before trigger the analyzing icon to make better performance
-    var switchInterval = null
+    var switchInterval: Promise<void> | null = null
     return async () => {
       if (switchInterval) {
         await switchInterval
@@ -147,7 +152,7 @@ watch(
 )
 
 // 公共变量
-var MCLA: MCLAAPI = null
+var MCLA: MCLAAPI | null = null
 var launcher = "Unknown"
 
 const SYSTEM_URL = "/client/system.html" // 系统问题
@@ -156,25 +161,27 @@ const MODS_URL = "/client/mods.html" // Mod 问题
 const MIXIN_URL = "/mixin.html" // Mod 问题
 
 // 阻止浏览器默认拖拽行为
-function handleDragEnter() {
+function handleDragEnter(): void {
   analyzerBackgroundColor.value = "rgba(255,255,255,0.5)"
 }
 
 // 动画
-function handleDragOver() {
+function handleDragOver(): void {
   analyzerBackgroundColor.value = "rgba(255,255,255,0.5)"
 }
 
 // 动画
-function handleDragLeave() {
+function handleDragLeave(): void {
   analyzerBackgroundColor.value = "var(--vp-custom-block-tip-bg)"
 }
 
 // 动画
-function handleDrop(e) {
-  const files = e.dataTransfer.files // 获取拖拽过来的文件
-  // 处理文件
-  handleDropFiles(files)
+function handleDrop(e: DragEvent) {
+  const files = e.dataTransfer?.files // 获取拖拽过来的文件
+  if (files) {
+    // 处理文件
+    handleDropFiles(files)
+  }
 }
 
 /**
@@ -201,7 +208,7 @@ function clean() {
 
 function checkFiles(): Promise<boolean> {
   const fup = fileUploader.value
-  return analyzeFiles(fup.files)
+  return analyzeFiles(fup.files as FileList)
 }
 
 /**
@@ -235,7 +242,7 @@ const fallbackAnalysisDoneErr = new _fallbackAnalysisDoneErr()
 async function startAnalysis(files: File[]): Promise<boolean> {
   if (analyzing.value) {
     console.error("日志已经开始分析了?")
-    return
+    return false
   }
   analyzing.value = true
   console.log("开始分析日志")
@@ -259,7 +266,7 @@ async function startAnalysis(files: File[]): Promise<boolean> {
                   console.debug("MCLA is not loaded")
                 }
                 if (analysisResults.value.length === 0) {
-                  return logAnalysis(file.text).then((ok) => {
+                  return logAnalysis(file.text as string).then((ok) => {
                     if (ok) {
                       throw fallbackAnalysisDoneErr
                     }
@@ -292,7 +299,7 @@ async function startAnalysis(files: File[]): Promise<boolean> {
     showAnalysisResult(
       "Success",
       "MCLA 分析完成, 但您不应该在页面上看到本消息 -.-",
-      "https://github.com/kmcsr/mcla",
+      "https://github.com/GlobeMC/mcla",
       "Multiple reasons",
     )
     return true
@@ -412,8 +419,11 @@ async function readFiles(file: MemFile, filename?: string): Promise<MemFile[]> {
 
 // MCLA错误分析
 async function mclAnalysis(file: MemFile): Promise<void> {
+  if (!MCLA) {
+    return
+  }
   const filepath = file.path
-  const resultIter = await MCLA.analyzeLogErrorsIter(file.text)
+  const resultIter = await MCLA.analyzeLogErrorsIter(file.text as string)
   var promises: Promise<any>[] = []
   for await (const result of resultIter) {
     if (!result.matched || result.matched.length === 0) {
@@ -428,13 +438,17 @@ async function mclAnalysis(file: MemFile): Promise<void> {
             return Promise.all(
               errorDesc.solutions.map((id) =>
                 axios
-                  .get(`${MCLA_GH_DB_PREFIX}/solutions/${id}.json`)
-                  .then((res) => ({ ok: true, res: res.data }))
-                  .catch((err) => ({
-                    ok: false,
-                    id: id,
-                    error: String(err),
-                  })),
+                  .get<Solution>(`${MCLA_GH_DB_PREFIX}/solutions/${id}.json`)
+                  .then(
+                    (res): SolutionOkSuccess => ({ ok: true, res: res.data }),
+                  )
+                  .catch(
+                    (err): SolutionOkFailed => ({
+                      ok: false,
+                      id: id,
+                      error: String(err),
+                    }),
+                  ),
               ),
             ).then((solutions) => ({
               match: match,
@@ -731,13 +745,15 @@ async function logAnalysis(log: string): Promise<boolean> {
       ) {
         // 正则匹配单引号内内容
         let matches = spilted[key].match(/'([^']+)'/g)
-        missingMod.push(
-          matches[0].replace(/'/g, "") +
-            " " + // Mod 名称，例如 'oculus'
-            matches[2]
-              .replace(/'/g, "")
-              .replace(/\$\{minecraft_version\}/g, "MinecraftVersion"), // Mod 版本，例如 '[1.4,)'，之后可以把最低 / 最高版本提取出来解析一遍
-        )
+        if (matches) {
+          missingMod.push(
+            matches[0].replace(/'/g, "") +
+              " " + // Mod 名称，例如 'oculus'
+              matches[2]
+                .replace(/'/g, "")
+                .replace(/\$\{minecraft_version\}/g, "MinecraftVersion"), // Mod 版本，例如 '[1.4,)'，之后可以把最低 / 最高版本提取出来解析一遍
+          )
+        }
       }
     }
     missingMod = Array.from(new Set(missingMod)) // 数组去重
@@ -909,7 +925,12 @@ async function logAnalysis(log: string): Promise<boolean> {
  * @param {string} result_url 重定向 Url。
  * @param {string} status_msg 状态信息。
  */
-function showAnalysisResult(status, msg, result_url, status_msg) {
+function showAnalysisResult(
+  status: string,
+  msg: string,
+  result_url: string,
+  status_msg: string,
+) {
   console.log("展示分析结果：(" + status + ") " + msg)
   // 信息更改
   redirectUrl.value = result_url
@@ -920,13 +941,20 @@ function showAnalysisResult(status, msg, result_url, status_msg) {
   finishAnalysis(status, status_msg)
 }
 
-function umamiTrack(...args) {
-  if (window.umami) {
-    try {
-      umami.track(...args)
-    } catch (err) {
-      console.error("umami error:", err)
-    }
+// Based on https://umami.is/docs/tracker-functions
+declare var umami: {
+  track(view_properties?: { website: string; [key: string]: string }): void
+  track(
+    event_name: string,
+    event_data?: { [key: string]: string | number },
+  ): void
+}
+
+function umamiTrack(...args: any[]) {
+  try {
+    umami.track(...args)
+  } catch (err) {
+    console.error("umami error:", err)
   }
 }
 
@@ -988,7 +1016,7 @@ function finishAnalysis(status: string, msg: string) {
       analysisShowResult.value = true
       analysisResultMsg.value =
         "MCLA 分析器意外退出，请点击下方按钮前往 GitHub 反馈。"
-      redirectUrl.value = "https://github.com/kmcsr/mcla/issues/new"
+      redirectUrl.value = "https://github.com/GlobeMC/mcla/issues/new"
       redirectMsg.value = "提交反馈"
       umamiTrack("Analysis Error", {
         Status: "MCLA_Error",
@@ -1007,7 +1035,7 @@ function finishAnalysis(status: string, msg: string) {
   }
 }
 
-function redirectTo(url?: string, newTab?: boolean) {
+function redirectTo(url: string | null, newTab?: boolean) {
   if (!url) {
     return
   }
@@ -1029,7 +1057,7 @@ function redirectTo(url?: string, newTab?: boolean) {
 
 onBeforeMount(async () => {
   try {
-    MCLA = await loadMCLA()
+    MCLA = await loadMCLA(mclaLoadingProcess)
   } catch (err) {
     console.error("Couldn't load MCLA:", err)
   }
@@ -1063,6 +1091,9 @@ onUnmounted(() => {
         <h4 class="file-uploader-label" for="file-uploader" singleLine="false">
           {{ labelMsg }}
         </h4>
+        <div v-if="mclaLoadingProcess < 1">
+          (MCLA 加载中 {{ (mclaLoadingProcess * 100).toFixed(2) }}%)
+        </div>
         <button
           :disabled="isBtnDisabled"
           class="button file-uploader-btn"
