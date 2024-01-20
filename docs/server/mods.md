@@ -21,7 +21,7 @@ net.fabricmc.loader.impl.FormattedException: java.lang.RuntimeException: Could n
 ### 渲染优化模组问题
 
 :::tip 提示
-请确认您是否在服务器里安装了 **OptiFine**（高清修复）或 **Oculus** 等渲染优化模组。
+请确认您是否在服务器里安装了 **OptiFine** (高清修复) 或 **Oculus** 等渲染优化模组。
 :::
 
 解决方案：移除 Oculus 或包含 Iris 的 Mod。

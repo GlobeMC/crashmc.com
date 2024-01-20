@@ -1,7 +1,7 @@
 # Mixin 相关的崩溃
 
 :::warning 警告
-**以下内容可能是高度技术性的 并不一定适合新手查看**
+**以下内容可能是高度技术性的并不一定适合新手查看**
 :::
 
 :::info WIP
@@ -37,7 +37,7 @@ failed
 
 ### Rubidium 与 OptiFine 冲突
 
-若看见了 `OptiFine ZIP file:` ，说明您安装了 OptiFine ，这一行后面是您的 OptiFine 路径
+若看见了 `OptiFine ZIP file:`，说明您安装了 OptiFine，这一行后面是您的 OptiFine 路径
 
 ```
 // 在示例中，您的 OptiFine 的路径为 C:\.minecraft\libraries\optifine\OptiFine\1.19.2_HD_U_I2\OptiFine-1.19.2_HD_U_I2.jar

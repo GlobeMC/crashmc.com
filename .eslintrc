@@ -16,9 +16,12 @@
     "prettier"
   ],
   "rules": {
-    "no-var": 0,
+    "no-var": "off",
+    "no-fallthrough": "off",
+    "vue/multi-word-component-names": "off",
+    "vue/attribute-hyphenation": "off",
     "prettier-vue/prettier": ["error"],
-    "vue/multi-word-component-names": "off", 
+    "@typescript-eslint/no-explicit-any": "off"
   },
   "env": {
     "browser": true

@@ -6,7 +6,7 @@ contributors: [bingling-sama]
 
 正在阅读本文档的玩家您好，我们相信您此刻一定在游玩 `Minecraft` 时遇到了某些令人烦恼的问题。不论是单人愉悦游玩，或是架设服务器与好友畅玩。
 
-> `Minecraft` 这个游戏，各种 Bug 和解决方案如果写成一堆不重复的书，摞起来的厚度可以比姚明还高。（引用自 [DinnerBone 个人博客](https://www.cnblogs.com/Dinnerbone/p/12045117.html)）
+> `Minecraft` 这个游戏，各种 Bug 和解决方案如果写成一堆不重复的书，摞起来的厚度可以比姚明还高。(引用自 [DinnerBone 个人博客](https://www.cnblogs.com/Dinnerbone/p/12045117.html))
 
 幸运的是，这篇文档都能在一定程度上帮助您或多或少地解决一部分问题，换个角度说，在阅读了这篇文档以后，您对 `Minecraft` 这个游戏也将会有更深的理解。
 
@@ -26,15 +26,15 @@ A：`Minecraft` 与您平时游玩的端游、页游、或是 `Steam` 这种玩�
 
 A：`Minecraft` 这款游戏在设计之初采用了 `Java` 语言，并沿袭开发至今，逐渐形成了庞大的玩家社区，其本身的设计缺陷和社区创作者对游戏的修改都有可能会导致游戏的错误甚至崩溃。
 
-> Q：要修好 `Minecraft` 的错误 / 崩溃， 我需要做些什么？
+> Q：要修好 `Minecraft` 的错误 / 崩溃，我需要做些什么？
 
 A：要对 `Minecraft` 的游戏错误 / 崩溃进行处理，您首先要对游戏本身有一定的理解，再加上对本文档的反复阅读以及游玩中的经验积累，您将会慢慢获得熟练解决 `Minecraft` 游戏错误 / 崩溃的能力。
 
 ## 梦的开始
 
-作为一名 `Minecraft` 玩家，想必您应该知道 `Minecraft` 游戏的启动，需要用到 `Mojang` 官方提供的 **启动器（Launcher）** 来启动游戏。~~作为一名购买了正版游戏的玩家，您一定是知道的吧？对吧？~~
+作为一名 `Minecraft` 玩家，想必您应该知道 `Minecraft` 游戏的启动，需要用到 `Mojang` 官方提供的**启动器 (Launcher)** 来启动游戏。~~作为一名购买了正版游戏的玩家，您一定是知道的吧？对吧？~~
 
-而由于开发 `Minecraft` 的工作室 `Mojang` 的一些原因，许多国内的玩家没办法使用 **官方启动器（Minecraft Launcher）**（后文以 **官启** 代之）获得很好的游戏体验，因此便催生了一些社区开发者制作的 **第三方启动器**，此处列举几个国内著名的第三方启动器，如下表：
+而由于开发 `Minecraft` 的工作室 `Mojang` 的一些原因，许多国内的玩家没办法使用**官方启动器 (Minecraft Launcher)**(后文以**官启**代之) 获得很好的游戏体验，因此便催生了一些社区开发者制作的**第三方启动器**，此处列举几个国内著名的第三方启动器，如下表：
 
 | 启动器名称 | 官网链接                                                  | 开发者     |
 | ---------- | --------------------------------------------------------- | ---------- |
@@ -52,9 +52,9 @@ A：要对 `Minecraft` 的游戏错误 / 崩溃进行处理，您首先要对游
 :::
 
 :::tip BakaXL / PCL2 / HMCL 无法使用？
-若在启动 BakaXL 或 PCL2 时出现了 .NET Framework 异常，请在 [此处](https://dotnet.microsoft.com/zh-cn/download/dotnet-framework/thank-you/net48-offline-installer) 下载安装 .NET Framework 4.8。
+若在启动 BakaXL 或 PCL2 时出现了。NET Framework 异常，请在[此处](https://dotnet.microsoft.com/zh-cn/download/dotnet-framework/thank-you/net48-offline-installer)下载安装。NET Framework 4.8。
 
-若使用 HMCL 启动失败或启动时出现 JavaFX 缺失相关提示，请尝试在系统设置中卸载相关 Java，然后下载并安装 [微软 JDK](https://learn.microsoft.com/zh-cn/java/openjdk/download#openjdk-17) 后再尝试启动。
+若使用 HMCL 启动失败或启动时出现 JavaFX 缺失相关提示，请尝试在系统设置中卸载相关 Java，然后下载并安装[微软 JDK](https://learn.microsoft.com/zh-cn/java/openjdk/download#openjdk-17) 后再尝试启动。
 
 若尝试上述解决方案仍无法解决，请前往相关渠道进行反馈。
 :::
@@ -65,30 +65,30 @@ A：要对 `Minecraft` 的游戏错误 / 崩溃进行处理，您首先要对游
 
 - 客户端崩溃日志：`.minecraft\crash-reports\crash-***.txt`
 
-  > 若启用了 `版本隔离` ，则位于：`.minecraft\versions\***\crash-reports\crash-***.txt`
+  > 若启用了 `版本隔离`，则位于：`.minecraft\versions\***\crash-reports\crash-***.txt`
 
-- 服务端崩溃日志：位于你服务端根目录下，如果你的服务器经常出现问题崩溃的话，你应该能在这看到很多 ~~你的服务端发出的抱怨~~ 崩溃日志
+- 服务端崩溃日志：位于你服务端根目录下，如果你的服务器经常出现问题崩溃的话，你应该能在这看到很多~~你的服务端发出的抱怨~~崩溃日志
 
 不难发现，crash-report 目录下的文件都是以时间来命名的，格式如：`crash-{date}_{time}-{client/server}.txt`。而以普遍理性而论，对玩家或开发者来说，最有用处的就是最新生成的崩溃日志。所以当你的游戏发生了崩溃时，请**立即**找到最新的崩溃日志，打开它进行分析，或者发给你玩 `Minecraft` 的程序员朋友来折磨他。
 
-> 如果您的游戏因为未响应而崩溃，我们暂时没有办法解决 :(
+> 如果您的游戏因为未响应而崩溃，我们暂时没有办法解决：(
 
 ## 关于编辑器
 
-那么到了这一步，你已经找到了你游戏的崩溃日志，那么接下来你一定会想打开它看看你的 `Minecraft` 究竟发生了什么。而 `Minecraft` 的日志其实有很多种格式，常见的有 `.txt` 和 `.log`，而打开这两种格式的日志文件可以使用很多种编辑器，此处推荐几个好用的编辑器（以推荐度排序），如下：
+那么到了这一步，你已经找到了你游戏的崩溃日志，那么接下来你一定会想打开它看看你的 `Minecraft` 究竟发生了什么。而 `Minecraft` 的日志其实有很多种格式，常见的有 `.txt` 和 `.log`，而打开这两种格式的日志文件可以使用很多种编辑器，此处推荐几个好用的编辑器 (以推荐度排序)，如下：
 
-- Windows 记事本（说实话， `Windows 10 / 11` 的记事本还是很好用的，如果你不想下载什么软件就用它吧）
-- [NotepadNext: A cross-platform, reimplementation of Notepad++.](https://github.com/dail8859/NotepadNext)
+- Windows 记事本 (说实话，`Windows 10 / 11` 的记事本还是很好用的，如果你不想下载什么软件就用它吧)
+- [NotepadNext：A cross-platform，reimplementation of Notepad++.](https://github.com/dail8859/NotepadNext)
   :::details Q&A
   > Q：为什么不用 Notepad++？  
   > A：Notepad++ 的作者存在一些严重的政治立场问题，在这里不过多提及，但他本人将这种问题带入了他的作品之中，因此我本人并不推荐使用 Notepad++。
   :::
-- [Visual Studio Code: A source-code editor made by Microsoft](https://code.visualstudio.com)
+- [Visual Studio Code：A source-code editor made by Microsoft](https://code.visualstudio.com)
   > 一个轻量的、美观的文本编辑器，深受广大程序员喜爱。
 
 ## 阅读日志
 
-有了趁手的工具，接下来我们就来修理一下这不听话的游戏吧。在后文中我们可能会要在日志中通过查找某些关键词来寻找某些关键信息，您可以先选中要查找的范围，再使用 `Ctrl + K` （macOS 中为 `⌘ + K`）快捷键来进行查找操作。需要注意的是，原则上每次只查询一行日志，不建议同时复制和查询多行。
+有了趁手的工具，接下来我们就来修理一下这不听话的游戏吧。在后文中我们可能会要在日志中通过查找某些关键词来寻找某些关键信息，您可以先选中要查找的范围，再使用 `Ctrl + K` (macOS 中为 `⌘ + K`) 快捷键来进行查找操作。需要注意的是，原则上每次只查询一行日志，不建议同时复制和查询多行。
 
 ## 名词解释
 
@@ -96,7 +96,7 @@ A：要对 `Minecraft` 的游戏错误 / 崩溃进行处理，您首先要对游
 
 `Forge`、`NeoForge`、`Fabric`、`Quilt`、`LiteLoader` 均为 Mod 加载器，绝大多数的崩溃和 Mod 安装不正确有关。
 
-`OptiFine`_(高清修复)_ 是一个 Mod，它可以提高游戏的帧率，减少游戏的卡顿和延迟，并提供更多的图像设置。不正确的使用此 Mod 很容易导致崩溃，不建议和多个优化 Mods 同时安装。
+`OptiFine` _(高清修复)_ 是一个 Mod，它可以提高游戏的帧率，减少游戏的卡顿和延迟，并提供更多的图像设置。不正确的使用此 Mod 很容易导致崩溃，不建议和多个优化 Mods 同时安装。
 
 `Java` 是 Minecraft _(我的世界)_ 启动所必须的环境。在 1.16 及之前的版本推荐使用 Java 8。在 1.17 及以后的版本，需要使用 Java 17 及更高的版本。
 
@@ -105,7 +105,7 @@ A：要对 `Minecraft` 的游戏错误 / 崩溃进行处理，您首先要对游
 看到这里，相信您已经对 `Minecraft` 的错误及崩溃有一定的了解了，接下来继续阅读后面的文章将会对您带来更多的帮助。
 
 :::warning 注意
-本文档主要针对 Windows 7 及以上版本 和 macOS 10.10 及以上版本编写。
+本文档主要针对 Windows 7 及以上版本和 macOS 10.10 及以上版本编写。
 
 如果您是使用 Windows XP / Windows Vista / Linux 的极客用户，我们不一定提供相关参考，文中方案也不一定适用于您的系统环境，由此带来的任何问题请您发扬极客精神自行解决。
 

@@ -1,10 +1,21 @@
 {
-  "compilerOptions": {
-    "moduleResolution": "node",
-    "outDir": "out",
-    "sourceMap": true,
-    "target": "es6"
-  },
+  "extends": "@vue/tsconfig/tsconfig.dom.json",
   "include": ["docs/.vitepress/**/*.ts", "docs/.vitepress/**/*.vue"],
-  "exclude": ["**/*.spec.ts", "**/*.spec.vue"]
+  "compilerOptions": {
+    "lib": [
+      "es2020",
+      "dom",
+    ],
+    "ignoreDeprecations": "5.0",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./docs/.vitepress/*"],
+    },
+    "verbatimModuleSyntax": false,
+  },
+  "references": [
+    {
+      "path": "./tsconfig.worker.json"
+    }
+  ]
 }
