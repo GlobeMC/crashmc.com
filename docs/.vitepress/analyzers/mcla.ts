@@ -1,5 +1,5 @@
 import type { Ref } from "vue"
-import { useCDN } from "../cdn"
+import { useCDN } from "@/cdn"
 
 export { VERSION, MCLA_GH_DB_PREFIX, loadMCLA }
 
@@ -199,7 +199,7 @@ class MCLAWorker implements MCLAAPI {
 
 async function loadMCLAWorker(loadProgress?: Ref<number>): Promise<MCLAAPI> {
   const worker = MCLAWorker.createFromWorker(
-    new Worker(new URL("../workers/mcla.worker.ts", import.meta.url), {
+    new Worker(new URL("@/workers/mcla.worker.ts", import.meta.url), {
       type: "classic",
     }),
     loadProgress,
