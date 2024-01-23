@@ -1,25 +1,16 @@
 import type { Ref } from "vue"
-import { useCDN } from "../cdn"
+import { useCDN } from "@/cdn"
 
-export {
-  VERSION,
-  MCLA_GH_DB_PREFIX,
+export { VERSION, MCLA_GH_DB_PREFIX, loadMCLA }
+
+import type {
   readable,
-  StackInfo,
-  Stacktrace,
-  JavaError,
-  ReportDetails,
-  HeadThread,
-  AffectedLevel,
-  DetailsItem,
   CrashReport,
-  ErrorDesc,
-  SolutionPossibility,
+  JavaError,
   ErrorResult,
-  Solution,
   MCLAAPI,
-  loadMCLA,
-}
+} from "./mcla.api"
+export * from "./mcla.api"
 
 const VERSION = "v0.4.23"
 // const VERSION = "dev"
@@ -29,85 +20,6 @@ const MCLA_WASM_URL = useCDN(`${RESOURCES_BASE}/${VERSION}/mcla.wasm`)
 const MCLA_GH_DB_PREFIX = useCDN(
   "https://raw.githubusercontent.com/kmcsr/mcla-db-dev/main",
 )
-
-type readable =
-  | string
-  | Uint8Array
-  | ReadableStream
-  | ReadableStreamDefaultReader
-
-interface StackInfo {
-  raw: string
-  class: string
-  method: string
-}
-
-type Stacktrace = StackInfo[]
-
-interface JavaError {
-  class: string
-  message: string
-  stacktrace: Stacktrace
-  causedBy: JavaError
-  // extra infos
-  lineNo: number
-}
-
-type ReportDetails = Map<string, string[]>
-
-interface HeadThread {
-  thread: string
-  stacktrace: Stacktrace
-}
-
-interface AffectedLevel {
-  details: ReportDetails
-  stacktrace: Stacktrace
-}
-
-interface DetailsItem {
-  details: ReportDetails
-}
-
-interface CrashReport {
-  description: string
-  error: JavaError
-  head: HeadThread
-  affectedLevel: AffectedLevel
-  others: Map<string, DetailsItem>
-}
-
-interface ErrorDesc {
-  error: string
-  message: string
-  solutions: number[]
-}
-
-interface SolutionPossibility {
-  errorDesc: ErrorDesc
-  match: number
-}
-
-interface ErrorResult {
-  error: JavaError
-  matched: SolutionPossibility[]
-  file?: string
-}
-
-interface Solution {
-  tags: string[]
-  description: string
-  link_to: string
-}
-
-interface MCLAAPI {
-  version: string
-  release(): void
-  parseCrashReport(log: readable): Promise<CrashReport>
-  parseLogErrors(log: readable): Promise<JavaError[]>
-  analyzeLogErrors(log: readable): Promise<ErrorResult[]>
-  analyzeLogErrorsIter(log: readable): Promise<AsyncIterable<ErrorResult>>
-}
 
 type promiseSolver = (res: any) => void
 
@@ -287,7 +199,7 @@ class MCLAWorker implements MCLAAPI {
 
 async function loadMCLAWorker(loadProgress?: Ref<number>): Promise<MCLAAPI> {
   const worker = MCLAWorker.createFromWorker(
-    new Worker(new URL("../workers/mcla.worker.ts", import.meta.url), {
+    new Worker(new URL("@/workers/mcla.worker.ts", import.meta.url), {
       type: "classic",
     }),
     loadProgress,

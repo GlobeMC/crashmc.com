@@ -6,7 +6,7 @@
     "docs:format": "eslint --ignore-path .gitignore --ext .ts,.vue \"docs/.vitepress/**/*.{ts,vue}\" --fix",
     "docs:eslint": "eslint --ignore-path .gitignore --ext .ts,.vue \"docs/.vitepress/**/*.{ts,vue}\"",
     "docs:zhlint": "zhlint 'docs/**/*.md' --fix",
-    "docs:tsc": "vue-tsc --noEmit",
+    "docs:tsc": "tsc --build && vue-tsc --noEmit",
     "prepare": "husky install"
   },
   "name": "mccrash-docs",

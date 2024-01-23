@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useData } from "vitepress"
 import { computed } from "vue"
-import { useCDN } from "../../cdn"
+import { useCDN } from "@/cdn"
 
 const defaultAuthor = "GlobeMC"
 const { frontmatter } = useData()
