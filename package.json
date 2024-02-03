@@ -18,24 +18,24 @@
     "@andatoshiki/vitepress-plugin-nprogress": "^0.0.1",
     "@giscus/vue": "^2.4.0",
     "@types/pako": "^2.0.3",
-    "@typescript-eslint/eslint-plugin": "^6.19.0",
+    "@typescript-eslint/eslint-plugin": "^6.20.0",
     "@vite-pwa/vitepress": "^0.2.3",
     "@vue/tsconfig": "^0.5.1",
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier-vue": "^4.2.0",
-    "eslint-plugin-vue": "^9.20.1",
+    "eslint-plugin-vue": "^9.21.1",
     "husky": "^8.0.3",
     "prettier": "^3.2.4",
     "sass": "^1.70.0",
     "tslib": "^2.6.2",
     "vite-plugin-pwa": "^0.16.7",
-    "vitepress": "1.0.0-rc.39",
-    "vue": "^3.4.14",
-    "vue-eslint-parser": "^9.4.0",
+    "vitepress": "1.0.0-rc.41",
+    "vue": "^3.4.15",
+    "vue-eslint-parser": "^9.4.2",
     "vue-tsc": "^1.8.27",
     "workbox-window": "^7.0.0",
-    "zhlint": "^0.7.3"
+    "zhlint": "^0.7.4"
   },
   "keywords": [
     "Minecraft",
@@ -48,8 +48,8 @@
     "@gera2ld/tarjs": "^0.2.2",
     "@types/js-cookie": "^3.0.6",
     "@types/umami": "^0.1.5",
-    "@typescript-eslint/parser": "^6.19.0",
-    "axios": "^1.6.5",
+    "@typescript-eslint/parser": "^6.20.0",
+    "axios": "^1.6.7",
     "directory-tree": "^3.5.1",
     "js-cookie": "^3.0.5",
     "jszip": "^3.10.1",
@@ -58,7 +58,7 @@
     "viewerjs": "^1.11.6",
     "vitepress-plugin-back-to-top": "^1.0.1",
     "vitepress-plugin-codeblocks-fold": "^1.2.28",
-    "vitepress-plugin-comment-with-giscus": "^1.1.11",
-    "vitepress-plugin-image-viewer": "^1.1.2"
+    "vitepress-plugin-comment-with-giscus": "^1.1.12",
+    "vitepress-plugin-image-viewer": "^1.1.3"
   }
 }

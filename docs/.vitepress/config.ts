@@ -178,6 +178,8 @@ const themeConfig: DefaultTheme.Config = {
   returnToTopLabel: "返回顶部",
   externalLinkIcon: true,
   darkModeSwitchLabel: "外观",
+  lightModeSwitchTitle: "切换到浅色模式",
+  darkModeSwitchTitle: "切换到深色模式",
 }
 
 export default withPwa(
@@ -187,6 +189,22 @@ export default withPwa(
     lastUpdated: true,
     description: "为一般玩家编写的 Minecraft 崩溃分析指南",
     themeConfig: themeConfig,
+    cleanUrls: true,
+
+    markdown: {
+      image: {
+        lazyLoading: true,
+      },
+      theme: {
+        light: "material-theme-lighter",
+        dark: "material-theme-palenight",
+      },
+      lineNumbers: true,
+    },
+
+    sitemap: {
+      hostname: "https://crashmc.com",
+    },
 
     head: [
       ["link", { rel: "icon", href: "/logo-brand.png" }],
