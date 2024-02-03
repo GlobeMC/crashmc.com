@@ -1,12 +1,8 @@
 <script setup lang="ts">
 import { type Ref, ref, onMounted, nextTick } from "vue"
 import axios from "axios"
-import {
-  getAuthToken,
-  expireAuthToken,
-  redirectToAuth,
-} from "../../auth/github"
-// import { useCDN } from "../../cdn"
+import { getAuthToken, expireAuthToken, redirectToAuth } from "@/auth/github"
+// import { useCDN } from "@/cdn"
 
 const loading = ref(true)
 const errorStr = ref("")

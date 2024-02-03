@@ -1,6 +1,7 @@
 {
   "extends": "@vue/tsconfig/tsconfig.dom.json",
   "include": ["docs/.vitepress/**/*.ts", "docs/.vitepress/**/*.vue"],
+  "exclude": ["docs/.vitepress/workers"],
   "compilerOptions": {
     "lib": [
       "es2020",
@@ -12,6 +13,7 @@
       "@/*": ["./docs/.vitepress/*"],
     },
     "verbatimModuleSyntax": false,
+    "outDir": "out",
   },
   "references": [
     {

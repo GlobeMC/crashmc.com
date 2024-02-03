@@ -1,4 +1,4 @@
-import type { MCLAAPI } from "../analyzers/mcla"
+import type { MCLAAPI } from "@/analyzers/mcla.api"
 
 type ProgressCallback = (
   percent: number,
@@ -164,7 +164,6 @@ class DBStorage {
 declare global {
   var Go: any
   var MCLA: MCLAAPI | undefined
-  // @ts-expect-error TS2403
   var localStorage: DBStorage
 }
 
@@ -181,7 +180,6 @@ const fetchProgCallback = (percent: number): void => {
 }
 
 async function setup(data: SetupData) {
-  // @ts-expect-error TS2739
   globalThis.localStorage = new DBStorage(
     await openDB("mcla-worker-localStorage", 1, (db) => {
       const localStore = db.createObjectStore("localStorage", { keyPath: "k" })

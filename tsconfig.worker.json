@@ -1,5 +1,5 @@
 {
-  "include": ["docs/.vitepress/workers/*"],
+  "include": ["docs/.vitepress/workers/*", "docs/.vitepress/**/*.api.ts"],
   "compilerOptions": {
     "composite": true,
 
@@ -15,15 +15,18 @@
     "noImplicitThis": true,
     "strict": true,
 
-    // See <https://devblogs.microsoft.com/typescript/announcing-typescript-4-5-beta/#preserve-value-imports>
-    "preserveValueImports": true,
-    // Enforce using `import type` instead of `import` for types
-    "importsNotUsedAsValues": "error",
+    "verbatimModuleSyntax": true,
 
     "target": "ESNext",
 
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
+
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./docs/.vitepress/*"],
+    },
+    "outDir": "out"
   }
 }

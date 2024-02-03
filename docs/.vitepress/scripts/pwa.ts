@@ -3,6 +3,10 @@ import type { VitePWAOptions } from "vite-plugin-pwa"
 const pwaName = process.env.PWA_NAME || "CrashMC 文档（本地）"
 
 export const pwa: Partial<VitePWAOptions> = {
+  // @ts-expect-error TS2353
+  experimental: {
+    includeAllowlist: true,
+  },
   outDir: ".vitepress/dist",
   registerType: "prompt",
   includeManifestIcons: false,

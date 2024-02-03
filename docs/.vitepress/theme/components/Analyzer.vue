@@ -16,7 +16,7 @@ import {
   type Solution,
   loadMCLA,
   MCLA_GH_DB_PREFIX,
-} from "../../analyzers/mcla"
+} from "@/analyzers/mcla"
 
 // 类型&接口定义
 interface SolutionOkSuccess {

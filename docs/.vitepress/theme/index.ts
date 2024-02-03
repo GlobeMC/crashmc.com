@@ -16,11 +16,12 @@ import "vitepress-plugin-codeblocks-fold/style/index.scss" // import style
 import "./style.css"
 import vitepressBackToTop from "vitepress-plugin-back-to-top"
 import "vitepress-plugin-back-to-top/dist/style.css"
+import Layout from "./Layout.vue"
 
 export default {
   extends: Theme,
   Layout: () => {
-    return h(Theme.Layout, null, {
+    return h(Layout, null, {
       // https://vitepress.dev/guide/extending-default-theme#layout-slots
       "doc-footer-before": () => h(Contributors),
       "layout-bottom": () => h(ReloadPrompt),
@@ -46,7 +47,6 @@ export default {
     // Obtain configuration from: https://giscus.app/
     giscusTalk(
       {
-        // @ts-expect-error TS2353 // wait for https://github.com/T-miracle/vitepress-plugin-comment-with-giscus/pull/10
         repo: "GlobeMC/crashmc.com",
         repoId: "R_kgDOKBR8xw",
         category: "Giscus",
