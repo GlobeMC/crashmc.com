@@ -30,6 +30,7 @@ const themeConfig: DefaultTheme.Config = {
       text: "客户端崩溃",
       activeMatch: "/client/*",
       items: [
+        { text: "通用问题", link: "/client/shared"},
         { text: "系统问题", link: "/client/system" },
         { text: "原版问题", link: "/client/vanilla" },
         { text: "Mod 问题", link: "/client/mods" },
