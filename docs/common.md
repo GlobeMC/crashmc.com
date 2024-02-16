@@ -4,7 +4,7 @@
 
 解释：JVM 内存溢出，导致游戏崩溃。
 
-解决方案：更新显卡驱动，64位系统用户请确保使用64位 Java ，32位系统用户请调低你的 Minecraft 使用内存
+解决方案：更新显卡驱动，64 位系统用户请确保使用 64 位 Java ，32 位系统用户请调低你的 Minecraft 使用内存
 
 显卡驱动下载：[Intel](https://www.intel.cn/content/www/cn/zh/search.html#sort=relevancy&f:@tabfilter=[Downloads]&f:@stm_10385_zh=[%E6%98%BE%E5%8D%A1]) | [AMD](https://www.amd.com/zh-hans/support) | [Nvidia](https://www.nvidia.cn/geforce/drivers/) 
 
