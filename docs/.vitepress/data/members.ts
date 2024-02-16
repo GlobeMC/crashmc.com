@@ -20,7 +20,7 @@ const members = [
   {
     avatar: "https://cdn.crashmc.com/https://github.com/bingling-sama.png",
     name: "bingling-sama",
-    title: "开发者",
+    title: "开发者 | 文档贡献者",
     links: [{ icon: "github", link: "https://github.com/bingling-sama" }],
   },
   {

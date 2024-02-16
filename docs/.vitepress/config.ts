@@ -26,10 +26,12 @@ const themeConfig: DefaultTheme.Config = {
   nav: [
     { text: "主页", link: "/" },
     { text: "崩溃分析工具", link: "/analyzer" },
+    { text: "通用问题", link: "/commons" },
     {
       text: "客户端崩溃",
       activeMatch: "/client/*",
       items: [
+        { text: "通用问题", link: "/client/shared" },
         { text: "系统问题", link: "/client/system" },
         { text: "原版问题", link: "/client/vanilla" },
         { text: "Mod 问题", link: "/client/mods" },

@@ -23,3 +23,15 @@ You need to agree to the EULA in order to run the server. Go to eula.txt for mor
 ```
 Perhaps a server is already running on that port?
 ```
+
+## 1 tick 执行时间过长
+
+解释：服务器 1 tick 执行时间过长导致崩溃
+
+解决方案：修改 `server.properties` 文件，将 `max-tick-time` 值调高或设为 `-1`
+
+关键词：
+
+```
+java.lang.Error: Watchdog
+```

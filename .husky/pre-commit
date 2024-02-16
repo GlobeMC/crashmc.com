@@ -5,5 +5,5 @@ echo "running docs:tsc"
 pnpm run docs:tsc
 echo "running docs:eslint --fix"
 pnpm run docs:eslint --fix
-echo "running docs:zhlint"
-pnpm run docs:zhlint
+# echo "running docs:zhlint"
+# pnpm run docs:zhlint

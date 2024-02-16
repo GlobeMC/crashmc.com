@@ -8,22 +8,28 @@
 
 ## 贡献
 
-### 依赖工具
+### 项目架构
 
-- [Git](https://git-scm.com/downloads)
-- [pnpm](https://pnpm.io/installation)
+- [pnpm](https://pnpm.io/installation) 提供包管理工具
+- [Vitepress](https://vitepress.dev/) 驱动构建静态网页
+- [CloudFlare](https://www.cloudflare.com/) 提供静态网站部署服务
 
 ### 注意事项
 
 请先 [Fork](https://github.com/GlobeMC/crashmc.com/fork) 本仓库，然后进行文档修改。
 
-请注意：在非 Log 信息以外的任何地方，如果出现中文文字、英文单词和阿拉伯数字混用的情况，请在它们之间添加空格；如果有斜杠的，请在斜杠两边增加一个空格。
+本文档按 [W3C Requirement for Chinese Text Layout](https://www.w3.org/International/clreq/) 进行排版，在贡献内容时请注意排版格式。
 
-例：`GlobeMC 河豚分析是一个 2023 年 7 月底成立的崩溃日志分析组织，以方便 / 开放 / 专业为目标`、`Java 8`
+请注意：在非 Log 信息以外的任何地方，如果出现中文文字、英文单词和阿拉伯数字混用的情况，请在它们之间添加空格；如果有斜杠的，请在斜杠两边增加一个空格。如：
 
-在涉及非 Log 信息以外的任何地方，英文单词原则上首字母大写，部分情况需要按照规则大写，英文句子首字母大写。
+- GlobeMC 河豚分析是一个 2023 年 7 月底成立的崩溃日志分析组织，以方便、开放、专业为目标
+- `Java 8`
 
-例：`Minecraft`、`OptiFine`、`What your love is your life.`
+在涉及非 Log 信息以外的任何地方，英文单词原则上首字母大写，部分情况需要按照规则大写，英文句子首字母大写。如：
+
+- Minecraft
+- OptiFine
+- What you love is your life.
 
 在涉及路径时，请在路径的前后加上空格。
 
