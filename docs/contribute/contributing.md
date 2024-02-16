@@ -8,7 +8,6 @@ contributors: [HRxiaohu, bingling-sama]
 
 ## Step1.克隆项目
 
-
 首先 fork [GitHub Repo](https://github.com/GlobeMC/crashmc.com) 到你名下，然后克隆仓库到本地：
 
 ```bash
@@ -18,7 +17,7 @@ git clone git@github.com:{yourname}/crashmc.com.git
 git clone https://github.com/{yourname}/crashmc.com.git 
 ```
 
-推荐使用 [VSCode](https://code.visualstudio.com/) 编辑内容。
+推荐使用 [VSCode](https://code.visualstudio.com/) 编辑内容，强烈建议安装工作区推荐扩展。
 
 :::tip GitHub Web Editor
 如果内容较少，你可以直接使用 [GitHub Web Editor](https://github.dev) 来进行修改。
@@ -27,7 +26,6 @@ git clone https://github.com/{yourname}/crashmc.com.git
 :::
 
 ## Step2.贡献内容
-
 
 ### 文档内容
 
