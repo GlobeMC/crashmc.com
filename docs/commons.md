@@ -8,7 +8,7 @@
 
 显卡驱动下载：[Intel](https://www.intel.cn/content/www/cn/zh/search.html#sort=relevancy&f:@tabfilter=[Downloads]&f:@stm_10385_zh=[%E6%98%BE%E5%8D%A1]) | [AMD](https://www.amd.com/zh-hans/support) | [Nvidia](https://www.nvidia.cn/geforce/drivers/) 
 
-64位java下载[Java 8](https://cdn.crashmc.com/https://github.com/bell-sw/Liberica/releases/download/8u312%2B7/bellsoft-jre8u312+7-windows-amd64-full.msi) | [JDK 17](https://cdn.crashmc.com/https://github.com/bell-sw/Liberica/releases/download/17.0.1%2B12/bellsoft-jdk17.0.1+12-windows-amd64.msi)
+64 位 Java 下载：[Java 8](https://cdn.crashmc.com/https://github.com/bell-sw/Liberica/releases/download/8u402%2B7/bellsoft-jre8u402+7-windows-amd64-full.msi) | [JDK 17](https://cdn.crashmc.com/https://github.com/bell-sw/Liberica/releases/download/17.0.10%2B13/bellsoft-jdk17.0.10+13-windows-amd64.msi)
 
 关键词：
 
