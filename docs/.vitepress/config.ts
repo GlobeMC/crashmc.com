@@ -26,6 +26,7 @@ const themeConfig: DefaultTheme.Config = {
   nav: [
     { text: "主页", link: "/" },
     { text: "崩溃分析工具", link: "/analyzer" },
+    { text: "通用问题", link: "/commons" },
     {
       text: "客户端崩溃",
       activeMatch: "/client/*",
