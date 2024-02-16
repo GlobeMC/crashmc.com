@@ -31,8 +31,8 @@ body:
     id: log-files
     attributes:
       label: "日志文件"
-      description: 如果日志太长无法提交，请将日志文件拖放到这里
-      placeholder: 不要在这里粘贴日志
+      description: 请优先使用 [MCLogs](https://mclo.gs) 提交日志
+      placeholder: 粘贴 MCLogs 链接、粘贴日志内容或上传日志文件
     validations:
       required: true
   - type: dropdown
