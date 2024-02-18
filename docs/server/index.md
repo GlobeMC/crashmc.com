@@ -44,7 +44,7 @@ Minecraft 服务端，是 Minecraft 游戏本身一大组成部分。通俗来�
 | Spigot     | [Spigot 官方网站](https://www.spigotmc.org/)               | SpigotMC                          |
 | Sponge     | [Sponge 官方网站](https://spongepowered.org/)             | Sponge                            |
 | Paper      | [PaperMC 官方网站](https://papermc.io/)                     | PaperMC                           |
-| Cuberite   | [Cuberite 官方网站](https://cuberite.org/)                  | FakeTruth，其原始名称为“MCServer”   |
+| Cuberite   | [Cuberite 官方网站](https://cuberite.org/)                  | FakeTruth，其原始名称为 “MCServer”   |
 | ……         | ……                                                         | ……                               |
 
 注1：这里没有列出 Paper 和 Spigot 的分支服务端。
@@ -68,7 +68,7 @@ Minecraft 服务端，是 Minecraft 游戏本身一大组成部分。通俗来�
 | SpongeForge | [Sponge 官方网站](https://spongepowered.org/)              | Sponge                            | Forge         | Sponge           |
 | Mohist     | [Mohist 官方网站](https://mohistmc.com/)                   | MohistMC                            | Forge        | Paper           |
 | Arclight   | [Arclight Github](https://github.com/IzzelAliz/Arclight)   | IzzelAliz                          | Forge         | Bukkit          |    
-| CatServer  | [CatServer Github](https://github.com/Luohuayu/CatServer)    | Luohuayu                       | Forge         | Bukkit 和 Spigot    | 
+| CatServer  | [CatServer Github](https://github.com/Luohuayu/CatServer)    | Luohuayu                       | Forge         | Spigot            | 
 | ……         | ……                                                         | ……                               | ……            | ……                   |
 
 ## 日志文件的位置
