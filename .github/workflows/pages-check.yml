@@ -1,0 +1,23 @@
+name: Pages Check
+run-name: ${{ github.actor }} is checking pages deployment 🚀
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: 🛠️ Checkout
+      uses: actions/checkout@v2
+		- name: Init pnpm
+			uses: pnpm/action-setup@v2
+		- name: Setup Node
+			uses: actions/setup-node@v4
+			with:
+				node-version: 20
+				cache: pnpm
+		- name: Install dependencies
+			run: pnpm install
+		- name: Build with VitePress
+			run: |
+				pnpm run docs:build
+				touch docs/.vitepress/dist/.nojekyll
