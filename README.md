@@ -4,7 +4,7 @@
 
 [![](https://img.shields.io/github/stars/GlobeMC/crashmc.com?style=for-the-badge)](https://bilibili.com/video/BV1GJ411x7h7)
 [![](https://img.shields.io/github/issues/GlobeMC/crashmc.com?style=for-the-badge)](https://github.com/GlobeMC/crashmc.com/issues)
-[![](https://img.shields.io/github/actions/workflow/status/GlobeMC/crashmc.com/pages-check.yml?branch=main&style=for-the-badge)]
+[![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/GlobeMC/crashmc.com/pages-check.yml?style=for-the-badge)](https://github.com/GlobeMC/crashmc.com/actions/workflows/pages-check.yml)
 
 ## 贡献
 
