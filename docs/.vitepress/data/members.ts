@@ -24,10 +24,9 @@ const members = [
     links: [{ icon: "github", link: "https://github.com/bingling-sama" }],
   },
   {
-    avatar: "https://cdn.crashmc.com/https://github.com/XieXiLin2.png",
-    name: "XieXiLin",
-    title: "域名资金支持",
-    links: [{ icon: "github", link: "https://github.com/XieXiLin2" }],
+    avatar: "https://cravatar.cn/avatar/8DB351BF50CF41289B1C5C5D726C55D3?s=256",
+    name: "神秘人士",
+    title: "文档格式化",
   },
   {
     avatar: "https://cdn.crashmc.com/https://github.com/2623684696.png",
