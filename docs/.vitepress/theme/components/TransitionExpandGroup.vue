@@ -12,14 +12,14 @@ const props = withDefaults(
 
 const prefix = props.name
 
-function waitForAnimationFrame() {
+function waitForAnimationFrame(): Promise<number> {
   return new Promise((re) => requestAnimationFrame(re))
 }
 
 async function onenter(ele: Element) {
   const elem = ele as HTMLElement
 
-  elem.style.maxHeight = "unset"
+  elem.setAttribute("style", "max-height: unset !important")
   const width = window.getComputedStyle(elem).width
   elem.style.width = width
   elem.style.position = "absolute"
@@ -31,7 +31,7 @@ async function onenter(ele: Element) {
   elem.style.removeProperty("position")
   elem.style.removeProperty("visibility")
   elem.style.removeProperty("height")
-  elem.style.removeProperty("maxHeight")
+  elem.style.removeProperty("max-height")
   elem.style.setProperty("--expanded-height", height)
 
   elem.classList.add(prefix + "-enter-from")
@@ -90,11 +90,11 @@ function onafter(ele: Element) {
 
 .transition-expand-group > .expand-enter-from,
 .transition-expand-group > .expand-leave-to {
-  max-height: 0;
+  max-height: 0 !important;
 }
 
 .transition-expand-group > .expand-enter-to,
 .transition-expand-group > .expand-leave-from {
-  max-height: var(--expanded-height);
+  max-height: var(--expanded-height) !important;
 }
 </style>
