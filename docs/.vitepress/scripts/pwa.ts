@@ -22,29 +22,29 @@ export const pwa: Partial<VitePWAOptions> = {
     categories: ["minecraft", "crash"],
     icons: [
       {
-        src: "logo-new.png",
+        src: "logo-new.webp",
         sizes: "1024x1024",
-        type: "image/png",
+        type: "image/webp",
       },
       {
-        src: "pwa-512x512.png",
+        src: "pwa-512x512.webp",
         sizes: "512x512",
-        type: "image/png",
+        type: "image/webp",
       },
       {
-        src: "pwa-192x192.png",
+        src: "pwa-192x192.webp",
         sizes: "192x192",
-        type: "image/png",
+        type: "image/webp",
       },
       {
-        src: "pwa-64x64.png",
+        src: "pwa-64x64.webp",
         sizes: "64x64",
-        type: "image/png",
+        type: "image/webp",
       },
     ],
   },
   workbox: {
-    globPatterns: ["**/*.{css,js,html,svg,png,ico,txt,woff2}"],
+    globPatterns: ["**/*.{css,js,html,svg,webp,ico,txt,woff2}"],
     globIgnores: ["shortcuts/*.svg"],
     runtimeCaching: [
       {

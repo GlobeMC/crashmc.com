@@ -49,7 +49,7 @@ function isNotEmpty(arr: string | string[]) {
       rel="noreferrer"
       target="_blank"
       class="flex items-center gap-2">
-      <img src="/logo-brand.png" class="w-8 h-8 rounded-full" />
+      <img src="/logo-brand.webp" class="w-8 h-8 rounded-full" />
       <p class="vp-main-clolr">{{ "GlobeMC" }}</p>
     </a>
   </div>
