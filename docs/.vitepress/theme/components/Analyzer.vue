@@ -308,7 +308,7 @@ async function startAnalysis(files: File[]): Promise<boolean> {
   showAnalysisResult(
     "Unrecord",
     "本工具还未收录您所遇到的错误，请点击下方按钮前往 GitHub 反馈。",
-    "https://github.com/GlobeMC/crashmc.com/issues/new/choose",
+    "/contribute/crash-report",
     "Unrecord",
   )
   return false
