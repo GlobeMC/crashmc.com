@@ -128,7 +128,7 @@ const themeConfig: DefaultTheme.Config = {
       text: "文档",
       items: [
         { text: "基础知识", link: "/basis" },
-    		{ text: "通用问题", link: "/commons" },
+        { text: "通用问题", link: "/commons" },
         {
           text: "客户端崩溃",
           items: [
