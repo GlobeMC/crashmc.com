@@ -188,7 +188,7 @@ async function setup(data: SetupData) {
   )
 
   console.debug(`Loading MCLA from ${data.wasm_url} ...`)
-  await import(data.wasm_exec /* @vite-ignore */) // set variable `globalThis.Go`
+  await import(/* @vite-ignore */ data.wasm_exec) // set variable `globalThis.Go`
   const go = new globalThis.Go()
   var res
   if (WebAssembly.instantiateStreaming) {

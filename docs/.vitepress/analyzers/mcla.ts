@@ -12,7 +12,7 @@ import type {
 } from "./mcla.api"
 export * from "./mcla.api"
 
-const VERSION = "v0.4.23"
+const VERSION = "v0.5.0"
 // const VERSION = "dev"
 const RESOURCES_BASE = "https://globemc.github.io/mcla"
 const GO_WASM_EXEC_URL = useCDN(`${RESOURCES_BASE}/${VERSION}/wasm_exec.js`)
@@ -226,7 +226,7 @@ async function loadMCLA(loadProgress?: Ref<number>): Promise<MCLAAPI> {
 
   console.log("Loading MCLA ...")
 
-  await import(GO_WASM_EXEC_URL /* @vite-ignore */) // set variable `window.Go`
+  await import(/* @vite-ignore */ GO_WASM_EXEC_URL) // set variable `window.Go`
 
   const go = new (window as any as containsGoCls).Go()
   var res

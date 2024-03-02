@@ -1,5 +1,21 @@
 # Mod 问题
 
+## 在服务端运行仅客户端模组
+
+解决方案：移除日志中指示的 Mod。例如下方的情况应该移除 distanthorizons。
+
+```
+[net.minecraftforge.fml.javafmlmod.FMLModContainer/LOADING]: Failed to create mod instance. ModID: distanthorizons, class com.seibel.distanthorizons.forge.ForgeMain
+```
+
+关键词：
+
+```
+Caused by: java.lang.RuntimeException: Attempted to load class net/minecraft/client/Minecraft for invalid dist DEDICATED_SERVER
+
+java.lang.NoClassDefFoundError: net/minecraft/client/Minecraft
+```
+
 ## Fabric
 
 ### 模组问题

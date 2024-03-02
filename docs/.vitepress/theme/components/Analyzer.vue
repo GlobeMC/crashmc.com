@@ -1147,6 +1147,9 @@ onUnmounted(() => {
                   匹配度: {{ match.match * 100 }}%
                 </span>
               </h5>
+              <code class="result-parsed-error">
+                {{ match.desc.message }}
+              </code>
               <div v-for="(sol, n) in match.desc.solutions" :key="n">
                 <div v-if="sol.ok">
                   <details :open="false">
@@ -1159,7 +1162,7 @@ onUnmounted(() => {
                     </div>
                     <div>
                       <b>解决方案: </b>
-                      <a @click.prevent="redirectTo(sol.res.link_to, true)">
+                      <a target="_blank" :href="sol.res.link_to">
                         打开文档 <OpenTabIcon />
                       </a>
                     </div>
