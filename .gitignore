@@ -134,6 +134,7 @@ cache
 .pnp.cjs
 .pnp.loader.mjs
 yarn.lock
+dev-dist
 
 #CloudIDE
 .lightly
