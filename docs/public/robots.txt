@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Disallow: /*.html
+Sitemap: https://www.crashmc.com/sitemap.xml
