@@ -3,4 +3,4 @@ Allow: /
 Disallow: /*.html
 Disallow: /_auth_redirect
 Disallow: /log-viewer
-Sitemap: https://www.crashmc.com/sitemap.xml
+Sitemap: https://crashmc.com/sitemap.xml
