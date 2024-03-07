@@ -6,7 +6,7 @@
 
 ## Bukkit 
 
-注：Spigot 和 Paper 及其衍生服务器端的问题也可部分参考该条目  
+注：Spigot 和 Paper 及其衍生服务器端的问题也可部分参考该条目
 
 ## Bukkit 插件自动更新失败 
 
