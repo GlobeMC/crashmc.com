@@ -11,10 +11,10 @@ body:
       label: "检查项"
       description: "请逐个检查下列项目，并勾选确认。"
       options:
-      - label: "我已检查并确认没有使用任何预览版的服务端 / 插件 / 模组"
-        required: true
-      - label: "我已确认位于 https://beta.crashmc.com/analyzer 的分析器无法找出我的错误 / 无法给出正确解法"
-        required: true
+        - label: "我已检查并确认没有使用任何预览版的服务端 / 插件 / 模组"
+          required: true
+        - label: "我已确认位于 https://beta.crashmc.com/analyzer 的分析器无法找出我的错误 / 无法给出正确解法"
+          required: true
   - type: textarea
     id: description
     attributes:
