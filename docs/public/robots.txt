@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
 Disallow: /*.html
+Disallow: /_auth_redirect
+Disallow: /log-viewer
 Sitemap: https://www.crashmc.com/sitemap.xml
