@@ -6,7 +6,19 @@
 
 ## Bukkit 
 
-注：Spigot 和 Paper 及其衍生服务器端的问题也可部分参考该条目
+注：Spigot 和 Paper 及其衍生服务器端的问题也可部分参考该条目  
+
+## Bukkit 插件自动更新失败 
+
+解释：部分 Bukkit 插件会在启动时自动更新，但是插件自动更新失败了。  
+
+解决方案：手动更新插件，或关闭插件的自动更新。
+
+关键词：
+
+```log
+java.net.ConnectException: null
+```
 
 ## Spigot 及其衍生服务器端
 
