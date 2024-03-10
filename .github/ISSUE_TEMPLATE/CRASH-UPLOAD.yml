@@ -45,6 +45,12 @@ body:
       placeholder: 粘贴 MCLogs 链接、粘贴日志内容或上传日志文件
     validations:
       required: true
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: 截图
+      description: 如果有相关截图的话，请上传截图。[截图教程](https://zhuanlan.zhihu.com/p/92074446)
+      placeholder: 请把截图粘贴到这里
   - type: dropdown
     id: os
     attributes:
@@ -54,7 +60,7 @@ body:
       options:
         - Windows
         - Linux
-        - Mac
+        - macOS
     validations:
       required: true
   - type: dropdown
