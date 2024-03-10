@@ -60,7 +60,7 @@ body:
       options:
         - Windows
         - Linux
-        - Mac
+        - macOS
     validations:
       required: true
   - type: dropdown
