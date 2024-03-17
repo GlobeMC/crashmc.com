@@ -2,7 +2,7 @@ import process from "node:process"
 import { fileURLToPath } from "node:url"
 import { defineConfig } from "vitepress"
 import type { DefaultTheme } from "vitepress/theme"
-import { VitePWA } from "vite-plugin-pwa"
+import { withPwa } from "@vite-pwa/vitepress"
 
 const COMMIT_ID = process.env.CF_PAGES_COMMIT_SHA || "local"
 const commitRef = COMMIT_ID?.slice(0, 8)
@@ -15,97 +15,96 @@ const viteConfig = {
 			"@": fileURLToPath(new URL(".", import.meta.url)),
 		},
 	},
-	plugins: [
-		VitePWA({
-			devOptions: {
-				enabled: true,
+}
+
+const pwaConfig = {
+	devOptions: {
+		enabled: true,
+	},
+	outDir: ".vitepress/dist",
+	registerType: "prompt",
+	includeManifestIcons: false,
+	manifest: {
+		id: "/",
+		name: `${pwaName}`,
+		short_name: `${pwaName}`,
+		description: "为一般玩家编写的 Minecraft 崩溃分析指南",
+		theme_color: "#ffffff",
+		start_url: "/?utm_source=web_app_manifest",
+		lang: "zh-CN",
+		display: "standalone",
+		categories: ["minecraft", "crash"],
+		icons: [
+			{
+				src: "logo-new.webp",
+				sizes: "1024x1024",
+				type: "image/webp",
 			},
-			outDir: ".vitepress/dist",
-			registerType: "prompt",
-			includeManifestIcons: false,
-			manifest: {
-				id: "/",
-				name: `${pwaName}`,
-				short_name: `${pwaName}`,
-				description: "为一般玩家编写的 Minecraft 崩溃分析指南",
-				theme_color: "#ffffff",
-				start_url: "/?utm_source=web_app_manifest",
-				lang: "zh-CN",
-				display: "standalone",
-				categories: ["minecraft", "crash"],
-				icons: [
-					{
-						src: "logo-new.webp",
-						sizes: "1024x1024",
-						type: "image/webp",
-					},
-					{
-						src: "pwa-512x512.webp",
-						sizes: "512x512",
-						type: "image/webp",
-					},
-					{
-						src: "pwa-192x192.webp",
-						sizes: "192x192",
-						type: "image/webp",
-					},
-					{
-						src: "pwa-64x64.webp",
-						sizes: "64x64",
-						type: "image/webp",
-					},
-				],
+			{
+				src: "pwa-512x512.webp",
+				sizes: "512x512",
+				type: "image/webp",
 			},
-			workbox: {
-				globPatterns: ["**/*.{css,js,html,svg,webp,ico,txt,woff2}"],
-				globIgnores: ["shortcuts/*.svg"],
-				runtimeCaching: [
-					{
-						urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
-						handler: "CacheFirst",
-						options: {
-							cacheName: "google-fonts-cache",
-							expiration: {
-								maxEntries: 10,
-								maxAgeSeconds: 60 * 60 * 24 * 365, // <== 365 days
-							},
-							cacheableResponse: {
-								statuses: [0, 200],
-							},
-						},
-					},
-					{
-						urlPattern: /^https:\/\/fonts\.gstatic\.com\/.*/i,
-						handler: "CacheFirst",
-						options: {
-							cacheName: "gstatic-fonts-cache",
-							expiration: {
-								maxEntries: 10,
-								maxAgeSeconds: 60 * 60 * 24 * 365, // <== 365 days
-							},
-							cacheableResponse: {
-								statuses: [0, 200],
-							},
-						},
-					},
-					{
-						urlPattern: /^https:\/\/cdn\.crashmc\.com\/.*/i,
-						handler: "NetworkFirst",
-						options: {
-							cacheName: "github-images-cache",
-							expiration: {
-								maxEntries: 20,
-								maxAgeSeconds: 60 * 60 * 24 * 365, // <== 365 days
-							},
-							cacheableResponse: {
-								statuses: [0, 200],
-							},
-						},
-					},
-				],
+			{
+				src: "pwa-192x192.webp",
+				sizes: "192x192",
+				type: "image/webp",
 			},
-		}),
-	],
+			{
+				src: "pwa-64x64.webp",
+				sizes: "64x64",
+				type: "image/webp",
+			},
+		],
+	},
+	workbox: {
+		globPatterns: ["**/*.{css,js,html,svg,webp,ico,txt,woff2}"],
+		globIgnores: ["shortcuts/*.svg"],
+		runtimeCaching: [
+			{
+				urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
+				handler: "CacheFirst",
+				options: {
+					cacheName: "google-fonts-cache",
+					expiration: {
+						maxEntries: 10,
+						maxAgeSeconds: 60 * 60 * 24 * 365, // <== 365 days
+					},
+					cacheableResponse: {
+						statuses: [0, 200],
+					},
+				},
+			},
+			{
+				urlPattern: /^https:\/\/fonts\.gstatic\.com\/.*/i,
+				handler: "CacheFirst",
+				options: {
+					cacheName: "gstatic-fonts-cache",
+					expiration: {
+						maxEntries: 10,
+						maxAgeSeconds: 60 * 60 * 24 * 365, // <== 365 days
+					},
+					cacheableResponse: {
+						statuses: [0, 200],
+					},
+				},
+			},
+			{
+				urlPattern: /^https:\/\/cdn\.crashmc\.com\/.*/i,
+				handler: "NetworkFirst",
+				options: {
+					cacheName: "github-images-cache",
+					expiration: {
+						maxEntries: 20,
+						maxAgeSeconds: 60 * 60 * 24 * 365, // <== 365 days
+					},
+					cacheableResponse: {
+						statuses: [0, 200],
+					},
+				},
+			},
+		],
+	},
 }
 
 const themeConfig: DefaultTheme.Config = {
@@ -278,7 +277,7 @@ const themeConfig: DefaultTheme.Config = {
 	darkModeSwitchTitle: "切换到深色模式",
 }
 
-export default defineConfig({
+export default withPwa(defineConfig({
 	title: "GlobeMC",
 	lang: "zh-CN",
 	lastUpdated: true,
@@ -314,4 +313,5 @@ export default defineConfig({
 	],
 
 	vite: viteConfig,
-})
+	pwa: pwaConfig,
+}))
