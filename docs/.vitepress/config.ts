@@ -2,7 +2,7 @@ import process from "node:process"
 import { fileURLToPath } from "node:url"
 import { defineConfig } from "vitepress"
 import type { DefaultTheme } from "vitepress/theme"
-import { withPwa } from "@vite-pwa/vitepress"
+import { withPwa, type PwaOptions } from "@vite-pwa/vitepress"
 
 const COMMIT_ID = process.env.CF_PAGES_COMMIT_SHA || "local"
 const commitRef = COMMIT_ID?.slice(0, 8)
@@ -17,7 +17,7 @@ const viteConfig = {
 	},
 }
 
-const pwaConfig = {
+const pwaConfig: PwaOptions = {
 	devOptions: {
 		enabled: true,
 	},
@@ -277,41 +277,43 @@ const themeConfig: DefaultTheme.Config = {
 	darkModeSwitchTitle: "切换到深色模式",
 }
 
-export default withPwa(defineConfig({
-	title: "GlobeMC",
-	lang: "zh-CN",
-	lastUpdated: true,
-	description: "为一般玩家编写的 Minecraft 崩溃分析指南",
-	themeConfig: themeConfig,
-	cleanUrls: true,
+export default withPwa(
+	defineConfig({
+		title: "GlobeMC",
+		lang: "zh-CN",
+		lastUpdated: true,
+		description: "为一般玩家编写的 Minecraft 崩溃分析指南",
+		themeConfig: themeConfig,
+		cleanUrls: true,
 
-	markdown: {
-		image: {
-			lazyLoading: true,
-		},
-		theme: {
-			light: "material-theme-lighter",
-			dark: "material-theme-palenight",
-		},
-		lineNumbers: true,
-	},
-
-	sitemap: {
-		hostname: "https://crashmc.com",
-	},
-
-	head: [
-		["link", { rel: "icon", href: "/logo-brand.webp" }],
-		[
-			"script",
-			{
-				async: "",
-				src: "https://status.crashmc.com/script.js",
-				"data-website-id": "6c316054-6e56-402b-8246-39311e4ad0a4",
+		markdown: {
+			image: {
+				lazyLoading: true,
 			},
-		],
-	],
+			theme: {
+				light: "material-theme-lighter",
+				dark: "material-theme-palenight",
+			},
+			lineNumbers: true,
+		},
 
-	vite: viteConfig,
-	pwa: pwaConfig,
-}))
+		sitemap: {
+			hostname: "https://crashmc.com",
+		},
+
+		head: [
+			["link", { rel: "icon", href: "/logo-brand.webp" }],
+			[
+				"script",
+				{
+					async: "",
+					src: "https://status.crashmc.com/script.js",
+					"data-website-id": "6c316054-6e56-402b-8246-39311e4ad0a4",
+				},
+			],
+		],
+
+		vite: viteConfig,
+		pwa: pwaConfig,
+	}),
+)
