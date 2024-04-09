@@ -1,22 +1,30 @@
 import type { EnhanceAppContext } from "vitepress"
+import { useData, useRoute } from "vitepress"
 import Theme from "vitepress/theme"
 import { h } from "vue"
+
+// Layouts
+import Layout from "./Layout.vue"
+
+// Components
+import LauncherBadge from "./global-components/LauncherBadge.vue"
 import Contributors from "./components/Contributors.vue"
-import LauncherBadge from "./components/LauncherBadge.vue"
 import ReloadPrompt from "./components/ReloadPrompt.vue"
+
+// Plugins
 import giscusTalk from "vitepress-plugin-comment-with-giscus"
 import vitepressNprogress from "@andatoshiki/vitepress-plugin-nprogress"
-import "@andatoshiki/vitepress-plugin-nprogress/lib/css/index.css"
-import "viewerjs/dist/viewer.min.css"
 import imageViewer from "vitepress-plugin-image-viewer"
 import vImageViewer from "vitepress-plugin-image-viewer/lib/vImageViewer.vue"
-import { useData, useRoute } from "vitepress"
 import codeblocksFold from "vitepress-plugin-codeblocks-fold" // import method
-import "vitepress-plugin-codeblocks-fold/style/index.scss" // import style
-import "./style.css"
 import vitepressBackToTop from "vitepress-plugin-back-to-top"
+
+// Styles
+import "./style.css"
 import "vitepress-plugin-back-to-top/dist/style.css"
-import Layout from "./Layout.vue"
+import "vitepress-plugin-codeblocks-fold/style/index.scss"
+import "@andatoshiki/vitepress-plugin-nprogress/lib/css/index.css"
+import "viewerjs/dist/viewer.min.css"
 
 export default {
 	extends: Theme,
@@ -28,13 +36,19 @@ export default {
 		})
 	},
 	enhanceApp(ctx: EnhanceAppContext) {
-		ctx.app.component("LauncherBadge", LauncherBadge)
-		vitepressNprogress(ctx)
-		ctx.app.component("vImageViewer", vImageViewer)
 		vitepressBackToTop({
 			// default
 			threshold: 300,
 		})
+		ctx.app.component("LauncherBadge", LauncherBadge)
+		vitepressNprogress(ctx)
+		ctx.app.component("vImageViewer", vImageViewer)
+		// Why it doesn't work?
+		// const layouts = import.meta.glob("./layouts/*.vue")
+		// for (const path in layouts) {
+		// 	const layout = layouts[path].default
+		// 	ctx.app.component(layout.name, layout)
+		// }
 	},
 	setup(): void {
 		// Get frontmatter and route

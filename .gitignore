@@ -147,3 +147,6 @@ dist-ssr
 
 # macOS
 .DS_Store
+
+# Obsidian
+.obsidian

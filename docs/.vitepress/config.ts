@@ -116,30 +116,6 @@ const themeConfig: DefaultTheme.Config = {
 	nav: [
 		{ text: "主页", link: "/" },
 		{ text: "崩溃分析工具", link: "/analyzer" },
-		{ text: "通用问题", link: "/commons" },
-		{
-			text: "客户端崩溃",
-			activeMatch: "/client/*",
-			items: [
-				{ text: "通用问题", link: "/client/shared" },
-				{ text: "系统问题", link: "/client/system" },
-				{ text: "原版问题", link: "/client/vanilla" },
-				{ text: "Mod 问题", link: "/client/mods" },
-			],
-		},
-		{
-			text: "服务端崩溃",
-			activeMatch: "/server/*",
-			items: [
-				{ text: "通用问题", link: "/server/shared" },
-				{ text: "原版问题", link: "/server/vanilla" },
-				{ text: "Mod 端问题", link: "/server/mods" },
-				{ text: "插件端问题", link: "/server/plugins" },
-				{ text: "整合端问题", link: "/server/hybrid" },
-				{ text: "跨服端问题", link: "/server/proxy" },
-			],
-		},
-		{ text: "Mixin", link: "/mixin" },
 		{
 			text: "贡献",
 			activeMatch: "/contribute/*",

@@ -29,6 +29,7 @@
     "prettier": "^3.2.4",
     "sass": "^1.70.0",
     "tslib": "^2.6.2",
+    "vite": "^5.2.8",
     "vite-plugin-pwa": "^0.19.4",
     "vitepress": "1.0.0-rc.41",
     "vue": "^3.4.15",
