@@ -3,7 +3,7 @@ contributors: [zyxkad]
 ---
 
 <script setup>
-import LogViewer from './.vitepress/theme/components/LogViewer.vue'
+import LogViewer from '../.vitepress/theme/components/LogViewer.vue'
 </script>
 
 # 日志查看器
