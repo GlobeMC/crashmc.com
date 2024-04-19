@@ -1,6 +1,6 @@
 <script setup>
 import { VPTeamMembers } from 'vitepress/theme'
-import members from "../.vitepress/data/members.json"
+import members from "../../.vitepress/data/members.json"
 </script>
 
 # 贡献者

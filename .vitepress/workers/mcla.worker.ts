@@ -1,4 +1,4 @@
-import type { MCLAAPI } from "@/analyzers/mcla.api"
+import type { MCLAAPI } from "../analyzers/mcla.api"
 
 type ProgressCallback = (
 	percent: number,
