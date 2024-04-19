@@ -259,6 +259,7 @@ export default withPwa(
 		lang: "zh-CN",
 		lastUpdated: true,
 		description: "为一般玩家编写的 Minecraft 崩溃分析指南",
+		srcDir: "docs",
 		themeConfig: themeConfig,
 		cleanUrls: true,
 
