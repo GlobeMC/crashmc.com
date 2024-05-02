@@ -6,9 +6,9 @@ contributors: [HRxiaohu, bingling-sama]
 
 在向 CrashMC 贡献内容前，请务必仔细阅读以下贡献流程，以便我们进行代码审查工作。
 
-## Step1.克隆项目
+## Step.1 克隆项目
 
-首先 fork [GitHub Repo](https://github.com/GlobeMC/crashmc.com) 到你名下，然后克隆仓库到本地：
+首先 fork [GitHub 仓库](https://github.com/GlobeMC/crashmc.com) 到你名下，然后克隆仓库到本地：
 
 ```bash
 # 推荐使用 SSH
@@ -22,10 +22,10 @@ git clone https://github.com/{yourname}/crashmc.com.git
 :::tip GitHub Web Editor
 如果内容较少，你可以直接使用 [GitHub Web Editor](https://github.dev) 来进行修改。
 
-但同样，你需要先将 Repo fork 你自己名下，以便后期进行 pr。
+但同样，你需要先将仓库 fork 你自己名下，以便后期进行 PR。
 :::
 
-## Step2.贡献内容
+## Step.2 贡献内容
 
 ### 文档内容
 
@@ -55,7 +55,7 @@ git clone https://github.com/{yourname}/crashmc.com.git
 
 :::warning 警告
 
-- 上述代码中所使用的均为英文半角逗号！
+- 上述代码中所使用的均为**英文半角逗号**！
 
 :::
 
@@ -63,23 +63,23 @@ git clone https://github.com/{yourname}/crashmc.com.git
 
 如果您参与了代码内容的修改，~~相信您应该多少懂一些贡献流程，~~ 这里不再过多赘述贡献流程。
 
-## Step3.提交更改
+## Step.3 提交更改
 
-在完成内容编写以后，请将您的所有更改 commit 到您的 fork 下，再向 [这里](https://github.com/GlobeMC/crashmc.com/tree/dev) 提交 pr。
+在完成内容编写以后，请将您的所有更改 commit 到您的 fork 下，再向 [这里](https://github.com/GlobeMC/crashmc.com/tree/dev) 提交 PR。
 
 :::warning 重要提醒
-请务必将您的更改 pr 到 `dev` barnch，以便我们审查排版及合并冲突。
+请务必将您的更改 PR 到 `dev` barnch，以便我们审查排版及合并冲突。
 :::
 
 :::tip Assign
-如果您的更改范围为文档相关，请 Assign `@bingling-sama`、`@xxx` 或 `@xxx`，这会加快我们对您的代码审查与合并速度。
+如果您的更改范围为文档相关，请 Assign `@bingling-sama`、`@xxx` 或 `@xxx`（一般来说请您按 Suggestion 进行请求即可），这会加快我们对您的代码审查与合并速度。
 :::
 
 ## Step4.剩余流程
 
-在收到您的 pr 后，我们会尽最快速度 review 您的代码，并合并到 `dev` branch。
+在收到您的 PR 后，我们会尽最快速度审查您的代码，并合并到 `dev` branch。
 
-我们会每周进行一次例行 merge，将所有已完成的更改合并到生产环境 `main` branch，因此请不要将您的更改 pr 到 `main` branch，这会增大我们的代码审查和文档部署工作量。
+我们会每周进行一次例行 merge，将所有已完成的更改合并到生产环境 `main` branch，因此请不要将您的更改 PR 到 `main` branch，这会增大我们的代码审查和文档部署工作量。
 
 ## 鸣谢
 
