@@ -1,3 +1,7 @@
+---
+gitChangelog: false
+---
+
 <script setup>
 import { VPTeamMembers } from 'vitepress/theme'
 import members from "../../.vitepress/data/members.json"

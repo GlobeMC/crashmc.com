@@ -105,3 +105,7 @@
   --vp-badge-pcl-text: #ffffff;
   --vp-badge-pcl-bg: #0069df;
 }
+
+.VPSocialLinks.VPNavBarSocialLinks.social-links {
+  margin-right: 0;
+}

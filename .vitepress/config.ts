@@ -3,6 +3,15 @@ import { fileURLToPath } from "node:url"
 import { defineConfig } from "vitepress"
 import type { DefaultTheme } from "vitepress/theme"
 import { withPwa, type PwaOptions } from "@vite-pwa/vitepress"
+import { cwd } from 'node:process'
+import { BiDirectionalLinks } from '@nolebase/markdown-it-bi-directional-links'
+import {
+	InlineLinkPreviewElementTransform
+} from '@nolebase/vitepress-plugin-inline-link-preview/markdown-it'
+import {
+	GitChangelog,
+	GitChangelogMarkdownSection,
+} from '@nolebase/vitepress-plugin-git-changelog/vite'
 
 const COMMIT_ID = process.env.CF_PAGES_COMMIT_SHA || "local"
 const commitRef = COMMIT_ID?.slice(0, 8)
@@ -15,13 +24,43 @@ const viteConfig = {
 			"@": fileURLToPath(new URL(".", import.meta.url)),
 		},
 	},
+	optimizeDeps: {
+		include: [
+			// @rive-app/canvas is a CJS/UMD module, so it needs to be included here
+			// for Vite to properly bundle it.
+			'@nolebase/vitepress-plugin-enhanced-readabilities > @nolebase/ui > @rive-app/canvas',
+		],
+		exclude: [
+			'@nolebase/vitepress-plugin-enhanced-readabilities/client',
+		],
+	},
+	ssr: {
+		noExternal: [
+			// 如果还有别的依赖需要添加的话，并排填写和配置到这里即可
+			'@nolebase/vitepress-plugin-enhanced-readabilities',
+		],
+	},
+	plugins: [
+		GitChangelog({
+			// 填写在此处填写您的仓库链接
+			repoURL: () => 'https://github.com/GlobeMC/crashmc.com',
+		}),
+		GitChangelogMarkdownSection({
+			locales: {
+				gitChangelogMarkdownSectionTitles: {
+					changelog: '文件历史',
+					contributors: '贡献者',
+				},
+			},
+		}),
+	]
 }
 
 const pwaConfig: PwaOptions = {
 	devOptions: {
 		enabled: true,
 	},
-	outDir: ".vitepress/dist",
+	outDir: "../.vitepress/dist",
 	registerType: "prompt",
 	includeManifestIcons: false,
 	manifest: {
@@ -60,6 +99,7 @@ const pwaConfig: PwaOptions = {
 	workbox: {
 		globPatterns: ["**/*.{css,js,html,svg,webp,ico,txt,woff2}"],
 		globIgnores: ["shortcuts/*.svg"],
+		globDirectory: ".vitepress/dist",
 		runtimeCaching: [
 			{
 				urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
@@ -272,6 +312,15 @@ export default withPwa(
 				dark: "material-theme-palenight",
 			},
 			lineNumbers: true,
+			config: (md) => {
+				// @ts-expect-error TS2769
+				md.use(BiDirectionalLinks({
+					dir: "docs",
+					baseDir: "/",
+				})),
+				// @ts-expect-error TS2769
+				md.use(InlineLinkPreviewElementTransform)
+			},
 		},
 
 		sitemap: {

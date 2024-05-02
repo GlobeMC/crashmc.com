@@ -135,6 +135,7 @@ cache
 .pnp.loader.mjs
 yarn.lock
 dev-dist
+vite.config.ts.timestamp*
 
 #CloudIDE
 .lightly

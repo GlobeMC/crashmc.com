@@ -33,6 +33,10 @@ git clone https://github.com/{yourname}/crashmc.com.git
 
 在涉及任何站外链接时，请优先添加官方链接，尽量避免不必要的第三方链接。
 
+:::tip 提示
+为了方便各位快速建立文档内页面的链接，我们已经为文档添加了双向链接支持。语法可以参考 [语法 | Nólëbase 集成](https://nolebase-integrations.ayaka.io/pages/zh-CN/integrations/markdown-it-bi-directional-links/syntax.html)。
+:::
+
 如果某一个解决方案为特定启动器独占功能，我们提供了全局组件来标注它。示例如下：
 
 ```markdown
@@ -47,17 +51,10 @@ git clone https://github.com/{yourname}/crashmc.com.git
 - <LauncherBadge type="bakaxl" text="仅 BakaXL" />
 - <LauncherBadge type="pcl" text="仅 PCL2" />
 
-如果您参与编辑了一篇文档的绝大部分，可以填写 Markdown Frontmatter contributor 字段，以将您的 GitHub 用户名添加到贡献者列表，格式如下。
-
-```md
----
-contributors: [username1, username2]
----
-```
+文档会自动记录每个页面的 Git 提交历史记录以及为此文件做过贡献的人员，并将这些信息显示在页面上。
 
 :::warning 警告
 
-- 请一定要使用 GitHub 用户名署名，否则我们无法获取您的头像。
 - 上述代码中所使用的均为英文半角逗号！
 
 :::
