@@ -1,5 +1,6 @@
 ---
 contributors: [HRxiaohu, zyxkad]
+gitChangelog: false
 ---
 
 <script setup>

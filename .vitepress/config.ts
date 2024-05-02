@@ -45,6 +45,9 @@ const viteConfig = {
 		GitChangelog({
 			// 填写在此处填写您的仓库链接
 			repoURL: () => 'https://github.com/GlobeMC/crashmc.com',
+			rewritePaths: {
+				'docs/': '',
+			},
 		}),
 		GitChangelogMarkdownSection({
 			locales: {
