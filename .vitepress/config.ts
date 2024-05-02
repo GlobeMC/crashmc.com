@@ -13,7 +13,7 @@ import {
 	GitChangelogMarkdownSection,
 } from '@nolebase/vitepress-plugin-git-changelog/vite'
 
-const COMMIT_ID = process.env.CF_PAGES_COMMIT_SHA || "local"
+const COMMIT_ID = process.env.GITHUB_SHA || process.env.CF_PAGES_COMMIT_SHA || "local"
 const commitRef = COMMIT_ID?.slice(0, 8)
 const environment = process.env.DEPLOYMENT_STATUS || process.env.NODE_ENV
 const pwaName = process.env.PWA_NAME || "CrashMC 文档（本地）"
