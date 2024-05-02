@@ -62,7 +62,7 @@ const viteConfig = {
 
 const pwaConfig: PwaOptions = {
 	devOptions: {
-		enabled: true,
+		enabled: false,
 	},
 	outDir: "../.vitepress/dist",
 	registerType: "prompt",

@@ -55,6 +55,7 @@ git clone https://github.com/{yourname}/crashmc.com.git
 
 :::warning 警告
 
+- 如果在多次提交时使用的名称不一致会导致贡献者记录中出现多个记录，建议统一自己提交时使用的名称。
 - 上述代码中所使用的均为**英文半角逗号**！
 
 :::
