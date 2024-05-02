@@ -7,7 +7,8 @@
 		"docs:eslint": "eslint --ignore-path .gitignore --ext .ts,.vue \".vitepress/**/*.{ts,vue}\"",
 		"docs:zhlint": "zhlint 'docs/**/*.md' --fix",
 		"docs:tsc": "tsc --build && vue-tsc --noEmit",
-		"prepare": "husky install"
+		"prepare": "husky install",
+		"generate-pwa-assets": "pwa-assets-generator --preset minimal-2023 docs/public/logo-new.webp"
 	},
 	"name": "mccrash-docs",
 	"version": "0.0.0",

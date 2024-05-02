@@ -79,26 +79,27 @@ const pwaConfig: PwaOptions = {
 		categories: ["minecraft", "crash"],
 		icons: [
 			{
-				src: "logo-new.webp",
-				sizes: "1024x1024",
-				type: "image/webp",
-			},
-			{
-				src: "pwa-512x512.webp",
-				sizes: "512x512",
-				type: "image/webp",
-			},
-			{
-				src: "pwa-192x192.webp",
-				sizes: "192x192",
-				type: "image/webp",
-			},
-			{
-				src: "pwa-64x64.webp",
+				src: "pwa-64x64.png",
 				sizes: "64x64",
-				type: "image/webp",
+				type: "image/png"
 			},
-		],
+			{
+				src: "pwa-192x192.png",
+				sizes: "192x192",
+				type: "image/png"
+			},
+			{
+				src: "pwa-512x512.png",
+				sizes: "512x512",
+				type: "image/png"
+			},
+			{
+				src: "maskable-icon-512x512.png",
+				sizes: "512x512",
+				type: "image/png",
+				purpose: "maskable"
+			}
+		]
 	},
 	workbox: {
 		globPatterns: ["**/*.{css,js,html,svg,webp,ico,txt,woff2}"],
@@ -148,11 +149,6 @@ const pwaConfig: PwaOptions = {
 				},
 			},
 		],
-	},
-	pwaAssets: {
-		config: true,
-		overrideManifestIcons: true,
-		injectThemeColor: true,
 	},
 }
 
@@ -324,12 +320,12 @@ export default withPwa(
 			config: (md) => {
 				// @ts-expect-error TS2769
 				md.use(BiDirectionalLinks({
-						dir: "docs",
-						baseDir: "/",
-					}),
+					dir: "docs",
+					baseDir: "/",
+				}),
 				),
-				// @ts-expect-error TS2769
-				md.use(InlineLinkPreviewElementTransform)
+					// @ts-expect-error TS2769
+					md.use(InlineLinkPreviewElementTransform)
 			},
 		},
 
@@ -338,6 +334,8 @@ export default withPwa(
 		},
 
 		head: [
+			['link', { rel: 'icon', href: '/favicon.ico' }],
+			['link', { rel: 'apple-touch-icon', href: '/apple-touch-icon-180x180.png' }],
 			[
 				"script",
 				{

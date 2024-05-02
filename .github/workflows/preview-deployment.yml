@@ -57,6 +57,8 @@ jobs:
           # vitepress build command does not have --debug option, so we need to set it manually where the debug package is used.
           # DEBUG: 'vitepress:*'
           VUE_PROD_HYDRATION_MISMATCH_DETAILS_FLAG: '1'
+          PWA_NAME: 'CrashMC 文档（预览）'
+          DEPLOYMENT_STATUS: 'preview'
 
       - name: Publish to Cloudflare Pages
         id: deploy
