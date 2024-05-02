@@ -1,6 +1,7 @@
 name: Build Docs to Cloudflare Pages
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - 'dev'
