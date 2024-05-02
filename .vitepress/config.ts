@@ -3,19 +3,21 @@ import { fileURLToPath } from "node:url"
 import { defineConfig } from "vitepress"
 import type { DefaultTheme } from "vitepress/theme"
 import { withPwa, type PwaOptions } from "@vite-pwa/vitepress"
-import { cwd } from 'node:process'
-import { BiDirectionalLinks } from '@nolebase/markdown-it-bi-directional-links'
-import {
-	InlineLinkPreviewElementTransform
-} from '@nolebase/vitepress-plugin-inline-link-preview/markdown-it'
+import { BiDirectionalLinks } from "@nolebase/markdown-it-bi-directional-links"
+import { InlineLinkPreviewElementTransform } from "@nolebase/vitepress-plugin-inline-link-preview/markdown-it"
 import {
 	GitChangelog,
 	GitChangelogMarkdownSection,
-} from '@nolebase/vitepress-plugin-git-changelog/vite'
+} from "@nolebase/vitepress-plugin-git-changelog/vite"
 
-const COMMIT_ID = process.env.COMMIT_REF || process.env.GITHUB_SHA || process.env.CF_PAGES_COMMIT_SHA || "local"
+const COMMIT_ID =
+	process.env.COMMIT_REF ||
+	process.env.GITHUB_SHA ||
+	process.env.CF_PAGES_COMMIT_SHA ||
+	"local"
 const commitRef = COMMIT_ID?.slice(0, 8)
-const environment = process.env.DEPLOYMENT_STATUS || process.env.NODE_ENV
+const environment =
+	process.env.DEPLOYMENT_STATUS || process.env.NODE_ENV || "development"
 const pwaName = process.env.PWA_NAME || "CrashMC 文档（本地）"
 
 const viteConfig = {
@@ -28,36 +30,34 @@ const viteConfig = {
 		include: [
 			// @rive-app/canvas is a CJS/UMD module, so it needs to be included here
 			// for Vite to properly bundle it.
-			'@nolebase/vitepress-plugin-enhanced-readabilities > @nolebase/ui > @rive-app/canvas',
+			"@nolebase/vitepress-plugin-enhanced-readabilities > @nolebase/ui > @rive-app/canvas",
 		],
-		exclude: [
-			'@nolebase/vitepress-plugin-enhanced-readabilities/client',
-		],
+		exclude: ["@nolebase/vitepress-plugin-enhanced-readabilities/client"],
 	},
 	ssr: {
 		noExternal: [
 			// 如果还有别的依赖需要添加的话，并排填写和配置到这里即可
-			'@nolebase/vitepress-plugin-enhanced-readabilities',
-			'@nolebase/vitepress-plugin-inline-link-preview',
+			"@nolebase/vitepress-plugin-enhanced-readabilities",
+			"@nolebase/vitepress-plugin-inline-link-preview",
 		],
 	},
 	plugins: [
 		GitChangelog({
 			// 填写在此处填写您的仓库链接
-			repoURL: () => 'https://github.com/GlobeMC/crashmc.com',
+			repoURL: () => "https://github.com/GlobeMC/crashmc.com",
 			rewritePaths: {
-				'docs/': '',
+				"docs/": "",
 			},
 		}),
 		GitChangelogMarkdownSection({
 			locales: {
 				gitChangelogMarkdownSectionTitles: {
-					changelog: '文件历史',
-					contributors: '贡献者',
+					changelog: "文件历史",
+					contributors: "贡献者",
 				},
 			},
 		}),
-	]
+	],
 }
 
 const pwaConfig: PwaOptions = {
@@ -79,26 +79,27 @@ const pwaConfig: PwaOptions = {
 		categories: ["minecraft", "crash"],
 		icons: [
 			{
-				src: "logo-new.webp",
-				sizes: "1024x1024",
-				type: "image/webp",
-			},
-			{
-				src: "pwa-512x512.webp",
-				sizes: "512x512",
-				type: "image/webp",
-			},
-			{
-				src: "pwa-192x192.webp",
-				sizes: "192x192",
-				type: "image/webp",
-			},
-			{
-				src: "pwa-64x64.webp",
+				src: "pwa-64x64.png",
 				sizes: "64x64",
-				type: "image/webp",
+				type: "image/png"
 			},
-		],
+			{
+				src: "pwa-192x192.png",
+				sizes: "192x192",
+				type: "image/png"
+			},
+			{
+				src: "pwa-512x512.png",
+				sizes: "512x512",
+				type: "image/png"
+			},
+			{
+				src: "maskable-icon-512x512.png",
+				sizes: "512x512",
+				type: "image/png",
+				purpose: "maskable"
+			}
+		]
 	},
 	workbox: {
 		globPatterns: ["**/*.{css,js,html,svg,webp,ico,txt,woff2}"],
@@ -291,7 +292,7 @@ const themeConfig: DefaultTheme.Config = {
 
 	sidebarMenuLabel: "菜单",
 	returnToTopLabel: "返回顶部",
-	externalLinkIcon: true,
+	externalLinkIcon: false,
 	darkModeSwitchLabel: "外观",
 	lightModeSwitchTitle: "切换到浅色模式",
 	darkModeSwitchTitle: "切换到深色模式",
@@ -321,9 +322,10 @@ export default withPwa(
 				md.use(BiDirectionalLinks({
 					dir: "docs",
 					baseDir: "/",
-				})),
-				// @ts-expect-error TS2769
-				md.use(InlineLinkPreviewElementTransform)
+				}),
+				),
+					// @ts-expect-error TS2769
+					md.use(InlineLinkPreviewElementTransform)
 			},
 		},
 
@@ -332,7 +334,8 @@ export default withPwa(
 		},
 
 		head: [
-			["link", { rel: "icon", href: "/logo-brand.webp" }],
+			['link', { rel: 'icon', href: '/favicon.ico' }],
+			['link', { rel: 'apple-touch-icon', href: '/apple-touch-icon-180x180.png' }],
 			[
 				"script",
 				{
