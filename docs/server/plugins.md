@@ -4,34 +4,27 @@
 本页文档仍在编写，如果你感兴趣的话，可以帮助我们完善它！
 :::
 
-## Bukkit 系服务端
+## Bukkit 
 
-### 通用问题
+注：Spigot 和 Paper 及其衍生服务器端的问题也可部分参考该条目
 
-#### 服务端没有权限写入所在文件夹
+### Bukkit 插件自动更新失败 
 
-解释：Minecraft 服务端无权限写入文件夹
+解释：部分 Bukkit 插件会在启动时自动更新，但是插件自动更新失败了。
 
-解决方法：尝试在 root 账户下运行，或改用通过 Docker 容器运行 Minecraft 服务端
+解决方案：手动更新插件，或关闭插件的自动更新。
 
-关键词
+关键词：
 
 ```log
-ServerMain ERROR Cannot access RandomAccessFile java.io. FileNotFoundException: logs/latest.log (Permission denied) java.io.FileNotFoundException: logs/latest.log (Permission denied)
-        at java.base/java.io.RandomAccessFile.open0(Native Method)
-        at java.base/java.io.RandomAccessFile.open(RandomAccessFile.java:344)
-        at java.base/java.io.RandomAccessFile.<init>(RandomAccessFile.java:259)
-        at java.base/java.io.RandomAccessFile.<init>(RandomAccessFile.java:213)
-        at java.base/java.io.RandomAccessFile.<init>(RandomAccessFile.java:127)
-// 该处虽然只是表示了无权限写入 latest.log ，但一般情况下这意味着服务端没有所在文件夹的写入权限，除非您单独为 latest.log 设置了操作权限
+java.net.ConnectException: null
 ```
 
-### Spigot 及其衍生服务器端
+## Spigot 及其衍生服务器端
 
+## Paper 及其衍生服务器端
 
-### Paper 及其衍生服务器端
-
-#### 无法加载世界存档
+### 无法加载世界存档
 
 解释：使用高版本服务端加载低版本存档。
 
@@ -46,8 +39,4 @@ java.lang.RuntimeException: Server attempted to load chunk saved with newer vers
 
 > 关于应该使用的游戏版本，请查阅[数据版本 - Minecraft Wiki](https://minecraft.fandom.com/zh/wiki/数据版本#数据版本列表)。
 
-## 代理端
 
-### BungeeCord 及其衍生服务端
-
-### Velocity 及其衍生服务端

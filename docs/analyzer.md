@@ -3,7 +3,7 @@ contributors: [HRxiaohu, zyxkad]
 ---
 
 <script setup>
-import Analyzer from './.vitepress/theme/components/Analyzer.vue'
+import Analyzer from '../.vitepress/theme/components/Analyzer.vue'
 </script>
 
 # 崩溃分析工具

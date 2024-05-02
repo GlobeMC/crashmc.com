@@ -1,5 +1,5 @@
 {
-  "include": ["docs/.vitepress/workers/*", "docs/.vitepress/**/*.api.ts"],
+  "include": [".vitepress/workers/*", ".vitepress/**/*.api.ts"],
   "compilerOptions": {
     "composite": true,
 
@@ -25,7 +25,7 @@
 
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./docs/.vitepress/*"],
+      "@/*": ["./.vitepress/*"],
     },
     "outDir": "out"
   }

@@ -4,7 +4,7 @@
 
 [![](https://img.shields.io/github/stars/GlobeMC/crashmc.com?style=for-the-badge)](https://bilibili.com/video/BV1GJ411x7h7)
 [![](https://img.shields.io/github/issues/GlobeMC/crashmc.com?style=for-the-badge)](https://github.com/GlobeMC/crashmc.com/issues)
-[![](https://img.shields.io/github/actions/workflow/status/GlobeMC/crashmc.com/gh-pages.yml?branch=main&style=for-the-badge)](https://github.com/GlobeMC/crashmc.com/actions/workflows/gh-pages.yml)
+[![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/GlobeMC/crashmc.com/pages-check.yml?style=for-the-badge)](https://github.com/GlobeMC/crashmc.com/actions/workflows/pages-check.yml)
 
 ## 贡献
 
@@ -57,7 +57,7 @@
 
 ## 鸣谢
 
-- [XieXiLin](https://github.com/XieXiLin2)：提供域名资金支持
+- 神秘人士：提供域名资金支持
 - [23355607](https://github.com/2623684696)：域名管理
 - [龙腾猫跃 / PCL2](https://github.com/Hex-Dragon/PCL2)：提供了部分日志分析规则
 - 各位志愿者：提供了很多日志分析经验，没有你们河豚分析不会成立

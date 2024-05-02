@@ -1,9 +1,0 @@
-[
-  {
-    "name": "内存不足",
-    "log": ["OutOfMemoryError", "Could not reserve enough space"],
-    "msg": "Java 内存分配不足",
-    "result_msg": "#内存问题",
-    "status_msg": "内存不足"
-  }
-]

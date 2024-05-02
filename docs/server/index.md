@@ -1,3 +1,7 @@
+---
+contributors: [bingxin666]
+---
+
 # 服务端介绍
 
 正在阅读本文档的玩家您好，您可能在搭建服务器时遇到了问题。
@@ -18,6 +22,8 @@ Minecraft 服务端，是 Minecraft 游戏本身一大组成部分。通俗来�
 
 请注意，目前文档仅处理 Java 版服务端的问题，关于 Bedrock 版服务端的问题，您可以前往[基岩版服务器下载](https://www.minecraft.net/zh-hans/download/server/bedrock)了解更多。
 
+同时，该处服务端解决方案也不会涉及到 Geyser 此类实现基岩版与 Java 版玩家共存于一个服务器的问题，如果您需要帮助，请联系插件作者而不是我们。
+
 :::tip
 如果您对 Minecraft 服务端有较详细的理解，那么您不必完整阅读。
 :::
@@ -28,8 +34,7 @@ Minecraft 服务端，是 Minecraft 游戏本身一大组成部分。通俗来�
 
 ### 原版服务端
 
-即由 Mojang 提供的最原始的服务端文件，可前往[官方网站](https://www.minecraft.net/zh-hans/download/server)
-下载。
+即由 Mojang 提供的最原始的服务端文件，可前往[官方网站](https://www.minecraft.net/zh-hans/download/server)下载。
 
 ### 插件服务端
 
@@ -39,29 +44,33 @@ Minecraft 服务端，是 Minecraft 游戏本身一大组成部分。通俗来�
 | Spigot     | [Spigot 官方网站](https://www.spigotmc.org/)               | SpigotMC                          |
 | Sponge     | [Sponge 官方网站](https://spongepowered.org/)             | Sponge                            |
 | Paper      | [PaperMC 官方网站](https://papermc.io/)                     | PaperMC                           |
+| Cuberite   | [Cuberite 官方网站](https://cuberite.org/)                  | FakeTruth，其原始名称为 “MCServer”   |
 | ……         | ……                                                         | ……                               |
 
-注：这里没有列出 Paper 和 Spigot 的分支服务器端。
+注1：这里没有列出 Paper 和 Spigot 的分支服务端。
+
+注2：Cuberite 是基于 C++ 重写的 Minecraft 服务端，该文档不会讨论任何不基于原版 Minecraft 客户端修改而成的服务端，如果你在此类服务端中遇到问题，请向服务端作者反馈。
 
 ### 模组服务端
 
-| 服务端名称 | 官网链接                                                   | 开发者                             | 
-| ---------- | --------------------------------------------------------- | ---------------------------------- | 
+| 服务端名称 | 官网链接                                                   | 开发者                             |
+| ---------- | --------------------------------------------------------- | ---------------------------------- |
 | Forge      | [Forge Forums](https://forums.minecraftforge.net/)        | MinecraftForge                     |
 | Fabric     | [Fabric 官方网站](https://fabricmc.net/)                   | FabricMC                         |
-| ……         | ……                                                         | ……                               |
+| NeoForge   | [NeoForge官网](https://neoforged.net/)                     | NeoForged Foundation             |
+| …… | …… | …… |
 
 ### 混合服务端
 
 即同时兼容插件和模组的服务端。
 
 | 服务端名称 | 官网链接                                                   | 开发者                             | 兼容的模组端 | 兼容的插件端 |
-| ------------| --------------------------------------------------------- | ---------------------------------- | ------------ | ------------ | 
-| SpongeForge | [Sponge 官方网站](https://spongepowered.org/)              | Sponge                            | Forge         | Sponge      |
-| Mohist     | [Mohist 官方网站](https://mohistmc.com/)                   | MohistMC                            | Forge        | Spigot      |
-| Arclight   | [Arclight Github](https://github.com/IzzelAliz/Arclight)   | IzzelAliz                          | Forge         | Bukkit   |    
-| CatServer  | [CatServer Github](https://github.com/Luohuayu/CatServer)    | Luohuayu                       | Forge         | Spigot   | 
-| ……         | ……                                                         | ……                               |
+| ------------| --------------------------------------------------------- | ---------------------------------- | ------------ | --------------- | 
+| SpongeForge | [Sponge 官方网站](https://spongepowered.org/)              | Sponge                            | Forge         | Sponge           |
+| Mohist     | [Mohist 官方网站](https://mohistmc.com/)                   | MohistMC                            | Forge        | Paper           |
+| Arclight   | [Arclight Github](https://github.com/IzzelAliz/Arclight)   | IzzelAliz                          | Forge         | Bukkit          |    
+| CatServer  | [CatServer Github](https://github.com/Luohuayu/CatServer)    | Luohuayu                       | Forge         | Spigot            | 
+| ……         | ……                                                         | ……                               | ……            | ……                   |
 
 ## 日志文件的位置
 

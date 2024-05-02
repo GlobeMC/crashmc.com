@@ -1,7 +1,16 @@
 {
   "extends": "@vue/tsconfig/tsconfig.dom.json",
-  "include": ["docs/.vitepress/**/*.ts", "docs/.vitepress/**/*.vue"],
-  "exclude": ["docs/.vitepress/workers"],
+  "include": [
+    ".vitepress/**/*.ts",
+    ".vitepress/**/*.vue"
+  ],
+  "exclude": [
+    ".vitepress/workers",
+    "node_modules",
+    "./node_modules",
+    "./node_modules/*",
+    "./node_modules/@types/node/index.d.ts",
+  ],
   "compilerOptions": {
     "lib": [
       "es2020",
@@ -10,8 +19,11 @@
     "ignoreDeprecations": "5.0",
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./docs/.vitepress/*"],
+      "@/*": [
+        "./.vitepress/*"
+      ],
     },
+    "skipLibCheck": true,
     "verbatimModuleSyntax": false,
     "outDir": "out",
   },

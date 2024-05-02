@@ -7,7 +7,7 @@ hero:
   text: "为一般玩家编写的 Minecraft 崩溃分析指南"
   tagline: 由一群热心的笨蛋维护
   image:
-    src: /logo-new.png
+    src: /logo-new.webp
     alt: CrashMC
   actions:
     - theme: brand
