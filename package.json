@@ -23,6 +23,7 @@
 		"@nolebase/vitepress-plugin-inline-link-preview": "2.0.0-rc10",
 		"@types/pako": "^2.0.3",
 		"@typescript-eslint/eslint-plugin": "^6.21.0",
+		"@vite-pwa/assets-generator": "^0.2.4",
 		"@vite-pwa/vitepress": "^0.4.0",
 		"@vue/tsconfig": "^0.5.1",
 		"eslint": "^8.57.0",

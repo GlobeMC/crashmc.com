@@ -3,19 +3,21 @@ import { fileURLToPath } from "node:url"
 import { defineConfig } from "vitepress"
 import type { DefaultTheme } from "vitepress/theme"
 import { withPwa, type PwaOptions } from "@vite-pwa/vitepress"
-import { cwd } from 'node:process'
-import { BiDirectionalLinks } from '@nolebase/markdown-it-bi-directional-links'
-import {
-	InlineLinkPreviewElementTransform
-} from '@nolebase/vitepress-plugin-inline-link-preview/markdown-it'
+import { BiDirectionalLinks } from "@nolebase/markdown-it-bi-directional-links"
+import { InlineLinkPreviewElementTransform } from "@nolebase/vitepress-plugin-inline-link-preview/markdown-it"
 import {
 	GitChangelog,
 	GitChangelogMarkdownSection,
-} from '@nolebase/vitepress-plugin-git-changelog/vite'
+} from "@nolebase/vitepress-plugin-git-changelog/vite"
 
-const COMMIT_ID = process.env.COMMIT_REF || process.env.GITHUB_SHA || process.env.CF_PAGES_COMMIT_SHA || "local"
+const COMMIT_ID =
+	process.env.COMMIT_REF ||
+	process.env.GITHUB_SHA ||
+	process.env.CF_PAGES_COMMIT_SHA ||
+	"local"
 const commitRef = COMMIT_ID?.slice(0, 8)
-const environment = process.env.DEPLOYMENT_STATUS || process.env.NODE_ENV
+const environment =
+	process.env.DEPLOYMENT_STATUS || process.env.NODE_ENV || "development"
 const pwaName = process.env.PWA_NAME || "CrashMC 文档（本地）"
 
 const viteConfig = {
@@ -28,36 +30,34 @@ const viteConfig = {
 		include: [
 			// @rive-app/canvas is a CJS/UMD module, so it needs to be included here
 			// for Vite to properly bundle it.
-			'@nolebase/vitepress-plugin-enhanced-readabilities > @nolebase/ui > @rive-app/canvas',
+			"@nolebase/vitepress-plugin-enhanced-readabilities > @nolebase/ui > @rive-app/canvas",
 		],
-		exclude: [
-			'@nolebase/vitepress-plugin-enhanced-readabilities/client',
-		],
+		exclude: ["@nolebase/vitepress-plugin-enhanced-readabilities/client"],
 	},
 	ssr: {
 		noExternal: [
 			// 如果还有别的依赖需要添加的话，并排填写和配置到这里即可
-			'@nolebase/vitepress-plugin-enhanced-readabilities',
-			'@nolebase/vitepress-plugin-inline-link-preview',
+			"@nolebase/vitepress-plugin-enhanced-readabilities",
+			"@nolebase/vitepress-plugin-inline-link-preview",
 		],
 	},
 	plugins: [
 		GitChangelog({
 			// 填写在此处填写您的仓库链接
-			repoURL: () => 'https://github.com/GlobeMC/crashmc.com',
+			repoURL: () => "https://github.com/GlobeMC/crashmc.com",
 			rewritePaths: {
-				'docs/': '',
+				"docs/": "",
 			},
 		}),
 		GitChangelogMarkdownSection({
 			locales: {
 				gitChangelogMarkdownSectionTitles: {
-					changelog: '文件历史',
-					contributors: '贡献者',
+					changelog: "文件历史",
+					contributors: "贡献者",
 				},
 			},
 		}),
-	]
+	],
 }
 
 const pwaConfig: PwaOptions = {
@@ -148,6 +148,11 @@ const pwaConfig: PwaOptions = {
 				},
 			},
 		],
+	},
+	pwaAssets: {
+		config: true,
+		overrideManifestIcons: true,
+		injectThemeColor: true,
 	},
 }
 
@@ -291,7 +296,7 @@ const themeConfig: DefaultTheme.Config = {
 
 	sidebarMenuLabel: "菜单",
 	returnToTopLabel: "返回顶部",
-	externalLinkIcon: true,
+	externalLinkIcon: false,
 	darkModeSwitchLabel: "外观",
 	lightModeSwitchTitle: "切换到浅色模式",
 	darkModeSwitchTitle: "切换到深色模式",
@@ -319,9 +324,10 @@ export default withPwa(
 			config: (md) => {
 				// @ts-expect-error TS2769
 				md.use(BiDirectionalLinks({
-					dir: "docs",
-					baseDir: "/",
-				})),
+						dir: "docs",
+						baseDir: "/",
+					}),
+				),
 				// @ts-expect-error TS2769
 				md.use(InlineLinkPreviewElementTransform)
 			},
@@ -332,7 +338,6 @@ export default withPwa(
 		},
 
 		head: [
-			["link", { rel: "icon", href: "/logo-brand.webp" }],
 			[
 				"script",
 				{

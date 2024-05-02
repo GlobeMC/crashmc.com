@@ -2,7 +2,8 @@
   "extends": "@vue/tsconfig/tsconfig.dom.json",
   "include": [
     ".vitepress/**/*.ts",
-    ".vitepress/**/*.vue"
+    ".vitepress/**/*.vue",
+    "pwa-assets.config.ts"
   ],
   "exclude": [
     ".vitepress/workers",
@@ -24,6 +25,9 @@
       ],
     },
     "skipLibCheck": true,
+    "types": [
+      "vite-plugin-pwa/pwa-assets",
+    ],
     "verbatimModuleSyntax": false,
     "outDir": "out",
   },
