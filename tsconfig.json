@@ -16,8 +16,6 @@
       "es2020",
       "dom",
     ],
-    "module": "ESNext",
-    "moduleResolution": "bundler",
     "ignoreDeprecations": "5.0",
     "baseUrl": ".",
     "paths": {
