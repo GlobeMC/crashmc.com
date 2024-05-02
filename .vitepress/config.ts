@@ -71,7 +71,7 @@ const pwaConfig: PwaOptions = {
 		id: "/",
 		name: `${pwaName}`,
 		short_name: `${pwaName}`,
-		description: "为一般玩家编写的 Minecraft 崩溃分析指南",
+		description: "为普通玩家编写的 Minecraft 崩溃分析指南",
 		theme_color: "#ffffff",
 		start_url: "/?utm_source=web_app_manifest",
 		lang: "zh-CN",
@@ -281,7 +281,7 @@ const themeConfig: DefaultTheme.Config = {
 
 	editLink: {
 		pattern: "https://github.com/GlobeMC/crashmc.com/edit/dev/docs/:path",
-		text: "在 GitHub 上帮助我们完善这个页面",
+		text: "在 GitHub 上帮助我们完善此页面",
 	},
 
 	docFooter: {
@@ -302,7 +302,7 @@ export default withPwa(
 		title: "GlobeMC",
 		lang: "zh-CN",
 		lastUpdated: true,
-		description: "为一般玩家编写的 Minecraft 崩溃分析指南",
+		description: "为普通玩家编写的 Minecraft 崩溃分析指南",
 		srcDir: "docs",
 		themeConfig: themeConfig,
 		cleanUrls: true,
