@@ -177,7 +177,7 @@ const themeConfig: DefaultTheme.Config = {
 	],
 
 	footer: {
-		message: `Released under the <a href="https://github.com/GlobeMC/crashmc.com/blob/main/LICENSE">GFDL License</a>.<br />GlobeMC/crashmc.com<br />${environment}@<a href="https://github.com/GlobeMC/crashmc.com/commit/${commitRef}" target="_blank" alt=${commitRef}>${commitRef}</a>`,
+		message: `Released under the <a href="https://github.com/GlobeMC/crashmc.com/blob/main/LICENSE">GFDL License</a>.<br />GlobeMC/crashmc.com<br />${environment}@<a href="https://github.com/GlobeMC/crashmc.com/commit/${commitRef}" target="_blank" alt=${commitRef}>${commitRef}</a><br /><a href="https://beian.miit.gov.cn/">蜀 ICP 备 2023021309 号 - 3</a>`,
 		copyright:
 			'Copyright © 2023-present <a href="https://github.com/GlobeMC">GlobeMC / 河豚分析</a>',
 	},
