@@ -6,7 +6,7 @@ date: 2021-01-01T00:00:00Z
 
 # Post1
 
-This is the first post.
+![HeroImage](https://files.community/blog-resources/listary-integration/Hero.png)
 
 ---
 

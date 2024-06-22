@@ -23,5 +23,6 @@ Frontmatter 格式如下：
 sidebar: false
 title: 文章标题
 date: 2024-06-22 19:11:00
+hero: path/to/hero.jpg (可选, 可用链接)
 ---
 ```

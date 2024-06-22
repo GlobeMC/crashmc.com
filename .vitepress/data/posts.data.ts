@@ -4,12 +4,13 @@ interface Post {
 	title: string
 	url: string
 	date: string
+	// hero: string | undefined
 	excerpt: string | undefined
 }
 declare const data: Post[]
 export { data }
 
-export default createContentLoader("blog/*.md", {
+export default createContentLoader("blog/!(?|index).md", {
 	// Options
 	excerpt: true,
 	transform(raw): Post[] {
@@ -17,6 +18,7 @@ export default createContentLoader("blog/*.md", {
 			title: frontmatter.title,
 			url,
 			date: frontmatter.date,
+			// hero: frontmatter.hero,
 			excerpt,
 		}))
 	},
