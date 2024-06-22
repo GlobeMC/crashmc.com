@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { data as posts } from "../../utils/posts.data"
-
 </script>
 
 <template>

@@ -17,7 +17,7 @@ export default createContentLoader("blog/*.md", {
 			title: frontmatter.title,
 			url,
 			date: frontmatter.date,
-			excerpt
+			excerpt,
 		}))
-	}
+	},
 })
