@@ -82,6 +82,10 @@ git clone https://github.com/{yourname}/crashmc.com.git
 
 我们会每周进行一次例行 merge，将所有已完成的更改合并到生产环境 `main` branch，因此请不要将您的更改 PR 到 `main` branch，这会增大我们的代码审查和文档部署工作量。
 
+## 其他提醒
+
+如果要提交博客内容，请参考 [博客主页](https://crashmc.com/blog/) 的贡献指南。
+
 ## 鸣谢
 
 感谢所有为 CrashMC 贡献内容的玩家和开发者，你们的支持是对 CrashMC 最大的鼓励。

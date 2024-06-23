@@ -81,25 +81,25 @@ const pwaConfig: PwaOptions = {
 			{
 				src: "pwa-64x64.png",
 				sizes: "64x64",
-				type: "image/png"
+				type: "image/png",
 			},
 			{
 				src: "pwa-192x192.png",
 				sizes: "192x192",
-				type: "image/png"
+				type: "image/png",
 			},
 			{
 				src: "pwa-512x512.png",
 				sizes: "512x512",
-				type: "image/png"
+				type: "image/png",
 			},
 			{
 				src: "maskable-icon-512x512.png",
 				sizes: "512x512",
 				type: "image/png",
-				purpose: "maskable"
-			}
-		]
+				purpose: "maskable",
+			},
+		],
 	},
 	workbox: {
 		globPatterns: ["**/*.{css,js,html,svg,webp,ico,txt,woff2}"],
@@ -161,6 +161,7 @@ const themeConfig: DefaultTheme.Config = {
 	nav: [
 		{ text: "主页", link: "/" },
 		{ text: "崩溃分析工具", link: "/analyzer" },
+		{ text: "博客", link: "/blog/" },
 		{
 			text: "贡献",
 			activeMatch: "/contribute/*",
@@ -319,10 +320,11 @@ export default withPwa(
 			lineNumbers: true,
 			config: (md) => {
 				// @ts-expect-error TS2769
-				md.use(BiDirectionalLinks({
-					dir: "docs",
-					baseDir: "/",
-				}),
+				md.use(
+					BiDirectionalLinks({
+						dir: "docs",
+						baseDir: "/",
+					}),
 				),
 					// @ts-expect-error TS2769
 					md.use(InlineLinkPreviewElementTransform)
@@ -334,8 +336,11 @@ export default withPwa(
 		},
 
 		head: [
-			['link', { rel: 'icon', href: '/favicon.ico' }],
-			['link', { rel: 'apple-touch-icon', href: '/apple-touch-icon-180x180.png' }],
+			["link", { rel: "icon", href: "/favicon.ico" }],
+			[
+				"link",
+				{ rel: "apple-touch-icon", href: "/apple-touch-icon-180x180.png" },
+			],
 			[
 				"script",
 				{
