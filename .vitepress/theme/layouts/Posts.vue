@@ -56,7 +56,7 @@ import { data as posts } from "../../data/posts.data"
 }
 
 .container .card .content {
-	padding: 20px;
+	padding: 10px;
 	text-align: center;
 	transform: translateY(100px);
 	opacity: 0;
@@ -64,41 +64,8 @@ import { data as posts } from "../../data/posts.data"
 }
 
 .container .card:hover .content {
-	transform: translateY(0px);
+	transform: translateY(0px) scale(0.8);
 	opacity: 1;
 }
 
-.container .card .content h2 {
-	position: absolute;
-	top: -60px;
-	right: 1px;
-	font-size: 10em;
-	color: rgba(255, 255, 255, 0.05);
-	pointer-events: none;
-}
-
-.container .card .content h3 {
-	font-size: 1.8em;
-	color: #fff;
-	z-index: 1;
-}
-
-.container .card .content p {
-	font-size: 1em;
-	color: #fff;
-	font-weight: 300;
-}
-
-.container .card .content a {
-	position: relative;
-	display: inline-block;
-	padding: 8px 20px;
-	margin-top: 15px;
-	background: #fff;
-	color: #000;
-	border-radius: 20px;
-	text-decoration: none;
-	font-weight: 500;
-	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-}
 </style>

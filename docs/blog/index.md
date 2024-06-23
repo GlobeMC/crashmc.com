@@ -23,6 +23,7 @@ Frontmatter 格式如下：
 sidebar: false
 title: 文章标题
 date: 2024-06-22 19:11:00
-hero: path/to/hero.jpg (可选, 可用链接)
 ---
 ```
+
+出现在第一个 `---` （不包括 frontmatter）之前的部分为文章摘要，将显示在文章列表卡片中。
