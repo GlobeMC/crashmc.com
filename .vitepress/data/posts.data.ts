@@ -4,7 +4,6 @@ interface Post {
 	title: string
 	url: string
 	date: string
-	// hero: string | undefined
 	excerpt: string | undefined
 }
 declare const data: Post[]
@@ -18,7 +17,6 @@ export default createContentLoader("blog/!(?|index).md", {
 			title: frontmatter.title,
 			url,
 			date: frontmatter.date,
-			// hero: frontmatter.hero,
 			excerpt,
 		}))
 	},
