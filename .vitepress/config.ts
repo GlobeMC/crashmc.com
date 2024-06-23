@@ -319,15 +319,13 @@ export default withPwa(
 			},
 			lineNumbers: true,
 			config: (md) => {
-				// @ts-expect-error TS2769
 				md.use(
-					BiDirectionalLinks({
+					() => BiDirectionalLinks({
 						dir: "docs",
-						baseDir: "/",
-					}),
+						baseDir: "/"
+					})
 				),
-					// @ts-expect-error TS2769
-					md.use(InlineLinkPreviewElementTransform)
+					md.use(() => InlineLinkPreviewElementTransform)
 			},
 		},
 
