@@ -7,10 +7,10 @@ jobs:
   request:
     runs-on: ubuntu-latest
     steps:
-    - name: 🛠️ Checkout
+    - name: Checkout
       uses: actions/checkout@v2
 
-    - name: ✨ Request Review
+    - name: Request Review
       uses: uesteibar/reviewer-lottery@v3
       with:
         repo-token: ${{ secrets.GITHUB_TOKEN }}

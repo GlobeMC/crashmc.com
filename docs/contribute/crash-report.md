@@ -6,6 +6,8 @@ contributors: [bingling-sama]
 
 如果您遇到的问题无法在本文档中找到答案，可以点击[这里](https://github.com/GlobeMC/crashmc.com/issues/new/choose)向我们提交您的错误报告，我们将尽快为您解决问题。同时，您所上传的崩溃日志也将作为改进文档的资料使用，感谢您为本文档提供数据。
 
+如果您遇到的问题已经解决，或您已经找到了可行的解决方案，希望您一并填入 Issue 中，感谢您的贡献。
+
 为了方便我们为您检索问题，在上传 `*.log`/`*.txt` 等文本格式文件时，请优先前往 [MCLogs](https://mclo.gs) 上传文件内容并向我们提供网站生成的链接。
 
 :::info 注意

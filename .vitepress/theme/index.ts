@@ -6,6 +6,7 @@ import { h } from "vue"
 // Components
 import LauncherBadge from "./global-components/LauncherBadge.vue"
 import ReloadPrompt from "./components/ReloadPrompt.vue"
+import Posts from "./layouts/Posts.vue"
 
 // Plugins
 import giscusTalk from "vitepress-plugin-comment-with-giscus"
@@ -56,6 +57,7 @@ export default {
 			threshold: 300,
 		})
 		ctx.app.component("LauncherBadge", LauncherBadge)
+		ctx.app.component("Posts", Posts)
 		vitepressNprogress(ctx)
 		ctx.app.component("vImageViewer", vImageViewer)
 		ctx.app.use(NolebaseInlineLinkPreviewPlugin)
