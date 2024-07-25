@@ -2,8 +2,8 @@
 
 [CrashMC](https://crashmc.com/)——为一般玩家编写的 Minecraft 崩溃分析指南。
 
-[![](https://img.shields.io/github/stars/GlobeMC/crashmc.com?style=for-the-badge)](https://bilibili.com/video/BV1GJ411x7h7)
-[![](https://img.shields.io/github/issues/GlobeMC/crashmc.com?style=for-the-badge)](https://github.com/GlobeMC/crashmc.com/issues)
+[![Stars](https://img.shields.io/github/stars/GlobeMC/crashmc.com?style=for-the-badge)](https://bilibili.com/video/BV1GJ411x7h7)
+[![Issues](https://img.shields.io/github/issues/GlobeMC/crashmc.com?style=for-the-badge)](https://github.com/GlobeMC/crashmc.com/issues)
 [![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/GlobeMC/crashmc.com/pages-check.yml?style=for-the-badge)](https://github.com/GlobeMC/crashmc.com/actions/workflows/pages-check.yml)
 
 ## 贡献
@@ -37,23 +37,23 @@
 
 在涉及任何站外链接时，请优先添加官方链接，尽量避免不必要的第三方链接。
 
-## TODO
+## Features
 
 ### 客户端崩溃
 
-- [ ] 继续收录崩溃信息
+- 继续收录崩溃信息
 
 ### 服务端崩溃
 
-- [ ] 收录大多数 Spigot 及其衍生服务端的崩溃
+- 收录大多数 Spigot 及其衍生服务端的崩溃
 
-- [ ] 收录大多数因 Mods 引起的崩溃
+- 收录大多数因 Mods 引起的崩溃
 
-- [ ] 收录大多数 BungeeCord / Velocity 存在的崩溃问题
+- 收录大多数 BungeeCord / Velocity 存在的崩溃问题
 
 ### 进阶内容
 
-- [ ] 实现全自动分析日志 API 以供其他服务接入
+- 实现全自动分析日志 API 以供其他服务接入
 
 ## 鸣谢
 
