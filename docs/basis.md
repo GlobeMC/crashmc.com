@@ -40,7 +40,7 @@ A：要对 `Minecraft` 的游戏错误 / 崩溃进行处理，您首先要对游
 | ---------- | --------------------------------------------------------- | ---------- |
 | HMCL       | [Hello Minecraft! Launcher](https://hmcl.huangyuhui.net/) | huangyuhui |
 | BakaXL     | [BakaXL 官方网站](https://www.bakaxl.com/)                | TT         |
-| PCL2       | [龙猫爱发电](https://afdian.net/a/LTCat)                  | 龙腾猫跃   |
+| PCL2       | [龙猫爱发电](https://afdian.com/a/LTCat)                  | 龙腾猫跃   |
 | ……         | ……                                                        | ……         |
 
 大部分时候，`Minecraft` 开发者们都会使用这些第三方启动器而不是使用官启，他们提供了更多的调试选项及错误输出为开发者解决问题提供方便。我们也强烈建议您在非必要使用官启的时候使用第三方启动器。

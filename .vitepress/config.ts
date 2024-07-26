@@ -174,7 +174,7 @@ const themeConfig: DefaultTheme.Config = {
 				{ text: "贡献者列表", link: "/contribute/contributors" },
 			],
 		},
-		{ text: "捐赠支持", link: "https://afdian.net/a/Pigeon0v0" },
+		{ text: "捐赠支持", link: "https://afdian.com/a/Pigeon0v0" },
 	],
 
 	footer: {
