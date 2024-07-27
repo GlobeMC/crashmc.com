@@ -8,28 +8,43 @@
   "exclude": [
     ".vitepress/workers",
     "node_modules",
-    "./node_modules",
-    "./node_modules/*",
+		"./.vitepress/analyzers/mcla.api.ts",
     "./node_modules/@types/node/index.d.ts",
   ],
   "compilerOptions": {
-    "lib": [
-      "es2020",
-      "dom",
-    ],
-    "ignoreDeprecations": "5.0",
     "baseUrl": ".",
+    "outDir": "out",
+    "jsx": "preserve",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "resolveJsonModule": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": true,
+		// TODO: change this to true after https://github.com/T-miracle/vitepress-plugin-image-viewer/issues/4 is fixed
+    "noUnusedLocals": false,
+    "noUnusedParameters": true,
+    "noEmit": true,
+    "removeComments": false,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true,
+    "skipLibCheck": true,
+    "ignoreDeprecations": "5.0",
+    "lib": [
+      "DOM",
+      "ESNext"
+    ],
     "paths": {
       "@/*": [
         "./.vitepress/*"
       ],
     },
-    "skipLibCheck": true,
     "types": [
       "vite-plugin-pwa/pwa-assets",
     ],
-    "verbatimModuleSyntax": false,
-    "outDir": "out",
   },
   "references": [
     {

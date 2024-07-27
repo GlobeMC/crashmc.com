@@ -17,6 +17,7 @@ import {
 	loadMCLA,
 	MCLA_GH_DB_PREFIX,
 } from "@/analyzers/mcla"
+import type { ITarFileInfo } from "@gera2ld/tarjs"
 
 // 类型&接口定义
 interface SolutionOkSuccess {
@@ -343,10 +344,11 @@ async function readFiles(file: MemFile, filename?: string): Promise<MemFile[]> {
 				console.error(`Couldn't decompress file with ext ${ext}:`, error)
 				throw new AnalysisError("UnzipErr", error)
 			}
+			return readFiles(new MemFile(data, file.path), filebase)
 		case "tar": {
 			let files
 			try {
-				files = await new TarReader().readFile(data)
+				files = await TarReader.load(data)
 			} catch (error) {
 				console.error("Couldn't read the tar file:", error)
 				throw new AnalysisError("UnzipErr", error)
@@ -354,13 +356,13 @@ async function readFiles(file: MemFile, filename?: string): Promise<MemFile[]> {
 
 			let res: MemFile[] = []
 			await Promise.all(
-				files
+				files.fileInfos
 					.filter(
-						(f) =>
+						(f: ITarFileInfo) =>
 							!f.name.startsWith("._") &&
 							!f.name.toLowerCase().startsWith("paxheader/"),
 					)
-					.map((f) =>
+					.map((f: ITarFileInfo) =>
 						readFiles(
 							new MemFile(
 								new Uint8Array(data.buffer, f.headerOffset + 512, f.size),
@@ -1163,7 +1165,8 @@ onUnmounted(() => {
 										<div>
 											<b>解决方案: </b>
 											<a target="_blank" :href="sol.res.link_to">
-												打开文档 <OpenTabIcon />
+												打开文档
+												<OpenTabIcon />
 											</a>
 										</div>
 									</details>
