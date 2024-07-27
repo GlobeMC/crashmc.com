@@ -298,11 +298,11 @@ export default withPwa(
 			},
 			lineNumbers: true,
 			config: (md) => {
-				md.use(
-					() => BiDirectionalLinks({
+				md.use(() =>
+					BiDirectionalLinks({
 						dir: "docs",
-						baseDir: "/"
-					})
+						baseDir: "/",
+					}),
 				),
 					md.use(() => InlineLinkPreviewElementTransform)
 			},
