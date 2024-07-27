@@ -5,10 +5,6 @@ import type { DefaultTheme } from "vitepress/theme"
 import { withPwa, type PwaOptions } from "@vite-pwa/vitepress"
 import { BiDirectionalLinks } from "@nolebase/markdown-it-bi-directional-links"
 import { InlineLinkPreviewElementTransform } from "@nolebase/vitepress-plugin-inline-link-preview/markdown-it"
-import {
-	GitChangelog,
-	GitChangelogMarkdownSection,
-} from "@nolebase/vitepress-plugin-git-changelog/vite"
 
 const COMMIT_ID =
 	process.env.COMMIT_REF ||
@@ -41,23 +37,6 @@ const viteConfig = {
 			"@nolebase/vitepress-plugin-inline-link-preview",
 		],
 	},
-	plugins: [
-		GitChangelog({
-			// 填写在此处填写您的仓库链接
-			repoURL: () => "https://github.com/GlobeMC/crashmc.com",
-			rewritePaths: {
-				"docs/": "",
-			},
-		}),
-		GitChangelogMarkdownSection({
-			locales: {
-				gitChangelogMarkdownSectionTitles: {
-					changelog: "文件历史",
-					contributors: "贡献者",
-				},
-			},
-		}),
-	],
 }
 
 const pwaConfig: PwaOptions = {

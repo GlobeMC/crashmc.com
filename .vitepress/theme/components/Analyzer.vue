@@ -2,7 +2,7 @@
 import JSZip from "jszip"
 import pako from "pako"
 import { TarReader } from "@gera2ld/tarjs"
-import { useRouter } from "vitepress"
+import { useRouter } from "vitepress/client"
 import { type Ref, ref, watch, onBeforeMount, onUnmounted } from "vue"
 import axios from "axios"
 import AnalyzingIcon from "./icons/AnalyzingIcon.vue"
