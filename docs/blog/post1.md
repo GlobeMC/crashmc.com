@@ -6,9 +6,6 @@ date: 2021-01-01T00:00:00Z
 
 # Post1
 
-Some text here.
-Write excerpts here, before the first `---` line.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor.
 
 ---
-
-This is the end of the first post.
