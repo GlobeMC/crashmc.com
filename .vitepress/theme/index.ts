@@ -14,7 +14,6 @@ import Contributors from "./components/Contributors.vue"
 import giscusTalk from "vitepress-plugin-comment-with-giscus"
 import vitepressNprogress from "@andatoshiki/vitepress-plugin-nprogress"
 import imageViewer from "vitepress-plugin-image-viewer"
-// TODO: edit this after https://github.com/T-miracle/vitepress-plugin-image-viewer/issues/4 is fixed
 import vImageViewer from "vitepress-plugin-image-viewer/lib/vImageViewer.vue"
 import codeblocksFold from "vitepress-plugin-codeblocks-fold" // import method
 import vitepressBackToTop from "vitepress-plugin-back-to-top"

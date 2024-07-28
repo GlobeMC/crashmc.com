@@ -7,7 +7,7 @@
 		"docs:eslint": "eslint --ignore-path .gitignore --ext .ts,.vue \".vitepress/**/*.{ts,vue}\"",
 		"docs:zhlint": "zhlint 'docs/**/*.md' --fix",
 		"docs:tsc": "tsc --build && vue-tsc --noEmit",
-		"prepare": "husky install",
+		"prepare": "husky",
 		"generate-pwa-assets": "pwa-assets-generator --preset minimal-2023 docs/public/logo-new.webp"
 	},
 	"name": "mccrash-docs",
@@ -66,6 +66,6 @@
 		"vitepress-plugin-back-to-top": "^1.0.1",
 		"vitepress-plugin-codeblocks-fold": "^1.2.28",
 		"vitepress-plugin-comment-with-giscus": "^1.1.15",
-		"vitepress-plugin-image-viewer": "^1.1.4"
+		"vitepress-plugin-image-viewer": "^1.1.5"
 	}
 }
