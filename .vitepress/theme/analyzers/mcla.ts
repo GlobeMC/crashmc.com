@@ -1,5 +1,5 @@
 import type { Ref } from "vue"
-import { useCDN } from "@/cdn"
+import { useCDN } from "@theme/utils/cdn"
 
 export { VERSION, MCLA_GH_DB_PREFIX, loadMCLA }
 

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useData } from "vitepress"
 import { computed } from "vue"
-import { useCDN } from "@/cdn"
+import { useCDN } from "@theme/utils/cdn"
 
 const defaultAuthor = "GlobeMC"
 const { frontmatter } = useData()
@@ -17,10 +17,6 @@ function getAvatarUrl(name: string) {
 function getGitHubLink(name: string) {
 	return `https://github.com/${name}`
 }
-
-// function isNotEmpty(arr: string | string[]) {
-// 	return Array.isArray(arr) && arr.length
-// }
 </script>
 
 <template>

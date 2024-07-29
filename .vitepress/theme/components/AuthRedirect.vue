@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue"
-import { onAuthDone } from "@/auth/github"
+import { onAuthDone } from "@theme/auth/github"
 
 const REDIRECT_TIMEOUT_SEC = 3
 

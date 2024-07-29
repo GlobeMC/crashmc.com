@@ -16,7 +16,7 @@ import {
 	type Solution,
 	loadMCLA,
 	MCLA_GH_DB_PREFIX,
-} from "@/analyzers/mcla"
+} from "@/theme/analyzers/mcla"
 import type { ITarFileInfo } from "@gera2ld/tarjs"
 
 // 类型&接口定义

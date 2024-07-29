@@ -1,32 +1,30 @@
 {
-  "include": [".vitepress/workers/*", ".vitepress/**/*.api.ts"],
-  "compilerOptions": {
-    "composite": true,
-
-    "lib": [
-      "es2020",
-      "webworker",
-    ],
-
-    "module": "ESNext",
-    "moduleResolution": "bundler",
-    "resolveJsonModule": true,
-
-    "noImplicitThis": true,
-    "strict": true,
-
-    "verbatimModuleSyntax": true,
-
-    "target": "ESNext",
-
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "skipLibCheck": true,
-
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["./.vitepress/*"],
-    },
-    "outDir": "out"
-  }
+	"include": [
+		".vitepress/theme/workers/*",
+		".vitepress/**/*.api.ts"
+	],
+	"compilerOptions": {
+		"composite": true,
+		"lib": [
+			"es2020",
+			"webworker",
+		],
+		"module": "ESNext",
+		"moduleResolution": "bundler",
+		"resolveJsonModule": true,
+		"noImplicitThis": true,
+		"strict": true,
+		"verbatimModuleSyntax": true,
+		"target": "ESNext",
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true,
+		"skipLibCheck": true,
+		"baseUrl": ".",
+		"paths": {
+			"@/*": [
+				"./.vitepress/*"
+			],
+		},
+		"outDir": "out"
+	}
 }
