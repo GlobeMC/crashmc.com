@@ -1,5 +1,6 @@
 ---
 sidebar: false
+editor: bingling-sama
 ---
 
 # 博客板块

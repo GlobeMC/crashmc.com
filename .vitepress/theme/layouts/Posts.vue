@@ -60,7 +60,7 @@ import { data as posts } from "../../data/posts.data"
 			overflow: hidden;
 			text-overflow: ellipsis;
 
-			& ::v-deep .header-anchor {
+			& ::v-deep(.header-anchor) {
 				display: none;
 			}
 		}

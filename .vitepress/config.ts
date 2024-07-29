@@ -1,10 +1,20 @@
 import process from "node:process"
 import { fileURLToPath } from "node:url"
-import { defineConfig } from "vitepress"
+import { defineConfigWithTheme } from "vitepress"
 import type { DefaultTheme } from "vitepress/theme"
 import { withPwa, type PwaOptions } from "@vite-pwa/vitepress"
 import { BiDirectionalLinks } from "@nolebase/markdown-it-bi-directional-links"
 import { InlineLinkPreviewElementTransform } from "@nolebase/vitepress-plugin-inline-link-preview/markdown-it"
+import {
+	GitChangelog,
+	GitChangelogMarkdownSection
+} from "@nolebase/vitepress-plugin-git-changelog"
+
+import authors from "./data/authors.json"
+
+function generateAvatarUrl(username: string) {
+	return `https://cdn.crashmc.com/https://github.com/${username}.png`
+}
 
 const COMMIT_ID =
 	process.env.COMMIT_REF ||
@@ -22,6 +32,16 @@ const viteConfig = {
 			"@": fileURLToPath(new URL(".", import.meta.url)),
 		},
 	},
+	plugins: [
+		GitChangelog({
+			repoURL: () => "https://github.com/GlobeMC/crashmc.com",
+			mapAuthors: authors.map((author) => ({
+				...author,
+				avatar: generateAvatarUrl(author.avatar)
+			}))
+		}),
+		GitChangelogMarkdownSection()
+	],
 	optimizeDeps: {
 		include: [
 			// @rive-app/canvas is a CJS/UMD module, so it needs to be included here
@@ -279,7 +299,7 @@ const themeConfig: DefaultTheme.Config = {
 }
 
 export default withPwa(
-	defineConfig({
+	defineConfigWithTheme({
 		title: "GlobeMC",
 		lang: "zh-CN",
 		lastUpdated: true,
@@ -298,13 +318,11 @@ export default withPwa(
 			},
 			lineNumbers: true,
 			config: (md) => {
-				md.use(() =>
-					BiDirectionalLinks({
-						dir: "docs",
-						baseDir: "/",
-					}),
-				),
-					md.use(() => InlineLinkPreviewElementTransform)
+				md.use(BiDirectionalLinks({
+					dir: "docs",
+					baseDir: "/"
+				}))
+					.use(InlineLinkPreviewElementTransform)
 			},
 		},
 

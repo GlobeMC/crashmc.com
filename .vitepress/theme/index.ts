@@ -8,7 +8,7 @@ import { h } from "vue"
 import LauncherBadge from "./global-components/LauncherBadge.vue"
 import ReloadPrompt from "./components/ReloadPrompt.vue"
 import Posts from "./layouts/Posts.vue"
-import Contributors from "./components/Contributors.vue"
+import ResponsibleEditor from "./components/ResponsibleEditor.vue"
 
 // Plugins
 import giscusTalk from "vitepress-plugin-comment-with-giscus"
@@ -22,7 +22,11 @@ import {
 	NolebaseEnhancedReadabilitiesScreenMenu,
 } from "@nolebase/vitepress-plugin-enhanced-readabilities/client"
 import { NolebaseInlineLinkPreviewPlugin } from "@nolebase/vitepress-plugin-inline-link-preview/client"
+import { InjectionKey as InlineLinkPreviewInjectionKey } from "@nolebase/vitepress-plugin-inline-link-preview/client"
 import "@nolebase/vitepress-plugin-inline-link-preview/client/style.css"
+import {
+	NolebaseGitChangelogPlugin
+} from "@nolebase/vitepress-plugin-git-changelog/client"
 
 // Styles
 import "./style.css"
@@ -31,10 +35,7 @@ import "vitepress-plugin-codeblocks-fold/style/index.scss"
 import "@andatoshiki/vitepress-plugin-nprogress/lib/css/index.css"
 import "viewerjs/dist/viewer.min.css"
 import "@nolebase/vitepress-plugin-enhanced-readabilities/client/style.css"
-
-// function generateAvatarUrl(username: string) {
-// 	return `https://cdn.crashmc.com/https://github.com/${username}.png`
-// }
+import "@nolebase/vitepress-plugin-git-changelog/client/style.css"
 
 export default {
 	extends: DefaultTheme,
@@ -47,7 +48,7 @@ export default {
 			// 为较窄的屏幕（通常是小于 iPad Mini）添加阅读增强菜单
 			"nav-screen-content-after": () =>
 				h(NolebaseEnhancedReadabilitiesScreenMenu),
-			"doc-footer-before": () => h(Contributors),
+			"doc-footer-before": () => h(ResponsibleEditor),
 		})
 	},
 	enhanceApp(ctx: EnhanceAppContext) {
@@ -56,14 +57,18 @@ export default {
 			threshold: 300,
 		})
 		ctx.app.component("LauncherBadge", LauncherBadge)
-		ctx.app.component("Posts", Posts)
 		vitepressNprogress(ctx)
 		ctx.app.component("vImageViewer", vImageViewer)
 		ctx.app.use(NolebaseInlineLinkPreviewPlugin)
+		ctx.app.provide(InlineLinkPreviewInjectionKey, {
+			previewAllHostNames: true
+		})
+		ctx.app.use(NolebaseGitChangelogPlugin)
+		ctx.app.component("Posts", Posts)
 		// Why it doesn't work?
 		// const layouts = import.meta.glob("./layouts/*.vue")
 		// for (const path in layouts) {
-		// 	const layout = layouts[path].default
+		// 	const layout = layouts[path]
 		// 	ctx.app.component(layout.name, layout)
 		// }
 	},
