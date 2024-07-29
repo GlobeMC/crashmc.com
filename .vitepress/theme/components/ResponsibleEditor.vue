@@ -27,14 +27,22 @@ function getGitHubLink(name: string) {
 	<p class="vp-main-color con">本文责任编辑:</p>
 	<div v-if="editor" class="flex flex-wrap gap-4">
 		<div class="flex gap-2 items-center vp-main-color">
-			<a :href="getGitHubLink(editor)" rel="noreferrer" target="_blank" class="flex items-center gap-2">
+			<a
+				:href="getGitHubLink(editor)"
+				rel="noreferrer"
+				target="_blank"
+				class="flex items-center gap-2">
 				<img :src="getAvatarUrl(editor)" class="w-8 h-8 rounded-full" />
 				<p class="vp-main-color">{{ editor }}</p>
 			</a>
 		</div>
 	</div>
 	<div v-else class="flex gap-2 items-center">
-		<a :href="getGitHubLink(defaultAuthor)" rel="noreferrer" target="_blank" class="flex items-center gap-2">
+		<a
+			:href="getGitHubLink(defaultAuthor)"
+			rel="noreferrer"
+			target="_blank"
+			class="flex items-center gap-2">
 			<img src="/logo-brand.webp" class="w-8 h-8 rounded-full" />
 			<p class="vp-main-clolr">{{ "GlobeMC" }}</p>
 		</a>
