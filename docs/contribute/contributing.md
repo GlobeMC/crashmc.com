@@ -1,5 +1,5 @@
 ---
-contributors: [HRxiaohu, bingling-sama]
+editor: bingling-sama
 ---
 
 # 贡献指南
@@ -13,7 +13,7 @@ contributors: [HRxiaohu, bingling-sama]
 ```bash
 # 推荐使用 SSH
 git clone git@github.com:{yourname}/crashmc.com.git
-# 也可以使用 HTTPS （不推荐）
+# 也可以使用 HTTPS
 git clone https://github.com/{yourname}/crashmc.com.git 
 ```
 
@@ -29,7 +29,7 @@ git clone https://github.com/{yourname}/crashmc.com.git
 
 ### 文档内容
 
-本文档按 [W3C Requirement for Chinese Text Layout](https://www.w3.org/International/clreq/) 进行排版，在贡献内容时请注意排版格式。
+本文档按 [W3C Requirement for Chinese Text Layout][textlayoutdoc] 进行排版，在贡献内容时请注意排版格式。
 
 在涉及任何站外链接时，请优先添加官方链接，尽量避免不必要的第三方链接。
 
@@ -53,9 +53,20 @@ git clone https://github.com/{yourname}/crashmc.com.git
 
 文档会自动记录每个页面的 Git 提交历史记录以及为此文件做过贡献的人员，并将这些信息显示在页面上。
 
+如果您发起或主导了某篇文章的编写，可以在 frontmatter 中署名，文末将会显示您的 GitHub 头像和地址，便于读者提出意见与后期可能存在的文章修改及版权相关事宜。
+
+```
+---
+editor: username <!-- GitHub Username -->
+---
+```
+
+如您不愿意署名，忽略此条提示即可，文末将署名为 CrashMC 编辑部部长 @bingling-sama
+
 :::warning 警告
 
 - 如果在多次提交时使用的名称不一致会导致贡献者记录中出现多个记录，建议统一自己提交时使用的名称。
+- 如果已经出现了重复的贡献者记录，可以联系 CrashMC 工作人员进行处理。
 - 上述代码中所使用的均为**英文半角逗号**！
 
 :::
@@ -64,9 +75,11 @@ git clone https://github.com/{yourname}/crashmc.com.git
 
 如果您参与了代码内容的修改，~~相信您应该多少懂一些贡献流程，~~ 这里不再过多赘述贡献流程。
 
+要注意的是，在准备 commit 之前，请运行 `docs:check` 任务来检查并格式化代码。
+
 ## Step.3 提交更改
 
-在完成内容编写以后，请将您的所有更改 commit 到您的 fork 下，再向 [这里](https://github.com/GlobeMC/crashmc.com/tree/dev) 提交 PR。
+在完成内容编写以后，请将您的所有更改 commit 到您的 fork 下，再向 [这里][prbranch] 提交 PR。
 
 :::warning 重要提醒
 请务必将您的更改 PR 到 `dev` barnch，以便我们审查排版及合并冲突。
@@ -89,3 +102,6 @@ git clone https://github.com/{yourname}/crashmc.com.git
 ## 鸣谢
 
 感谢所有为 CrashMC 贡献内容的玩家和开发者，你们的支持是对 CrashMC 最大的鼓励。
+
+[textlayoutdoc]: https://www.w3.org/International/clreq/
+[prbranch]: https://github.com/GlobeMC/crashmc.com/tree/dev
