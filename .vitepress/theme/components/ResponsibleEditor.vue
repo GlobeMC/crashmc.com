@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import { useData } from "vitepress"
 import { computed } from "vue"
-import { useCDN } from "@theme/utils/cdn"
+import { useCDN } from "@/theme/utils/cdn"
 
-const defaultAuthor = "GlobeMC"
 const { frontmatter } = useData()
 
 const editor = computed(() => {
-	return frontmatter.value?.editor
+	return frontmatter.value?.editor ?? "bingling-sama"
 })
 
 function getAvatarUrl(name: string) {
@@ -32,16 +31,6 @@ function getGitHubLink(name: string) {
 				<p class="vp-main-color">{{ editor }}</p>
 			</a>
 		</div>
-	</div>
-	<div v-else class="flex gap-2 items-center">
-		<a
-			:href="getGitHubLink(defaultAuthor)"
-			rel="noreferrer"
-			target="_blank"
-			class="flex items-center gap-2">
-			<img src="/logo-brand.webp" class="w-8 h-8 rounded-full" />
-			<p class="vp-main-clolr">{{ "GlobeMC" }}</p>
-		</a>
 	</div>
 </template>
 

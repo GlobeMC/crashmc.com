@@ -1,10 +1,10 @@
-import { fileURLToPath } from "node:url"
+import path from "node:path"
 import {
 	GitChangelog,
 	GitChangelogMarkdownSection,
 } from "@nolebase/vitepress-plugin-git-changelog"
 
-import authors from "@data/authors.json"
+import authors from "../../data/authors.json"
 
 function generateAvatarUrl(username: string) {
 	return `https://cdn.crashmc.com/https://github.com/${username}.png`
@@ -13,9 +13,7 @@ function generateAvatarUrl(username: string) {
 const viteConfig = {
 	resolve: {
 		alias: {
-			"@": fileURLToPath(new URL("../../", import.meta.url)),
-			"@theme": fileURLToPath(new URL("../", import.meta.url)),
-			"@data": fileURLToPath(new URL("../../data", import.meta.url)),
+			"@": path.resolve(__dirname, "../../"),
 		},
 	},
 	plugins: [

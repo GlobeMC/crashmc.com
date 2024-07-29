@@ -39,12 +39,6 @@
 		"paths": {
 			"@/*": [
 				"./.vitepress/*"
-			],
-			"@theme/*": [
-				"./.vitepress/theme/*"
-			],
-			"@data/*": [
-				"./.vitepress/data/*"
 			]
 		},
 		"types": [

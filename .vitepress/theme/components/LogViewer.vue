@@ -5,7 +5,7 @@ import {
 	getAuthToken,
 	expireAuthToken,
 	redirectToAuth,
-} from "@theme/auth/github"
+} from "@/theme/auth/github"
 
 const loading = ref(true)
 const errorStr = ref("")
