@@ -1,14 +1,20 @@
 import process from "node:process"
 import { fileURLToPath } from "node:url"
-import { defineConfig } from "vitepress"
+import { defineConfigWithTheme } from "vitepress"
 import type { DefaultTheme } from "vitepress/theme"
 import { withPwa, type PwaOptions } from "@vite-pwa/vitepress"
 import { BiDirectionalLinks } from "@nolebase/markdown-it-bi-directional-links"
 import { InlineLinkPreviewElementTransform } from "@nolebase/vitepress-plugin-inline-link-preview/markdown-it"
 import {
 	GitChangelog,
-	GitChangelogMarkdownSection,
-} from "@nolebase/vitepress-plugin-git-changelog/vite"
+	GitChangelogMarkdownSection
+} from "@nolebase/vitepress-plugin-git-changelog"
+
+import authors from "./data/authors.json"
+
+function generateAvatarUrl(username: string) {
+	return `https://cdn.crashmc.com/https://github.com/${username}.png`
+}
 
 const COMMIT_ID =
 	process.env.COMMIT_REF ||
@@ -26,6 +32,16 @@ const viteConfig = {
 			"@": fileURLToPath(new URL(".", import.meta.url)),
 		},
 	},
+	plugins: [
+		GitChangelog({
+			repoURL: () => "https://github.com/GlobeMC/crashmc.com",
+			mapAuthors: authors.map((author) => ({
+				...author,
+				avatar: generateAvatarUrl(author.avatar)
+			}))
+		}),
+		GitChangelogMarkdownSection()
+	],
 	optimizeDeps: {
 		include: [
 			// @rive-app/canvas is a CJS/UMD module, so it needs to be included here
@@ -41,23 +57,6 @@ const viteConfig = {
 			"@nolebase/vitepress-plugin-inline-link-preview",
 		],
 	},
-	plugins: [
-		GitChangelog({
-			// 填写在此处填写您的仓库链接
-			repoURL: () => "https://github.com/GlobeMC/crashmc.com",
-			rewritePaths: {
-				"docs/": "",
-			},
-		}),
-		GitChangelogMarkdownSection({
-			locales: {
-				gitChangelogMarkdownSectionTitles: {
-					changelog: "文件历史",
-					contributors: "贡献者",
-				},
-			},
-		}),
-	],
 }
 
 const pwaConfig: PwaOptions = {
@@ -174,7 +173,7 @@ const themeConfig: DefaultTheme.Config = {
 				{ text: "贡献者列表", link: "/contribute/contributors" },
 			],
 		},
-		{ text: "捐赠支持", link: "https://afdian.net/a/Pigeon0v0" },
+		{ text: "捐赠支持", link: "https://afdian.com/a/Pigeon0v0" },
 	],
 
 	footer: {
@@ -300,7 +299,7 @@ const themeConfig: DefaultTheme.Config = {
 }
 
 export default withPwa(
-	defineConfig({
+	defineConfigWithTheme({
 		title: "GlobeMC",
 		lang: "zh-CN",
 		lastUpdated: true,
@@ -319,13 +318,11 @@ export default withPwa(
 			},
 			lineNumbers: true,
 			config: (md) => {
-				md.use(
-					() => BiDirectionalLinks({
-						dir: "docs",
-						baseDir: "/"
-					})
-				),
-					md.use(() => InlineLinkPreviewElementTransform)
+				md.use(BiDirectionalLinks({
+					dir: "docs",
+					baseDir: "/"
+				}))
+					.use(InlineLinkPreviewElementTransform)
 			},
 		},
 

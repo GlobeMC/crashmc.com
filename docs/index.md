@@ -31,7 +31,7 @@ features:
     icon: 🚪
     details: 有任何改进建议都可以提交 Pull Requests 与我们共建
     link: /contribute/contributing.html
-    linkText: 作出贡献
+    linkText: 做出贡献
   - title: 快速
     icon: 🚀
     details: 文档使用基于 Vite 和 Vue 的 VitePress 构建，页面加载速度更快、性能更好
