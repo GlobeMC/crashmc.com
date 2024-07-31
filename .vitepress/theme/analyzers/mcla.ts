@@ -199,7 +199,7 @@ class MCLAWorker implements MCLAAPI {
 
 async function loadMCLAWorker(loadProgress?: Ref<number>): Promise<MCLAAPI> {
 	const worker = MCLAWorker.createFromWorker(
-		new Worker(new URL("@/workers/mcla.worker.ts", import.meta.url), {
+		new Worker(new URL("@theme/workers/mcla.worker.ts", import.meta.url), {
 			type: "classic",
 		}),
 		loadProgress,
