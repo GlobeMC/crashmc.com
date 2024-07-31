@@ -55,7 +55,7 @@ git clone https://github.com/{yourname}/crashmc.com.git
 
 如果您发起或主导了某篇文章的编写，可以在 frontmatter 中署名，文末将会显示您的 GitHub 头像和地址，便于读者提出意见与后期可能存在的文章修改及版权相关事宜。
 
-```
+```md
 ---
 editor: username <!-- GitHub Username -->
 ---

@@ -21,6 +21,10 @@ export default withPwa(
 		vite: viteConfig,
 		pwa: pwaConfig,
 
+		rewrites: {
+			"blog": "blog/"
+		},
+
 		sitemap: {
 			hostname: "https://crashmc.com",
 		},
