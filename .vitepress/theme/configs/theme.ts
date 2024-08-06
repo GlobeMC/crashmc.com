@@ -19,7 +19,7 @@ const themeConfig: DefaultTheme.Config = {
 	nav: [
 		{ text: "主页", link: "/" },
 		{ text: "崩溃分析工具", link: "/analyzer" },
-		{ text: "博客", link: "/blog/" },
+		{ text: "博客", link: "/blog/", activeMatch: "/blog/*" },
 		{
 			text: "贡献",
 			activeMatch: "/contribute/*",
