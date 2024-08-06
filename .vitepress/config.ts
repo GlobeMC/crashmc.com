@@ -22,7 +22,7 @@ export default withPwa(
 		pwa: pwaConfig,
 
 		rewrites: {
-			"blog": "blog/"
+			blog: "blog/",
 		},
 
 		sitemap: {
