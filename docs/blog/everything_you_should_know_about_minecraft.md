@@ -119,7 +119,7 @@ Java 是一门高级程序设计语言，属于运行时语言。所谓 *运行�
 
 而在 *Minecraft Java Edition* 中，Mod 通常指以 *Mod 加载器* 进行加载，后缀名为 `.jar` 的文件。一般放置于版本目录下的 `mods` 文件夹内。
 
-在 Minecraft Mod 的发展历史中，Mod 加载器的更迭历史也十分丰富，最初的 MCP，沿用至今的 Forge，后起之秀 Fabric，还有昙花一现的 LiteLoader 等等，以后有机会我们也会试着撰写更详细的博文来介绍。
+在 Minecraft Mod 的发展历史中，Mod 加载器的更迭历史也十分丰富。从最初的 MCP，到沿用至今的 Forge，后起之秀 Fabric，还有昙花一现的 LiteLoader 等等。以后有机会我们也会试着撰写更详细的博文来介绍。
 
 *插件*，又称 *Plugin*，与 Mod 类似，也是对游戏本身进行修改的方式，但在 Minecraft 中，插件往往指通过 *插件加载器* 用于 *服务端* 的 `.jar` 文件。一般放置于服务器目录下的 `plugins` 文件夹内。
 
