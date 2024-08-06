@@ -29,7 +29,7 @@ Minecraft 最初是一款使用 Java 编程语言开发的 PC 端单机游戏，
 
 2014 年 9 月 15 日，微软以 25 亿美元的天价将 Minecraft 收入麾下。自此以后，玩家们在购买了 Minecraft 正版账号以后，就可以使用微软官方推出的 *Minecraft Launcher* （即 *Minecraft 启动器* ）来启动并游玩 Minecraft。
 
-但官方启动器太过官方，没有包含任何社区内容，这就催生了许多第三方 Minecraft 启动器，包括旧朝遗老 *MultiMC* 以及新生代的 *PolyMC*、*Prism Launcher* 等。
+由于官方启动器没有包含任何社区内容，这就催生了许多第三方 Minecraft 启动器。例如旧朝遗老 *MultiMC* 以及新生代的 *PolyMC*、*Prism Launcher* 等。
 
 然而对于国内玩家来说，记忆中更多的可能还是 *忘却的旋律*、*HMCL* 等第三方启动器。
 
