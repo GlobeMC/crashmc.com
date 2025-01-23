@@ -4,7 +4,8 @@
     "parser": "@typescript-eslint/parser",
     "project": [
       "./tsconfig.json",
-      "./tsconfig.worker.json"
+      "./tsconfig.worker.json",
+      "./tsconfig.node.json"
     ],
     "sourceType": "module",
     "extraFileExtensions": [".vue"]

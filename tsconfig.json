@@ -6,6 +6,8 @@
 		"pwa-assets.config.ts"
 	],
 	"exclude": [
+		".vitepress/config.ts",
+		".vitepress/theme/configs",
 		".vitepress/theme/workers",
 		"node_modules",
 		".vitepress/theme/analyzers/mcla.api.ts",
@@ -48,6 +50,9 @@
 	"references": [
 		{
 			"path": "./tsconfig.worker.json"
+		},
+		{
+			"path": "./tsconfig.node.json"
 		}
 	]
 }

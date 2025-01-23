@@ -66,6 +66,7 @@ interface ErrorDesc {
 	error: string
 	message: string
 	solutions: number[]
+	data?: { [key: string]: any }
 }
 
 interface SolutionPossibility {
@@ -83,6 +84,7 @@ interface Solution {
 	tags: string[]
 	description: string
 	link_to: string
+	addition?: string
 }
 
 interface MCLAAPI {
