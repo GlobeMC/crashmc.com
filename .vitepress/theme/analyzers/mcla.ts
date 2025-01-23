@@ -12,7 +12,7 @@ import type {
 } from "./mcla.api"
 export * from "./mcla.api"
 
-const VERSION = "v0.5.1"
+const VERSION = "v0.6.0"
 // const VERSION = "dev"
 const RESOURCES_BASE = "https://globemc.github.io/mcla"
 const GO_WASM_EXEC_URL = useCDN(`${RESOURCES_BASE}/${VERSION}/wasm_exec.js`)
@@ -220,7 +220,10 @@ async function loadMCLA(loadProgress?: Ref<number>): Promise<MCLAAPI> {
 		try {
 			return loadMCLAWorker(loadProgress)
 		} catch (e) {
-			// if cannot load by worker, try load inside the window
+			console.warn(
+				"Could not load MCLA inside worker, falling back to use DOM thread.",
+				e,
+			)
 		}
 	}
 

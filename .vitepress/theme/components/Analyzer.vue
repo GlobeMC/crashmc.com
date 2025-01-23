@@ -433,13 +433,35 @@ async function mclAnalysis(file: MemFile): Promise<void> {
 					.filter(({ match }) => match >= 0.5) // >= 50%
 					.sort((a, b) => b.match - a.match) // x.match 降序排序
 					.map(({ match, errorDesc }) => {
+						const matchData = errorDesc.data
 						return Promise.all(
 							errorDesc.solutions.map((id) =>
 								axios
 									.get<Solution>(`${MCLA_GH_DB_PREFIX}/solutions/${id}.json`)
-									.then(
-										(res): SolutionOkSuccess => ({ ok: true, res: res.data }),
-									)
+									.then((res): SolutionOkSuccess => {
+										const data = res.data
+										let addition: string | undefined
+										if (matchData && data.addition) {
+											try {
+												addition = Function(
+													'"use strict";return function(data){return(' +
+														data.addition +
+														")}",
+												)()(matchData)
+											} catch (e) {
+												console.warn("Could not render addition texts:", e)
+											}
+										}
+										return {
+											ok: true,
+											res: {
+												tags: data.tags,
+												description: data.description,
+												link_to: data.link_to,
+												addition: addition,
+											},
+										}
+									})
 									.catch(
 										(err): SolutionOkFailed => ({
 											ok: false,
@@ -716,6 +738,10 @@ onUnmounted(() => {
 										<div>
 											<b>描述: </b>
 											<span>{{ sol.res.description }}</span>
+										</div>
+										<div v-if="sol.res.addition">
+											<b>补充: </b>
+											<span v-html="sol.res.addition"></span>
 										</div>
 										<div>
 											<b>解决方案: </b>

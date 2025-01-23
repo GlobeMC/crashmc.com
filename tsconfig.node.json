@@ -1,0 +1,33 @@
+{
+	"include": [
+		".vitepress/config.ts",
+		".vitepress/theme/configs/*",
+		".vitepress/data/**/*.json"
+	],
+	"compilerOptions": {
+		"composite": true,
+		"lib": [
+			"es2020"
+		],
+		"module": "ESNext",
+		"moduleResolution": "bundler",
+		"resolveJsonModule": true,
+		"noImplicitThis": true,
+		"strict": true,
+		"verbatimModuleSyntax": true,
+		"target": "ESNext",
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true,
+		"skipLibCheck": true,
+		"baseUrl": ".",
+		"paths": {
+			"@/*": [
+				"./.vitepress/*"
+			],
+		},
+		"types": [
+			"node"
+		],
+		"outDir": "out"
+	}
+}
