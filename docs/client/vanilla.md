@@ -76,7 +76,7 @@ signer information does not match signer information of other classes in the sam
 
 ## 游戏库文件缺失 / 损坏
 
-解释：在移动游戏版本文件时，贪图方便只转移`version`文件夹下的版本文件，游戏库文件未一并转移，导致报错。
+解释：在移动游戏版本文件时，贪图方便只转移`versions`文件夹下的版本文件，游戏库文件未一并转移，导致报错。
 
 关键词：
 
