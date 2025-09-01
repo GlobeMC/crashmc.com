@@ -4,5 +4,5 @@ echo "running docs:tsc"
 pnpm run docs:tsc
 echo "running docs:format"
 pnpm run docs:format
-# echo "running docs:zhlint"
-# pnpm run docs:zhlint
+echo "running docs:zhlint"
+pnpm run docs:zhlint

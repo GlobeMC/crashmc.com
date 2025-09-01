@@ -14,11 +14,11 @@ hero:
       text: 崩溃分析工具
       link: /analyzer
     - theme: alt
-      text: 客户端崩溃
-      link: /client/
+      text: 基础知识
+      link: /basis
     - theme: alt
-      text: 服务器崩溃
-      link: /server/
+      text: 博客文章
+      link: /blog/
 
 features:
   - title: 方便
@@ -39,7 +39,7 @@ features:
     icon: 🔌
     details: 得益于 PWA（渐进式网页应用）技术，即使没有网络也可以查阅
   - title: 周到
-    icon: 🫡
+    icon: 🤗
     details: 我们知道只有冗长的文档还不够，因此我们准备了一个分析工具给大家
     link: /analyzer.html
     linkText: 开始使用

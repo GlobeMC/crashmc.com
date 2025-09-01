@@ -74,6 +74,21 @@ Maybe try a lower resolution resourcepack?
 signer information does not match signer information of other classes in the same package
 ```
 
+## 游戏库文件缺失 / 损坏
+
+解释：在移动游戏版本文件时，贪图方便只转移`versions`文件夹下的版本文件，游戏库文件未一并转移，导致报错。
+
+关键词：
+
+```
+Caused by: java.io.IOException: Invalid paths argument, contained no existing paths: C:\XXXX\···\.minecraft\libraries\net\minecraft\client\···
+```
+
+解决方案：请逐个尝试以下方案。
+
+1. 在启动器中，开启`版本隔离`的条件下，同样安装一个被迁移的游戏版本（该游戏版本需与报错时的游戏版本完全一致，包括模组加载器的版本）。
+2. 一同将原来游戏目录中的`libraries`文件夹复制到新的`.minecraft`文件下。
+
 ## 显存 / 内存问题
 
 解释：显存溢出，或者内存分配过多导致问题。

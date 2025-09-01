@@ -47,9 +47,9 @@ Minecraft 服务端，是 Minecraft 游戏本身一大组成部分。通俗来�
 | Cuberite   | [Cuberite 官方网站](https://cuberite.org/)                  | FakeTruth，其原始名称为 “MCServer”   |
 | ……         | ……                                                         | ……                               |
 
-注1：这里没有列出 Paper 和 Spigot 的分支服务端。
+注 1：这里没有列出 Paper 和 Spigot 的分支服务端。
 
-注2：Cuberite 是基于 C++ 重写的 Minecraft 服务端，该文档不会讨论任何不基于原版 Minecraft 客户端修改而成的服务端，如果你在此类服务端中遇到问题，请向服务端作者反馈。
+注 2：Cuberite 是基于 C++ 重写的 Minecraft 服务端，该文档不会讨论任何不基于原版 Minecraft 客户端修改而成的服务端，如果你在此类服务端中遇到问题，请向服务端作者反馈。
 
 ### 模组服务端
 

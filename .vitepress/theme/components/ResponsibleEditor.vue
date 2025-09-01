@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import { useData } from "vitepress"
 import { computed } from "vue"
-import { useCDN } from "@/cdn"
+import { useCDN } from "@/theme/utils/cdn"
 
-const defaultAuthor = "GlobeMC"
 const { frontmatter } = useData()
 
 const editor = computed(() => {
-	return frontmatter.value?.editor
+	return frontmatter.value?.editor ?? "bingling-sama"
 })
 
 function getAvatarUrl(name: string) {
@@ -17,27 +16,21 @@ function getAvatarUrl(name: string) {
 function getGitHubLink(name: string) {
 	return `https://github.com/${name}`
 }
-
-// function isNotEmpty(arr: string | string[]) {
-// 	return Array.isArray(arr) && arr.length
-// }
 </script>
 
 <template>
 	<p class="vp-main-color con">本文责任编辑:</p>
 	<div v-if="editor" class="flex flex-wrap gap-4">
 		<div class="flex gap-2 items-center vp-main-color">
-			<a :href="getGitHubLink(editor)" rel="noreferrer" target="_blank" class="flex items-center gap-2">
+			<a
+				:href="getGitHubLink(editor)"
+				rel="noreferrer"
+				target="_blank"
+				class="flex items-center gap-2">
 				<img :src="getAvatarUrl(editor)" class="w-8 h-8 rounded-full" />
 				<p class="vp-main-color">{{ editor }}</p>
 			</a>
 		</div>
-	</div>
-	<div v-else class="flex gap-2 items-center">
-		<a :href="getGitHubLink(defaultAuthor)" rel="noreferrer" target="_blank" class="flex items-center gap-2">
-			<img src="/logo-brand.webp" class="w-8 h-8 rounded-full" />
-			<p class="vp-main-clolr">{{ "GlobeMC" }}</p>
-		</a>
 	</div>
 </template>
 

@@ -5,6 +5,9 @@ labels: [
   "崩溃提交"
 ]
 body:
+  - type: markdown
+    attributes:
+      value: "感谢您的提交！但由于目前正处于学习期 / 工作期，我们无法及时处理您的崩溃报告。如果您急需处理，可前往 HMCL 的 崩溃报错交流群 （群号：666546887）直接获取即时的分析支援。"
   - type: checkboxes
     id: check-list
     attributes:

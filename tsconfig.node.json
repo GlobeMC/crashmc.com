@@ -1,13 +1,13 @@
 {
 	"include": [
-		".vitepress/theme/workers/*",
-		".vitepress/**/*.api.ts"
+		".vitepress/config.ts",
+		".vitepress/theme/configs/*",
+		".vitepress/data/**/*.json"
 	],
 	"compilerOptions": {
 		"composite": true,
 		"lib": [
-			"es2020",
-			"webworker",
+			"es2020"
 		],
 		"module": "ESNext",
 		"moduleResolution": "bundler",
@@ -25,6 +25,9 @@
 				"./.vitepress/*"
 			],
 		},
+		"types": [
+			"node"
+		],
 		"outDir": "out"
 	}
 }

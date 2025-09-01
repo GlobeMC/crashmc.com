@@ -16,7 +16,7 @@ import {
 	type Solution,
 	loadMCLA,
 	MCLA_GH_DB_PREFIX,
-} from "@/analyzers/mcla"
+} from "@/theme/analyzers/mcla"
 import type { ITarFileInfo } from "@gera2ld/tarjs"
 
 // 类型&接口定义
@@ -156,11 +156,6 @@ watch(
 var MCLA: MCLAAPI | null = null
 var launcher = "Unknown"
 
-const SYSTEM_URL = "/client/system.html" // 系统问题
-const VANILLA_URL = "/client/vanilla.html" // 原版问题
-const MODS_URL = "/client/mods.html" // Mod 问题
-const MIXIN_URL = "/mixin.html" // Mod 问题
-
 // 阻止浏览器默认拖拽行为
 function handleDragEnter(): void {
 	analyzerBackgroundColor.value = "rgba(255,255,255,0.5)"
@@ -266,13 +261,13 @@ async function startAnalysis(files: File[]): Promise<boolean> {
 								} else {
 									console.debug("MCLA is not loaded")
 								}
-								if (analysisResults.value.length === 0) {
-									return logAnalysis(file.text as string).then((ok) => {
-										if (ok) {
-											throw fallbackAnalysisDoneErr
-										}
-									})
-								}
+								// if (analysisResults.value.length === 0) {
+								// 	return logAnalysis(file.text as string).then((ok) => {
+								// 		if (ok) {
+								// 			throw fallbackAnalysisDoneErr
+								// 		}
+								// 	})
+								// }
 							}),
 						),
 					),
@@ -318,6 +313,7 @@ async function startAnalysis(files: File[]): Promise<boolean> {
 /**
  * 读取文件, 并递归解压压缩文件
  * @param {MemFile} file 文件对象
+ * @param filename
  */
 async function readFiles(file: MemFile, filename?: string): Promise<MemFile[]> {
 	var data = file.data
@@ -437,13 +433,35 @@ async function mclAnalysis(file: MemFile): Promise<void> {
 					.filter(({ match }) => match >= 0.5) // >= 50%
 					.sort((a, b) => b.match - a.match) // x.match 降序排序
 					.map(({ match, errorDesc }) => {
+						const matchData = errorDesc.data
 						return Promise.all(
 							errorDesc.solutions.map((id) =>
 								axios
 									.get<Solution>(`${MCLA_GH_DB_PREFIX}/solutions/${id}.json`)
-									.then(
-										(res): SolutionOkSuccess => ({ ok: true, res: res.data }),
-									)
+									.then((res): SolutionOkSuccess => {
+										const data = res.data
+										let addition: string | undefined
+										if (matchData && data.addition) {
+											try {
+												addition = Function(
+													'"use strict";return function(data){return(' +
+														data.addition +
+														")}",
+												)()(matchData)
+											} catch (e) {
+												console.warn("Could not render addition texts:", e)
+											}
+										}
+										return {
+											ok: true,
+											res: {
+												tags: data.tags,
+												description: data.description,
+												link_to: data.link_to,
+												addition: addition,
+											},
+										}
+									})
 									.catch(
 										(err): SolutionOkFailed => ({
 											ok: false,
@@ -477,447 +495,6 @@ async function mclAnalysis(file: MemFile): Promise<void> {
 	}
 	await Promise.all(promises)
 	return
-}
-
-/**
- * 分析日志，并展示分析结果。
- * @param {string} log Log 原文。
- */
-async function logAnalysis(log: string): Promise<boolean> {
-	// 启动器判断 (最准)
-	if (log.includes("PCL")) {
-		launcher = "PCL"
-	} else if (log.includes("HMCL")) {
-		launcher = "HMCL"
-	} else if (log.includes("BakaXL")) {
-		launcher = "BakaXL"
-	}
-
-	// 错误判断
-
-	// 内存不足
-	if (
-		log.includes("java.lang.OutOfMemoryError") ||
-		log.includes("Could not reserve enough space")
-	) {
-		showAnalysisResult(
-			"Success",
-			"Java 内存分配不足",
-			SYSTEM_URL + "#内存问题",
-			"内存不足",
-		)
-
-		// 32 位超过 1G
-	} else if (
-		log.includes("Could not reserve enough space for 1048576KB object heap")
-	) {
-		showAnalysisResult(
-			"Success",
-			"32 位 Java 内存分配超过 1 G",
-			SYSTEM_URL + "#内存问题",
-			"32_Bit_Java_Memory",
-		)
-
-		// 显卡驱动问题
-	} else if (
-		log.includes("Couldn't set pixel format") ||
-		log.includes("Pixel format not accelerated") ||
-		log.includes("The driver does not appear to support OpenGL")
-	) {
-		showAnalysisResult(
-			"Success",
-			"显卡 / 显卡驱动问题",
-			SYSTEM_URL + "#显卡-显卡驱动问题",
-			"GPU_DRIVER",
-		)
-
-		// OpenJ9
-	} else if (
-		log.includes("Open J9 is not supported") ||
-		log.includes("OpenJ9 is incompatible") ||
-		log.includes(".J9VMInternals.")
-	) {
-		showAnalysisResult(
-			"Success",
-			"使用了 OpenJ9",
-			SYSTEM_URL + "#使用-openj9",
-			"Used_OpenJ9",
-		)
-
-		// .DS_Store
-	} else if (
-		log.includes(
-			"Caused by: net.minecraft.util.ResourceLocationException: Non [a-z0-9_.-] character in namespace of location: .DS_Store:",
-		) ||
-		log.includes(
-			"net.minecraft.util.ResourceLocationException: Non [a-z0-9_.-] character in namespace of location: .DS_Store:",
-		)
-	) {
-		showAnalysisResult(
-			"Success",
-			"存在 .DS_Store 文件导致报错",
-			SYSTEM_URL + "#mac-下存在-ds-store-文件导致报错",
-			"DS_Store",
-		)
-
-		// OpenGL 窗口问题
-	} else if (
-		log.search(
-			/java.lang.IllegalStateException: GLFW error before init: [*]Cocoa: Failed to find service port for display/,
-		) != -1
-	) {
-		showAnalysisResult(
-			"Success",
-			"Mac 下初始化 OpenGL 窗口问题",
-			SYSTEM_URL + "#mac-下初始化-opengl-窗口问题",
-			"Mac_OpenGL_Init",
-		)
-
-		// 页面文件太小
-	} else if (log.includes("页面文件太小，无法完成操作。")) {
-		showAnalysisResult(
-			"Success",
-			"页面文件太小",
-			SYSTEM_URL + "#页面文件问题",
-			"页面文件太小",
-		)
-
-		// 存档损坏
-	} else if (
-		log.search(/Exception reading [*]\\level.dat/) != -1 ||
-		log.includes(
-			"Caused by: java.util.zip.ZipException: invalid distance too far back",
-		) ||
-		log.includes("net.minecraft.util.crash.CrashException: Loading NBT data")
-	) {
-		showAnalysisResult(
-			"Success",
-			"存档损坏",
-			VANILLA_URL + "#存档损坏",
-			"存档损坏",
-		)
-
-		// 资源包过大
-	} else if (log.includes("Maybe try a lower resolution resourcepack?")) {
-		showAnalysisResult(
-			"Success",
-			"资源包过大",
-			VANILLA_URL + "#资源包过大",
-			"资源包过大",
-		)
-
-		// 文件校验失败
-	} else if (
-		log.includes(
-			"signer information does not match signer information of other classes in the same package",
-		)
-	) {
-		showAnalysisResult(
-			"Success",
-			"文件校验失败",
-			VANILLA_URL + "#文件校验失败",
-			"文件校验失败",
-		)
-
-		// Mod 问题
-		// Java 版本不匹配
-	} else if (
-		log.includes("java.lang.UnsupportedClassVersionError") ||
-		log.includes("Unsupported class file major version") ||
-		log.includes("no such method: sun.misc.Unsafe.defineAnonymousClass")
-	) {
-		showAnalysisResult(
-			"Success",
-			"Java 版本不匹配",
-			MODS_URL + "#java-版本不匹配",
-			"Java 版本不匹配",
-		)
-
-		// Mod 重复安装
-	} else if (
-		log.includes("DuplicateModsFoundException") ||
-		log.includes("Found a duplicate mod") ||
-		log.includes("ModResolutionException: Duplicate")
-	) {
-		showAnalysisResult(
-			"Success",
-			"Mod 重复安装",
-			MODS_URL + "#mod-重复安装",
-			"Mod 重复安装",
-		)
-
-		// Mod 过多导致超出 ID 限制
-	} else if (log.includes("maximum id range exceeded")) {
-		showAnalysisResult(
-			"Success",
-			"Mod 过多导致超出 ID 限制",
-			MODS_URL + "#mod-过多导致超出-id-限制",
-			"Mod 过多导致超出 ID 限制",
-		)
-
-		// 解压了 Mod
-	} else if (
-		log.includes(
-			"The directories below appear to be extracted jar files. Fix this before you continue.",
-		) ||
-		log.includes("Extracted mod jars found, loading will NOT continue")
-	) {
-		showAnalysisResult(
-			"Success",
-			"解压了 Mod",
-			MODS_URL + "#解压了-mod",
-			"解压了 Mod",
-		)
-
-		// Mod 名称含有特殊字符
-	} else if (log.includes("Invalid module name: '' is not a Java identifier")) {
-		showAnalysisResult(
-			"Success",
-			"Mod 名称含有特殊字符",
-			MODS_URL + "#mod-名称含有特殊字符",
-			"Mod 名称含有特殊字符",
-		)
-
-		// Mod 文件损坏
-	} else if (
-		log.includes(
-			"Caused by: java.util.zip.ZipException: zip END header not found",
-		)
-	) {
-		showAnalysisResult(
-			"Success",
-			"Mod 文件损坏",
-			MODS_URL + "#mod-文件损坏",
-			"Mod 文件损坏",
-		)
-
-		// 一些 Mod 需要访问国外网络
-	} else if (
-		log.includes("modpack-update-checker") ||
-		log.includes("commonality")
-	) {
-		showAnalysisResult(
-			"Success",
-			"一些 Mod 需要访问国外网络",
-			MODS_URL + "#一些-mod-需要访问国外网络",
-			"一些 Mod 需要访问国外网络",
-		)
-
-		// Forge Json 问题
-	} else if (
-		log.includes(
-			"Found multiple arguments for option fml.forgeVersion, but you asked for only one",
-		)
-	) {
-		showAnalysisResult(
-			"Success",
-			"Forge Json 问题",
-			MODS_URL + "#json-问题",
-			"Forge Json 问题",
-		)
-
-		// Night Config 库问题
-	} else if (
-		log.includes("forge") &&
-		log.includes(
-			"Caused by: com.electronwill.nightconfig.core.io.ParsingException: Not enough data available",
-		)
-	) {
-		showAnalysisResult(
-			"Success",
-			"Night Config 库问题",
-			MODS_URL + "#night-config-库的问题",
-			"Night Config 库问题",
-		)
-
-		// Forge 缺少前置
-	} else if (
-		log.includes("forge") &&
-		log.includes("Missing or unsupported mandatory dependencies:") &&
-		log.includes("neoforge") == false
-	) {
-		var missingMod = []
-		// 按行分割日志
-		var spilted = log.split("\n")
-		// 获取缺少的 Mod 信息
-		for (let key in spilted) {
-			if (
-				spilted[key].includes("Mod ID: ") ||
-				spilted[key].includes(", Requested by: ")
-			) {
-				// 正则匹配单引号内内容
-				let matches = spilted[key].match(/'([^']+)'/g)
-				if (matches) {
-					missingMod.push(
-						matches[0].replace(/'/g, "") +
-							" " + // Mod 名称，例如 'oculus'
-							matches[2]
-								.replace(/'/g, "")
-								.replace(/\$\{minecraft_version\}/g, "MinecraftVersion"), // Mod 版本，例如 '[1.4,)'，之后可以把最低 / 最高版本提取出来解析一遍
-					)
-				}
-			}
-		}
-		missingMod = Array.from(new Set(missingMod)) // 数组去重
-		// 转为字符串
-		var missingStr = ""
-		for (let key in missingMod) {
-			missingStr = missingStr + "; " + missingMod[key]
-		}
-		missingStr = missingStr.substring(2) // 去除开头的逗号
-		showAnalysisResult(
-			"Success",
-			"Forge 缺少前置 Mod：" + missingStr,
-			MODS_URL + "#缺少前置",
-			"Forge 缺少前置 Mod",
-		)
-
-		// NeoForge 缺少前置
-	} else if (
-		log.includes("neoforge") &&
-		log.includes("Missing or unsupported mandatory dependencies:")
-	) {
-		showAnalysisResult(
-			"Success",
-			"NeoForge 缺少前置 Mod",
-			MODS_URL + "#缺少前置-1",
-			"NeoForge 缺少前置 Mod",
-		)
-
-		// Fabric Mod 版本不兼容
-	} else if (
-		log.includes("fabric") &&
-		log.includes("but only the wrong version is present")
-	) {
-		showAnalysisResult(
-			"Success",
-			"Fabric Mod 版本不兼容",
-			MODS_URL + "#版本不兼容",
-			"Fabric Mod 版本不兼容",
-		)
-
-		// Fabric Mod 缺少前置
-	} else if (
-		log.includes("fabric") &&
-		log.includes("Unmet dependency listing:") &&
-		log.includes("requires") &&
-		log.includes("which is missing!") &&
-		log.includes("is incompatible with") == false
-	) {
-		showAnalysisResult(
-			"Success",
-			"Fabric Mod 缺少前置",
-			MODS_URL + "#缺少前置-2",
-			"Fabric Mod 缺少前置",
-		)
-
-		// Fabric Mod 冲突
-	} else if (
-		log.includes(
-			"net.fabricmc.loader.impl.FormattedException: Mod resolution encountered an incompatible mod set!",
-		) &&
-		log.includes("that is compatible with") &&
-		log.includes("is incompatible with")
-	) {
-		showAnalysisResult(
-			"Success",
-			"Fabric Mod 冲突",
-			MODS_URL + "#mod-冲突",
-			"Fabric Mod 冲突",
-		)
-
-		// Quilt Mod 缺少前置
-	} else if (log.includes("quilt") && log.includes("which is missing!")) {
-		showAnalysisResult(
-			"Success",
-			"Quilt Mod 缺少前置",
-			MODS_URL + "#缺少前置-3",
-			"Quilt Mod 缺少前置",
-		)
-
-		// LiteLoader 与 Forge 冲突
-	} else if (
-		log.includes("forge") &&
-		log.includes("liteloader") &&
-		log.includes(
-			"org.spongepowered.asm.service.ServiceInitialisationException: ModLauncher is not available",
-		) &&
-		log.includes("neoforge") == false
-	) {
-		showAnalysisResult(
-			"Success",
-			"LiteLoader 与 Forge 冲突",
-			MODS_URL + "#与-forge-冲突",
-			"LiteLoader 与 Forge 冲突",
-		)
-
-		// OptiFine 无法加载世界
-	} else if (
-		log.includes(
-			"java.lang.NoSuchMethodError: net.minecraft.world.server.ChunkManager$ProxyTicketManager.shouldForceTicks(J)Z",
-		)
-	) {
-		showAnalysisResult(
-			"Success",
-			"OptiFine 导致无法加载世界",
-			MODS_URL + "#无法加载世界",
-			"OptiFine 导致无法加载世界",
-		)
-
-		// Forge 与 OptiFine 兼容性问题导致的崩溃
-	} else if (
-		log.includes(
-			"java.lang.NoSuchMethodError: 'void net.minecraftforge.client.gui.overlay.ForgeGui.renderSelectedItemName(net.minecraft.client.gui.GuiGraphics, int)'",
-		) ||
-		log.includes(
-			"java.lang.NoSuchMethodError: 'java.lang.Class sun.misc.Unsafe.defineAnonymousClass(java.lang.Class, byte[], java.lang.Object[])'",
-		) ||
-		log.includes(
-			"java.lang.NoSuchMethodError: 'java.lang.String com.mojang.blaze3d.systems.RenderSystem.getBackendDescription()'",
-		) ||
-		log.includes(
-			"java.lang.NoSuchMethodError: 'net.minecraft.network.chat.FormattedText net.minecraft.client.gui.Font.ellipsize(net.minecraft.network.chat.FormattedText, int)'",
-		) ||
-		log.includes(
-			"java.lang.NoSuchMethodError: 'void net.minecraft.server.level.DistanceManager",
-		) ||
-		log.includes(
-			"java.lang.NoSuchMethodError: 'void net.minecraft.client.renderer.block.model.BakedQuad.<init>(int[], int, net.minecraft.core.Direction, net.minecraft.client.renderer.texture.TextureAtlasSprite, boolean, boolean)'",
-		) ||
-		log.includes(
-			"java.lang.NoSuchMethodError: 'void net.minecraft.client.renderer.texture.SpriteContents.<init>(net.minecraft.resources.ResourceLocation",
-		) ||
-		log.includes(
-			"java.lang.NoSuchMethodError: 'void net.minecraft.server.level.DistanceManager.addRegionTicket(net.minecraft.server.level.TicketType, net.minecraft.world.level.ChunkPos, int, java.lang.Object, boolean)'",
-		) ||
-		log.includes(
-			"java.lang.NoSuchMethodError: net.minecraft.launchwrapper.ITweaker.injectIntoClassLoader(Lnet/minecraft/launchwrapper/LaunchClassLoader;)V",
-		) ||
-		log.includes(
-			"TRANSFORMER/net.optifine/net.optifine.reflect.Reflector.<clinit>(Reflector.java",
-		)
-	) {
-		showAnalysisResult(
-			"Success",
-			"Forge 与 OptiFine 兼容性问题导致的崩溃",
-			MODS_URL + "#forge-与-optifine-兼容性问题导致的崩溃",
-			"Forge 与 OptiFine 兼容性问题导致的崩溃",
-		)
-
-		// Mixin 注入失败
-	} else if (log.includes("Mixin apply for mod") && log.includes("failed")) {
-		showAnalysisResult(
-			"Success",
-			"Mixin 注入失败",
-			MIXIN_URL + "#mixin-注入失败",
-			"Mixin 注入失败",
-		)
-
-		// 以上都无
-	} else {
-		return false
-	}
-	return true
 }
 
 /**
@@ -1161,6 +738,10 @@ onUnmounted(() => {
 										<div>
 											<b>描述: </b>
 											<span>{{ sol.res.description }}</span>
+										</div>
+										<div v-if="sol.res.addition">
+											<b>补充: </b>
+											<span v-html="sol.res.addition"></span>
 										</div>
 										<div>
 											<b>解决方案: </b>

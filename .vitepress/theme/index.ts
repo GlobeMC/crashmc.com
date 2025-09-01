@@ -24,9 +24,7 @@ import {
 import { NolebaseInlineLinkPreviewPlugin } from "@nolebase/vitepress-plugin-inline-link-preview/client"
 import { InjectionKey as InlineLinkPreviewInjectionKey } from "@nolebase/vitepress-plugin-inline-link-preview/client"
 import "@nolebase/vitepress-plugin-inline-link-preview/client/style.css"
-import {
-	NolebaseGitChangelogPlugin
-} from "@nolebase/vitepress-plugin-git-changelog/client"
+import { NolebaseGitChangelogPlugin } from "@nolebase/vitepress-plugin-git-changelog/client"
 
 // Styles
 import "./style.css"
@@ -61,7 +59,7 @@ export default {
 		ctx.app.component("vImageViewer", vImageViewer)
 		ctx.app.use(NolebaseInlineLinkPreviewPlugin)
 		ctx.app.provide(InlineLinkPreviewInjectionKey, {
-			previewAllHostNames: true
+			previewAllHostNames: true,
 		})
 		ctx.app.use(NolebaseGitChangelogPlugin)
 		ctx.app.component("Posts", Posts)
