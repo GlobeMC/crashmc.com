@@ -43,6 +43,11 @@ A：要对 `Minecraft` 的游戏错误 / 崩溃进行处理，您首先要对游
 | PCL2       | [龙猫爱发电](https://afdian.com/a/LTCat)                  | 龙腾猫跃   |
 | ……         | ……                                                        | ……         |
 
+:::details Q&A
+> Q：为什么 PCL2 无法下载游戏？  
+> A：由于某些原因，龙腾猫跃永久关闭了 PCL2 的下载功能，详情可查看[这篇文章](https://b23.tv/xH1kMXN)以及[龙腾猫跃的哔哩哔哩主页](https://b23.tv/SNgcVqg)。
+:::
+
 大部分时候，`Minecraft` 开发者们都会使用这些第三方启动器而不是使用官启，他们提供了更多的调试选项及错误输出为开发者解决问题提供方便。我们也强烈建议您在非必要使用官启的时候使用第三方启动器。
 
 :::warning 警告
@@ -54,7 +59,7 @@ A：要对 `Minecraft` 的游戏错误 / 崩溃进行处理，您首先要对游
 :::tip BakaXL / PCL2 / HMCL 无法使用？
 若在启动 BakaXL 或 PCL2 时出现了 `.NET Framework` 异常，请在[此处](https://dotnet.microsoft.com/zh-cn/download/dotnet-framework/thank-you/net48-offline-installer)下载安装 `.NET Framework 4.8`。
 
-若使用 HMCL 启动失败或启动时出现 JavaFX 缺失相关提示，请尝试在系统设置中卸载相关 Java，然后下载并安装[微软 JDK](https://learn.microsoft.com/zh-cn/java/openjdk/download#openjdk-17) 后再尝试启动。
+若使用 HMCL 启动失败或启动时出现 JavaFX 缺失相关提示，请尝试在系统设置中卸载相关 Java，然后下载并安装最新版本的[微软 JDK](https://learn.microsoft.com/zh-cn/java/openjdk/download) 后再尝试启动。
 
 若尝试上述解决方案仍无法解决，请前往相关渠道进行反馈。
 :::
